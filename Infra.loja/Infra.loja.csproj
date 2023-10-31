@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\Api\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-    <Folder Include="Views\Shop\" />
-    <Folder Include="Views\Admin\" />
+	  <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
   </ItemGroup>
 
 </Project>
