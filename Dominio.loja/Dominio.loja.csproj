@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\Api\" />
-    <Folder Include="Interfaces\" />
+    <Folder Include="DTO\Admin\" />
+    <Folder Include="DTO\Loja\" />
     <Folder Include="Services\" />
     <Folder Include="Views\Shop\" />
     <Folder Include="Views\Admin\" />
