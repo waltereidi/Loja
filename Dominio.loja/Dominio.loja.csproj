@@ -10,8 +10,7 @@
     <Folder Include="DTO\Admin\" />
     <Folder Include="DTO\Loja\" />
     <Folder Include="Services\" />
-    <Folder Include="Views\Shop\" />
-    <Folder Include="Views\Admin\" />
+    <Folder Include="Entity\Shop\" />
   </ItemGroup>
 
 </Project>
