@@ -1,8 +1,8 @@
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Http;
 using Infra.loja;
 using Dominio.loja.Interfaces;
 using Dominio.loja.Repository;
+using Microsoft.EntityFrameworkCore;
+using Api.loja;
 
 public class Startup
 {
@@ -23,6 +23,7 @@ public class Startup
 
         service.AddSingleton<IConnectionFactory>(provider => new SqlConnectionFactory(connectionString));
         service.AddSingleton<IStoreProductRepository, StoreProductRepository>();
+        service.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 
     }
@@ -34,7 +35,7 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseSwagger();
-
+        
         app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Loja Api");

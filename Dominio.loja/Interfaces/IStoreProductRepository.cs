@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.loja.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace Dominio.loja.Interfaces
 {
     public interface IStoreProductRepository 
     {
-        Task<object>GetCategorias();
+        Task<Category>GetCategory();
 
-        Task<object> GetProdutosCategorias();
+        Task<object>GetProductCategory();
 
 
 

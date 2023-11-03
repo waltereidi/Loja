@@ -9,7 +9,6 @@ namespace Dominio.loja.Entity
 {
     public class Prices : MasterEntity
     {
-        public SqlMoney Price { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }

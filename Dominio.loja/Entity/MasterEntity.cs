@@ -10,7 +10,7 @@ namespace Dominio.loja.Entity
     {
         public int Id { get; set; }
         public DateTime Created_at { get; set; }
-        public DateTime Updated_at { get;set; }
+        public DateTime? Updated_at { get;set; }
 
     }
 }

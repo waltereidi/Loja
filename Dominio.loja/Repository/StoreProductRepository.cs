@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Interfaces;
+﻿using Dominio.loja.Entity;
+using Dominio.loja.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,12 @@ namespace Dominio.loja.Repository
         {
         }
 
-        public Task<object> GetCategorias()
+        public Task<Category> GetCategory()
         {
             throw new NotImplementedException();
         }
 
-        public Task<object> GetProdutosCategorias()
+        public Task<object> GetProductCategory()
         {
             throw new NotImplementedException();
         }

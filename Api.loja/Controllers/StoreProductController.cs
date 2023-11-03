@@ -1,7 +1,9 @@
 ﻿
+using Dominio.loja.Entity;
 using Dominio.loja.Interfaces;
 using Infra.loja;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,17 +13,23 @@ namespace Api.loja.Controllers
     [ApiController]
     public class StoreProductController : ControllerBase
     {
+        private readonly ApplicationDbContext _context; 
         private readonly ILogger<StoreProductController> _logger;
-        public StoreProductController(ILogger<StoreProductController> logger )
+        public StoreProductController(ILogger<StoreProductController> logger  , ApplicationDbContext context )
         {
             _logger = logger;
+            _context = context;
         }
+        
 
         // GET: api/<ClientesController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Category> Get()
         {
-            return new string[] { "value1", "value2" };
+            var i = _context.Category.Where(b => b.Id == 1).ToList();
+            var u = _context.Category.Where(b => b.Id == 0).ToList();
+            var x = _context.Products.ToList();
+            return i;
         }
 
         // GET api/<ClientesController>/5
