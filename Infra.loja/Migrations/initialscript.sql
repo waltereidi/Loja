@@ -21,7 +21,7 @@ create table products(
 	description varchar(2048) ,
 	ean bigint ,
 	sku varchar(64) ,
-	priceId int not null foreign key references price(id),
-	categoryId int not null foreign key references category(id) , 
+	price_Id int not null foreign key references prices(id),
+	category_Id int not null foreign key references category(id) , 
 
 );

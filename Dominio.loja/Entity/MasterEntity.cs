@@ -8,8 +8,8 @@ namespace Dominio.loja.Entity
 {
     public class MasterEntity
     {
-        public int Id { get; set; }
-        public DateTime Created_at { get; set; }
+        public int? Id { get; set; }
+        public DateTime? Created_at { get; set; }
         public DateTime? Updated_at { get;set; }
 
     }

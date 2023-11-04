@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Dominio.loja.Interfaces
 {
     public interface IStoreProductRepository 
     {
-        Task<Category>GetCategory();
+        List<Category>GetCategory();
 
         Task<object>GetProductCategory();
 

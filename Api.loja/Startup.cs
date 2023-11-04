@@ -1,4 +1,3 @@
-using Infra.loja;
 using Dominio.loja.Interfaces;
 using Dominio.loja.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +20,8 @@ public class Startup
         service.AddSwaggerGen();
         service.AddAuthorization();
 
-        service.AddSingleton<IConnectionFactory>(provider => new SqlConnectionFactory(connectionString));
-        service.AddSingleton<IStoreProductRepository, StoreProductRepository>();
         service.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
-
+        
 
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

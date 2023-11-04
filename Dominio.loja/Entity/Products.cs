@@ -16,9 +16,9 @@ namespace Dominio.loja.Entity
 
         public string? Sku { get; set; }
 
-        public List<Prices>? Price { get; set; }
+        public int Price_id { get; set; }
 
-        public Category? Category { get; set; }
+        public int Category_Id { get; set; }
 
 
     }
