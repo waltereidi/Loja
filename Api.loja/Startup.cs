@@ -1,7 +1,11 @@
-using Dominio.loja.Interfaces;
-using Dominio.loja.Repository;
+﻿using Dominio.loja.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Api.loja;
+using Api.loja.Data;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 public class Startup
 {
@@ -13,15 +17,37 @@ public class Startup
     public IConfiguration Configuration { get; set; }
     public void ConfigureServices(IServiceCollection service)
     {
+        var jwtIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>();
+        var jwtKey = Configuration.GetSection("Jwt:Key").Get<string>();
+
         string connectionString = Configuration.GetValue<string>("ConnectionString");
         service.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         service.AddEndpointsApiExplorer();
-        service.AddSwaggerGen();
-        service.AddAuthorization();
 
-        service.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
-        
+        service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+         .AddJwtBearer(options =>
+         {
+             options.TokenValidationParameters = new TokenValidationParameters
+             {
+                 ValidateIssuer = true,
+                 ValidateAudience = true,
+                 ValidateLifetime = true,
+                 ValidateIssuerSigningKey = true,
+                 ValidIssuer = jwtIssuer,
+                 ValidAudience = jwtIssuer,
+                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+             };
+         });
+
+        // 👇 Configuring the Authorization Service
+        service.AddAuthorization();
+        service.AddSwaggerGen();
+
+
+        service.AddDbContext<IStoreProductsContext ,StoreProductsContext>(options => options.UseSqlServer(connectionString));
+        service.AddDbContext<IStoreContext, StoreContext>(options => options.UseSqlServer(connectionString));
+
 
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

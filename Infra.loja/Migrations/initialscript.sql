@@ -1,4 +1,12 @@
-﻿create table category(
+﻿create table clients(
+	id int not null identity(1 ,1 ) primary key ,
+	created_at datetime not null default current_timestamp , 
+	updated_at datetime , 
+	email varchar(320) not null, 
+	password varchar(30) not null 
+	);
+
+create table category(
 	id int not null identity(1,1) primary key , 
 	created_at datetime not null default current_timestamp,
 	updated_at datetime ,

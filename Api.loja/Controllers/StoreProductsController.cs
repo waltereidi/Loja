@@ -1,7 +1,8 @@
 ﻿
+using Api.loja.Data;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces;
-using Dominio.loja.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
@@ -12,41 +13,26 @@ namespace Api.loja.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoreProductController : ControllerBase
+    public class StoreProductsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context; 
-        private readonly ILogger<StoreProductController> _logger;
-        public StoreProductController(ILogger<StoreProductController> logger, ApplicationDbContext context )
+        private readonly IStoreProductsContext _context; 
+        private readonly ILogger<StoreProductsController> _logger;
+        public StoreProductsController(ILogger<StoreProductsController> logger, IStoreProductsContext context )
         {
             _logger = logger;
             _context = context;
 
         }
         
-
         // GET: api/<ClientesController>
         [HttpGet]
+        [Authorize]
         public List<Category> Get()
         {
-            var i = _context.Category.Where(b => b.Id == 1).First();
-            var u = _context.Category.Where(b => b.Id == 0).ToList();
-            var x = _context.Products.Select(s => s.Name );
-            var price = _context.Prices.ToList();
-
-            var entryPoint = (from p in _context.Products
-                              join c in _context.Category on p.Category_Id equals c.Id
-                              join pr in _context.Prices on p.Price_id equals pr.Id
-                              select new
-                              {
-                                  p.Id
-                              });
-            i.Id = null;
+            var i = _context.GetCategory();
+            var o = _context.Category.ToList();
             
-            var r = _context.Category.Add(i);
-            _context.SaveChanges();
-            var s = entryPoint.Where(x=> x.Id==1).ToList();
-
-            return u;
+            return i;
         }
 
         // GET api/<ClientesController>/5
