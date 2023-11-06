@@ -1,6 +1,6 @@
 ﻿using Dominio.loja.DTO.Requests;
 using Dominio.loja.Entity;
-using Dominio.loja.Interfaces;
+using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
 
 

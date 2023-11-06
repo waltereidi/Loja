@@ -3,7 +3,7 @@
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Test.Loja.Infra
+namespace Tests.Loja.Infra
 {
     [TestClass]
     public class SqlConnectionFactoryTest

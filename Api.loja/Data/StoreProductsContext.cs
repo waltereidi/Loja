@@ -1,5 +1,5 @@
 ﻿using Dominio.loja.Entity;
-using Dominio.loja.Interfaces;
+using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.loja.Data

@@ -1,11 +1,11 @@
-﻿using Dominio.loja.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Api.loja;
 using Api.loja.Data;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Dominio.loja.Interfaces.Context;
 
 public class Startup
 {

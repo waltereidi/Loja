@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio.loja.Interfaces
+namespace Dominio.loja.Interfaces.Context
 {
-    public interface IStoreProductsContext 
+    public interface IStoreProductsContext
     {
-        List<Category>GetCategory();
+        List<Category> GetCategory();
 
-        Task<object>GetProductCategory();
+        Task<object> GetProductCategory();
 
         DbSet<Category> Category { get; }
 

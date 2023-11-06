@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Dominio.loja.Entity;
@@ -20,7 +17,7 @@ namespace Dominio.loja.DTO.Requests
 
         public string? GetToken()
         {
-            if(Clients.Email == Login && Clients.Password == Password )
+            if( Clients?.Email == Login && Clients?.Password == Password )
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

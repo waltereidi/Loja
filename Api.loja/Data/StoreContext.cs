@@ -1,5 +1,5 @@
 ﻿using Dominio.loja.Entity;
-using Dominio.loja.Interfaces;
+using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.loja.Data
@@ -14,12 +14,17 @@ namespace Api.loja.Data
         {
 
         }
-        public virtual DbSet<Clients> Clients { get; set; }
+        public DbSet<Clients> clients { get; set; }
 
         public Clients? getClient(string email, string password)
         {
-            return Clients.Where(x => x.Email == email && x.Password == password).First();
+
+            var retorno =clients.Where(x => x.Email == email && x.Password == password);
+            return retorno.Any() ? retorno.First() : null;
+
+
         }
+        
 
        
     }

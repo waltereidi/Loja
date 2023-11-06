@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio.loja.Interfaces
+namespace Dominio.loja.Interfaces.Context
 {
     internal interface IStoreClientsContext
     {

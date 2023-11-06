@@ -1,7 +1,7 @@
 ﻿
 using Api.loja.Data;
 using Dominio.loja.Entity;
-using Dominio.loja.Interfaces;
+using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
