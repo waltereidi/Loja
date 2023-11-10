@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Dto.Requests
 {
-    internal class GetStoreClientPermissions
+    public class GetStoreClientPermissionsRequest
     {
+
     }
 }
