@@ -27,7 +27,7 @@ namespace Api.loja.Controllers
         // GET: api/<ClientesController>
         [HttpGet]
         [Authorize]
-        public List<Category> Get()
+        public List<Categories> Get()
         {
             var i = _context.GetCategory();
             var o = _context.Category.ToList();

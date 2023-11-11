@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
-    public class Category : MasterEntity
+    public class Categories : MasterEntity
     {
         public string Name { get; set; }
         public string? Description { get; set; }

@@ -28,8 +28,23 @@ create table products(
 	name varchar(255) not null,
 	description varchar(2048) ,
 	ean bigint ,
-	sku varchar(64) ,
+	sku varchar(64)
 );
+create table products_storage(
+	ID_Products_storage int not null identity( 1, 1) primary key , 
+	created_at datetime not null default current_timestamp,
+	updated_at datetime ,
+	quantity int not null default 0 , 
+	description varchar(255),
+	ID_Products int not null foreign key references products(ID_Products) 
+);
+create table category_promotion(
+	ID_Category_promotion int not null identity( 1, 1) primary key ,
+	created_at datetime not null default current_timestamp ,
+	updated_at datetime not null , 
+	ID_Category int not null foreign key references category(ID_Category)
+);
+
 create table products_categories(
 	ID_Products_categories int not null identity(1 ,1 ) primary key , 
 	created_at datetime not null default current_timestamp, 

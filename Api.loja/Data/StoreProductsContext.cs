@@ -15,9 +15,9 @@ namespace Api.loja.Data
         {
 
         }
-        public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<Categories> Category { get; set; }
 
-        public List<Category> GetCategory()
+        public List<Categories> GetCategory()
         {
             return Category.ToList();
         }
