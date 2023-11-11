@@ -30,7 +30,7 @@ namespace Api.loja.Controllers
         public List<Categories> Get()
         {
             var i = _context.GetCategory();
-            var o = _context.Category.ToList();
+            var o = _context.Categories.ToList();
             
             return i;
         }

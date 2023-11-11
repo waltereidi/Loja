@@ -21,8 +21,6 @@ namespace Api.loja.Data
 
             var retorno =clients.Where(x => x.Email == email && x.Password == password);
             return retorno.Any() ? retorno.First() : null;
-
-
         }
         
 
