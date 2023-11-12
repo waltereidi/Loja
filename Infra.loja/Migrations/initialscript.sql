@@ -42,7 +42,8 @@ create table category_promotion(
 	ID_Category_promotion int not null identity( 1, 1) primary key ,
 	created_at datetime not null default current_timestamp ,
 	updated_at datetime not null , 
-	ID_Category int not null foreign key references category(ID_Category)
+	displayOrder int not null default 1 ,
+	ID_Categories int not null foreign key references categories(ID_Categories)
 );
 
 create table products_categories(

@@ -9,5 +9,6 @@ namespace Dominio.loja.Entity
     public class CategoryPromotion : MasterEntity
     {
         public Categories Category { get; set; }
+        public int DisplayOrder { get; set; }
     }
 }

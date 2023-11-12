@@ -45,7 +45,6 @@ public class Startup
         service.AddSwaggerGen();
 
 
-        service.AddDbContext<IStoreProductsContext ,StoreProductsContext>(options => options.UseSqlServer(connectionString));
         service.AddDbContext<IStoreContext, StoreContext>(options => options.UseSqlServer(connectionString));
 
 
