@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetCore.NPOI" Version="1.2.3" />
     <PackageReference Include="EPPlus" Version="7.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
@@ -21,6 +22,7 @@
     <ProjectReference Include="..\Api.loja\Api.loja.csproj" />
     <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
     <ProjectReference Include="..\Infra.loja\Infra.loja.csproj" />
+    <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
   </ItemGroup>
 
   <ItemGroup>

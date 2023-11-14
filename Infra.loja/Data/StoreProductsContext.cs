@@ -16,6 +16,9 @@ namespace Api.loja.Data
 
         }
         public virtual DbSet<Categories> Category { get; set; }
+        public DbSet<Categories> Categories { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DbSet<Prices> Prices { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DbSet<Products> Products { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public List<Categories> GetCategory()
         {
