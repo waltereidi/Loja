@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using NPOI.HSSF.Record.Chart;
@@ -11,6 +14,9 @@ using NPOI.SS.UserModel;
 using NPOI.Util;
 using NPOI.XSSF.UserModel;
 using Utils.loja.Enums;
+using System.Text.Json;
+using System.Reflection.Metadata.Ecma335;
+using NPOI.OpenXmlFormats.Dml.Diagram;
 
 namespace Utils.loja.Excel
 {
@@ -20,14 +26,7 @@ namespace Utils.loja.Excel
         { 
         
         }
-        public void CreateCell(IRow CurrentRow, int CellIndex, string Value, HSSFCellStyle Style)
-        {
-            ICell Cell = CurrentRow.CreateCell(CellIndex);
-            Cell.SetCellValue(Value);
-            Cell.CellStyle = Style;
-            
-        }
-        public List<HSSFCellStyle> CreateStyle(HSSFWorkbook workbook , NPOISheetStyles sheetStyle )
+        private List<HSSFCellStyle> CreateStyle(HSSFWorkbook workbook , NPOISheetStyles sheetStyle )
         {
             HSSFCellStyle style = (HSSFCellStyle)workbook.CreateCellStyle();
             
@@ -63,7 +62,7 @@ namespace Utils.loja.Excel
             return Return;
 
         }
-        public void CreateSheetHeader(IRow row ,object data , HSSFCellStyle styleHeader )
+        private void CreateSheetHeader(IRow row ,object data , HSSFCellStyle styleHeader )
         {
             string[] headerNames = data.GetType().GetProperties().Select(key => key.Name).ToArray();
             foreach(var header in headerNames.Select((Name , i ) => new { Name , i }) )
@@ -74,31 +73,54 @@ namespace Utils.loja.Excel
             }
         }
 
-        public HSSFWorkbook CreateExcel(object data , NPOISheetStyles sheetStyle )
+        private void CreateRow(IRow row, List<string> data, HSSFCellStyle style)
         {
+            for(int i = 0; i < data.Count; i++)
+            {
+                ICell Cell = row.CreateCell(i);
+                Cell.SetCellValue(data[i]);
+                Cell.CellStyle = style;
+            }
             
+        }
+        private List<string> ObjectToStringList( object data )
+        {
+            List<string> Return = new List<string?>();
             
+            foreach( var prop in data.GetType().GetProperties().ToArray() )
+            {
+                var value = data.GetType().GetProperty(prop?.Name)?.GetValue(data)??"";
+                Return.Add(value.ToString());
+            }
+            return Return;
+        }
+        
+        public HSSFWorkbook CreateExcel<T>(List<T> data , NPOISheetStyles sheetStyle )
+        {
             HSSFWorkbook workbook = new HSSFWorkbook();
 
             List<HSSFCellStyle> styleList = CreateStyle(workbook, sheetStyle);
 
-            ISheet Sheet = workbook.CreateSheet("Report");
+            ISheet sheet = workbook.CreateSheet("Report");
             
-            IRow HeaderRow = Sheet.CreateRow(1);
+            IRow HeaderRow = sheet.CreateRow(1);
             CreateSheetHeader(HeaderRow, data, styleList[0]);
 
-            IRow CurrentRow = Sheet.CreateRow(1);
-            CreateCell(CurrentRow, 0, "sdsd", borderedCellStyle);
-            CreateCell(CurrentRow, 1, "sdsdsdsd", borderedCellStyle);
-            CreateCell(CurrentRow, 2, "sdsdsde", borderedCellStyle);
-            CreateCell(CurrentRow, 3, "Cosdsddsgesde", borderedCellStyle);
-            CreateCell(CurrentRow, 4, "Sesddity", borderedCellStyle);
-            
-            
-            using (var fileData = new FileStream(path+filename, FileMode.Create))
+            for( int i = 0; data.Count() < i; i++ )
             {
-                workbook.Write(fileData);
+                List<string> stringList = ObjectToStringList(data[i]);
+                IRow row = sheet.CreateRow(i+2);
+                if( i%2 == 1)
+                {
+                    CreateRow(row, stringList, styleList[1]);
+                }
+                else
+                {
+                    CreateRow(row, stringList, styleList[2]);
+                }
             }
+            
+            return workbook;
         }
 
     }

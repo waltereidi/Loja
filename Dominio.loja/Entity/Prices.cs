@@ -17,4 +17,5 @@ namespace Dominio.loja.Entity
         [StringLength(1024)]
         public string? Description { get; set; }
     }
+    
 }
