@@ -28,36 +28,40 @@ namespace Utils.loja.Excel
         }
         private List<HSSFCellStyle> CreateStyle(HSSFWorkbook workbook , NPOISheetStyles sheetStyle )
         {
-            HSSFCellStyle style = (HSSFCellStyle)workbook.CreateCellStyle();
             
+            HSSFCellStyle styleHeader = (HSSFCellStyle)workbook.CreateCellStyle();
+            HSSFCellStyle styleRowStrong = (HSSFCellStyle)workbook.CreateCellStyle();
+            HSSFCellStyle styleRowLight = (HSSFCellStyle)workbook.CreateCellStyle();
+            List<HSSFCellStyle> Return = new List<HSSFCellStyle>();
+
+            Return.Add(styleHeader);
+            Return.Add(styleRowStrong);
+            Return.Add(styleRowLight);
+
             HSSFFont font = (HSSFFont)workbook.CreateFont();
-            font.FontHeight = 12;
+            font.FontHeightInPoints = 12;
             font.FontName = "Arial";
-            style.SetFont(font);
+            Return.ForEach(s => s.SetFont(font));
 
             switch(sheetStyle)
             {
-                case NPOISheetStyles.LightOrange:style.FillForegroundColor= IndexedColors.LightOrange.Index; break;
-                case NPOISheetStyles.SkyBlue: style.FillForegroundColor = IndexedColors.SkyBlue.Index; break;
-                case NPOISheetStyles.Aqua: style.FillForegroundColor = IndexedColors.Aqua.Index; break;
-                case NPOISheetStyles.LightGreen: style.FillForegroundColor = IndexedColors.LightGreen.Index; break;
-                case NPOISheetStyles.Gray: style.FillForegroundColor = IndexedColors.Grey25Percent.Index; break;
-                default : style.FillForegroundColor = IndexedColors.White.Index; break;
+                case NPOISheetStyles.LightOrange:Return.ForEach(style => { style.FillForegroundColor = IndexedColors.LightOrange.Index; }) ; break;
+                case NPOISheetStyles.SkyBlue: Return.ForEach( style => style.FillForegroundColor = IndexedColors.SkyBlue.Index ); break;
+                case NPOISheetStyles.Aqua: Return.ForEach( style=>style.FillForegroundColor = IndexedColors.Aqua.Index); break;
+                case NPOISheetStyles.LightGreen: Return.ForEach(style => style.FillForegroundColor = IndexedColors.LightGreen.Index); break;
+                case NPOISheetStyles.Gray:Return.ForEach( style =>  style.FillForegroundColor = IndexedColors.Grey25Percent.Index); break;
+                default : Return.ForEach(style => style.FillForegroundColor = IndexedColors.White.Index); break;
             }
             
-            List<HSSFCellStyle> Return = new List<HSSFCellStyle>();
+            
 
-            HSSFCellStyle styleHeader = style; 
-            styleHeader.FillPattern = FillPattern.FineDots;
-            Return.Add(styleHeader);
+            Return.First().FillPattern= FillPattern.SolidForeground;
 
-            HSSFCellStyle styleRowStrong = style;
-            styleRowStrong.FillPattern = FillPattern.SolidForeground;
-            Return.Add(styleRowStrong);
+            Return.ElementAt(1).FillPattern = FillPattern.SolidForeground;
+            Return.ElementAt(1).FillBackgroundColor = IndexedColors.White.Index;
 
-            HSSFCellStyle styleRowLight = style; 
-            styleRowLight.FillPattern = FillPattern.AltBars;
-            Return.Add(styleRowLight);
+            Return.Last().FillPattern = FillPattern.BigSpots;
+            
             
             return Return;
 
@@ -103,20 +107,20 @@ namespace Utils.loja.Excel
 
             ISheet sheet = workbook.CreateSheet("Report");
             
-            IRow HeaderRow = sheet.CreateRow(1);
-            CreateSheetHeader(HeaderRow, data, styleList[0]);
+            IRow HeaderRow = sheet.CreateRow(0);
+            CreateSheetHeader(HeaderRow, data.First(), styleList.First());
 
-            for( int i = 0; data.Count() < i; i++ )
+            for( int i = 0; i < data.Count(); i++ )
             {
                 List<string> stringList = ObjectToStringList(data[i]);
-                IRow row = sheet.CreateRow(i+2);
+                IRow row = sheet.CreateRow(i+1);
                 if( i%2 == 1)
                 {
-                    CreateRow(row, stringList, styleList[1]);
+                    CreateRow(row, stringList, styleList.ElementAt(1));
                 }
                 else
                 {
-                    CreateRow(row, stringList, styleList[2]);
+                    CreateRow(row, stringList, styleList.Last());
                 }
             }
             
