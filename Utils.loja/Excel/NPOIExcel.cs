@@ -127,17 +127,5 @@ namespace Utils.loja.Excel
             return workbook;
         }
 
-        public bool ValidateObject<T>(T obj)
-        {
-            foreach ( var item in  obj.GetType().GetProperties().ToArray())
-            {
-                if(item.PropertyType.IsGenericType ) 
-                {
-                    return false;
-                }
-
-            }
-            return true;
-        }
     }
 }

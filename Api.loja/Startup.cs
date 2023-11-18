@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Dominio.loja.Interfaces.Context;
+using static System.Console;
+using Api.loja.Middleware;
 
 public class Startup
 {
@@ -44,12 +46,11 @@ public class Startup
         service.AddAuthorization();
         service.AddSwaggerGen();
 
-
         service.AddDbContext<IStoreContext, StoreContext>(options => options.UseSqlServer(connectionString));
 
 
     }
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IHostEnvironment env)
     {
         app.UseHttpsRedirection();
         app.UseRouting();
@@ -57,7 +58,6 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseSwagger();
-        
         app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Loja Api");
@@ -68,7 +68,8 @@ public class Startup
         {
             endpoints.MapControllers();
         });
+        app.UseMiddleware<CustomMiddleware>();
     }
-
+ 
 }
    

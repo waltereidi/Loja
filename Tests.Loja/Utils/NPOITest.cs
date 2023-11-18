@@ -123,18 +123,7 @@ namespace Tests.Loja.Utils
             Assert.IsNotNull(Return);
             Assert.IsTrue(File.Exists(path));
         }
-        [TestMethod]
-        public void ValidateObjectReturnsFalse()
-        {
-            //setup 
-            JwtTokenRequest obj = new JwtTokenRequest();
-            //action 
-            var Return = _NPOIExcel.ValidateObject(obj);
-            //assert 
-            Assert.IsFalse(Return);
-
-
-        }
+  
 
     }
 }
