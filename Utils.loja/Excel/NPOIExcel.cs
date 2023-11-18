@@ -66,7 +66,7 @@ namespace Utils.loja.Excel
             return Return;
 
         }
-        private void CreateSheetHeader(IRow row ,object data , HSSFCellStyle styleHeader )
+        private void CreateSheetHeader<T>(IRow row ,T data , HSSFCellStyle styleHeader )
         {
             string[] headerNames = data.GetType().GetProperties().Select(key => key.Name).ToArray();
             foreach(var header in headerNames.Select((Name , i ) => new { Name , i }) )
@@ -87,7 +87,7 @@ namespace Utils.loja.Excel
             }
             
         }
-        private List<string> ObjectToStringList( object data )
+        private List<string> ObjectToStringList<T>( T data )
         {
             List<string> Return = new List<string?>();
             
@@ -127,5 +127,17 @@ namespace Utils.loja.Excel
             return workbook;
         }
 
+        public bool ValidateObject<T>(T obj)
+        {
+            foreach ( var item in  obj.GetType().GetProperties().ToArray())
+            {
+                if(item.PropertyType.IsGenericType ) 
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
     }
 }
