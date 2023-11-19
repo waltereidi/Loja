@@ -6,12 +6,10 @@ namespace Api.loja.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoreClientsController : Controller
+    public class StoreClientsController : BaseController
     {
-        private readonly ILogger<StoreClientsController> _logger;
-        public StoreClientsController(ILogger<StoreClientsController> logger)
+        public StoreClientsController(ILogger<StoreClientsController> logger) : base(logger)
         {
-            _logger = logger;
 
         }
         // GET: StoreClientsController

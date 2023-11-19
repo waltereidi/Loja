@@ -13,13 +13,11 @@ namespace Api.loja.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoreProductsController : ControllerBase
+    public class StoreProductsController : BaseController
     {
         private readonly IStoreProductsContext _context; 
-        private readonly ILogger<StoreProductsController> _logger;
-        public StoreProductsController(ILogger<StoreProductsController> logger, IStoreProductsContext context )
+        public StoreProductsController(ILogger<StoreProductsController> logger, IStoreProductsContext context ) : base(logger)
         {
-            _logger = logger;
             _context = context;
 
         }

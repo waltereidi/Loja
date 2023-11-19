@@ -1,10 +1,22 @@
-﻿create table clients(
+﻿begin transaction
+create table permissionsGroup(
+	ID_PermissionsGroup int not null  identity(1, 1) primary key , 
+	created_at datetime not null default current_timestamp , 
+	updated_at datetime , 
+	name varchar(255) not null 
+);
+SET IDENTITY_INSERT permissionsGroup ON 
+insert into permissionsGroup ( ID_PermissionsGroup , created_at , updated_at , name ) values( 1 ,current_timestamp , null , 'Cliente' );
+
+
+create table clients(
 	ID_Clients int not null identity(1 ,1 ) primary key ,
 	created_at datetime not null default current_timestamp , 
 	updated_at datetime , 
 	email varchar(320) not null, 
-	password varchar(30) not null 
-	);
+	password varchar(30) not null ,
+	ID_PermissionsGroup int not null default 1 foreign key references permissionsGroup(ID_PermissionsGroup)
+);
 
 create table categories(
 	ID_Categories int not null identity(1,1) primary key , 
@@ -66,12 +78,7 @@ create table permissions(
 	updated_at datetime not null ,
 	name varchar(255) not null
 );
-create table permissionsGroup(
-	ID_PermissionsGroup int not null  identity(1, 1) primary key , 
-	created_at datetime not null default current_timestamp , 
-	updated_at datetime not null , 
-	name varchar(255) not null 
-);
+
 create table permissions_relation(
 	ID_Permissions_relation int not null identity(1, 1 ) primary key , 
 	created_at datetime not null default current_timestamp , 
@@ -80,3 +87,5 @@ create table permissions_relation(
 	ID_Permissions int not null foreign key references permissions(ID_Permissions)
 );
 
+--rollback 
+--commit

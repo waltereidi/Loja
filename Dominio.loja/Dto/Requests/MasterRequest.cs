@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Dto.Requests
 {
-    private readonly IStoreContext _storeContext = new StoreContext();
     public class MasterRequest
     {
         public string Email { get; set; }

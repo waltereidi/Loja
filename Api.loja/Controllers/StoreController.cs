@@ -8,17 +8,14 @@ namespace Api.loja.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoreController : Controller
+    public class StoreController : BaseController
     {
-        private readonly ILogger<StoreController> _logger;
         private IConfiguration _config;
         private IStoreContext _context;
-        public StoreController(ILogger<StoreController> logger, IConfiguration config, IStoreContext context)
+        public StoreController(ILogger<StoreController> logger, IConfiguration config, IStoreContext context) : base(logger)
         {
-            _logger = logger;
             _config = config;
             _context = context;
-
         }
 
         [HttpPost]
