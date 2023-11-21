@@ -29,8 +29,6 @@ namespace Dominio.loja.DTO.Requests
                 return null; 
             }
 
-            
-
         }
     }
 

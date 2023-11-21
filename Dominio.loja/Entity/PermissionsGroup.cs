@@ -9,6 +9,9 @@ namespace Dominio.loja.Entity
 {
     public class PermissionsGroup
     {
+        [Key]
+        public int ID_PermisionsGroup { get; set; }
+
         [StringLength(255)]
         public string Name {  get; set; }
 

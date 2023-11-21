@@ -10,11 +10,13 @@ namespace Dominio.loja.Entity
 {
     public class Categories : MasterEntity
     {
+        [Key]
+        public int ID_Categories { get; set; }
+
         [StringLength(120)]
         public string Name { get; set; }
         [StringLength(2048)]
         public string? Description { get; set; }
-
     }
 
 

@@ -21,7 +21,12 @@ namespace Tests.Loja.Infra
         [TestMethod]
         public void DbSetPermissionsReturnDataSet()
         {
-
+            //setup 
+            
+            //action
+            var Return = _storeContext.GetPermissionsRelation("email");
+            //assert 
+            Assert.IsNotNull(Return);
         }
 
     }

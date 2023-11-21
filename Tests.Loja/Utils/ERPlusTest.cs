@@ -38,7 +38,8 @@ namespace Tests.Loja.Utils
         public void WriteColoredExcelFileCanReadFile()
         {
             //setup 
-            string filepath = "C:\\Users\\walte\\Desktop\\Pingendo\\arq3.xlsx";
+            var path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "");
+            path += "WriteColoredExcelFileCanReadFile.xlsx";
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             
             DataTable dt = new DataTable();
@@ -53,7 +54,7 @@ namespace Tests.Loja.Utils
             {
                 dt.Rows.Add(k, k.ToString() + "SDSD");
             }
-            FileInfo fileInfoTemplate = new FileInfo("C:/arq2.xlsx");
+            
 
             //Action
             OfficeOpenXml.ExcelPackage excel = new ExcelPackage();
@@ -68,11 +69,11 @@ namespace Tests.Loja.Utils
             worksheet.Cells["A1:Z100"].Style.Font.Bold=true;
             worksheet.Cells["A1:Z100"].Style.Font.Italic=true;
             worksheet.Cells["A1:Z100"].Style.Fill.BackgroundColor.SetColor(Color.Red);
-            FileInfo fileInfo = new FileInfo(filepath);
+            FileInfo fileInfo = new FileInfo(path);
             excel.SaveAs(fileInfo);
 
             //Assert
-            Assert.IsNotNull(File.Exists(filepath));
+            Assert.IsNotNull(File.Exists(path));
 
 
         }

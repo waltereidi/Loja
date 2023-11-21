@@ -9,6 +9,8 @@ namespace Dominio.loja.Entity
 {
     public class ProductsStorage
     {
+        [Key]
+        public int ID_ProductsStorage { get; set; }
         public int Quantity { get; set; }
         [StringLength(255)]
         public string Description { get; set; }

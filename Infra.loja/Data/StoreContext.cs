@@ -1,7 +1,9 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace Api.loja.Data
 {
@@ -16,7 +18,9 @@ namespace Api.loja.Data
 
         }
         public DbSet<Clients> clients { get; set; }
+        public DbSet<Permissions> permissions { get; set; }
         public DbSet<PermissionsRelation> permissionsRelation { get; set; }
+        public DbSet<PermissionsGroup> permissionsGroup { get; set; }
         
         public Clients? getClient(string email, string password)
         {
@@ -26,14 +30,14 @@ namespace Api.loja.Data
         
         public List<PermissionsRelation> GetPermissionsRelation(string email)
         {
-            //var Return = (from prr in permissionsRelation
-            //                             join cli in this.clients on clients..ID_Clients equals c.Id
-            //                             join pr in _context.Prices on p.Price_id equals pr.Id
-            //                             select new
-            //                             {
-            //                                 p.Id
-            //                             });
-            return new List<PermissionsRelation>();
+            var Return = permissionsRelation.Join(
+                inner: permissionsGroup,
+                outerKeySelector: pre => pre.ID_PermissionsGroup,
+                innerKeySelector: peg => peg.ID_PermisionsGroup,
+                (pre, peg) => new { PermissionsGroup = pre, permissionsGroup = peg }
+                );
+
+            return Return.Any() ? permissionsRelation.ToList() : null;
         }
     }
 

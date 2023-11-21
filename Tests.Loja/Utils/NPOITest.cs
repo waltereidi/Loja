@@ -30,10 +30,10 @@ namespace Tests.Loja.Utils
            _prices = new Prices()
             {
                 Created_at = DateTime.Now,
-                Updated_at = DateTime.Now,
+                Updated_at = null ,
                 Description = "TestCase",
                 Price = (decimal)0.15,
-                Id = null
+                ID_Prices = 1
             };
         }
 
@@ -44,15 +44,15 @@ namespace Tests.Loja.Utils
            
             //Action
             var method = _NPOIExcel.GetType().GetMethod("ObjectToStringList", BindingFlags.Instance | BindingFlags.NonPublic);
-            List<string> stringList= (List<string>)method.Invoke(_NPOIExcel, new[] { _prices });
+            List<string> stringList= (List<string>)method.Invoke(_NPOIExcel, new [] {_prices });
 
             //Assert
             Assert.IsTrue(stringList.Count()== 5);
-            Assert.IsTrue(stringList[0] == _prices.Price.ToString());
-            Assert.IsTrue(stringList[1] == _prices.Description.ToString());
-            Assert.IsTrue(stringList[2] == _prices.Id.ToString());
-            Assert.IsTrue(stringList[3] == _prices.Updated_at.ToString());
-            Assert.IsTrue(stringList[4] == _prices.Created_at.ToString());
+            Assert.IsTrue(stringList[0] == _prices.ID_Prices.ToString());
+            Assert.IsTrue(stringList[1] == _prices.Price.ToString());
+            Assert.IsTrue(stringList[2] == _prices.Description.ToString());
+            Assert.IsTrue(stringList[3] == _prices.Created_at.ToString());
+            Assert.IsTrue(stringList[4] == _prices.Updated_at.ToString());
         }
         [TestMethod]
         public void CreateStyleReturnsArrayWithSelectedStyle()

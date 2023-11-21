@@ -87,7 +87,7 @@ namespace Utils.loja.Excel
             }
             
         }
-        private List<string> ObjectToStringList<T>( T data )
+        private List<string> ObjectToStringList( object data )
         {
             List<string> Return = new List<string?>();
             

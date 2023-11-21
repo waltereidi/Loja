@@ -9,6 +9,9 @@ namespace Dominio.loja.Entity
 {
     public class Clients : MasterEntity
     {
+        [Key]
+        public int ID_Clients { get; set; }
+
         [StringLength(320)]
         public string Email { get; set; }
 
