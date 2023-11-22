@@ -4,22 +4,27 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-
+using System.Linq;
 namespace Api.loja.Data
 {
     public class StoreContext : DbContext, IStoreContext
     {
-        public StoreContext()
-        {
-
-        }
+        private readonly string _connectionString;
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
 
         }
+        public StoreContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
+        }
         public DbSet<Clients> clients { get; set; }
         public DbSet<Permissions> permissions { get; set; }
-        public DbSet<PermissionsRelation> permissionsRelation { get; set; }
+        public DbSet<PermissionsRelation> permissions_Relation { get; set; }
         public DbSet<PermissionsGroup> permissionsGroup { get; set; }
         
         public Clients? getClient(string email, string password)
@@ -30,14 +35,27 @@ namespace Api.loja.Data
         
         public List<PermissionsRelation> GetPermissionsRelation(string email)
         {
-            var Return = permissionsRelation.Join(
+            var Return = permissions_Relation.Join(
                 inner: permissionsGroup,
                 outerKeySelector: pre => pre.ID_PermissionsGroup,
-                innerKeySelector: peg => peg.ID_PermisionsGroup,
-                (pre, peg) => new { PermissionsGroup = pre, permissionsGroup = peg }
+                innerKeySelector: peg => peg.ID_PermissionsGroup,
+                (pre, peg) => new PermissionsRelation() { 
+                    Created_at=pre.Created_at ,
+                    Updated_at=pre.Updated_at ,
+                    PermissionsGroup = peg 
+                }
                 );
 
-            return Return.Any() ? permissionsRelation.ToList() : null;
+            var query = (
+             from perR in permissions_Relation
+             join perG in permissionsGroup on perR.ID_Permissions_Relation equals perG.ID_PermissionsGroup
+             select new {perR , perG}
+             
+             );
+            var i = query.ToList();
+
+
+            return Return.Any() ? Return.ToList() : null;
         }
     }
 

@@ -10,14 +10,12 @@ namespace Dominio.loja.Entity
     public class PermissionsRelation : MasterEntity 
     {
         [Key]
-        public int ID_PermissionsRelation { get; set; }
-        [Key]
+        public int ID_Permissions_Relation { get; set; }
         public int ID_PermissionsGroup { get; set; }
-        [Key]
         public int ID_Permissions { get; set; }
 
-        PermissionsGroup PermissionsGroup { get; set; }
-        Permissions Permissions { get; set; }
+        public PermissionsGroup PermissionsGroup { get; set; }
+        public Permissions Permissions { get; set; }
 
 
     }

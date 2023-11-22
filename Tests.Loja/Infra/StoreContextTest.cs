@@ -1,5 +1,8 @@
 ﻿using Api.loja.Data;
+using Castle.Core.Configuration;
 using Dominio.loja.Interfaces.Context;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
@@ -12,10 +15,15 @@ namespace Tests.Loja.Infra
     [TestClass]
     public class StoreContextTest
     {
-        IStoreContext _storeContext;
+        private StoreContext _storeContext;
+        
         public StoreContextTest() 
         {
-            _storeContext = new StoreContext();
+            String dir = System.IO.Directory.GetCurrentDirectory();
+            string jsonDir = dir.Replace("\\Tests.Loja\\bin\\Debug\\net6.0", "") + "\\Api.loja\\appsettings.json";
+            string json = File.ReadAllText(jsonDir);
+            dynamic launchSettings = JObject.Parse(json);
+            _storeContext = new StoreContext((string)launchSettings.ConnectionString);
         }
 
         [TestMethod]
