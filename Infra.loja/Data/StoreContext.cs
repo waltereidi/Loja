@@ -22,10 +22,10 @@ namespace Api.loja.Data
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }
-        public DbSet<Clients> clients { get; set; }
-        public DbSet<Permissions> permissions { get; set; }
-        public DbSet<PermissionsRelation> permissions_Relation { get; set; }
-        public DbSet<PermissionsGroup> permissionsGroup { get; set; }
+        public virtual DbSet<Clients> clients { get; set; }
+        public virtual DbSet<Permissions> permissions { get; set; }
+        public virtual DbSet<PermissionsRelation> permissions_Relation { get; set; }
+        public virtual DbSet<PermissionsGroup> permissionsGroup { get; set; }
         
         public Clients? getClient(string email, string password)
         {
@@ -33,29 +33,18 @@ namespace Api.loja.Data
             return Return.Any() ? Return.First() : null;
         }
         
-        public List<PermissionsRelation> GetPermissionsRelation(string email)
+        public IQueryable<PermissionsRelation> GetPermissionsRelation()
         {
-            var Return = permissions_Relation.Join(
-                inner: permissionsGroup,
-                outerKeySelector: pre => pre.ID_PermissionsGroup,
-                innerKeySelector: peg => peg.ID_PermissionsGroup,
-                (pre, peg) => new PermissionsRelation() { 
-                    Created_at=pre.Created_at ,
-                    Updated_at=pre.Updated_at ,
-                    PermissionsGroup = peg 
-                }
-                );
-
-            var query = (
-             from perR in permissions_Relation
-             join perG in permissionsGroup on perR.ID_Permissions_Relation equals perG.ID_PermissionsGroup
-             select new {perR , perG}
-             
-             );
-            var i = query.ToList();
-
-
-            return Return.Any() ? Return.ToList() : null;
+            return from perR in permissions_Relation
+                 join perG in permissionsGroup on perR.ID_Permissions_Relation equals perG.ID_PermissionsGroup 
+                 join cli in clients on perG.ID_PermissionsGroup equals cli.ID_PermissionsGroup
+                 join per in permissions on perR.ID_Permissions equals per.ID_Permissions
+                 select new PermissionsRelation() { 
+                    PermissionsGroup = perG ,
+                    Permissions = per ,
+                    Created_at = perR.Created_at,
+                    Updated_at = perR.Updated_at,
+                 };
         }
     }
 

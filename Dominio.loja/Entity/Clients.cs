@@ -19,6 +19,7 @@ namespace Dominio.loja.Entity
         public string Password { get; set; }
         public int ID_PermissionsGroup { get; set; }
 
-        public PermissionsGroup PermissionsGroup { get; set; }
+        public PermissionsGroup? PermissionsGroup { get; set; }
+
     }
 }

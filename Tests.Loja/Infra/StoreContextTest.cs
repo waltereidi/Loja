@@ -32,9 +32,11 @@ namespace Tests.Loja.Infra
             //setup 
             
             //action
-            var Return = _storeContext.GetPermissionsRelation("email");
+            var Return = _storeContext.GetPermissionsRelation();
+
             //assert 
-            Assert.IsNotNull(Return);
+            Assert.IsTrue(Return.Count() > 0);
+            
         }
 
     }

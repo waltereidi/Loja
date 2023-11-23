@@ -5,9 +5,6 @@ create table permissionsGroup(
 	updated_at datetime , 
 	name varchar(255) not null 
 );
-SET IDENTITY_INSERT permissionsGroup ON 
-insert into permissionsGroup ( ID_PermissionsGroup , created_at , updated_at , name ) values( 1 ,current_timestamp , null , 'Cliente' );
-
 
 create table clients(
 	ID_Clients int not null identity(1 ,1 ) primary key ,
@@ -87,5 +84,26 @@ create table permissions_relation(
 	ID_Permissions int not null foreign key references permissions(ID_Permissions)
 );
 
+SET IDENTITY_INSERT permissionsGroup ON 
+insert into permissionsGroup ( ID_PermissionsGroup , created_at , updated_at , name ) values( 1 ,current_timestamp , null , 'Cliente' );
+SET IDENTITY_INSERT permissionsGroup OFF 
+GO 
+
+SET IDENTITY_INSERT clients ON
+insert into clients ( ID_Clients , created_at , updated_at , email , password , ID_PermissionsGroup ) values( 1 , current_timestamp , current_timestamp , 'TestCase' ,'123' ,1  );
+SET IDENTITY_INSERT clients OFF 
+GO 
+
+SET IDENTITY_INSERT  permissions ON
+insert into permissions(ID_Permissions , created_at , updated_at , name) values ( 1 , current_timestamp , current_timestamp , 'TestCase' );
+SET IDENTITY_INSERT permissions OFF 
+GO 
+
+SET IDENTITY_INSERT permissions_relation ON
+insert into permissions_relation (ID_Permissions_relation , created_at , updated_at , ID_PermissionsGroup , ID_Permissions ) values ( 1 , current_timestamp , current_timestamp , 1 , 1 );
+SET IDENTITY_INSERT permissions_relation OFF 
+GO 
 --rollback 
 --commit
+
+
