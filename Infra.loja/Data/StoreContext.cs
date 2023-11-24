@@ -33,18 +33,20 @@ namespace Api.loja.Data
             return Return.Any() ? Return.First() : null;
         }
         
-        public IQueryable<PermissionsRelation> GetPermissionsRelation()
+        public List<PermissionsRelation> GetPermissionsRelation(string email )
         {
-            return from perR in permissions_Relation
+            var query = from perR in permissions_Relation
                  join perG in permissionsGroup on perR.ID_Permissions_Relation equals perG.ID_PermissionsGroup 
                  join cli in clients on perG.ID_PermissionsGroup equals cli.ID_PermissionsGroup
                  join per in permissions on perR.ID_Permissions equals per.ID_Permissions
+                 where cli.Email == email 
                  select new PermissionsRelation() { 
                     PermissionsGroup = perG ,
                     Permissions = per ,
                     Created_at = perR.Created_at,
                     Updated_at = perR.Updated_at,
                  };
+            return query.Any() ? query.ToList() : null; 
         }
     }
 

@@ -32,7 +32,7 @@ namespace Tests.Loja.Infra
             //setup 
             
             //action
-            var Return = _storeContext.GetPermissionsRelation();
+            var Return = _storeContext.GetPermissionsRelation("TestCase");
 
             //assert 
             Assert.IsTrue(Return.Count() > 0);

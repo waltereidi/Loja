@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
-    public class ValidatePermissionAttribute : Attribute 
+    public sealed class ValidatePermissionAttribute : Attribute 
     {
             private readonly PermissionsRelation permissionsRelation;
             public ValidatePermissionAttribute(string permission)
