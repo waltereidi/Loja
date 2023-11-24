@@ -1,6 +1,12 @@
-﻿namespace Api.loja.Services
+﻿using Dominio.loja.Dto.Requests;
+
+namespace Api.loja.Services
 {
-    public class StoreClients
+    public class StoreClients : MasterService
     {
+        public StoreClients(MasterRequest request ) : base( request )
+        {
+
+        }
     }
 }
