@@ -1,0 +1,91 @@
+[{
+    "id" : 1 , 
+    "name" : "Carnes" , 
+    "icon" :"/img/icons/Product/carnes2.svg",
+    "products" : [{
+        "name": "Carne1" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":1 , 
+        "productImage" : "/src/product"  
+    }, 
+    {
+        "name": "Carne2" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":2 , 
+        "productImage" : "/src/product"  
+    },
+    {
+        "name": "Carne3" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":3 , 
+        "productImage" : "/src/product"  
+    },
+    {
+        "name": "Carne4" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":4 , 
+        "productImage" : "/src/product"  
+    },
+    {
+        "name": "Carne5" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":5 , 
+        "productImage" : "/src/product"  
+    }]
+},
+{
+    "id" : 2 , 
+    "name" : "Carnes2" , 
+    "icon" :"/img/icons/Product/carnes2.svg",
+    "products" : [{
+        "name": "Carne1" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":1 , 
+        "productImage" : "/src/product"  
+    }, 
+    {
+        "name": "Carne2" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":2 , 
+        "productImage" : "/src/product"  
+    },
+    {
+        "name": "Carne3" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":3 , 
+        "productImage" : "/src/product"  
+    },
+    {
+        "name": "Carne4" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":4 , 
+        "productImage" : "/src/product"  
+    },
+    {
+        "name": "Carne5" , 
+        "price": 18.89 , 
+        "discount" : 10.3 ,
+        "discountPrice" : 16.43 , 
+        "id":5 , 
+        "productImage" : "/src/product"  
+    }]
+}
+]

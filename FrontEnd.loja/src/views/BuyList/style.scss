@@ -1,0 +1,40 @@
+.buy-list-container{
+    min-width: 40em;
+    max-width: 40vw;
+    flex-flow:column ; 
+    display:flex ;
+    margin:auto;
+
+
+    &--title{
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 2rem 0 2rem 0 ;
+    }
+
+    &--list{
+        flex-flow:column; 
+        flex: 1 1 auto ;
+        display:flex ; 
+
+        &__product{
+            display:flex ;
+            flex-flow:row wrap ; 
+            flex: 1 1 auto ;
+            height: 3em;
+            background-color: teal;
+            border: 1px solid black;
+        }
+    }
+    &--price{
+
+
+    }
+    &--submit{
+        margin: 2rem 0 2rem 0 ;
+        display: flex; 
+        flex-flow: row wrap ; 
+        justify-content: space-between;
+    }
+
+}

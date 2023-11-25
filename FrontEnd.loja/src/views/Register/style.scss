@@ -1,0 +1,51 @@
+.cadastro-container{
+    display:flex; 
+    flex-flow:column ;
+    justify-content: center;
+        
+    
+    &--title{
+        font-weight: 700;
+        font-size:2rem;
+        align-self: center;
+    }
+    &--form{
+        align-self: center;
+        text-align: start;
+        min-width: 30em;
+        max-width:30vw;
+        margin:2em 0 2em 0;
+        &__input{
+            margin: 1em 0 1em 0;
+        }
+        input{
+            margin-bottom:1em;
+        }
+
+        &__input-group{
+            display:flex; 
+            flex-flow:row wrap ; 
+            justify-content: space-between;
+
+            div{ 
+                flex:  0 0 50%-calc(1em);
+                display:flex;
+                flex-flow:column;
+                justify-content: flex-start;
+            }
+        }
+        &--check-group{
+            display: flex ;
+            flex-flow:row wrap ;
+            justify-content: flex-start;
+            
+        }
+        &__submit{
+            margin: 2em 0 2em 0 ;
+        }
+
+
+
+    }
+
+}

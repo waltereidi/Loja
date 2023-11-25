@@ -47,7 +47,14 @@ public class Startup
         service.AddSwaggerGen();
 
         service.AddDbContext<IStoreContext, StoreContext>(options => options.UseSqlServer(connectionString));
+        service.AddDistributedMemoryCache();
+        service.AddSession( options =>
+        {
+            options.IdleTimeout = TimeSpan.FromSeconds(10);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
 
+        });
 
     }
     public void Configure(IApplicationBuilder app, IHostEnvironment env)
@@ -68,6 +75,7 @@ public class Startup
         {
             endpoints.MapControllers();
         });
+        app.UseSession();
         app.UseMiddleware<CustomMiddleware>();
     }
  
