@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Entity;
+﻿using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ namespace Api.loja.Data
             return Return.Any() ? Return.First() : null;
         }
         
-        public List<PermissionsRelation> GetPermissionsRelation(string email )
+        public void GetPermissionsRelation(string email )
         {
             var query = from perR in permissions_Relation
                  join perG in permissionsGroup on perR.ID_Permissions_Relation equals perG.ID_PermissionsGroup 
@@ -46,7 +47,8 @@ namespace Api.loja.Data
                     Created_at = perR.Created_at,
                     Updated_at = perR.Updated_at,
                  };
-            return query.Any() ? query.ToList() : null; 
+
+            ClientsPermission.permissionsList = query.Any() ? query.ToList() : null; 
         }
     }
 

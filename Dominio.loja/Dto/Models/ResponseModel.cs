@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio.loja.Dto.Requests
+namespace Dominio.loja.Dto.Models
 {
     public class ResponseModel
     {
@@ -16,13 +16,13 @@ namespace Dominio.loja.Dto.Requests
         {
 
         }
-        public ResponseModel(dynamic Data , string Mensagem )
+        public ResponseModel(dynamic Data, string Mensagem)
         {
             Data = Data;
             Mensagem = Mensagem;
-            Sucesso = (Data == null )?  false : true;
+            Sucesso = Data == null ? false : true;
 
         }
     }
-    
+
 }

@@ -9,7 +9,7 @@ namespace Dominio.loja.Dto.CustomEntities
 {
     public static class ClientsPermission
     {
-        public static List<PermissionsRelation> permissionsList { get; set; }
+        public static List<PermissionsRelation>? permissionsList { get; set; }
 
 
 

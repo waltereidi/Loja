@@ -1,5 +1,6 @@
 ﻿using Api.loja.Data;
 using Castle.Core.Configuration;
+using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -32,10 +33,10 @@ namespace Tests.Loja.Infra
             //setup 
             
             //action
-            var Return = _storeContext.GetPermissionsRelation("TestCase");
-
+            _storeContext.GetPermissionsRelation("TestCase");
+            
             //assert 
-            Assert.IsTrue(Return.Count() > 0);
+            Assert.IsTrue(ClientsPermission.permissionsList.Count() > 0);
             
         }
 

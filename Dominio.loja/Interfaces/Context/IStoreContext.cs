@@ -11,7 +11,7 @@ namespace Dominio.loja.Interfaces.Context
     {
         Clients? getClient(string email, string password);
 
-        List<PermissionsRelation> GetPermissionsRelation(string email);
+        void GetPermissionsRelation(string email);
 
     }
 }

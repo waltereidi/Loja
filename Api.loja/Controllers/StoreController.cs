@@ -1,6 +1,8 @@
-﻿using Dominio.loja.DTO.Requests;
+﻿using Api.loja.Services;
+using Dominio.loja.DTO.Requests;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
+using Dominio.loja.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -10,16 +12,14 @@ namespace Api.loja.Controllers
     [ApiController]
     public class StoreController : BaseController
     {
-        private IConfiguration _config;
-        private IStoreContext _context;
-        public StoreController(ILogger<StoreController> logger, IConfiguration config, IStoreContext context) : base(logger)
+        IStore _service;
+        public StoreController(ILogger<StoreController> logger  , IStore _service ) : base(logger)
         {
-            _config = config;
-            _context = context;
+            IStore _service = new Store();
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] JwtTokenRequest loginRequest)
+        public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
 
             Clients client = _context.getClient(loginRequest.Login, loginRequest.Password);

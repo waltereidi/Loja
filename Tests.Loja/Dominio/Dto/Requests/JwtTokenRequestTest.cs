@@ -13,10 +13,10 @@ namespace Tests.Loja.Dominio.Dto.Requests
     [TestClass]
     public class JwtTokenRequestTest
     {
-        private readonly JwtTokenRequest _entity;
+        private readonly LoginRequest _entity;
         public JwtTokenRequestTest()
         {
-            _entity = new JwtTokenRequest{
+            _entity = new LoginRequest{
                 Login = "testCase@email.com",
                 Password = "123",
                 jwtKey = "YourSecretKeyForAuthenticationOfApplication",

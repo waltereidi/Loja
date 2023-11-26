@@ -11,7 +11,7 @@ namespace Dominio.loja.Dto.Requests
     public class MasterRequest
     {
         public string Email { get; set; }
-
+        public string Authorization { get; set; }
 
     }
 }
