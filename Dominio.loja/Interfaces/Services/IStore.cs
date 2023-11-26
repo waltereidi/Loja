@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.DTO.Requests;
 
 namespace Dominio.loja.Interfaces.Services
 {
     public interface IStore
     {
-
+        ClientsPermission getLogin(LoginRequest loginRequest);
     }
 }

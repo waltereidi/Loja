@@ -46,7 +46,9 @@ public class Startup
         service.AddAuthorization();
         service.AddSwaggerGen();
 
-        service.AddDbContext<IStoreContext, StoreContext>(options => options.UseSqlServer(connectionString));
+        service.AddDbContext<IStoreContext, StoreContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton);
+        
+
         service.AddDistributedMemoryCache();
         service.AddSession( options =>
         {

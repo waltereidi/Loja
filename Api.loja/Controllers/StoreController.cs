@@ -12,22 +12,20 @@ namespace Api.loja.Controllers
     [ApiController]
     public class StoreController : BaseController
     {
-        IStore _service;
-        public StoreController(ILogger<StoreController> logger  , IStore _service ) : base(logger)
+        private readonly IStore _service;
+        private readonly IConfiguration _config;
+        public StoreController(ILogger<StoreController> logger ,IConfiguration config ) : base(logger)
         {
             IStore _service = new Store();
+            _config = config;
         }
 
         [HttpPost]
         public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
-
-            Clients client = _context.getClient(loginRequest.Login, loginRequest.Password);
-            loginRequest.Clients = client;
             loginRequest.issuer = _config["Jwt:Issuer"];
             loginRequest.jwtKey = _config["Jwt:Key"];
-            var retorno = loginRequest.GetToken();
-
+            var retorno = _service.getLogin(loginRequest);
             return Ok(retorno);
         }
     }

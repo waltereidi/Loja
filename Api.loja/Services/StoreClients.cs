@@ -18,11 +18,6 @@ namespace Api.loja.Services
         {
             return ClientsPermission.permissionsList;
         }
-        public void Loign(LoginRequest request)
-        {
-                
-
-
-        }
+    
     }
 }
