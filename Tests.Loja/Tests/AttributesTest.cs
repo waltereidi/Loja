@@ -20,16 +20,13 @@ namespace Tests.Loja.Tests
             TestEntity entity = new TestEntity() { param="string"};
             System.Reflection.TypeInfo typeInfo = typeof(TestEntity).GetTypeInfo();
             var attrs = typeInfo.GetCustomAttributes();
-            //Assert 
-            foreach(var item in attrs)
-            {
-                var i = item.ToString();
-                var k = item.GetType();
-                var s = item.TypeId;
-                
-            }
             
-                
+            
+            //Assert 
+            
+            
+
+
             //Action
 
         }
