@@ -1,4 +1,5 @@
-﻿using Dominio.loja.DTO.Requests;
+﻿using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.DTO.Requests;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Dominio.loja.Interfaces.Services;
@@ -17,9 +18,9 @@ namespace Api.loja.Services
         {
             Clients client = _context.getClient(loginRequest.Login, loginRequest.Password);
             loginRequest.Clients = client;
-            
-            var retorno = loginRequest.GetToken();
+            var login = loginRequest.GetToken();
 
         }
+
     }
 }

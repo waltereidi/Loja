@@ -16,4 +16,5 @@ namespace Api.loja
                        webBuilder.UseStartup<Startup>();
                    });
     }
+
 }

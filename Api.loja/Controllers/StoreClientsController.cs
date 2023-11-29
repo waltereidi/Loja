@@ -24,7 +24,7 @@ namespace Api.loja.Controllers
             
 
 
-            return Ok(storeClients.getPermissions());
+            return Ok( _storeClients.getPermissions() );
 
         }
         [HttpGet]

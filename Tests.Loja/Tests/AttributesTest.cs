@@ -19,15 +19,11 @@ namespace Tests.Loja.Tests
             //Setup
             TestEntity entity = new TestEntity() { param="string"};
             System.Reflection.TypeInfo typeInfo = typeof(TestEntity).GetTypeInfo();
-            var attrs = typeInfo.GetCustomAttributes();
-            
-            
+
             //Assert 
-            
-            
+            var Return = entity.GetAttribute();
+            Assert.IsTrue( Return.Count()>0 );
 
-
-            //Action
 
         }
 

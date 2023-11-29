@@ -10,9 +10,9 @@ namespace Api.loja.Services
     public class StoreClients
     {
         IStoreContext _storeContext; 
-        public StoreClients( IStoreContext storeContext ) 
+        public StoreClients(  ) 
         {
-            _storeContext = storeContext; 
+            
         }
         public List<PermissionsRelation> getPermissions()
         {

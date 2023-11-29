@@ -11,9 +11,12 @@ namespace Tests.Loja.Attributes
     public class TestClassAttribute : Attribute 
     {
         public string value { get; set; }
+
+        public DateTime LastModified { get; set; }
         public TestClassAttribute(string field)
         {
             value = value;
+            LastModified = DateTime.Now;
         }
     }
 }

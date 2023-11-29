@@ -1,4 +1,5 @@
 ﻿using Api.loja.Services;
+using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.DTO.Requests;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
@@ -25,8 +26,8 @@ namespace Api.loja.Controllers
         {
             loginRequest.issuer = _config["Jwt:Issuer"];
             loginRequest.jwtKey = _config["Jwt:Key"];
-            var retorno = _service.getLogin(loginRequest);
-            return Ok(retorno);
+
+            return Ok(ClientsPermission.permissionsList) ;
         }
     }
 
