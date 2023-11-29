@@ -17,8 +17,10 @@ namespace Tests.Loja.Tests
         public void testTestClassAttributesCanValidate()
         {
             //Setup
-            TestEntity entity = new TestEntity() { param="string"};
+            TestEntity entity = new TestEntity() { param="string",param2 ="teste",param3="test4",param4="sss" };
+            
             System.Reflection.TypeInfo typeInfo = typeof(TestEntity).GetTypeInfo();
+
 
             //Assert 
             var Return = entity.GetAttribute();

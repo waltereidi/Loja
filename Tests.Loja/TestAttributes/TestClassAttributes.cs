@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tests.Loja.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.All )]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple=false)]
     public class TestClassAttribute : Attribute 
     {
         public string value { get; set; }
@@ -15,8 +15,13 @@ namespace Tests.Loja.Attributes
         public DateTime LastModified { get; set; }
         public TestClassAttribute(string field)
         {
-            value = value;
+            value = field;
             LastModified = DateTime.Now;
+        }
+        public bool ValidateLength(int size ,string value )
+        {
+            
+            return value.Length > size;
         }
     }
 }

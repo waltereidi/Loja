@@ -1,20 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Tests.Loja.Attributes;
-using System.Reflection; // Assembly
-
+using System.ComponentModel.DataAnnotations;
 
 namespace Tests.Loja.TestEntities
 {
+    
     public class TestEntity
     {
-        [Attributes.TestClassAttribute("Test")]
+        [Attributes.TestClass("Test1")]
         public string param { get; set; }
+
+        [Attributes.TestClass("Test2")]
+        public string param2 { get; set; }
+        [Attributes.TestClass("tes4")]
+        public string param3 { get; set; }
+
+        [StringLength(20, MinimumLength = 4, ErrorMessage = "Must be at least 4 characters long.")]
+        public string param4 { get; set; }
+
+
 
         public List<string> GetAttribute()
         {
@@ -22,14 +26,12 @@ namespace Tests.Loja.TestEntities
             Assembly? assembly = Assembly.GetEntryAssembly();
 
             IEnumerable<Attribute> attributes = assembly.GetCustomAttributes();
-            
-          
-            Type[] types = assembly.GetTypes();
+
+
+            Type types = this.GetType();
             List<string> Return = new List<string>();
-            foreach (Type type in types)
-            {
                
-                MemberInfo[] members = type.GetMembers();
+                MemberInfo[] members = types.GetMembers();
 
                 foreach (MemberInfo member in members)
                 {
@@ -37,13 +39,25 @@ namespace Tests.Loja.TestEntities
                       member.GetCustomAttributes<Attributes.TestClassAttribute>()
                       .OrderByDescending(c => c.LastModified);
 
+                IOrderedEnumerable<StringLengthAttribute> coders2 =
+                  member.GetCustomAttributes<StringLengthAttribute>()
+                  .OrderByDescending(c => c.ErrorMessage);
+                foreach (Attributes.TestClassAttribute coder in coders)
+                {
+                    Return.Add(coder.value);
                     
-                    foreach (Attributes.TestClassAttribute coder in coders)
+                    if (coder.ValidateLength(13, this.GetType().GetProperty(member.Name)?.GetValue(this).ToString()))
                     {
-                        Return.Add(coder.value);
+                        throw new Exception("sdsd");
                     }
+                    
                 }
-            }
+                foreach (StringLengthAttribute coder in coders2)
+                    {
+                        Return.Add(coder.ErrorMessage);
+                    }
+                    
+                }
             return Return;
             
             
