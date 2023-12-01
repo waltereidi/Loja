@@ -39,9 +39,9 @@ namespace Tests.Loja.TestEntities
                       member.GetCustomAttributes<Attributes.TestClassAttribute>()
                       .OrderByDescending(c => c.LastModified);
 
-                IOrderedEnumerable<StringLengthAttribute> coders2 =
-                  member.GetCustomAttributes<StringLengthAttribute>()
-                  .OrderByDescending(c => c.ErrorMessage);
+                    IOrderedEnumerable<StringLengthAttribute> coders2 =
+                      member.GetCustomAttributes<StringLengthAttribute>()
+                      .OrderByDescending(c => c.ErrorMessage);
                 foreach (Attributes.TestClassAttribute coder in coders)
                 {
                     Return.Add(coder.value);

@@ -17,6 +17,9 @@ using Utils.loja.Enums;
 using System.Text.Json;
 using System.Reflection.Metadata.Ecma335;
 using NPOI.OpenXmlFormats.Dml.Diagram;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
+using NPOI.SS.Formula.Functions;
 
 namespace Utils.loja.Excel
 {
@@ -76,7 +79,16 @@ namespace Utils.loja.Excel
                 Cell.CellStyle = styleHeader;
             }
         }
-
+        private List<string> GetSheetHeaders<T>(T data)
+        {
+            string[] headerNames = data.GetType().GetProperties().Select(key => key.Name).ToArray();
+            List<string> Return = new List<string>();
+            foreach (var header in headerNames.Select((Name, i) => new { Name, i }))
+            {
+                Return.Add(header.Name);
+            }
+            return Return;
+        }
         private void CreateRow(IRow row, List<string> data, HSSFCellStyle style)
         {
             for(int i = 0; i < data.Count; i++)
@@ -126,6 +138,64 @@ namespace Utils.loja.Excel
             
             return workbook;
         }
+
+        public HSSFWorkbook ReturnValidationSheet<T>(T validationClass ,HSSFWorkbook workbook)
+        {
+
+            //Assembly? assembly = Assembly.GetEntryAssembly();
+
+            //IEnumerable<Attribute> attributes = assembly.GetCustomAttributes();
+
+
+            //Type types = this.GetType();
+            //List<string> Return = new List<string>();
+
+            //MemberInfo[] members = types.GetMembers();
+
+            //foreach (MemberInfo member in members)
+            //{
+            //    IOrderedEnumerable<Attributes.ExcelValidationAttributes> coders =
+            //      member.GetCustomAttributes<Attributes.ExcelValidationAttributes>()
+            //      .OrderByDescending(c => c.LastModified );
+                
+            //    foreach (Attributes.ExcelValidationAttributes  coder in coders)
+            //    {
+            //        Return.Add(coder.value);
+
+            //        if (coder.ValidateLength(13, this.GetType().GetProperty(member.Name)?.GetValue(this).ToString()))
+            //        {
+            //            throw new Exception("sdsd");
+            //        }
+
+            //    }
+            //    foreach (StringLengthAttribute coder in coders2)
+            //    {
+            //        Return.Add(coder.ErrorMessage);
+            //    }
+
+            //}
+            //return Return;
+
+
+            return workbook;
+        }
+        public bool ValidateSheetFields<T>(T validationClass , IWorkbook workbook)
+        {
+            ISheet ws = workbook.GetSheetAt(0);
+            IRow headerRow = ws.GetRow(0);
+
+            List<string> validationHeader = GetSheetHeaders(validationClass);
+
+            foreach(ICell cell in headerRow)
+            {
+                if(!validationHeader.Contains(cell.StringCellValue))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
 
     }
 }

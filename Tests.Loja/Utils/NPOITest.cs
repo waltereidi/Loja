@@ -12,6 +12,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.POIFS.Storage;
 using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using NuGet.Protocol;
 using Tests.Loja.Dominio.Dto.Requests;
 using Utils.loja.Enums;
@@ -24,6 +25,7 @@ namespace Tests.Loja.Utils
     {
         public NPOIExcel _NPOIExcel;
         public Prices _prices ;
+        public string path;
         public NPOITest() 
         {
            _NPOIExcel = new NPOIExcel();
@@ -35,6 +37,8 @@ namespace Tests.Loja.Utils
                 Price = (decimal)0.15,
                 ID_Prices = 1
             };
+            var path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "")+ "\\TestFiles\\CreatedFiles\\";
+
         }
 
         [TestMethod]
@@ -73,8 +77,7 @@ namespace Tests.Loja.Utils
         public void CreateExcelReturnsNotNullClass()
         {
             //Setup 
-            var path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "");
-            path += "\\TestFiles\\CreatedFiles\\CreateExcelReturnsNotNUllClass.xlsx";
+            
             if(File.Exists(path))
             {
                 File.Delete(path);
@@ -88,23 +91,23 @@ namespace Tests.Loja.Utils
             
             //Action
             var Return = _NPOIExcel.CreateExcel(listPrices, NPOISheetStyles.LightOrange);
-            using (var fileData = new FileStream(path , FileMode.Create))
+            using (var fileData = new FileStream(path+ "CreateExcelReturnsNotNUllClass.xlsx", FileMode.Create))
             {
                 Return.Write(fileData);
             }
             //Assert
             Assert.IsNotNull(Return);
-            Assert.IsTrue(File.Exists(path));   
+            Assert.IsTrue(File.Exists(path+ "CreateExcelReturnsNotNUllClass.xlsx"));   
         }
         [TestMethod]
         public void CreateExcelReturnsNotNullObject()
         {
             //Setup 
-            var path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "");
-            path += "\\TestFiles\\CreatedFiles\\CreateExcelReturnsNotNUllObject.xlsx";
-            if (File.Exists(path))
+            
+            
+            if (File.Exists(path + "CreateExcelReturnsNotNUllObject.xlsx"))
             {
-                File.Delete(path);
+                File.Delete(path+ "CreateExcelReturnsNotNUllObject.xlsx");
             }
             object obj = new { Property = "prop", Number = 1, Decimal = 0.1  , DateTime = DateTime.Now , Boolean = true };
             List<object> listObject= new List<object>();
@@ -115,15 +118,66 @@ namespace Tests.Loja.Utils
 
             //Action
             var Return = _NPOIExcel.CreateExcel(listObject, NPOISheetStyles.LightOrange);
-            using (var fileData = new FileStream(path, FileMode.Create))
+            using (var fileData = new FileStream(path + "CreateExcelReturnsNotNUllObject.xlsx", FileMode.Create))
             {
                 Return.Write(fileData);
             }
             //Assert
             Assert.IsNotNull(Return);
-            Assert.IsTrue(File.Exists(path));
+            Assert.IsTrue(File.Exists(path + "CreateExcelReturnsNotNUllObject.xlsx"));
         }
-  
+        [TestMethod]
+        public void ValidateSheetFieldsReturnFalseWhenFieldsMatch()
+        {
+            
+            if(File.Exists(path+ "CreateExcelReturnsNotNUllClass.xlsx"))
+            {
+                //Setup 
+                HSSFWorkbook workbook;
+                using (FileStream file = new FileStream(path + "CreateExcelReturnsNotNUllClass.xlsx", FileMode.Open, FileAccess.Read))
+                {
+                    workbook = new HSSFWorkbook(file);
+                }
+                Prices prices = new Prices();
+                //Action 
+                bool Return = _NPOIExcel.ValidateSheetFields( prices , workbook);
+
+                //Assert
+                Assert.IsTrue(Return);
+
+            }
+            else
+            {
+                //File not existent
+                Assert.IsTrue(false);   
+            }
+        }
+        [TestMethod]
+        public void ValidateSheetFieldsReturnFalseWhenFieldsNotMatch()
+        {
+
+            if (File.Exists(path + "CreateExcelReturnsNotNUllObject.xlsx"))
+            {
+                //Setup 
+                HSSFWorkbook workbook;
+                using (FileStream file = new FileStream(path + "CreateExcelReturnsNotNUllObject.xlsx", FileMode.Open, FileAccess.Read))
+                {
+                    workbook = new HSSFWorkbook(file);
+                }
+                Prices prices = new Prices();
+                //Action 
+                bool Return = _NPOIExcel.ValidateSheetFields(prices, workbook);
+
+                //Assert
+                Assert.IsFalse(Return);
+
+            }
+            else
+            {
+                //File not existent
+                Assert.IsTrue(false);
+            }
+        }
 
     }
 }
