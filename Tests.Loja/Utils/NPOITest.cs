@@ -37,7 +37,7 @@ namespace Tests.Loja.Utils
                 Price = (decimal)0.15,
                 ID_Prices = 1
             };
-            var path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "")+ "\\TestFiles\\CreatedFiles\\";
+            path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "")+ "\\TestFiles\\CreatedFiles\\";
 
         }
 
@@ -134,7 +134,7 @@ namespace Tests.Loja.Utils
             {
                 //Setup 
                 HSSFWorkbook workbook;
-                using (FileStream file = new FileStream(path + "CreateExcelReturnsNotNUllClass.xlsx", FileMode.Open, FileAccess.Read))
+                using (FileStream file = new FileStream(path + "ValidSheetFromPricesClass.xlsx", FileMode.Open, FileAccess.Read))
                 {
                     workbook = new HSSFWorkbook(file);
                 }
@@ -160,7 +160,7 @@ namespace Tests.Loja.Utils
             {
                 //Setup 
                 HSSFWorkbook workbook;
-                using (FileStream file = new FileStream(path + "CreateExcelReturnsNotNUllObject.xlsx", FileMode.Open, FileAccess.Read))
+                using (FileStream file = new FileStream(path + "ValidSheetFromRandomObject.xlsx", FileMode.Open, FileAccess.Read))
                 {
                     workbook = new HSSFWorkbook(file);
                 }
@@ -170,13 +170,35 @@ namespace Tests.Loja.Utils
 
                 //Assert
                 Assert.IsFalse(Return);
-
             }
             else
             {
                 //File not existent
                 Assert.IsTrue(false);
             }
+        }
+        [TestMethod]
+        public void ImportSheetFromFileReturnsNullOnInvalidFile()
+        {
+            //Setup 
+            string fileName = "InvalidFileTest.xlsx";
+
+            //Action 
+            IWorkbook workbook = _NPOIExcel.ImportSheetFromFile( path ,fileName);
+            //Assert
+            Assert.IsNull(workbook);
+        }
+        [TestMethod]
+        public void ImportSheetFromFileReturnsSheetOnValidFile()
+        {
+            //Setup 
+            string fileName = "ValidSheetFromPricesClass.xlsx";
+            
+            //Action 
+            IWorkbook workbook = _NPOIExcel.ImportSheetFromFile(path, fileName);
+
+            //Assert
+            Assert.IsNotNull(workbook);
         }
 
     }

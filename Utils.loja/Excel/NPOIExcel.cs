@@ -195,7 +195,28 @@ namespace Utils.loja.Excel
             }
             return true;
         }
-        
-
+        public IWorkbook? ImportSheetFromFile(string path , string fileName )
+        {
+            var workbook = new HSSFWorkbook();
+            if(File.Exists(path + fileName))
+            {
+                using (FileStream file = new FileStream(path + fileName, FileMode.Open, FileAccess.Read))
+                {
+                    try
+                    {
+                        workbook = new HSSFWorkbook(file);
+                    }catch(Exception ex)
+                    {
+                        Console.Error.Write(ex.Message);
+                        return null; 
+                    }
+                }
+                return workbook.NumberOfSheets > 0 ? workbook : null;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
