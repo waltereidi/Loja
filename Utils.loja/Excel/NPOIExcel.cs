@@ -20,6 +20,9 @@ using NPOI.OpenXmlFormats.Dml.Diagram;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 using NPOI.SS.Formula.Functions;
+using Npoi.Mapper;
+using System.Runtime.CompilerServices;
+using MathNet.Numerics;
 
 namespace Utils.loja.Excel
 {
@@ -195,28 +198,18 @@ namespace Utils.loja.Excel
             }
             return true;
         }
-        public List<T> GetSheetValues<T>(List<T> list ,T model, IWorkbook workbook , int sheetNumber)
+        public List<T> GetSheetValues<T>(IWorkbook workbook , int sheetNumber) where T : class
         {
-            ISheet ws = workbook.GetSheetAt(sheetNumber);
-            List<string> headersName = new List<string>();
-            
-            foreach (IRow row in ws )
-            {
-                foreach(ICell cell in row)
-                {
-                    if (row.RowNum == 0)
-                    {
-                        headersName.Add( cell.StringCellValue );
-                    }else
-                    {
-                        var add = model; 
-                        
+            Mapper mapper = new Mapper(workbook);
+            var obj= mapper.Take<T>(sheetNumber).ToList();
 
-                    }
-                }
+            List<T> Return = new List<T>();
+            foreach (var item in obj)
+            {
+                Return.Add(item.Value);
             }
 
-            return list;
+            return Return;
         }
         public IWorkbook? ImportSheetFromFile(string path , string fileName )
         {

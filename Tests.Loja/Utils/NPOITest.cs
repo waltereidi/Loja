@@ -200,6 +200,25 @@ namespace Tests.Loja.Utils
             //Assert
             Assert.IsNotNull(workbook);
         }
+        [TestMethod]
+        public void GetSheetValuesReturnsMappedObject()
+        {
+            //Setup 
+            List<Prices> prices= new List<Prices>();
+            Prices price = new Prices();
+            HSSFWorkbook workbook;
+            using (FileStream file = new FileStream(path + "ValidSheetFromPricesClass.xlsx", FileMode.Open, FileAccess.Read))
+            {
+                workbook = new HSSFWorkbook(file);
+            }
+
+            //Action 
+            prices = _NPOIExcel.GetSheetValues<Prices>( workbook , 0);
+
+            //Assert 
+            Assert.IsTrue(prices.Count>1);
+        }
+
 
     }
 }

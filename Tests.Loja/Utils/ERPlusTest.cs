@@ -23,6 +23,7 @@ namespace Tests.Loja.Utils
         [TestMethod]
         public void ReadExcelFileReturnsColumns()
         {
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             dynamic firstSheet = new ExcelPackage();
             using (var package = new ExcelPackage(new FileInfo("C:/arq.xlsx")))
             {
