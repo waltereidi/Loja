@@ -195,6 +195,29 @@ namespace Utils.loja.Excel
             }
             return true;
         }
+        public List<T> GetSheetValues<T>(List<T> list ,T model, IWorkbook workbook , int sheetNumber)
+        {
+            ISheet ws = workbook.GetSheetAt(sheetNumber);
+            List<string> headersName = new List<string>();
+            
+            foreach (IRow row in ws )
+            {
+                foreach(ICell cell in row)
+                {
+                    if (row.RowNum == 0)
+                    {
+                        headersName.Add( cell.StringCellValue );
+                    }else
+                    {
+                        var add = model; 
+                        
+
+                    }
+                }
+            }
+
+            return list;
+        }
         public IWorkbook? ImportSheetFromFile(string path , string fileName )
         {
             var workbook = new HSSFWorkbook();
