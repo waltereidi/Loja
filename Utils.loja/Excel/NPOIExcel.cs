@@ -102,6 +102,13 @@ namespace Utils.loja.Excel
             }
             
         }
+        private void CreateErrorRow(IRow row , List<string> data , string errorMessages )
+        {
+
+
+
+
+        }
         private List<string> ObjectToStringList( object data )
         {
             List<string> Return = new List<string?>();
