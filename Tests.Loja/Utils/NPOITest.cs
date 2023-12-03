@@ -219,6 +219,21 @@ namespace Tests.Loja.Utils
             Assert.IsTrue(prices.Count>1);
         }
 
+        [TestMethod]
+        public void ReturnValidationSheetReturnsSheet()
+        {
+            //Setup 
+            List<Prices> listPrices = new List<Prices>();
+            listPrices.Add(_prices);
+            listPrices.Add(_prices);
+            listPrices.Add(_prices);
+            listPrices.Add(_prices);
 
+            //Action 
+            var Return = _NPOIExcel.ReturnValidationSheet(listPrices);
+
+            //Assert 
+            Assert.IsNotNull(Return);
+        }
     }
 }

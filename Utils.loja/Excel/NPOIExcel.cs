@@ -142,45 +142,36 @@ namespace Utils.loja.Excel
             return workbook;
         }
 
-        public HSSFWorkbook ReturnValidationSheet<T>(T validationClass ,HSSFWorkbook workbook)
+        public Tuple<bool , IWorkbook?> ReturnValidationSheet<T>(List<T> validationClass ) where T : class
         {
 
-            //Assembly? assembly = Assembly.GetEntryAssembly();
+            Type types = validationClass.First().GetType();
+            List<string> Return = new List<string>();
 
-            //IEnumerable<Attribute> attributes = assembly.GetCustomAttributes();
+            MemberInfo[] members = types.GetMembers();
 
+            foreach (MemberInfo member in members )
+            {
+                IOrderedEnumerable<Attributes.ExcelValidationAttributes> coders =
+                  member.GetCustomAttributes<Attributes.ExcelValidationAttributes>()
+                  .OrderByDescending(c => c.Validation );
 
-            //Type types = this.GetType();
-            //List<string> Return = new List<string>();
+                foreach (Attributes.ExcelValidationAttributes coder in coders)
+                {
+                    Return.Add(coder.ValidationParameters);
 
-            //MemberInfo[] members = types.GetMembers();
+                    //if (coder.ValidateLength(13, types.GetProperty(member.Name)?.GetValue(this).ToString()))
+                    //{
+                    //    throw new Exception("sdsd");
+                    //}
 
-            //foreach (MemberInfo member in members)
-            //{
-            //    IOrderedEnumerable<Attributes.ExcelValidationAttributes> coders =
-            //      member.GetCustomAttributes<Attributes.ExcelValidationAttributes>()
-            //      .OrderByDescending(c => c.LastModified );
-                
-            //    foreach (Attributes.ExcelValidationAttributes  coder in coders)
-            //    {
-            //        Return.Add(coder.value);
+                }
+           
 
-            //        if (coder.ValidateLength(13, this.GetType().GetProperty(member.Name)?.GetValue(this).ToString()))
-            //        {
-            //            throw new Exception("sdsd");
-            //        }
-
-            //    }
-            //    foreach (StringLengthAttribute coder in coders2)
-            //    {
-            //        Return.Add(coder.ErrorMessage);
-            //    }
-
-            //}
-            //return Return;
+            }
 
 
-            return workbook;
+            return new Tuple<bool ,IWorkbook >(false , new HSSFWorkbook() );
         }
         public bool ValidateSheetFields<T>(T validationClass , IWorkbook workbook)
         {
@@ -188,6 +179,9 @@ namespace Utils.loja.Excel
             IRow headerRow = ws.GetRow(0);
 
             List<string> validationHeader = GetSheetHeaders(validationClass);
+
+            if (headerRow.Count() > validationHeader.Count())
+                return false;
 
             foreach(ICell cell in headerRow)
             {

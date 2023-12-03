@@ -1,4 +1,5 @@
-﻿using NPOI.SS.Formula.Functions;
+﻿using Dominio.loja.Enums;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace Utils.loja.Attributes
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = false)]
     public class ExcelValidationAttributes : Attribute
     {
-        public string Validation { get; set; }
+        public ExcelValidation Validation { get; set; }
         public string ValidationParameters { get; set; }
 
-        public ExcelValidationAttributes(string validation , string validationParameter )
+        public ExcelValidationAttributes(ExcelValidation validation , string validationParameter )
         {
             Validation = validation;
             ValidationParameters = validationParameter;

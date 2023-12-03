@@ -16,4 +16,8 @@
     <PackageReference Include="Npoi.Mapper" Version="6.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
+  </ItemGroup>
+
 </Project>
