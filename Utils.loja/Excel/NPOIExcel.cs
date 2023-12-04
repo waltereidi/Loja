@@ -38,6 +38,12 @@ namespace Utils.loja.Excel
             HSSFCellStyle styleHeader = (HSSFCellStyle)workbook.CreateCellStyle();
             HSSFCellStyle styleRowStrong = (HSSFCellStyle)workbook.CreateCellStyle();
             HSSFCellStyle styleRowLight = (HSSFCellStyle)workbook.CreateCellStyle();
+            HSSFCellStyle styleError = (HSSFCellStyle)workbook.CreateCellStyle();
+            HSSFCellStyle styleNormal = (HSSFCellStyle)workbook.CreateCellStyle();
+
+            styleError.FillForegroundColor = IndexedColors.Red.Index;
+            styleNormal.FillForegroundColor = IndexedColors.White.Index;
+
             List<HSSFCellStyle> Return = new List<HSSFCellStyle>();
 
             Return.Add(styleHeader);
@@ -58,7 +64,9 @@ namespace Utils.loja.Excel
                 case NPOISheetStyles.Gray:Return.ForEach( style =>  style.FillForegroundColor = IndexedColors.Grey25Percent.Index); break;
                 default : Return.ForEach(style => style.FillForegroundColor = IndexedColors.White.Index); break;
             }
-            
+
+            Return.Add(styleError);
+            Return.Add(styleNormal);
             
 
             Return.First().FillPattern= FillPattern.SolidForeground;
@@ -66,12 +74,13 @@ namespace Utils.loja.Excel
             Return.ElementAt(1).FillPattern = FillPattern.SolidForeground;
             Return.ElementAt(1).FillBackgroundColor = IndexedColors.White.Index;
 
-            Return.Last().FillPattern = FillPattern.BigSpots;
+            Return.ElementAt(2).FillPattern = FillPattern.BigSpots;
             
             
             return Return;
 
         }
+    
         private void CreateSheetHeader<T>(IRow row ,T data , HSSFCellStyle styleHeader )
         {
             string[] headerNames = data.GetType().GetProperties().Select(key => key.Name).ToArray();
@@ -102,11 +111,23 @@ namespace Utils.loja.Excel
             }
             
         }
-        private void CreateErrorRow(IRow row , List<string> data , string errorMessages )
+        private void CreateErrorRow(IRow row , List<Tuple<bool , string>> data , string errorMessages ,List<HSSFCellStyle> styleList )
         {
-
-
-
+            for(int i = 0; i < data.Count; i++)
+            {
+                ICell Cell = row.CreateCell(i);
+                Cell.SetCellValue(data[i].Item2);
+                if (data[i].Item1)
+                {
+                    Cell.CellStyle = styleList.ElementAt(3);
+                }else
+                {
+                    Cell.CellStyle = styleList.ElementAt(4);
+                }
+            }
+            ICell ErrorMessageCell = row.CreateCell(data.Count + 1);
+            ErrorMessageCell.SetCellValue(errorMessages);
+            ErrorMessageCell.CellStyle = styleList.ElementAt(3);
 
         }
         private List<string> ObjectToStringList( object data )
@@ -142,7 +163,7 @@ namespace Utils.loja.Excel
                 }
                 else
                 {
-                    CreateRow(row, stringList, styleList.Last());
+                    CreateRow(row, stringList, styleList.ElementAt(2));
                 }
             }
             
