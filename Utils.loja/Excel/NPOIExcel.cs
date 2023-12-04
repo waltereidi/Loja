@@ -174,7 +174,6 @@ namespace Utils.loja.Excel
         {
 
             Type types = validationClass.First().GetType();
-            List<string> Return = new List<string>();
 
             MemberInfo[] members = types.GetMembers();
 
