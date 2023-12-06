@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Utils.loja.Attributes;
-
+using Dominio.loja.Attributes;
 namespace Dominio.loja.Dto.Models
 {
     public class ExcelImportProducts
@@ -15,7 +14,7 @@ namespace Dominio.loja.Dto.Models
         public string ID_Products { get; set; }
 
         
-        [ExcelValidationAttributes(ExcelValidation.StringLength, 1, 60 )]
+        [ExcelValidationAttributes(ExcelValidation.StringLength, 1 ,2 )]
         public string Name { get; set; }
 
 

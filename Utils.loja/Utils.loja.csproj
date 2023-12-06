@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+  </ItemGroup>
+
 </Project>

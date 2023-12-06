@@ -23,6 +23,8 @@ using NPOI.SS.Formula.Functions;
 using Npoi.Mapper;
 using System.Runtime.CompilerServices;
 using MathNet.Numerics;
+using Dominio.loja.Attributes;
+using Dominio.loja.Enums;
 
 namespace Utils.loja.Excel
 {
@@ -172,32 +174,34 @@ namespace Utils.loja.Excel
 
         public Tuple<bool , IWorkbook?> ReturnValidationSheet<T>(List<T> validationClass ) where T : class
         {
+            
+            Dictionary<string, Tuple<bool, string>> dictionary = new Dictionary<string, Tuple<bool, string>>(); 
 
-            Type types = validationClass.First().GetType();
-
-            MemberInfo[] members = types.GetMembers();
-
-            foreach (MemberInfo member in members )
+            //Para cada classe da lista enviada nos parametros deve ser extraídos cada atributo da classe com todas e comparada
+            //com todas as possibilidades que o atributo customizável oferece
+            foreach( var row in validationClass)
             {
-                IOrderedEnumerable<Attributes.ExcelValidationAttributes> coders =
-                  member.GetCustomAttributes<Attributes.ExcelValidationAttributes>()
-                  .OrderByDescending(c => c.Validation );
-
-                foreach (Attributes.ExcelValidationAttributes coder in coders)
+                foreach (MemberInfo member in row.GetType().GetMembers() )
                 {
-                    Return.Add(coder.ValidationParameters);
+                    
+                    foreach( ExcelValidationAttributes attribute in member.GetCustomAttributes<ExcelValidationAttributes>().ToList() )
+                    {
+                        Tuple<bool, string> validation;
+                        switch(attribute.Validation)
+                        {
+                            case ExcelValidation.StringLength: break;
+                            case ExcelValidation.StringContains: break;
+                            case ExcelValidation.IsNumber:break;
+                            case ExcelValidation.Required: break;
+                            case ExcelValidation.StringValidationMethod: throw new NotImplementedException(); break;
+                        }
 
-                    //if (coder.ValidateLength(13, types.GetProperty(member.Name)?.GetValue(this).ToString()))
-                    //{
-                    //    throw new Exception("sdsd");
-                    //}
-
+                        string cellValue = row.GetType().GetProperty(member.Name)?.GetValue(row).ToString();
+                        dictionary.Add( cellValue , new Tuple<bool , string >(false, "") );
+                    }
                 }
-           
-
             }
-
-
+           
             return new Tuple<bool ,IWorkbook >(false , new HSSFWorkbook() );
         }
         public bool ValidateSheetFields<T>(T validationClass , IWorkbook workbook)

@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Utils.loja.Attributes
+namespace Dominio.loja.Attributes
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Field  | AttributeTargets.Property, AllowMultiple = true)]
     public class ExcelValidationAttributes : Attribute
     {
         public ExcelValidation Validation { get; set; }
         public string? ValidationParameters { get; set; }
-        public int? MaxLength { get; set; }
-        public int? MinLength { get; set; }
+        public int MaxLength { get; set; }
+        public int MinLength { get; set; }
 
         public ExcelValidationAttributes(ExcelValidation validation , string? validationParameter )
         {
@@ -27,6 +27,7 @@ namespace Utils.loja.Attributes
 
             if (minLen <= maxLen)
                 throw new InvalidDataException("minLen must be smaller or equals than maxLen");
+            
 
             Validation = validation;
             MinLength = minLen;
