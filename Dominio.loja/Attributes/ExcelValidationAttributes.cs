@@ -1,6 +1,9 @@
 ﻿using Dominio.loja.Enums;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +28,7 @@ namespace Dominio.loja.Attributes
             if (validation != ExcelValidation.StringLength)
                 throw new InvalidOperationException("This constructor can only be used by StringLength");
 
-            if (minLen <= maxLen)
+            if (minLen >= maxLen)
                 throw new InvalidDataException("minLen must be smaller or equals than maxLen");
             
 
@@ -35,14 +38,58 @@ namespace Dominio.loja.Attributes
         }
         public ExcelValidationAttributes(ExcelValidation validation)
         {
+            if (validation != ExcelValidation.IsNumber && validation != ExcelValidation.Required)
+                throw new InvalidDataException("Only IsNumber and Required can be provided to this constructor");
+
             Validation = validation;
         }
 
         public Tuple<bool , string> StringLength(string value)
         {
-            return new Tuple<bool, string>(true, "sdsd");
-        }
             
 
+            if(MinLength >= 0 && MaxLength >= 0 || MinLength <=  MaxLength )
+            {
+                Tuple<bool , string> invalidatedString = new Tuple<bool, string>(false, $"String must be smaller than {MinLength} and bigger than {MaxLength}");
+
+                return ( value.Length >= MinLength && value.Length <= MaxLength) ? new Tuple<bool, string>(true, "") : invalidatedString; 
+            }
+            else
+            {
+                return new Tuple<bool, string>(false, "Invalid Constructor of method, parameters not set at attribute declaration");
+                throw new InvalidDataException("minLen and maxLen must be setted , maxLen must be bigger than minLen and the provided value must be a string");
+            }
+
+        }
+        public Tuple<bool , string> IsNumber(string value)
+        {
+            int numberValue = 0;
+            if (int.TryParse(value, out numberValue))
+            {
+                return new Tuple<bool, string>(true , "");
+            }
+            else
+            {
+                return new Tuple<bool, string>(false, "Invalid number");
+            }
+        }
+
+        public Tuple<bool , string> Required(string value)
+        {
+            if(value.IsNullOrEmpty())
+            {
+                return new Tuple<bool, string>(false, "This value cannot be not empty");
+            }else
+            {
+                return new Tuple<bool, string>(true , "");
+            }
+
+            
+        }
+
+        public Tuple<bool , string> DateTimeFormat(string value)
+        {
+            return new Tuple<bool, string>(false, "");
+        }
     }
 }

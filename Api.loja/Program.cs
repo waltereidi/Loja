@@ -1,4 +1,5 @@
 
+using NLog.Web;
 using System.Security.Authentication;
 
 namespace Api.loja
@@ -13,7 +14,11 @@ namespace Api.loja
                Host.CreateDefaultBuilder(args)
                    .ConfigureWebHostDefaults(webBuilder =>
                    {
-                       webBuilder.UseStartup<Startup>();
+                       webBuilder.ConfigureLogging((hostingContext,logging) =>
+                         {
+                            logging.ClearProviders();
+                            logging.SetMinimumLevel(LogLevel.Trace);
+                         }).UseNLog().UseStartup<Startup>();
                    });
     }
 
