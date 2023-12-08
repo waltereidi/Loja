@@ -127,7 +127,7 @@ namespace Dominio.loja.Attributes
                 case DateTimeFormatValidation.mmddyyyyHHMMSS: return "dd/mm/yyyy HH:mm:ss"; break;
                 case DateTimeFormatValidation.ddmmyyyyHHMMSS: return "mm/dd/yyyy HH:mm:ss"; break;
                 default: throw new InvalidDataException("Parameters defined in constructor not match defined returns");
-            }
+            } 
         }
     }
 }
