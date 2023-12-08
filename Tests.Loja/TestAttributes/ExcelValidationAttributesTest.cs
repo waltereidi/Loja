@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Attributes;
+﻿using Castle.Core.Internal;
+using Dominio.loja.Attributes;
 using Dominio.loja.Enums;
 using System;
 using System.Collections.Generic;
@@ -83,10 +84,25 @@ namespace Tests.Loja.TestAttributes
         public void DateTimeFormatReturnsTrueWhenFormatIsValid()
         {
             //Setup 
-            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat , "dd/MM/YYYY");
+            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat , DateTimeFormatValidation.ddmmyyyy);
             //Action 
             var Return = excelValidationAttributes.DateTimeFormat("29/12/1993");
             //Assert 
+            Assert.IsTrue( Return.Item1 );
+            Assert.IsTrue(Return.Item2.IsNullOrEmpty());
+        }
+        [TestMethod]
+        public void DateTimeFormatRetutnsFalseWhenFormatIsNotValid()
+        {
+            //Setup
+            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyy);
+
+            //Action
+            var Return = excelValidationAttributes.DateTimeFormat("29-12-1993");
+            //Assert
+            Assert.IsFalse( Return.Item1 );
+
+
         }
     }
 }

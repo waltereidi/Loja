@@ -1,8 +1,10 @@
 ﻿using Dominio.loja.Enums;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,7 @@ namespace Dominio.loja.Attributes
     public class ExcelValidationAttributes : Attribute
     {
         public ExcelValidation Validation { get; set; }
+        public DateTimeFormatValidation Format { get; set; }
         public string? ValidationParameters { get; set; }
         public int MaxLength { get; set; }
         public int MinLength { get; set; }
@@ -42,6 +45,16 @@ namespace Dominio.loja.Attributes
                 throw new InvalidDataException("Only IsNumber and Required can be provided to this constructor");
 
             Validation = validation;
+        }
+        public ExcelValidationAttributes(ExcelValidation validation , DateTimeFormatValidation timeStampFormat )
+        {
+            if(validation != ExcelValidation.DateTimeFormat)
+            {
+                throw new InvalidDataException("Only DateTimeFormat is allowed for this constructor");
+            }
+            Validation = ExcelValidation.DateTimeFormat; 
+            Format = timeStampFormat; 
+
         }
 
         public Tuple<bool , string> StringLength(string value)
@@ -86,10 +99,35 @@ namespace Dominio.loja.Attributes
 
             
         }
+        
 
         public Tuple<bool , string> DateTimeFormat(string value)
         {
-            return new Tuple<bool, string>(false, "");
+            if (!(Validation == ExcelValidation.DateTimeFormat && Format != null))
+                throw new InvalidDataException("Incorrect construtor called");
+
+            DateTime date;
+            
+            if(!DateTime.TryParseExact(value, GetDateTimeFormatValidation(), CultureInfo.InvariantCulture , DateTimeStyles.None, out date))
+            {
+                return new Tuple<bool, string>(false , "Invalid dateTimeFormat provided , allow");
+            }
+            else
+            {
+                return new Tuple<bool , string>( true , "");
+            }    
+            
+        }
+        public string GetDateTimeFormatValidation()
+        {
+            switch( Format )
+            {
+                case DateTimeFormatValidation.ddmmyyyy: return "dd/mm/yyyy"; break;
+                case DateTimeFormatValidation.mmddyyyy: return "mm/dd/yyyy"; break;
+                case DateTimeFormatValidation.mmddyyyyHHMMSS: return "dd/mm/yyyy HH:mm:ss"; break;
+                case DateTimeFormatValidation.ddmmyyyyHHMMSS: return "mm/dd/yyyy HH:mm:ss"; break;
+                default: throw new InvalidDataException("Parameters defined in constructor not match defined returns");
+            }
         }
     }
 }
