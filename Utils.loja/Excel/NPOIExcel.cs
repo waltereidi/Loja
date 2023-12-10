@@ -25,6 +25,7 @@ using System.Runtime.CompilerServices;
 using MathNet.Numerics;
 using Dominio.loja.Attributes;
 using Dominio.loja.Enums;
+using Dominio.loja.Dto.Models;
 
 namespace Utils.loja.Excel
 {
@@ -113,23 +114,24 @@ namespace Utils.loja.Excel
             }
             
         }
-        private void CreateErrorRow(IRow row , List<Tuple<bool , string>> data , string errorMessages ,List<HSSFCellStyle> styleList )
+        private void CreateErrorRow(IRow row , List<ExcelValidatedRow> data , List<HSSFCellStyle> styleList , ISheet sheet , IWorkbook workbook )
         {
             for(int i = 0; i < data.Count; i++)
             {
                 ICell Cell = row.CreateCell(i);
-                Cell.SetCellValue(data[i].Item2);
-                if (data[i].Item1)
+                Cell.SetCellValue(data[i].Value) ;
+                if (data[i].isValid)
                 {
                     Cell.CellStyle = styleList.ElementAt(3);
                 }else
                 {
                     Cell.CellStyle = styleList.ElementAt(4);
+                    IDrawing drawing = sheet.CreateDrawingPatriarch();
+                    IComment comment = drawing.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 2, 1, 4, i));
+                    comment.Author = "System";
+                    Cell.CellComment = comment;
                 }
             }
-            ICell ErrorMessageCell = row.CreateCell(data.Count + 1);
-            ErrorMessageCell.SetCellValue(errorMessages);
-            ErrorMessageCell.CellStyle = styleList.ElementAt(3);
 
         }
         private List<string> ObjectToStringList( object data )
