@@ -26,6 +26,9 @@ using MathNet.Numerics;
 using Dominio.loja.Attributes;
 using Dominio.loja.Enums;
 using Dominio.loja.Dto.Models;
+using NPOI.POIFS.Crypt.Dsig;
+using NPOI.OpenXmlFormats.Wordprocessing;
+using NPOI.POIFS.Storage;
 
 namespace Utils.loja.Excel
 {
@@ -114,7 +117,7 @@ namespace Utils.loja.Excel
             }
             
         }
-        private void CreateErrorRow(IRow row , List<ExcelValidatedRow> data , List<HSSFCellStyle> styleList , ISheet sheet , IWorkbook workbook )
+        private void CreateRowWithValidation(IRow row , List<ExcelValidatedCell> data , List<HSSFCellStyle> styleList , IComment comment )
         {
             for(int i = 0; i < data.Count; i++)
             {
@@ -126,9 +129,8 @@ namespace Utils.loja.Excel
                 }else
                 {
                     Cell.CellStyle = styleList.ElementAt(4);
-                    IDrawing drawing = sheet.CreateDrawingPatriarch();
-                    IComment comment = drawing.CreateCellComment(new HSSFClientAnchor(0, 0, 0, 0, 2, 1, 4, i));
-                    comment.Author = "System";
+                    
+                    comment.String = new HSSFRichTextString($"{comment.Author}:{Environment.NewLine} {data[i].ErrorMessage}");
                     Cell.CellComment = comment;
                 }
             }
@@ -157,51 +159,66 @@ namespace Utils.loja.Excel
             IRow HeaderRow = sheet.CreateRow(0);
             CreateSheetHeader(HeaderRow, data.First(), styleList.First());
 
-            for( int i = 0; i < data.Count(); i++ )
+            foreach(var row in data.Select( (row , index ) => new { values =row , index = index+1} ))
             {
-                List<string> stringList = ObjectToStringList(data[i]);
-                IRow row = sheet.CreateRow(i+1);
-                if( i%2 == 1)
+                List<string> stringList = ObjectToStringList(row.values) ;
+                IRow newRow = sheet.CreateRow(row.index);
+                if( row.index %2 == 1)
                 {
-                    CreateRow(row, stringList, styleList.ElementAt(1));
+                    CreateRow(newRow, stringList, styleList.ElementAt(1));
                 }
                 else
                 {
-                    CreateRow(row, stringList, styleList.ElementAt(2));
+                    CreateRow(newRow, stringList, styleList.ElementAt(2));
                 }
             }
             
             return workbook;
         }
 
-        public Tuple<bool , IWorkbook?> ReturnValidationSheet<T>(List<T> validationClass ) where T : class
+        public Tuple<bool , IWorkbook?> ReturnValidationSheet<T>(List<T> validationClass , NPOISheetStyles sheetStyle ) where T : class
         {
+            //Sheet setup 
+            List<ExcelValidatedRow> excelValidationRows = new List<ExcelValidatedRow>();
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            List<HSSFCellStyle> styleList = CreateStyle(workbook, sheetStyle);
+            ISheet sheet = workbook.CreateSheet("Report");
+            IRow HeaderRow = sheet.CreateRow(0);
+            CreateSheetHeader(HeaderRow, validationClass.First(), styleList.First());
             
-            Dictionary<string, Tuple<bool, string>> dictionary = new Dictionary<string, Tuple<bool, string>>(); 
 
-            //Para cada classe da lista enviada nos parametros deve ser extraídos cada atributo da classe com todas e comparada
-            //com todas as possibilidades que o atributo customizável oferece
-            foreach( var row in validationClass)
+            //Gets all rows inside of list and get all attributes of class  and validate every custom attribute inside of class attribute.
+            foreach ( var row in validationClass.Select( (row , index) => new { values = row , index = index+1  } ) ) //For every class inside of the list , starts validation
             {
-                foreach (MemberInfo member in row.GetType().GetMembers() )
+                List<ExcelValidatedCell> excelValidationCells = new List<ExcelValidatedCell>();
+
+                foreach (MemberInfo member in row.GetType().GetMembers() ) //For every attribute inside of the class start validation
                 {
                     
-                    foreach( ExcelValidationAttributes attribute in member.GetCustomAttributes<ExcelValidationAttributes>().ToList() )
+                    string cellValue = row.GetType().GetProperty(member.Name)?.GetValue(row.values).ToString(); //get Current cell value
+
+                    ExcelValidatedCell currentValidation = new ExcelValidatedCell(cellValue);
+                    foreach ( ExcelValidationAttributes attribute in member.GetCustomAttributes<ExcelValidationAttributes>().ToList() ) //For every Custom attribute inside of the class attribute
                     {
-                        Tuple<bool, string> validation;
-                        switch(attribute.Validation)
+                        switch (attribute.Validation) //Validate row by custom attribute definition in class
                         {
-                            case ExcelValidation.StringLength: break;
-                            case ExcelValidation.StringContains: break;
-                            case ExcelValidation.IsNumber:break;
-                            case ExcelValidation.Required: break;
+                            case ExcelValidation.StringLength: currentValidation.AddValidation( attribute.StringLength(cellValue)); break;
+                            case ExcelValidation.StringContains:throw new NotImplementedException(); break;
+                            case ExcelValidation.IsNumber: currentValidation.AddValidation(attribute.IsNumber(cellValue)); break;
+                            case ExcelValidation.Required: currentValidation.AddValidation(attribute.Required(cellValue)) ; break;
                             case ExcelValidation.StringValidationMethod: throw new NotImplementedException(); break;
                         }
-
-                        string cellValue = row.GetType().GetProperty(member.Name)?.GetValue(row).ToString();
-                        dictionary.Add( cellValue , new Tuple<bool , string >(false, "") );
                     }
+                    excelValidationCells.Add(currentValidation);
+                    IRow newRow = sheet.CreateRow(row.index);
+                    //Create cell comment
+                    IDrawing drawing = sheet.CreateDrawingPatriarch();
+                    IComment comment = drawing.CreateCellComment(new HSSFClientAnchor());
+                    comment.Author = "System";
+                    CreateRowWithValidation( newRow , excelValidationCells, styleList , comment );
+
                 }
+                excelValidationRows.Add(new ExcelValidatedRow(excelValidationCells));
             }
            
             return new Tuple<bool ,IWorkbook >(false , new HSSFWorkbook() );

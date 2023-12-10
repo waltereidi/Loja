@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,12 @@ namespace Dominio.loja.Dto.Models
 {
     public class ExcelValidatedRow
     {
-        public Tuple<bool , string> Validation { get; set; }
-        public string Value { get; set; }
-        public string? ErrorMessage { get { return Validation.Item1 ? Validation.Item2 : null; } }
-        public bool isValid { get { return Validation.Item1; } }
+        List<ExcelValidatedCell> excelValidatedList { get; set; }
+        bool isValid { get { return excelValidatedList.Where(x => x.isValid == false).Count() == 0; } }
+     
+        public ExcelValidatedRow(List<ExcelValidatedCell> list )
+        {
+            excelValidatedList = list; 
+        }
     }
 }
