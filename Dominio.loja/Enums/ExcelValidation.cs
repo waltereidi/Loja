@@ -13,7 +13,8 @@ namespace Dominio.loja.Enums
         IsNumber=3,
         StringContains=4,
         StringValidationMethod=5,
-        Required=6
+        Required=6,
+        CustomSheetField=7,
 
     }
 }

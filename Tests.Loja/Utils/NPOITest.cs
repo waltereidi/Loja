@@ -245,5 +245,9 @@ namespace Tests.Loja.Utils
             //Assert 
             Assert.IsNotNull(Return);
         }
+        [TestMethod]
+        public void ValidateCustomSheetFieldsReturnsBool()
+        {
+        }
     }
 }

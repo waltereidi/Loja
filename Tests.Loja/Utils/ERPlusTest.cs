@@ -1,10 +1,14 @@
-﻿using OfficeOpenXml;
+﻿using Dominio.loja.Entity;
+using NPOI.SS.UserModel;
+using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using Org.BouncyCastle.Crypto.Engines;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,26 +18,66 @@ namespace Tests.Loja.Utils
     [TestClass]
     public class ERPlusTest
     {
-
+        private string path;
         public ERPlusTest()
         {
-
+            path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "") + "\\TestFiles\\CreatedFiles\\";
         }
 
         [TestMethod]
         public void ReadExcelFileReturnsColumns()
         {
+
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             dynamic firstSheet = new ExcelPackage();
-            using (var package = new ExcelPackage(new FileInfo("C:/arq.xlsx")))
+            ExcelWorksheet sheet;
+            using (var package = new ExcelPackage(new FileInfo("C:/arq1.xlsx")))
             {
                 ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-                firstSheet = package.Workbook.Worksheets["Planilha1"];
-
+                
+                 sheet = package.Workbook.Worksheets["Sheet1"];
+                var i = package.Workbook;
+                //List<object> list = GetList<object>(sheet);
+                List<Prices> listPrices = GetList<Prices>(sheet);
             }
-            Assert.IsNotNull(firstSheet);
+
+
+
+            
+
+
+
+            Assert.IsNotNull(sheet);
 
            
+        }
+        private List<T> GetList<T>(ExcelWorksheet sheet)
+        {
+            List<T> list = new List<T>();
+            //first row is for knowing the properties of object
+            var columnInfo = Enumerable.Range(1, sheet.Dimension.Columns).ToList().Select(n =>
+
+                new { Index = n, ColumnName = sheet.Cells[1, n].Value.ToString().Replace(" ","").Replace("*" , "") }
+            );
+
+            for (int row = 2; row < sheet.Dimension.Rows; row++)
+            {
+                T obj = (T)Activator.CreateInstance(typeof(T));//generic object
+                foreach (var prop in typeof(T).GetProperties())
+                {
+                    int col = columnInfo.SingleOrDefault(c => c.ColumnName == prop.Name).Index;
+                    var val = sheet.Cells[row, col].Value;
+                    var propType = prop.PropertyType;
+                    if (!String.IsNullOrEmpty(val?.ToString()))
+                    {
+                        prop.SetValue(obj, Convert.ChangeType(val, propType));
+
+                    }
+                }
+                list.Add(obj);
+            }
+
+            return list;
         }
         [TestMethod]
         public void WriteColoredExcelFileCanReadFile()
