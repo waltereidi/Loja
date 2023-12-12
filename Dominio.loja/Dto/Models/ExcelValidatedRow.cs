@@ -10,7 +10,7 @@ namespace Dominio.loja.Dto.Models
     public class ExcelValidatedRow
     {
         List<ExcelValidatedCell> excelValidatedList { get; set; }
-        bool isValid { get { return excelValidatedList.Where(x => x.isValid == false).Count() == 0; } }
+        public bool isValid { get { return excelValidatedList.Where(x => x.isValid == false).Count() == 0; } }
      
         public ExcelValidatedRow(List<ExcelValidatedCell> list )
         {

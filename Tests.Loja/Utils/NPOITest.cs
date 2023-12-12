@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Dominio.loja.Dto.Models;
 using Dominio.loja.DTO.Requests;
 using Dominio.loja.Entity;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
@@ -223,14 +224,23 @@ namespace Tests.Loja.Utils
         public void ReturnValidationSheetReturnsSheet()
         {
             //Setup 
-            List<Prices> listPrices = new List<Prices>();
-            listPrices.Add(_prices);
-            listPrices.Add(_prices);
-            listPrices.Add(_prices);
-            listPrices.Add(_prices);
+            if (File.Exists(path + "ReturnValidationSheetReturnsSheet.xlsx"))
+            {
+                File.Delete(path + "ReturnValidationSheetReturnsSheet.xlsx");
+            }
+
+            List<ExcelImportProducts> listProducts = new List<ExcelImportProducts>();
+            listProducts.Add( new ExcelImportProducts() {Name ="Product1" , Description = "Product1" , ID_Products = "1" });
+            listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "s" });
+            listProducts.Add(new ExcelImportProducts() { Name = "1", Description = "1", ID_Products = "1" });
+            listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "1" });
 
             //Action 
-            var Return = _NPOIExcel.ReturnValidationSheet(listPrices);
+            var Return = _NPOIExcel.ReturnValidationSheet(listProducts , NPOISheetStyles.LightOrange);
+            using (var fileData = new FileStream(path + "ReturnValidationSheetReturnsSheet.xlsx", FileMode.Create))
+            {
+                Return.Item2.Write(fileData);
+            }
 
             //Assert 
             Assert.IsNotNull(Return);

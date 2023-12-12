@@ -191,11 +191,11 @@ namespace Utils.loja.Excel
             foreach ( var row in validationClass.Select( (row , index) => new { values = row , index = index+1  } ) ) //For every class inside of the list , starts validation
             {
                 List<ExcelValidatedCell> excelValidationCells = new List<ExcelValidatedCell>();
-
-                foreach (MemberInfo member in row.GetType().GetMembers() ) //For every attribute inside of the class start validation
+                var debug = row.values.GetType().GetMembers(); 
+                foreach (MemberInfo member in row.values.GetType().GetMembers().Where( x=> x.MemberType == MemberTypes.Property).ToList()) //For every attribute inside of the class start validation
                 {
                     
-                    string cellValue = row.GetType().GetProperty(member.Name)?.GetValue(row.values).ToString(); //get Current cell value
+                    string cellValue = row.values.GetType().GetProperty(member.Name)?.GetValue(row.values).ToString(); //get Current cell value
 
                     ExcelValidatedCell currentValidation = new ExcelValidatedCell(cellValue);
                     foreach ( ExcelValidationAttributes attribute in member.GetCustomAttributes<ExcelValidationAttributes>().ToList() ) //For every Custom attribute inside of the class attribute
@@ -220,8 +220,8 @@ namespace Utils.loja.Excel
                 }
                 excelValidationRows.Add(new ExcelValidatedRow(excelValidationCells));
             }
-           
-            return new Tuple<bool ,IWorkbook >(false , new HSSFWorkbook() );
+            bool isValid = excelValidationRows.Where(x => x.isValid ).Count() == 0 ;
+            return new Tuple<bool ,IWorkbook >(isValid , workbook );
         }
         public bool ValidateSheetFields<T>(T validationClass , IWorkbook workbook)
         {
