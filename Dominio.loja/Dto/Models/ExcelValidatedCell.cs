@@ -10,7 +10,7 @@ namespace Dominio.loja.Dto.Models
     {
         public Tuple<bool , string> Validation { get; set; }
         public string? Value { get; set; }
-        public string? ErrorMessage { get { return Validation.Item1 ? Validation.Item2 : null; } }
+        public string? ErrorMessage { get { return !Validation.Item1 ? Validation.Item2 : null; } }
         public bool isValid { get { return Validation.Item1; } }
         public ExcelValidatedCell(string value )
         {

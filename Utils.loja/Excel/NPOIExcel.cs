@@ -29,6 +29,7 @@ using Dominio.loja.Dto.Models;
 using NPOI.POIFS.Crypt.Dsig;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.POIFS.Storage;
+using System.Runtime.InteropServices;
 
 namespace Utils.loja.Excel
 {
@@ -117,7 +118,7 @@ namespace Utils.loja.Excel
             }
             
         }
-        private void CreateRowWithValidation(IRow row , List<ExcelValidatedCell> data , List<HSSFCellStyle> styleList , IComment comment )
+        private void CreateRowWithValidation(IRow row , List<ExcelValidatedCell> data , List<HSSFCellStyle> styleList , HSSFClientAnchor anchor , IDrawing drawing )
         {
             for(int i = 0; i < data.Count; i++)
             {
@@ -129,7 +130,7 @@ namespace Utils.loja.Excel
                 }else
                 {
                     Cell.CellStyle = styleList.ElementAt(4);
-                    
+                    IComment comment = drawing.CreateCellComment(anchor);
                     comment.String = new HSSFRichTextString($"{comment.Author}:{Environment.NewLine} {data[i].ErrorMessage}");
                     Cell.CellComment = comment;
                 }
@@ -185,20 +186,24 @@ namespace Utils.loja.Excel
             ISheet sheet = workbook.CreateSheet("Report");
             IRow HeaderRow = sheet.CreateRow(0);
             CreateSheetHeader(HeaderRow, validationClass.First(), styleList.First());
-            
+            IDrawing drawing = sheet.CreateDrawingPatriarch();
+            HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, 1, 1, 1, 1);
+
+            //Create cell comment
+
 
             //Gets all rows inside of list and get all attributes of class  and validate every custom attribute inside of class attribute.
             foreach ( var row in validationClass.Select( (row , index) => new { values = row , index = index+1  } ) ) //For every class inside of the list , starts validation
             {
                 List<ExcelValidatedCell> excelValidationCells = new List<ExcelValidatedCell>();
                 var debug = row.values.GetType().GetMembers(); 
-                foreach (MemberInfo member in row.values.GetType().GetMembers().Where( x=> x.MemberType == MemberTypes.Property).ToList()) //For every attribute inside of the class start validation
+                foreach (var member in row.values.GetType().GetMembers().Where( x=> x.MemberType == MemberTypes.Property).Select( (values , index)=> new{ values , index } ).ToList()) //For every attribute inside of the class start validation
                 {
                     
-                    string cellValue = row.values.GetType().GetProperty(member.Name)?.GetValue(row.values).ToString(); //get Current cell value
+                    string cellValue = row.values.GetType().GetProperty(member.values.Name)?.GetValue(row.values).ToString(); //get Current cell value
 
                     ExcelValidatedCell currentValidation = new ExcelValidatedCell(cellValue);
-                    foreach ( ExcelValidationAttributes attribute in member.GetCustomAttributes<ExcelValidationAttributes>().ToList() ) //For every Custom attribute inside of the class attribute
+                    foreach ( ExcelValidationAttributes attribute in member.values.GetCustomAttributes<ExcelValidationAttributes>().ToList() ) //For every Custom attribute inside of the class attribute
                     {
                         switch (attribute.Validation) //Validate row by custom attribute definition in class
                         {
@@ -211,11 +216,13 @@ namespace Utils.loja.Excel
                     }
                     excelValidationCells.Add(currentValidation);
                     IRow newRow = sheet.CreateRow(row.index);
-                    //Create cell comment
-                    IDrawing drawing = sheet.CreateDrawingPatriarch();
-                    IComment comment = drawing.CreateCellComment(new HSSFClientAnchor());
-                    comment.Author = "System";
-                    CreateRowWithValidation( newRow , excelValidationCells, styleList , comment );
+
+
+                    
+                    
+                    anchor.SetAnchor((short)member.index, row.index, member.index, row.index, (short)(member.index + 1), row.index + 1, member.index + 1, row.index + 1);
+                    
+                    CreateRowWithValidation( newRow , excelValidationCells, styleList , anchor  , drawing);
 
                 }
                 excelValidationRows.Add(new ExcelValidatedRow(excelValidationCells));

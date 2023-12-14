@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,7 +57,6 @@ namespace Tests.Loja.Utils
             List<T> list = new List<T>();
             //first row is for knowing the properties of object
             var columnInfo = Enumerable.Range(1, sheet.Dimension.Columns).ToList().Select(n =>
-
                 new { Index = n, ColumnName = sheet.Cells[1, n].Value.ToString().Replace(" ","").Replace("*" , "") }
             );
 
