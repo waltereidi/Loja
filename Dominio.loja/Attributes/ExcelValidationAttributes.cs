@@ -166,16 +166,7 @@ namespace Dominio.loja.Attributes
 
 
         }
-        public Tuple<bool , string> ValidateCustomSheetHeaders()
-        {
-            if(Validation != ExcelValidation.CustomSheetField)
-            {
-                throw new InvalidOperationException("This Method must be constructed upon CustomSheetField");
-            }
-            return new Tuple<bool, string>(false , "");
-
-
-        }
+        
         
         
     }

@@ -50,7 +50,8 @@ namespace Utils.loja.Excel
 
             styleError.FillForegroundColor = IndexedColors.Red.Index;
             styleNormal.FillForegroundColor = IndexedColors.White.Index;
-
+            styleError.FillPattern = FillPattern.SolidForeground;
+            styleNormal.FillPattern = FillPattern.SolidForeground;
             List<HSSFCellStyle> Return = new List<HSSFCellStyle>();
 
             Return.Add(styleHeader);
@@ -91,10 +92,15 @@ namespace Utils.loja.Excel
         private void CreateSheetHeader<T>(IRow row ,T data , HSSFCellStyle styleHeader )
         {
             string[] headerNames = data.GetType().GetProperties().Select(key => key.Name).ToArray();
-            foreach(var header in headerNames.Select((Name , i ) => new { Name , i }) )
+            
+            foreach (var header in headerNames.Select((Name , i ) => new { Name , i }) )
             {
                 ICell Cell = row.CreateCell(header.i);
-                Cell.SetCellValue(header.Name);
+                var member = data.GetType().GetMembers().Where(x => x.MemberType == MemberTypes.Property && x.Name == header.Name ).First();
+                var attrList = member?.GetCustomAttributes<ExcelValidationAttributes>().ToList();
+                var headerAttr = attrList?.Where(x => x.Validation == ExcelValidation.CustomSheetField);
+                string customHeaderName = headerAttr.Any() ? headerAttr.First().ValidationParameters : null; 
+                Cell.SetCellValue(customHeaderName  ?? header.Name);
                 Cell.CellStyle = styleHeader;
             }
         }
@@ -118,22 +124,25 @@ namespace Utils.loja.Excel
             }
             
         }
-        private void CreateRowWithValidation(IRow row , List<ExcelValidatedCell> data , List<HSSFCellStyle> styleList , HSSFClientAnchor anchor , IDrawing drawing )
+        private void CreateRowWithValidation(IRow row , List<ExcelValidatedCell> data , List<HSSFCellStyle> styleList , IComment comment )
         {
             for(int i = 0; i < data.Count; i++)
             {
                 ICell Cell = row.CreateCell(i);
-                Cell.SetCellValue(data[i].Value) ;
+                
                 if (data[i].isValid)
                 {
-                    Cell.CellStyle = styleList.ElementAt(3);
+                    Cell.SetCellValue(data[i].Value);
+                    Cell.CellStyle = styleList.ElementAt(4);
                 }else
                 {
-                    Cell.CellStyle = styleList.ElementAt(4);
-                    IComment comment = drawing.CreateCellComment(anchor);
+                    Cell.SetCellValue(data[i].Value);
+                    Cell.CellStyle = styleList.ElementAt(3);
                     comment.String = new HSSFRichTextString($"{comment.Author}:{Environment.NewLine} {data[i].ErrorMessage}");
                     Cell.CellComment = comment;
+                    
                 }
+                
             }
 
         }
@@ -188,7 +197,7 @@ namespace Utils.loja.Excel
             CreateSheetHeader(HeaderRow, validationClass.First(), styleList.First());
             IDrawing drawing = sheet.CreateDrawingPatriarch();
             HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, 1, 1, 1, 1);
-
+            IComment comment = drawing.CreateCellComment(anchor);
             //Create cell comment
 
 
@@ -196,7 +205,8 @@ namespace Utils.loja.Excel
             foreach ( var row in validationClass.Select( (row , index) => new { values = row , index = index+1  } ) ) //For every class inside of the list , starts validation
             {
                 List<ExcelValidatedCell> excelValidationCells = new List<ExcelValidatedCell>();
-                var debug = row.values.GetType().GetMembers(); 
+                var debug = row.values.GetType().GetMembers();
+                IRow newRow = sheet.CreateRow(row.index);
                 foreach (var member in row.values.GetType().GetMembers().Where( x=> x.MemberType == MemberTypes.Property).Select( (values , index)=> new{ values , index } ).ToList()) //For every attribute inside of the class start validation
                 {
                     
@@ -215,14 +225,7 @@ namespace Utils.loja.Excel
                         }
                     }
                     excelValidationCells.Add(currentValidation);
-                    IRow newRow = sheet.CreateRow(row.index);
-
-
-                    
-                    
-                    anchor.SetAnchor((short)member.index, row.index, member.index, row.index, (short)(member.index + 1), row.index + 1, member.index + 1, row.index + 1);
-                    
-                    CreateRowWithValidation( newRow , excelValidationCells, styleList , anchor  , drawing);
+                    CreateRowWithValidation( newRow , excelValidationCells, styleList , comment);
 
                 }
                 excelValidationRows.Add(new ExcelValidatedRow(excelValidationCells));

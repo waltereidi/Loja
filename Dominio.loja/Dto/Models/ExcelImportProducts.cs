@@ -20,7 +20,9 @@ namespace Dominio.loja.Dto.Models
 
         [ExcelValidationAttributes(ExcelValidation.Required)]
         [ExcelValidationAttributes(ExcelValidation.StringLength, 1 , 60)]
+        [ExcelValidationAttributes(ExcelValidation.CustomSheetField , "Description of product")]
         public string Description { get; set; }
+
 
 
 
