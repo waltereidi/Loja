@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio.loja.Attributes
+namespace Dominio.loja.Enums
 {
     public enum DateTimeFormatValidation
     {

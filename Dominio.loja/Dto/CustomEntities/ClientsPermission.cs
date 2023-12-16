@@ -12,7 +12,6 @@ namespace Dominio.loja.Dto.CustomEntities
         public static List<PermissionsRelation>? permissionsList { get; set; }
         public static Clients Clients { get; set; }
 
-        public static string jwtToken { get; set; }
 
        
 

@@ -15,47 +15,36 @@ namespace Api.loja.Controllers
     [ApiController]
     public class StoreProductsController : BaseController
     {
-        private readonly IStoreProductsContext _context; 
-        public StoreProductsController(ILogger<StoreProductsController> logger, IStoreProductsContext context ) : base(logger)
+        public StoreProductsController(ILogger<StoreProductsController> logger) : base(logger)
         {
-            _context = context;
 
         }
-        
-        // GET: api/<ClientesController>
         [HttpGet]
-        [Authorize]
-        public List<Categories> Get()
+       public IActionResult GetNavBarCategories()
         {
-            var i = _context.GetCategory();
-            var o = _context.Categories.ToList();
-            
-            return i;
+            return Ok();
+        }
+        [HttpGet]
+        public IActionResult GetBarCategories()
+        {
+            return Ok();
+        }
+        [HttpGet]
+        public IActionResult GetPromotionCategoriesProducts()
+        {
+            return Ok();
+        }
+        [HttpGet]
+        public IActionResult GetProduct(int id)
+        {
+            return Ok();
+        }
+        [HttpGet]
+        public IActionResult GetProductsByCategories()
+        {
+            return Ok();
         }
 
-        // GET api/<ClientesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/<ClientesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<ClientesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ClientesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

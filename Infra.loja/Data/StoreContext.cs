@@ -29,25 +29,13 @@ namespace Api.loja.Data
         public virtual DbSet<PermissionsGroup> permissionsGroup { get; set; }
         
         
-        public Clients? getClient(string email, string password)
+        public Clients? GetClient(string email, string password)
         {
             var Return=clients.Where(x => x.Email == email && x.Password == password);
             return Return.Any() ? Return.First() : null;
         }
-        public void GetDataSet<T>() where T : class
-        {
-            var objClass = (T)Activator.CreateInstance(typeof(T));
-            string tableName = objClass.GetType().Name.ToLower();
-
-            
-            var query = from x in dbSet
-                        select new Clients();
-            var query2 = from x in clients
-                         select new Clients() { Created_at = x.Created_at} ;
-            var u = query2.ToArray();
-           var i = query.ToList();
-        }
-        public void GetPermissionsRelation(string email )
+        
+        public void SetPermissionsRelation(string email )
         {
             var query = from perR in permissions_Relation
                  join perG in permissionsGroup on perR.ID_Permissions_Relation equals perG.ID_PermissionsGroup 

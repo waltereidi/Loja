@@ -29,6 +29,11 @@ namespace Api.loja.Controllers
 
             return Ok(ClientsPermission.permissionsList) ;
         }
+        [HttpGet]
+        public IActionResult GetConfiguration()
+        {
+            return Ok();
+        }
     }
 
 

@@ -4,6 +4,7 @@ using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Dto.Requests;
 using Dominio.loja.Interfaces;
 using Dominio.loja.Interfaces.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,24 +14,49 @@ namespace Api.loja.Controllers
     [ApiController]
     public class StoreClientsController : BaseController
     {
-        private readonly StoreClients _storeClients;
-        public StoreClientsController(ILogger<StoreClientsController> logger  , StoreClients storeClients ) : base(logger)
+        public StoreClientsController(ILogger<StoreClientsController> logger  ) : base(logger)
         {
-            _storeClients = new StoreClients();
+        }
+        
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetEditMyProfile()
+        {
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Authorize]
+        public IActionResult PutEditMyProfile()
+        {
+            return Ok();
         }
         [HttpPost]
-        public IActionResult getOrdersRequest([FromBody] StoreClientsOrdersRequest request)
+        [Authorize]
+        public IActionResult GetOrdersRequest([FromBody] StoreClientsOrdersRequest request)
         {
-            
-
-
-            return Ok( _storeClients.getPermissions() );
+            return Ok();
 
         }
-        [HttpGet]
-        public IActionResult getTest()
+        [HttpPost]
+        [Authorize]
+        public IActionResult PostOrdersRequest()
         {
-            return Ok(ClientsPermission.permissionsList);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Authorize]
+        public IActionResult PutCartProducts()
+        {
+            return Ok();
+        }
+        [HttpDelete]
+        [Authorize]
+        public IActionResult DeleteCartProducts()
+        {
+            return Ok();
         }
 
 

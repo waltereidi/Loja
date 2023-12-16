@@ -9,9 +9,9 @@ namespace Dominio.loja.Interfaces.Context
 {
     public interface IStoreContext
     {
-        Clients? getClient(string email, string password);
+        Clients? GetClient(string email, string password);
 
-        void GetPermissionsRelation(string email);
+        void SetPermissionsRelation(string email);
 
     }
 }
