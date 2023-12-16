@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Linq;
 namespace Api.loja.Data
 {
-    public class StoreContext : DbContext, IStoreContext
+    public class StoreContext : DbContext, IStoreContext 
     {
         private readonly string _connectionString;
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
@@ -28,12 +28,25 @@ namespace Api.loja.Data
         public virtual DbSet<PermissionsRelation> permissions_Relation { get; set; }
         public virtual DbSet<PermissionsGroup> permissionsGroup { get; set; }
         
+        
         public Clients? getClient(string email, string password)
         {
             var Return=clients.Where(x => x.Email == email && x.Password == password);
             return Return.Any() ? Return.First() : null;
         }
-        
+        public void GetDataSet<T>() where T : class
+        {
+            var objClass = (T)Activator.CreateInstance(typeof(T));
+            string tableName = objClass.GetType().Name.ToLower();
+
+            
+            var query = from x in dbSet
+                        select new Clients();
+            var query2 = from x in clients
+                         select new Clients() { Created_at = x.Created_at} ;
+            var u = query2.ToArray();
+           var i = query.ToList();
+        }
         public void GetPermissionsRelation(string email )
         {
             var query = from perR in permissions_Relation
@@ -47,7 +60,6 @@ namespace Api.loja.Data
                     Created_at = perR.Created_at,
                     Updated_at = perR.Updated_at,
                  };
-
             ClientsPermission.permissionsList = query.Any() ? query.ToList() : null; 
         }
     }

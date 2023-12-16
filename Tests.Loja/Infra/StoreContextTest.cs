@@ -1,6 +1,7 @@
 ﻿using Api.loja.Data;
 using Castle.Core.Configuration;
 using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -38,6 +39,19 @@ namespace Tests.Loja.Infra
             //assert 
             Assert.IsTrue(ClientsPermission.permissionsList.Count() > 0);
             
+        }
+        [TestMethod]
+        public void GetDataSetReturnsValuesFromDataBase()
+        {
+            //setup 
+            Clients clients = new Clients();
+
+            //action 
+            // var Return =
+            _storeContext.GetDataSet<Clients>();
+            //Return.First();
+            //assert 
+            //Assert.IsTrue(Return.Count() > 0 );
         }
 
     }

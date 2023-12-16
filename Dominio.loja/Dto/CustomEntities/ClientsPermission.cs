@@ -14,5 +14,7 @@ namespace Dominio.loja.Dto.CustomEntities
 
         public static string jwtToken { get; set; }
 
+       
+
     }
 }
