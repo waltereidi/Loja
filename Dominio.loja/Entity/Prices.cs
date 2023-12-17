@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
+    [Table("prices")]
     public class Prices : MasterEntity
     {
         [Key]

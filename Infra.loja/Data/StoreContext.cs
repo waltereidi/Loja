@@ -23,10 +23,10 @@ namespace Api.loja.Data
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }
-        public virtual DbSet<Clients> clients { get; set; }
-        public virtual DbSet<Permissions> permissions { get; set; }
-        public virtual DbSet<PermissionsRelation> permissions_Relation { get; set; }
-        public virtual DbSet<PermissionsGroup> permissionsGroup { get; set; }
+        private DbSet<Clients> clients { get; set; }
+        private DbSet<Permissions> permissions { get; set; }
+        private DbSet<PermissionsRelation> permissions_Relation { get; set; }
+        private DbSet<PermissionsGroup> permissionsGroup { get; set; }
         
         
         public Clients? GetClient(string email, string password)

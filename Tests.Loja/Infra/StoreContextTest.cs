@@ -34,7 +34,7 @@ namespace Tests.Loja.Infra
             //setup 
             
             //action
-            _storeContext.GetPermissionsRelation("TestCase");
+            _storeContext.SetPermissionsRelation("TestCase");
             
             //assert 
             Assert.IsTrue(ClientsPermission.permissionsList.Count() > 0);
@@ -48,7 +48,6 @@ namespace Tests.Loja.Infra
 
             //action 
             // var Return =
-            _storeContext.GetDataSet<Clients>();
             //Return.First();
             //assert 
             //Assert.IsTrue(Return.Count() > 0 );

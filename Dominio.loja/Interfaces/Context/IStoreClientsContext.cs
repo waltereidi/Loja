@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Interfaces.Context
 {
-    internal interface IStoreClientsContext
+    public interface IStoreClientsContext
     {
+        object GetEditMyProfile();
 
-
+        object PutEditMyProfile();
+        object GetOrdersRequest();
+        
+        object PutOrdersRequest();
+        object PutCartProducts();
+        object GetCartProducts();
+        bool DeleteCartProducts();
     }
 }

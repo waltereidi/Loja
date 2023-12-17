@@ -58,7 +58,12 @@ namespace Api.loja.Controllers
         {
             return Ok();
         }
-
+        [HttpDelete]
+        [Authorize]
+        public IActionResult GetCartProducts()
+        {
+            return Ok();
+        }
 
         // GET: StoreClientsController
      }

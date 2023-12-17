@@ -84,6 +84,17 @@ create table permissions_relation(
 	ID_Permissions int not null foreign key references permissions(ID_Permissions)
 );
 
+create table clientsProducts_cart(
+	ID_ClientsProducts_Card int not null identity( 1 ,1 ) primary key , 
+	created_at datetime not null default current_timestamp , 
+	updated_at datetime not null , 
+	ID_Clients int not null foreign key references clients(ID_Clients) , 
+	ID_Products int not null foreign key references products(ID_Products) ,
+	quantity int not null default 1 ,
+	isActive bit not null default 1	
+);
+
+
 SET IDENTITY_INSERT permissionsGroup ON 
 insert into permissionsGroup ( ID_PermissionsGroup , created_at , updated_at , name ) values( 1 ,current_timestamp , null , 'Cliente' );
 SET IDENTITY_INSERT permissionsGroup OFF 
