@@ -1,6 +1,7 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,17 @@ namespace Infra.loja.Data
         private DbSet<Clients> clients { get; set; } = null;
         private DbSet<ClientsProductsCart> clientsProducts_cart { get; set; } = null;   
 
-        public bool DeleteCartProducts()
+        public bool DeleteCartProducts(ClientsProductsCart entity)
         {
-            throw new NotImplementedException();
+            ClientsProductsCart update = entity;
+            if( update.Quantity > 0 )
+            {
+                update.Quantity--;
+            }
+            var result = clientsProducts_cart.Update(update) ;
+
+            this.SaveChanges();
+            return false;
         }
 
         public object GetCartProducts()
@@ -68,5 +77,6 @@ namespace Infra.loja.Data
         {
             throw new NotImplementedException();
         }
+
     }
 }

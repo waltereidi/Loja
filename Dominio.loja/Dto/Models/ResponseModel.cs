@@ -6,18 +6,35 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Dto.Models
 {
-    public class ResponseModel<T> where T : class?
+    public class ResponseModel<T> 
     {
-        private List<T> Data { get; set; }
-        private string Mensagem { get; set; }
-        private int RowCount { get; set; }
+        private dynamic Data { get; set; }
+        private string Message { get; set; }
+        private int RowCount { get; set; } = 0;
         public object Parameters { get; set; }
-
-        public ResponseModel(List<T> Data, string Mensagem)
+        private bool Success { get; set; }
+        public ResponseModel(List<T> data, string message)
         {
-            Data = Data;
-            Mensagem = Mensagem;
-            RowCount = Data == null ? 0 : Data.Count();
+            Data = data;
+            Message = message;
+            RowCount = data.Count();
+        }
+        public ResponseModel(IEnumerable<T> data , string message)
+        {
+            Data = data;
+            Message = message;
+            RowCount = data != null ? data.Count() : 0 ;
+        }
+        public ResponseModel( dynamic data , string message , int RowCount )
+        {
+            Data = data;
+            Message = message;
+            RowCount = RowCount;
+        }
+        public ResponseModel(bool success , string message)
+        {
+            Success = success;
+            Message = message;
         }
     }
 

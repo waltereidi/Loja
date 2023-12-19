@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Dto.Models;
 using Dominio.loja.Dto.Requests;
 using Dominio.loja.DTO.Requests;
 using Dominio.loja.Entity;
@@ -10,7 +11,7 @@ namespace Api.loja.Services
     public class StoreClients
     {
         IStoreContext _storeContext; 
-        public StoreClients(  ) 
+        public StoreClients() 
         {
             
         }
@@ -18,6 +19,11 @@ namespace Api.loja.Services
         {
             return ClientsPermission.permissionsList;
         }
-    
+        public ResponseModel<bool> DeleteCartProducts()
+        {
+            return new ResponseModel<bool>( false , "");
+        }
+        
+
     }
 }
