@@ -38,24 +38,27 @@ namespace Infra.loja.Data
         public bool DeleteCartProducts(ClientsProductsCart entity)
         {
             ClientsProductsCart update = entity;
-            if( update.Quantity > 0 )
-            {
-                update.Quantity--;
-            }
-            var result = clientsProducts_cart.Update(update) ;
+            update.IsActive = false;
 
-            this.SaveChanges();
+            if (clientsProducts_cart.Update(update) != null )
+            {
+                return SaveChanges() >0 ? true : false;
+            }
             return false;
         }
 
-        public object GetCartProducts()
+        public List<ClientsProductsCart>? GetCartProducts(Clients client)
         {
-            throw new NotImplementedException();
+
+            var query = clientsProducts_cart.Where(x => x.ID_Clients == client.ID_Clients && x.IsActive );
+            
+            return query.Any() ? query.ToList() : null;
         }
 
-        public object GetEditMyProfile()
+        public Clients GetEditMyProfile(string email)
         {
-            throw new NotImplementedException();
+            var query = clients.Where(x => x.Email == email);
+            return query.Any() ? query.First() : null; 
         }
 
         public object GetOrdersRequest()
@@ -68,9 +71,11 @@ namespace Infra.loja.Data
             throw new NotImplementedException();
         }
 
-        public object PutEditMyProfile()
+        public Clients PutEditMyProfile(Clients entity )
         {
-            throw new NotImplementedException();
+            clients.Update(entity);
+            var i = SaveChanges();
+            return entity;
         }
 
         public object PutOrdersRequest()

@@ -14,8 +14,9 @@ namespace Dominio.loja.Entity
         [Key]
         public int CategoriesPromotion { get; set; }
 
-        [ForeignKey(nameof(ID_Cateogories))]
+        [ForeignKey("ID_Cateogories")]
         public int ID_Cateogories { get; set; }
+        [NotMapped]
         public Categories Category { get; set; }
         public int DisplayOrder { get; set; }
     }

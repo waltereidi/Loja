@@ -14,13 +14,13 @@ namespace Dominio.loja.Entity
         [Key]
         public int ID_Permissions_Relation { get; set; }
 
-        [ForeignKey(nameof(ID_PermissionsGroup))]
+        [ForeignKey("ID_PermissionsGroup")]
         public int ID_PermissionsGroup { get; set; }
-        [ForeignKey(nameof(ID_Permissions))]
+        [ForeignKey("ID_Permissions")]
         public int ID_Permissions { get; set; }
-
+        [NotMapped]
         public PermissionsGroup PermissionsGroup { get; set; }
-        
+        [NotMapped]
         public Permissions Permissions { get; set; }
 
     }

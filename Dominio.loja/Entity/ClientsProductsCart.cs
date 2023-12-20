@@ -17,12 +17,14 @@ namespace Dominio.loja.Entity
 
         public bool IsActive { get;set;}
 
-        [ForeignKey(nameof(ID_Products))]
+        [ForeignKey("ID_Products")]
         public int ID_Products { get; set; }
-        [ForeignKey(nameof(ID_Clients))]
+        [ForeignKey("ID_Clients")]
         public int ID_Clients { get; set; }
 
+        [NotMapped]
         public Products Product { get; set; }
+        [NotMapped]
         public Clients Client { get; set; }
     }
 }

@@ -19,8 +19,9 @@ namespace Dominio.loja.Entity
 
         [StringLength(30)]
         public string Password { get; set; }
-        [ForeignKey(nameof(ID_PermissionsGroup))]
+        [ForeignKey("ID_PermissionsGroup")]
         public int ID_PermissionsGroup { get; set; }
+        [NotMapped]
         public PermissionsGroup? PermissionsGroup { get; set; }
 
     }

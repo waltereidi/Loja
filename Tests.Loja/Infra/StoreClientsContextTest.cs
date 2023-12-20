@@ -36,9 +36,44 @@ namespace Tests.Loja.Infra
             var result = _context.DeleteCartProducts(entity);
 
             //Assert 
-
             Assert.IsFalse(result);
-           
+        }
+        [TestMethod]
+        public void GetCartProductsReturnsNullWhenEmpty() 
+        {
+            //Setup 
+            Clients client = new Clients() { ID_Clients = 1 };
+
+            //Action
+            var result = _context.GetCartProducts( client );
+            //Assert
+            Assert.IsNull(result);
+        
+        }
+        [TestMethod]
+        public void GetEditMyProfileReturnClient()
+        {
+            //setup 
+            string email = "TestCase";
+
+            //Action 
+            var result = _context.GetEditMyProfile(email);
+
+            //Assert 
+            Assert.IsTrue(result.Email == email);
+            
+        }
+        [TestMethod]
+        public void PutEditMyProfile()
+        {
+            //setup
+            string email = "TestCase";
+            var result = _context.GetEditMyProfile(email);
+            result.Password = "23432";
+            //Action 
+            var res = _context.PutEditMyProfile(result);
+            //Action
+            Assert.IsNotNull(res);
 
         }
 

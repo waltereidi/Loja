@@ -13,11 +13,13 @@ namespace Dominio.loja.Entity
     {
         [Key]
         public int ID_ProductsCategories { set; get; }
-        [ForeignKey(nameof(ID_Products))]
+        [ForeignKey("ID_Products")]
         public int ID_Products { get; set; }
-        [ForeignKey(nameof(ID_Cateogories))]
+        [ForeignKey("ID_Cateogories")]
         public int ID_Cateogories { get; set; }
+        [NotMapped]
         public Products Product { get; set; }
+        [NotMapped]
         public Categories Category { get; set; }    
     }
 }

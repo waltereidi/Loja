@@ -9,14 +9,14 @@ namespace Dominio.loja.Interfaces.Context
 {
     public interface IStoreClientsContext
     {
-        object GetEditMyProfile();
+        Clients GetEditMyProfile(string email);
 
-        object PutEditMyProfile();
+        Clients PutEditMyProfile(Clients clients);
         object GetOrdersRequest();
         
         object PutOrdersRequest();
         object PutCartProducts();
-        object GetCartProducts();
+        List<ClientsProductsCart> GetCartProducts(Clients client);
         bool DeleteCartProducts(ClientsProductsCart entity);
     }
 }

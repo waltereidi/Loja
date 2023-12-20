@@ -17,8 +17,9 @@ namespace Dominio.loja.Entity
         [StringLength(255)]
         public string Description { get; set; }
 
-        [ForeignKey(nameof(ID_Products))]
+        [ForeignKey("ID_Products")]
         public int ID_Products { get; set; }
+        [NotMapped]
         public Products Product { get; set; } 
     }
 }

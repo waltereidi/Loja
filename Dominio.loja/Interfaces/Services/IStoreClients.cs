@@ -9,5 +9,6 @@ namespace Dominio.loja.Interfaces.Services
     public interface IStoreClients
     {
 
+
     }
 }
