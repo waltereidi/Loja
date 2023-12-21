@@ -1,4 +1,5 @@
-﻿begin transaction
+﻿
+begin transaction
 create table permissionsGroup(
 	ID_PermissionsGroup int not null  identity(1, 1) primary key , 
 	created_at datetime not null default current_timestamp , 
@@ -85,7 +86,7 @@ create table permissions_relation(
 );
 
 create table clientsProducts_cart(
-	ID_ClientsProducts_Card int not null identity( 1 ,1 ) primary key , 
+	ID_ClientsProducts_Cart int not null identity( 1 ,1 ) primary key , 
 	created_at datetime not null default current_timestamp , 
 	updated_at datetime not null , 
 	ID_Clients int not null foreign key references clients(ID_Clients) , 
@@ -94,6 +95,20 @@ create table clientsProducts_cart(
 	isActive bit not null default 1	
 );
 
+create table RequestOrders(
+	ID_RequestOrders int not null identity(1 ,1 ) primary key , 
+	description nvarchar(2048) null , 
+	created_at datetime not null default current_timestamp , 
+	updated_at datetime not null , 
+);
+
+create table RequestOrders_clientsProducts_Cart(
+	ID_RequestOrders_clientsProducts_Cart int not null identity(1 , 1 ) primary key ,
+	created_at datetime not null default current_timestamp , 
+	updated_at datetime not null ,
+	ID_RequestOrders int not null foreign key references requestOrders(ID_RequestOrders),
+	ID_ClientsProducts_Cart int not null foreign key references clientsProducts_cart(ID_ClientsProducts_Cart) 
+);
 
 SET IDENTITY_INSERT permissionsGroup ON 
 insert into permissionsGroup ( ID_PermissionsGroup , created_at , updated_at , name ) values( 1 ,current_timestamp , null , 'Cliente' );

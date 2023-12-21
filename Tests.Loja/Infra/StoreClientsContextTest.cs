@@ -42,10 +42,9 @@ namespace Tests.Loja.Infra
         public void GetCartProductsReturnsNullWhenEmpty() 
         {
             //Setup 
-            Clients client = new Clients() { ID_Clients = 1 };
-
+            int ID_Clients = 1;
             //Action
-            var result = _context.GetCartProducts( client );
+            var result = _context.GetCartProducts( ID_Clients );
             //Assert
             Assert.IsNull(result);
         
