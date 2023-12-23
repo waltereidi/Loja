@@ -12,10 +12,10 @@ namespace Dominio.loja.Interfaces.Context
         Clients GetEditMyProfile(string email);
 
         bool PutEditMyProfile(Clients clients);
-        object GetOrdersRequest();
+        List<RequestOrdersClientsProductsCart> GetOrdersRequest(int ID_Clients);
         
-        object PutOrdersRequest();
-        object PutCartProducts();
+        bool PutOrdersRequest(RequestOrders request);
+        bool PutCartProducts(Products product , Clients client);
         List<ClientsProductsCart> GetCartProducts(int ID_Clients);
         bool DeleteCartProducts(ClientsProductsCart entity);
     }

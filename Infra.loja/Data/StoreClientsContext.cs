@@ -36,7 +36,8 @@ namespace Infra.loja.Data
         private DbSet<Prices> prices { get; set; } = null;
         private DbSet<Clients> clients { get; set; } = null;
         private DbSet<ClientsProductsCart> clientsProducts_cart { get; set; } = null;
-
+        private DbSet<RequestOrders> requestOrders { get; set; } = null; 
+        private DbSet<RequestOrdersClientsProductsCart> requestOrdersClientsProductsCart { get; set; } = null; 
         public bool PutEditMyProfile(Clients entity)
         {
             clients.Update(entity);
@@ -68,17 +69,31 @@ namespace Infra.loja.Data
             var query = clientsProducts_cart.Where(x => x.ID_Clients == ID_Clients && x.IsActive);
             return query.Any() ? query.ToList() : null;
         }
-        public object GetOrdersRequest()
+        public List<RequestOrdersClientsProductsCart> GetOrdersRequest(int ID_Clients)
+        {
+            var query = from cli in clients
+                        join cap in clientsProducts_cart on cli.ID_Clients equals cap.ID_Clients
+                        join rcpc in requestOrdersClientsProductsCart on cap.ID_ClientsProducts_Cart equals rcpc.ID_ClientsProducts_Cart
+                        join req in requestOrders on rcpc.ID_RequestOrders equals req.ID_RequestOrders
+                        where cli.ID_Clients == ID_Clients
+                        select new RequestOrdersClientsProductsCart()
+                        {
+                            ID_RequestOrders_clientsProducts_Cart = rcpc.ID_RequestOrders_clientsProducts_Cart ,
+                            Created_at = rcpc.Created_at,
+                            Updated_at = rcpc.Updated_at,
+                            RequestOrders = req,
+                            ClientsProductCart = cap
+                        };
+            return query.Any() ? query.ToList() : null; 
+            
+        }
+
+        public bool PutCartProducts(Products product , Clients client)
         {
             throw new NotImplementedException();
         }
 
-        public object PutCartProducts()
-        {
-            throw new NotImplementedException();
-        }
-
-        public object PutOrdersRequest()
+        public bool PutOrdersRequest(RequestOrders request)
         {
             throw new NotImplementedException();
         }

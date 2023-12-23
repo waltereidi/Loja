@@ -75,6 +75,18 @@ namespace Tests.Loja.Infra
             Assert.IsNotNull(res);
 
         }
+        [TestMethod]
+        public void GetOrdersRequestReturnsNull()
+        {
+            //setup 
+            int ID_Clients = 0;
+            //action
+            var result = _context.GetOrdersRequest(ID_Clients);
+
+            //assert 
+            Assert.IsNull(result);
+
+        }
 
     }
 }
