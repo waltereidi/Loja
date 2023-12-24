@@ -33,7 +33,7 @@ namespace Tests.Loja.Infra
             ClientsProductsCart entity = new ClientsProductsCart() { ID_Clients=0};
 
             //Action 
-            var result = _context.DeleteCartProducts(entity);
+            var result = _context.DeleteCartProducts(0);
 
             //Assert 
             Assert.IsFalse(result);
@@ -87,6 +87,7 @@ namespace Tests.Loja.Infra
             Assert.IsNull(result);
 
         }
+
 
     }
 }

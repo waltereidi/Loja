@@ -15,8 +15,10 @@ namespace Dominio.loja.Interfaces.Context
         List<RequestOrdersClientsProductsCart> GetOrdersRequest(int ID_Clients);
         
         bool PutOrdersRequest(RequestOrders request);
-        bool PutCartProducts(Products product , Clients client);
+        bool PutCartProducts(Products product , Clients client , int quantity);
         List<ClientsProductsCart> GetCartProducts(int ID_Clients);
-        bool DeleteCartProducts(ClientsProductsCart entity);
+        bool DeleteCartProducts(int ID_ClientsProductsCart);
+        bool ChangeAmountCartProduct(int ID_ClientsProductsCart, int quantity);
+
     }
 }

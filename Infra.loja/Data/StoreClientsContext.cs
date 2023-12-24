@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Identity.Client;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infra.loja.Data
 {
@@ -36,8 +38,11 @@ namespace Infra.loja.Data
         private DbSet<Prices> prices { get; set; } = null;
         private DbSet<Clients> clients { get; set; } = null;
         private DbSet<ClientsProductsCart> clientsProducts_cart { get; set; } = null;
-        private DbSet<RequestOrders> requestOrders { get; set; } = null; 
-        private DbSet<RequestOrdersClientsProductsCart> requestOrdersClientsProductsCart { get; set; } = null; 
+        private DbSet<RequestOrders> requestOrders { get; set; } = null;
+        private DbSet<RequestOrdersClientsProductsCart> requestOrdersClientsProductsCart { get; set; } = null;
+
+
+
         public bool PutEditMyProfile(Clients entity)
         {
             clients.Update(entity);
@@ -46,17 +51,42 @@ namespace Infra.loja.Data
         public Clients GetEditMyProfile(string email)
         {
             var query = clients.Where(x => x.Email == email);
-            return query.Any() ? query.First() : null; 
+            return query.Any() ? query.First() : null;
         }
-        public bool DeleteCartProducts(ClientsProductsCart entity)
+        public bool DeleteCartProducts(int ID_ClientsProductsCart )
         {
-            ClientsProductsCart update = entity;
-            update.IsActive = false;
-
-            clientsProducts_cart.Update(update);
             try
             {
-                return SaveChanges() > 0 ? true : false;
+                IQueryable<ClientsProductsCart> clientsProductsCart = clientsProducts_cart.Where(x => x.ID_Products == ID_ClientsProductsCart);
+                
+                if (clientsProductsCart.Any() )
+                {
+                    ClientsProductsCart update = clientsProductsCart.First();
+                    update.IsActive = false;
+                    clientsProducts_cart.Update(update);
+                    return SaveChanges() > 0 ? true : false;
+                }
+                
+                return false;
+            }
+            catch (DbUpdateException ex)
+            {
+                return false;
+            }
+        }
+        public bool ChangeAmountCartProduct(int ID_ClientsProductsCart, int quantity)
+        {
+            try
+            {
+                ClientsProductsCart clientsProductsCart = clientsProducts_cart.First(x => x.ID_Products == ID_ClientsProductsCart);
+                if (clientsProductsCart != null)
+                {
+                    clientsProductsCart.Quantity = quantity;
+                    clientsProducts_cart.Update(clientsProductsCart);
+                    return SaveChanges() > 0 ? true : false;
+                }
+
+                return false;
             }
             catch (DbUpdateException ex)
             {
@@ -66,7 +96,20 @@ namespace Infra.loja.Data
 
         public List<ClientsProductsCart>? GetCartProducts(int ID_Clients)
         {
-            var query = clientsProducts_cart.Where(x => x.ID_Clients == ID_Clients && x.IsActive);
+            var query = from cli in clients
+                        join cpc in clientsProducts_cart on cli.ID_Clients equals cpc.ID_ClientsProducts_Cart
+                        join prd in products on cpc.ID_Products equals prd.ID_Products
+                        where cli.ID_Clients == ID_Clients
+                        select new ClientsProductsCart()
+                        {
+                            Created_at = cpc.Created_at,
+                            Updated_at = cpc.Updated_at,
+                            Client = cli,
+                            Product = prd,
+                            IsActive = cpc.IsActive,
+                            Quantity = cpc.Quantity
+                        };
+                        
             return query.Any() ? query.ToList() : null;
         }
         public List<RequestOrdersClientsProductsCart> GetOrdersRequest(int ID_Clients)
@@ -78,25 +121,28 @@ namespace Infra.loja.Data
                         where cli.ID_Clients == ID_Clients
                         select new RequestOrdersClientsProductsCart()
                         {
-                            ID_RequestOrders_clientsProducts_Cart = rcpc.ID_RequestOrders_clientsProducts_Cart ,
+                            ID_RequestOrders_clientsProducts_Cart = rcpc.ID_RequestOrders_clientsProducts_Cart,
                             Created_at = rcpc.Created_at,
                             Updated_at = rcpc.Updated_at,
                             RequestOrders = req,
                             ClientsProductCart = cap
                         };
-            return query.Any() ? query.ToList() : null; 
-            
+            return query.Any() ? query.ToList() : null;
+
         }
 
-        public bool PutCartProducts(Products product , Clients client)
+        public bool PutCartProducts(int ID_Products, int ID_Clients , int quantity)
         {
-            throw new NotImplementedException();
+            var  query = from cli in clients 
+                         join prd in products on cli.
+
         }
 
         public bool PutOrdersRequest(RequestOrders request)
         {
             throw new NotImplementedException();
         }
-
+       
+            
     }
 }
