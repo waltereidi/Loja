@@ -8,7 +8,7 @@ using Dominio.loja.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
-namespace Tests.Loja.Dominio.Dto.Requests
+namespace Tests.Loja.Tests.Dominio.Dto.Requests
 {
     [TestClass]
     public class JwtTokenRequestTest
@@ -16,12 +16,14 @@ namespace Tests.Loja.Dominio.Dto.Requests
         private readonly LoginRequest _entity;
         public JwtTokenRequestTest()
         {
-            _entity = new LoginRequest{
+            _entity = new LoginRequest
+            {
                 Login = "testCase@email.com",
                 Password = "123",
                 jwtKey = "YourSecretKeyForAuthenticationOfApplication",
                 issuer = "youtCompanyIssuer.com",
-                Clients = new Clients{
+                Clients = new Clients
+                {
                     Email = "testCase@email.com",
                     Password = "123"
                 }
@@ -33,7 +35,7 @@ namespace Tests.Loja.Dominio.Dto.Requests
         public void getTokenReturnsToken()
         {
             var token = _entity.GetToken();
-            Assert.IsTrue(token.Length>0 );
+            Assert.IsTrue(token.Length > 0);
         }
         [TestMethod]
         public void getTokenIncorrectUserReturnsNull()
@@ -49,7 +51,7 @@ namespace Tests.Loja.Dominio.Dto.Requests
             var token = _entity.GetToken();
             Assert.IsNull(token);
         }
-        
+
 
     }
 }

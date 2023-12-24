@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infra\" />
     <Folder Include="TestFiles\CreatedFiles\" />
   </ItemGroup>
 

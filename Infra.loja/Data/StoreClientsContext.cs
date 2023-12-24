@@ -40,19 +40,54 @@ namespace Infra.loja.Data
         private DbSet<ClientsProductsCart> clientsProducts_cart { get; set; } = null;
         private DbSet<RequestOrders> requestOrders { get; set; } = null;
         private DbSet<RequestOrdersClientsProductsCart> requestOrdersClientsProductsCart { get; set; } = null;
+     
+        public IQueryable<Clients> GetEditMyProfile()
+        {
+            return clients; 
+        }
+        public IQueryable<ClientsProductsCart>? GetCartProducts()
+        {
+            var query = from cli in clients
+                        join cap in clientsProducts_cart on cli.ID_Clients equals cap.ID_Clients
+                        join prd in products on cap.ID_Products equals prd.ID_Products
+                        join rcpc in requestOrdersClientsProductsCart on cap.ID_ClientsProducts_Cart equals rcpc.ID_ClientsProducts_Cart 
+                        join req in requestOrders on rcpc.ID_RequestOrders equals req.ID_RequestOrders
+                        where cap.IsActive == true
+                        select new ClientsProductsCart()
+                        {
+                            Created_at = cap.Created_at,
+                            Updated_at = cap.Updated_at,
+                            Client = cli,
+                            Product = prd,
+                            IsActive = cap.IsActive,
+                            Quantity = cap.Quantity
+                        };
 
+            return query;
+        }
+        public IQueryable<RequestOrdersClientsProductsCart> GetOrdersRequest()
+        {
+            var query = from cli in clients
+                        join cap in clientsProducts_cart on cli.ID_Clients equals cap.ID_Clients
+                        join rcpc in requestOrdersClientsProductsCart on cap.ID_ClientsProducts_Cart equals rcpc.ID_ClientsProducts_Cart
+                        join req in requestOrders on rcpc.ID_RequestOrders equals req.ID_RequestOrders
+                        select new RequestOrdersClientsProductsCart()
+                        {
+                            ID_RequestOrders_clientsProducts_Cart = rcpc.ID_RequestOrders_clientsProducts_Cart,
+                            Created_at = rcpc.Created_at,
+                            Updated_at = rcpc.Updated_at,
+                            RequestOrders = req,
+                            ClientsProductCart = cap
+                        };
+            return query;
 
-
+        }
         public bool PutEditMyProfile(Clients entity)
         {
             clients.Update(entity);
             return SaveChanges() > 0 ? true : false;
         }
-        public Clients GetEditMyProfile(string email)
-        {
-            var query = clients.Where(x => x.Email == email);
-            return query.Any() ? query.First() : null;
-        }
+
         public bool DeleteCartProducts(int ID_ClientsProductsCart )
         {
             try
@@ -94,47 +129,14 @@ namespace Infra.loja.Data
             }
         }
 
-        public List<ClientsProductsCart>? GetCartProducts(int ID_Clients)
-        {
-            var query = from cli in clients
-                        join cpc in clientsProducts_cart on cli.ID_Clients equals cpc.ID_ClientsProducts_Cart
-                        join prd in products on cpc.ID_Products equals prd.ID_Products
-                        where cli.ID_Clients == ID_Clients
-                        select new ClientsProductsCart()
-                        {
-                            Created_at = cpc.Created_at,
-                            Updated_at = cpc.Updated_at,
-                            Client = cli,
-                            Product = prd,
-                            IsActive = cpc.IsActive,
-                            Quantity = cpc.Quantity
-                        };
-                        
-            return query.Any() ? query.ToList() : null;
-        }
-        public List<RequestOrdersClientsProductsCart> GetOrdersRequest(int ID_Clients)
-        {
-            var query = from cli in clients
-                        join cap in clientsProducts_cart on cli.ID_Clients equals cap.ID_Clients
-                        join rcpc in requestOrdersClientsProductsCart on cap.ID_ClientsProducts_Cart equals rcpc.ID_ClientsProducts_Cart
-                        join req in requestOrders on rcpc.ID_RequestOrders equals req.ID_RequestOrders
-                        where cli.ID_Clients == ID_Clients
-                        select new RequestOrdersClientsProductsCart()
-                        {
-                            ID_RequestOrders_clientsProducts_Cart = rcpc.ID_RequestOrders_clientsProducts_Cart,
-                            Created_at = rcpc.Created_at,
-                            Updated_at = rcpc.Updated_at,
-                            RequestOrders = req,
-                            ClientsProductCart = cap
-                        };
-            return query.Any() ? query.ToList() : null;
-
-        }
+       
 
         public bool PutCartProducts(int ID_Products, int ID_Clients , int quantity)
         {
-            var  query = from cli in clients 
-                         join prd in products on cli.
+            var query = this.GetCartProducts().Where(x => x.Product.ID_Products == ID_Products && x.Client.ID_Clients == ID_Clients).DefaultIfEmpty().ToList();
+
+
+            return false; 
 
         }
 

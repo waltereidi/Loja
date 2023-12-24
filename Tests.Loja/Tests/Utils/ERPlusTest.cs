@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.Loja.Utils
+namespace Tests.Loja.Tests.Utils
 {
     [TestClass]
     public class ERPlusTest
@@ -35,8 +35,8 @@ namespace Tests.Loja.Utils
             using (var package = new ExcelPackage(new FileInfo("C:/arq1.xlsx")))
             {
                 ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-                
-                 sheet = package.Workbook.Worksheets["Sheet1"];
+
+                sheet = package.Workbook.Worksheets["Sheet1"];
                 var i = package.Workbook;
                 //List<object> list = GetList<object>(sheet);
                 List<Prices> listPrices = GetList<Prices>(sheet);
@@ -44,20 +44,20 @@ namespace Tests.Loja.Utils
 
 
 
-            
+
 
 
 
             Assert.IsNotNull(sheet);
 
-           
+
         }
         private List<T> GetList<T>(ExcelWorksheet sheet)
         {
             List<T> list = new List<T>();
             //first row is for knowing the properties of object
             var columnInfo = Enumerable.Range(1, sheet.Dimension.Columns).ToList().Select(n =>
-                new { Index = n, ColumnName = sheet.Cells[1, n].Value.ToString().Replace(" ","").Replace("*" , "") }
+                new { Index = n, ColumnName = sheet.Cells[1, n].Value.ToString().Replace(" ", "").Replace("*", "") }
             );
 
             for (int row = 2; row < sheet.Dimension.Rows; row++)
@@ -68,7 +68,7 @@ namespace Tests.Loja.Utils
                     int col = columnInfo.SingleOrDefault(c => c.ColumnName == prop.Name).Index;
                     var val = sheet.Cells[row, col].Value;
                     var propType = prop.PropertyType;
-                    if (!String.IsNullOrEmpty(val?.ToString()))
+                    if (!string.IsNullOrEmpty(val?.ToString()))
                     {
                         prop.SetValue(obj, Convert.ChangeType(val, propType));
 
@@ -86,33 +86,33 @@ namespace Tests.Loja.Utils
             var path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "");
             path += "WriteColoredExcelFileCanReadFile.xlsx";
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-            
+
             DataTable dt = new DataTable();
-            
-            
-            for(int i = 0; i< 100; i++ )
+
+
+            for (int i = 0; i < 100; i++)
             {
                 dt.Columns.Add(i.ToString());
-               
+
             }
             for (int k = 0; k < 100; k++)
             {
                 dt.Rows.Add(k, k.ToString() + "SDSD");
             }
-            
+
 
             //Action
-            OfficeOpenXml.ExcelPackage excel = new ExcelPackage();
+            ExcelPackage excel = new ExcelPackage();
             ExcelWorksheet worksheet = excel.Workbook.Worksheets.Add("teste");
 
             worksheet.Cells["A1"].LoadFromDataTable(dt, true);
 
-            
+
             worksheet.Cells["A1:Z100"].Style.Fill.PatternType = ExcelFillStyle.Solid;
 
-            worksheet.Cells["A1:Z100"].Style.Border.Top.Style=ExcelBorderStyle.Thin;
-            worksheet.Cells["A1:Z100"].Style.Font.Bold=true;
-            worksheet.Cells["A1:Z100"].Style.Font.Italic=true;
+            worksheet.Cells["A1:Z100"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            worksheet.Cells["A1:Z100"].Style.Font.Bold = true;
+            worksheet.Cells["A1:Z100"].Style.Font.Italic = true;
             worksheet.Cells["A1:Z100"].Style.Fill.BackgroundColor.SetColor(Color.Red);
             FileInfo fileInfo = new FileInfo(path);
             excel.SaveAs(fileInfo);
@@ -122,6 +122,6 @@ namespace Tests.Loja.Utils
 
 
         }
-        
+
     }
 }

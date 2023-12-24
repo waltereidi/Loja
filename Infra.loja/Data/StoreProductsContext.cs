@@ -15,14 +15,13 @@ namespace Api.loja.Data
         {
 
         }
-        public virtual DbSet<Categories> Category { get; set; }
-        public DbSet<Categories> Categories { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DbSet<Prices> Prices { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DbSet<Products> Products { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private DbSet<Categories> Categories { get; set; }
+        private DbSet<Prices> Prices { get; set ; }
+        private DbSet<Products> Products { get; set; }
 
-        public List<Categories> GetCategory()
+        public IQueryable<Categories> GetCategories()
         {
-            return Category.ToList();
+            return Categories;
         }
 
         public Task<object> GetProductCategory()

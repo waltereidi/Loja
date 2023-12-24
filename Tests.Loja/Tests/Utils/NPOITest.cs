@@ -15,30 +15,29 @@ using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NuGet.Protocol;
-using Tests.Loja.Dominio.Dto.Requests;
 using Utils.loja.Enums;
 using Utils.loja.Excel;
 
-namespace Tests.Loja.Utils
+namespace Tests.Loja.Tests.Utils
 {
     [TestClass]
     public class NPOITest
     {
         public NPOIExcel _NPOIExcel;
-        public Prices _prices ;
+        public Prices _prices;
         public string path;
-        public NPOITest() 
+        public NPOITest()
         {
-           _NPOIExcel = new NPOIExcel();
-           _prices = new Prices()
+            _NPOIExcel = new NPOIExcel();
+            _prices = new Prices()
             {
                 Created_at = DateTime.Now,
-                Updated_at = null ,
+                Updated_at = null,
                 Description = "TestCase",
                 Price = (decimal)0.15,
                 ID_Prices = 1
             };
-            path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "")+ "\\TestFiles\\CreatedFiles\\";
+            path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "") + "\\TestFiles\\CreatedFiles\\";
 
         }
 
@@ -46,13 +45,13 @@ namespace Tests.Loja.Utils
         public void ObjectToStringArrayReturnTuplesWithEqualAmountOfValues()
         {
             //Setup 
-           
+
             //Action
             var method = _NPOIExcel.GetType().GetMethod("ObjectToStringList", BindingFlags.Instance | BindingFlags.NonPublic);
-            List<string> stringList= (List<string>)method.Invoke(_NPOIExcel, new [] {_prices });
+            List<string> stringList = (List<string>)method.Invoke(_NPOIExcel, new[] { _prices });
 
             //Assert
-            Assert.IsTrue(stringList.Count()== 5);
+            Assert.IsTrue(stringList.Count() == 5);
             Assert.IsTrue(stringList[0] == _prices.ID_Prices.ToString());
             Assert.IsTrue(stringList[1] == _prices.Price.ToString());
             Assert.IsTrue(stringList[2] == _prices.Description.ToString());
@@ -71,15 +70,15 @@ namespace Tests.Loja.Utils
 
             //assert
             Assert.IsTrue(styleList.First().FillForegroundColor == IndexedColors.LightOrange.Index);
-            Assert.IsTrue(styleList.First().FillPattern == FillPattern.SolidForeground );
-            
+            Assert.IsTrue(styleList.First().FillPattern == FillPattern.SolidForeground);
+
         }
         [TestMethod]
         public void CreateExcelReturnsNotNullClass()
         {
             //Setup 
-            
-            if(File.Exists(path))
+
+            if (File.Exists(path))
             {
                 File.Delete(path);
             }
@@ -89,29 +88,29 @@ namespace Tests.Loja.Utils
             listPrices.Add(_prices);
             listPrices.Add(_prices);
             listPrices.Add(_prices);
-            
+
             //Action
             var Return = _NPOIExcel.CreateExcel(listPrices, NPOISheetStyles.LightOrange);
-            using (var fileData = new FileStream(path+ "CreateExcelReturnsNotNUllClass.xlsx", FileMode.Create))
+            using (var fileData = new FileStream(path + "CreateExcelReturnsNotNUllClass.xlsx", FileMode.Create))
             {
                 Return.Write(fileData);
             }
             //Assert
             Assert.IsNotNull(Return);
-            Assert.IsTrue(File.Exists(path+ "CreateExcelReturnsNotNUllClass.xlsx"));   
+            Assert.IsTrue(File.Exists(path + "CreateExcelReturnsNotNUllClass.xlsx"));
         }
         [TestMethod]
         public void CreateExcelReturnsNotNullObject()
         {
             //Setup 
-            
-            
+
+
             if (File.Exists(path + "CreateExcelReturnsNotNUllObject.xlsx"))
             {
-                File.Delete(path+ "CreateExcelReturnsNotNUllObject.xlsx");
+                File.Delete(path + "CreateExcelReturnsNotNUllObject.xlsx");
             }
-            object obj = new { Property = "prop", Number = 1, Decimal = 0.1  , DateTime = DateTime.Now , Boolean = true };
-            List<object> listObject= new List<object>();
+            object obj = new { Property = "prop", Number = 1, Decimal = 0.1, DateTime = DateTime.Now, Boolean = true };
+            List<object> listObject = new List<object>();
             listObject.Add(obj);
             listObject.Add(obj);
             listObject.Add(obj);
@@ -130,8 +129,8 @@ namespace Tests.Loja.Utils
         [TestMethod]
         public void ValidateSheetFieldsReturnFalseWhenFieldsMatch()
         {
-            
-            if(File.Exists(path+ "CreateExcelReturnsNotNUllClass.xlsx"))
+
+            if (File.Exists(path + "CreateExcelReturnsNotNUllClass.xlsx"))
             {
                 //Setup 
                 HSSFWorkbook workbook;
@@ -141,7 +140,7 @@ namespace Tests.Loja.Utils
                 }
                 Prices prices = new Prices();
                 //Action 
-                bool Return = _NPOIExcel.ValidateSheetFields( prices , workbook);
+                bool Return = _NPOIExcel.ValidateSheetFields(prices, workbook);
 
                 //Assert
                 Assert.IsTrue(Return);
@@ -150,7 +149,7 @@ namespace Tests.Loja.Utils
             else
             {
                 //File not existent
-                Assert.IsTrue(false);   
+                Assert.IsTrue(false);
             }
         }
         [TestMethod]
@@ -185,7 +184,7 @@ namespace Tests.Loja.Utils
             string fileName = "InvalidFileTest.xlsx";
 
             //Action 
-            IWorkbook workbook = _NPOIExcel.ImportSheetFromFile( path ,fileName);
+            IWorkbook workbook = _NPOIExcel.ImportSheetFromFile(path, fileName);
             //Assert
             Assert.IsNull(workbook);
         }
@@ -194,7 +193,7 @@ namespace Tests.Loja.Utils
         {
             //Setup 
             string fileName = "ValidSheetFromPricesClass.xlsx";
-            
+
             //Action 
             IWorkbook workbook = _NPOIExcel.ImportSheetFromFile(path, fileName);
 
@@ -205,7 +204,7 @@ namespace Tests.Loja.Utils
         public void GetSheetValuesReturnsMappedObject()
         {
             //Setup 
-            List<Prices> prices= new List<Prices>();
+            List<Prices> prices = new List<Prices>();
             Prices price = new Prices();
             HSSFWorkbook workbook;
             using (FileStream file = new FileStream(path + "ValidSheetFromPricesClass.xlsx", FileMode.Open, FileAccess.Read))
@@ -214,10 +213,10 @@ namespace Tests.Loja.Utils
             }
 
             //Action 
-            prices = _NPOIExcel.GetSheetValues<Prices>( workbook , 0);
+            prices = _NPOIExcel.GetSheetValues<Prices>(workbook, 0);
 
             //Assert 
-            Assert.IsTrue(prices.Count>1);
+            Assert.IsTrue(prices.Count > 1);
         }
 
         [TestMethod]
@@ -230,13 +229,13 @@ namespace Tests.Loja.Utils
             }
 
             List<ExcelImportProducts> listProducts = new List<ExcelImportProducts>();
-            listProducts.Add( new ExcelImportProducts() {Name ="Product1" , Description = "Product1" , ID_Products = "1" });
+            listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "1" });
             listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "s" });
             listProducts.Add(new ExcelImportProducts() { Name = "1", Description = "1", ID_Products = "1" });
             listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "1" });
 
             //Action 
-            var Return = _NPOIExcel.ReturnValidationSheet(listProducts , NPOISheetStyles.LightOrange);
+            var Return = _NPOIExcel.ReturnValidationSheet(listProducts, NPOISheetStyles.LightOrange);
             using (var fileData = new FileStream(path + "ReturnValidationSheetReturnsSheet.xlsx", FileMode.Create))
             {
                 Return.Item2.Write(fileData);

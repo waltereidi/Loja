@@ -12,16 +12,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.Loja.Infra
+namespace Tests.Loja.Tests.Infra
 {
     [TestClass]
     public class StoreContextTest
     {
         private StoreContext _storeContext;
-        
-        public StoreContextTest() 
+
+        public StoreContextTest()
         {
-            String dir = System.IO.Directory.GetCurrentDirectory();
+            string dir = Directory.GetCurrentDirectory();
             string jsonDir = dir.Replace("\\Tests.Loja\\bin\\Debug\\net6.0", "") + "\\Api.loja\\appsettings.json";
             string json = File.ReadAllText(jsonDir);
             dynamic launchSettings = JObject.Parse(json);
@@ -32,13 +32,13 @@ namespace Tests.Loja.Infra
         public void DbSetPermissionsReturnDataSet()
         {
             //setup 
-            
+
             //action
             _storeContext.SetPermissionsRelation("TestCase");
-            
+
             //assert 
             Assert.IsTrue(ClientsPermission.permissionsList.Count() > 0);
-            
+
         }
         [TestMethod]
         public void GetDataSetReturnsValuesFromDataBase()
