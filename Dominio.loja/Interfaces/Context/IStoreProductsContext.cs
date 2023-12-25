@@ -10,10 +10,6 @@ namespace Dominio.loja.Interfaces.Context
 {
     public interface IStoreProductsContext
     {
-        List<Categories> GetCategory();
-
-        Task<object> GetProductCategory();
-
         DbSet<Categories> Categories { get; set; } 
         DbSet<Prices> Prices { get; set; }
         DbSet<Products> Products { get; set; }

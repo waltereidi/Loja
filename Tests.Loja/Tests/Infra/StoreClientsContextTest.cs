@@ -27,50 +27,23 @@ namespace Tests.Loja.Tests.Infra
         }
 
         [TestMethod]
-        public void DeleteCartProductsReturnsFalseWhenNotFound()
+        public void GetCartProductsReturnsUsableQuery()
         {
-            //Setup 
-            ClientsProductsCart entity = new ClientsProductsCart() { ID_Clients = 0 };
-
-            //Action 
-            var result = _context.DeleteCartProducts(0);
-
-            //Assert 
-            Assert.IsFalse(result);
-        }
-        [TestMethod]
-        public void GetCartProductsReturnsNullWhenEmpty()
-        {
-            //Setup 
-            int ID_Clients = 1;
-            //Action
-            //Assert
-
-        }
-        [TestMethod]
-        public void GetEditMyProfileReturnClient()
-        {
-            //setup 
-            string email = "TestCase";
-
-        }
-        [TestMethod]
-        public void PutEditMyProfile()
-        {
-           
-
-        }
-        [TestMethod]
-        public void GetOrdersRequestReturnsNull()
-        {
-            //setup 
-            int ID_Clients = 0;
             //action
-
-            //assert 
+            var query = _context.GetCartProducts();
+            
+            //Assert
+            Assert.IsFalse(query.Where(x=> x.Client.ID_Clients == 0).Any());
 
         }
-
+        [TestMethod]
+        public void GetOrdersRequestReturnsUsableQuery()
+        {
+            //action
+            var query = _context.GetOrdersRequest();
+            //Assert 
+            Assert.IsFalse(query.Where(x => x.ClientsProductCart.ID_Clients == 0 ).Any());
+        }
 
     }
 }
