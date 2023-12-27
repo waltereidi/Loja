@@ -2,6 +2,7 @@
 using Api.loja.Services;
 using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Dto.Requests;
+using Dominio.loja.Entity;
 using Dominio.loja.Interfaces;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,7 @@ namespace Api.loja.Controllers
         
         [HttpGet]
         [Authorize]
-        public IActionResult GetEditMyProfile()
+        public IActionResult GetEditMyProfile(int ID_Clients)
         {
 
             return Ok();
@@ -28,7 +29,7 @@ namespace Api.loja.Controllers
 
         [HttpPut]
         [Authorize]
-        public IActionResult PutEditMyProfile()
+        public IActionResult PutEditMyProfile(Clients dataSource)
         {
             return Ok();
         }

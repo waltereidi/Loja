@@ -23,8 +23,5 @@ namespace Dominio.loja.Dto.Models
         [ExcelValidationAttributes(ExcelValidation.CustomSheetField , "Description of product")]
         public string Description { get; set; }
 
-
-
-
     }
 }

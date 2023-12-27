@@ -7,22 +7,24 @@ namespace Api.loja.Data
     public class StoreProductsContext : DbContext, IStoreProductsContext
     {
 
-        public StoreProductsContext()
-        {
-
-        }
+        private readonly string _connectionString;
         public StoreProductsContext(DbContextOptions<StoreProductsContext> options) : base(options)
         {
 
         }
-        public DbSet<Categories> Categories { get; set; }
-        public DbSet<Prices> Prices { get; set ; }
-        public DbSet<Products> Products { get; set; }
-        
-        public IQueryable<> GetProductCategory()
+        public StoreProductsContext(string connectionString)
         {
-            throw new NotImplementedException();
+            _connectionString = connectionString;
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
+        }
+        public DbSet<Categories> categories { get; set; } = null!;
+        public DbSet<Prices> prices { get; set; } = null!;
+        public DbSet<Products> products { get; set; } = null!;
+        public DbSet<CategoryPromotion> categoryPromotion { get; set; } = null!;
+        public DbSet<ProductsCategories> productsCategories { get; set; } = null!;
        
     }
 

@@ -1,28 +1,44 @@
 ﻿using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Dto.Models;
-using Dominio.loja.Dto.Requests;
-using Dominio.loja.DTO.Requests;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
-using Stripe;
+using Dominio.loja.Interfaces.Services;
+using Infra.loja.Data;
+using System.Data.Entity.Core;
+using System.Data.Entity.Infrastructure;
 
 namespace Api.loja.Services
 {
-    public class StoreClients
+    public class StoreClients 
     {
-        IStoreContext _storeContext; 
+        StoreClientsContext _context; 
         public StoreClients() 
         {
             
         }
-        public List<PermissionsRelation> getPermissions()
+        public Clients GetEditMyProfile(int ID_Clients)
         {
-            return ClientsPermission.permissionsList;
+            var clients = _context.clients.Where(x => x.ID_Clients == ID_Clients);
+            return clients.Any() ? clients.First() : null; 
+
         }
-        public ResponseModel<bool> DeleteCartProducts()
+        public bool PutEditMyProfile(Clients dataSource)
         {
-            return new ResponseModel<bool>( false , "");
+            try
+            {
+                _context.clients.Update(dataSource);
+                _context.SaveChanges();    
+
+                return true;
+            }
+            catch(DbUpdateException ex) 
+            {
+                return false; 
+            }
+
         }
+
+        
         
 
     }

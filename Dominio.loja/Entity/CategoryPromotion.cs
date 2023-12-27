@@ -12,12 +12,11 @@ namespace Dominio.loja.Entity
     public class CategoryPromotion : MasterEntity
     {
         [Key]
-        public int CategoriesPromotion { get; set; }
-
+        public int ID_CategoriesPromotion { get; set; }
         [ForeignKey("ID_Cateogories")]
         public int ID_Cateogories { get; set; }
+        public int DisplayOrder { get; set; }
         [NotMapped]
         public Categories Category { get; set; }
-        public int DisplayOrder { get; set; }
     }
 }
