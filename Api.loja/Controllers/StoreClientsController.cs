@@ -31,6 +31,7 @@ namespace Api.loja.Controllers
         [Authorize]
         public IActionResult PutEditMyProfile(Clients dataSource)
         {
+
             return Ok();
         }
         [HttpPost]
