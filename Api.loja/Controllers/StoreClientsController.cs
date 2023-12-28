@@ -21,7 +21,7 @@ namespace Api.loja.Controllers
         
         [HttpGet]
         [Authorize]
-        public IActionResult GetEditMyProfile(int ID_Clients)
+        public IActionResult GetEditMyProfile([FromHeader]int ID_Clients)
         {
 
             return Ok();
@@ -29,14 +29,14 @@ namespace Api.loja.Controllers
 
         [HttpPut]
         [Authorize]
-        public IActionResult PutEditMyProfile(Clients dataSource)
+        public IActionResult PutEditMyProfile([FromBody] Clients dataSource)
         {
 
             return Ok();
         }
-        [HttpPost]
+        [HttpGet]
         [Authorize]
-        public IActionResult GetOrdersRequest([FromBody] StoreClientsOrdersRequest request)
+        public IActionResult GetOrdersRequest([FromHeader] int ID_Clients )
         {
             return Ok();
 

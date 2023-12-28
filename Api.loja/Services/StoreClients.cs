@@ -38,7 +38,11 @@ namespace Api.loja.Services
 
         }
 
-        
+        public List<RequestOrdersClientsProductsCart> GetOrdersRequest(int ID_Clients)
+        {
+
+            GetRequestOrdersDTO
+        }
         
 
     }

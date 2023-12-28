@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Entity;
+﻿using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,22 +53,18 @@ namespace Infra.loja.Data
                         };
 
         }
-        public IQueryable<RequestOrdersClientsProductsCart> GetOrdersRequest()
+        public IQueryable<GetRequestOrdersDTO> GetOrdersRequest()
         {
-            var query = from cli in clients
+            return from cli in clients
                         join cap in clientsProducts_cart on cli.ID_Clients equals cap.ID_Clients
                         join rcpc in requestOrdersClientsProductsCart on cap.ID_ClientsProducts_Cart equals rcpc.ID_ClientsProducts_Cart
                         join req in requestOrders on rcpc.ID_RequestOrders equals req.ID_RequestOrders
-                        select new RequestOrdersClientsProductsCart()
+                        group req by req.ID_RequestOrders  into requests
+                        select new GetRequestOrdersDTO()
                         {
-                            ID_RequestOrders_clientsProducts_Cart = rcpc.ID_RequestOrders_clientsProducts_Cart,
-                            Created_at = rcpc.Created_at,
-                            Updated_at = rcpc.Updated_at,
-                            RequestOrders = req,
-                            ClientsProductCart = cap,
-                           
+                            RequestOrder = new RequestOrders{ ID_RequestOrders = requests.Key} ,
+                            ListClientsProductsCart = clientsProducts_cart.ToList()                
                         };
-            return query;
 
         }
 
