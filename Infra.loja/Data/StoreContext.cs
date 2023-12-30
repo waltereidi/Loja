@@ -27,8 +27,12 @@ namespace Api.loja.Data
         private DbSet<Permissions> permissions { get; set; }
         private DbSet<PermissionsRelation> permissions_Relation { get; set; }
         private DbSet<PermissionsGroup> permissionsGroup { get; set; }
-        
-        
+        public DbSet<Categories> categories { get; set; } = null!;
+        public DbSet<Prices> prices { get; set; } = null!;
+        public DbSet<Products> products { get; set; } = null!;
+        public DbSet<CategoryPromotion> categoryPromotion { get; set; } = null!;
+        public DbSet<ProductsCategories> productsCategories { get; set; } = null!;
+
         public Clients? GetClient(string email, string password)
         {
             var Return=clients.Where(x => x.Email == email && x.Password == password);

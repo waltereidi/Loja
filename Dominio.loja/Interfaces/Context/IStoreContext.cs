@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Interfaces.Context
 {
-    public interface IStoreContext
+    public interface IStoreContext : IDbContext
     {
         DbSet<Products> products { get; set; }
         DbSet<ProductsCategories> productsCategories { get; set; }

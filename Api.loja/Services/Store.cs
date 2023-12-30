@@ -16,9 +16,9 @@ namespace Api.loja.Services
 
         public void getLogin(LoginRequest loginRequest)
         {
-            Clients client = _context.GetClient(loginRequest.Login, loginRequest.Password);
-            loginRequest.Clients = client;
-            var login = loginRequest.GetToken();
+            //Clients client = _context.GetClient(loginRequest.Login, loginRequest.Password);
+            //loginRequest.Clients = client;
+            //var login = loginRequest.GetToken();
 
         }
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Interfaces.Context
 {
-    public interface IStoreAdminContext 
+    public interface IStoreAdminContext : IDbContext
     {
         
         

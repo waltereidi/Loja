@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Interfaces.Context
 {
-    public interface IStoreProductsContext
+    public interface IStoreProductsContext : IDbContext
     {
          DbSet<Categories> categories { get; set; } 
          DbSet<Prices> prices { get; set; } 

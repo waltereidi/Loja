@@ -19,11 +19,7 @@ namespace Api.loja.Data
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }
-        public DbSet<Categories> categories { get; set; } = null!;
-        public DbSet<Prices> prices { get; set; } = null!;
-        public DbSet<Products> products { get; set; } = null!;
-        public DbSet<CategoryPromotion> categoryPromotion { get; set; } = null!;
-        public DbSet<ProductsCategories> productsCategories { get; set; } = null!;
+       
        
     }
 
