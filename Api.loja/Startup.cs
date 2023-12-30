@@ -3,9 +3,7 @@ using Api.loja.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Dominio.loja.Interfaces.Context;
 using Api.loja.Middleware;
-using Infra.loja.Data;
 
 public class Startup
 {
@@ -44,8 +42,11 @@ public class Startup
         service.AddAuthorization();
         service.AddSwaggerGen();
 
-        service.AddDbContext<IStoreContext, StoreContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton);
-        service.AddDbContext<IStoreClientsContext, StoreClientsContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton);
+        
+
+        service.AddDbContext<StoreContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton)
+               .AddDbContext<StoreAdminContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton); ;
+        
 
         service.AddDistributedMemoryCache();
         service.AddSession( options =>

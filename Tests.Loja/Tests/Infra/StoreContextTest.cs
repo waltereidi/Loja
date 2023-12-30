@@ -25,7 +25,7 @@ namespace Tests.Loja.Tests.Infra
             string jsonDir = dir.Replace("\\Tests.Loja\\bin\\Debug\\net6.0", "") + "\\Api.loja\\appsettings.json";
             string json = File.ReadAllText(jsonDir);
             dynamic launchSettings = JObject.Parse(json);
-            _storeContext = new StoreContext((string)launchSettings.ConnectionString);
+            //_storeContext = new StoreContext((string)launchSettings.ConnectionString);
         }
 
         [TestMethod]

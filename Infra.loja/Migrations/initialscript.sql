@@ -100,14 +100,16 @@ create table RequestOrders(
 	description nvarchar(2048) null , 
 	created_at datetime not null default current_timestamp , 
 	updated_at datetime not null , 
+	ID_Clients int not null foreign key references Clients(ID_Clients)
 );
 
 create table RequestOrders_clientsProducts_Cart(
-	ID_RequestOrders_clientsProducts_Cart int not null identity(1 , 1 ) primary key ,
+	ID_RequestOrders_Products int not null identity(1 , 1 ) primary key ,
 	created_at datetime not null default current_timestamp , 
 	updated_at datetime not null ,
 	ID_RequestOrders int not null foreign key references requestOrders(ID_RequestOrders),
-	ID_ClientsProducts_Cart int not null foreign key references clientsProducts_cart(ID_ClientsProducts_Cart) 
+	ID_Products int not null foreign key references products(ID_Products),
+	quantity int not null default 0 
 );
 
 SET IDENTITY_INSERT permissionsGroup ON 

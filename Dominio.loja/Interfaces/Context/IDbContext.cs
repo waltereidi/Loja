@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Interfaces.Context
 {
-    internal interface ApplicationDbContext<T> where T : class
+    public interface IDbContext
     {
-        IQueryable<T> Retorna();
+        int SaveChanges();
     }
 }

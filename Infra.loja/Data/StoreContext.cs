@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Linq;
 namespace Api.loja.Data
 {
-    public class StoreContext : DbContext, IStoreContext 
+    public abstract class StoreContext : DbContext
     {
         private readonly string _connectionString;
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)

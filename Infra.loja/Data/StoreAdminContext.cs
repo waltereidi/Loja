@@ -1,18 +1,17 @@
 ﻿using Dominio.loja.Entity;
-using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.loja.Data
 {
-    public class StoreProductsContext : DbContext, IStoreProductsContext
+    public abstract class StoreAdminContext : DbContext
     {
 
         private readonly string _connectionString;
-        public StoreProductsContext(DbContextOptions<StoreProductsContext> options) : base(options)
+        public StoreAdminContext(DbContextOptions<StoreAdminContext> options) : base(options)
         {
 
         }
-        public StoreProductsContext(string connectionString)
+        public StoreAdminContext(string connectionString)
         {
             _connectionString = connectionString;
         }

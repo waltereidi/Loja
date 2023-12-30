@@ -44,7 +44,7 @@ namespace Api.loja.Controllers
         }
         [HttpPost]
         [Authorize]
-        public IActionResult PostOrdersRequest([FromBody] GenericRequestModel<RequestOrders> dataSource )
+        public IActionResult PostOrdersRequest([FromBody] int dataSource )
         {
             return Ok();
         }
