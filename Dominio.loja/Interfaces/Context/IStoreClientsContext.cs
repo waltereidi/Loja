@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Entity;
+﻿using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Dominio.loja.Interfaces.Context
         DbSet<ClientsProductsCart> clientsProducts_cart { get; set; }
         DbSet<RequestOrders> requestOrders { get; set; }
         DbSet<RequestOrdersClientsProductsCart> requestOrdersClientsProductsCart { get; set; }
-        IQueryable<RequestOrdersClientsProductsCart> GetOrdersRequest();
+        IQueryable<GetRequestOrdersDTO> GetOrdersRequest(int ID_Clients);
         IQueryable<ClientsProductsCart> GetCartProducts();
         
     }

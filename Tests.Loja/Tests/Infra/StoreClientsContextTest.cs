@@ -36,14 +36,13 @@ namespace Tests.Loja.Tests.Infra
             Assert.IsFalse(query.Where(x=> x.Client.ID_Clients == 0).Any());
 
         }
+       
         [TestMethod]
-        public void GetOrdersRequestReturnsUsableQuery()
+        public void GetOrdersRequestReturnsValidQUery()
         {
-            //action
-            var query = _context.GetOrdersRequest();
-            //Assert 
-            Assert.IsFalse(query.Where(x => x.ClientsProductCart.ID_Clients == 0 ).Any());
-        }
+            var query = _context.GetOrdersRequest(0);
+            Assert.IsTrue(query.Count() == 0);
 
+        }
     }
 }

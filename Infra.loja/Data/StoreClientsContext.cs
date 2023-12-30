@@ -1,12 +1,13 @@
 ﻿using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Infra.loja.Data
 {
-    public class StoreClientsContext : DbContext, IStoreClientsContext
+    public class StoreClientsContext : DbContext
     {
         private readonly string _connectionString;
         public StoreClientsContext(DbContextOptions<StoreClientsContext> options) : base(options)
@@ -53,17 +54,29 @@ namespace Infra.loja.Data
                         };
 
         }
-        public IQueryable<GetRequestOrdersDTO> GetOrdersRequest()
+        public IQueryable<GetRequestOrdersDTO> GetOrdersRequest(int ID_Clients)
         {
             return from cli in clients
                         join cap in clientsProducts_cart on cli.ID_Clients equals cap.ID_Clients
                         join rcpc in requestOrdersClientsProductsCart on cap.ID_ClientsProducts_Cart equals rcpc.ID_ClientsProducts_Cart
                         join req in requestOrders on rcpc.ID_RequestOrders equals req.ID_RequestOrders
+                        join prd in products on cap.ID_Products equals prd.ID_Products
+                        where cli.ID_Clients == ID_Clients
                         group req by req.ID_RequestOrders  into requests
                         select new GetRequestOrdersDTO()
                         {
-                            RequestOrder = new RequestOrders{ ID_RequestOrders = requests.Key} ,
-                            ListClientsProductsCart = clientsProducts_cart.ToList()                
+                            RequestOrder = requestOrders.Where( r => r.ID_RequestOrders == requests.Key).First() ,
+                            ListClientsProductsCart = clientsProducts_cart
+                                .Select(s =>new ClientsProductsCart { 
+                                    Product = products.Where(p => p.ID_Products == s.ID_Products).First() ,
+                                    ID_Clients = s.ID_Clients,
+                                    ID_ClientsProducts_Cart = s.ID_ClientsProducts_Cart,
+                                    Created_at = s.Created_at,
+                                    IsActive = s.IsActive,
+                                    Quantity = s.Quantity,
+                                    Updated_at = s.Updated_at,
+                                    ID_Products = s.ID_Products,
+                                }).ToList()                
                         };
 
         }

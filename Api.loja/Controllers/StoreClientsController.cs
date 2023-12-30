@@ -1,6 +1,7 @@
 ﻿using Api.loja.Data;
 using Api.loja.Services;
 using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Dto.Models;
 using Dominio.loja.Dto.Requests;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces;
@@ -43,7 +44,7 @@ namespace Api.loja.Controllers
         }
         [HttpPost]
         [Authorize]
-        public IActionResult PostOrdersRequest()
+        public IActionResult PostOrdersRequest([FromBody] GenericRequestModel<RequestOrders> dataSource )
         {
             return Ok();
         }

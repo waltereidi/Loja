@@ -38,11 +38,12 @@ namespace Api.loja.Services
 
         }
 
-        public List<RequestOrdersClientsProductsCart> GetOrdersRequest(int ID_Clients)
+        public List<GetRequestOrdersDTO> GetOrdersRequest(int ID_Clients)
         {
 
-            GetRequestOrdersDTO
+            return _context.GetOrdersRequest(ID_Clients).ToList();
         }
+        
         
 
     }

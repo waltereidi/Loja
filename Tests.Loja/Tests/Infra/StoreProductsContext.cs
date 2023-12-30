@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Tests.Loja.Tests.Infra
 {
     [TestClass]
-    public class StoreProductsContext
+    public class StoreProductsContextTest
     {
-        public StoreProductsContext()
+        public StoreProductsContextTest()
         {
 
         }
