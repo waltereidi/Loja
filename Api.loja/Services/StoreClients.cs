@@ -44,7 +44,7 @@ namespace Api.loja.Services
             return _context.GetOrdersRequest(ID_Clients).ToList();
         }
         
-        
+        public 
 
     }
 }

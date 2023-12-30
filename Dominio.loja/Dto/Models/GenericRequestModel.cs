@@ -10,6 +10,6 @@ namespace Dominio.loja.Dto.Models
     public class GenericRequestModel:MasterRequest
     {
         [System.Runtime.Versioning.SupportedOSPlatform("windows")]
-        public static object? GetObject(string? PathName = default, string? Class = default);
+        public object? GetObject(string? PathName = default, string? Class = default);
     }
 }
