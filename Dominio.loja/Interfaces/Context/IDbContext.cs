@@ -12,7 +12,7 @@ namespace Dominio.loja.Interfaces.Context
         int SaveChanges();
         EntityEntry Update(object entity);
 
-        EntityEntry Delete(object entity);
+        EntityEntry Remove(object entity);
         EntityEntry Add(object entity);
 
     }

@@ -103,7 +103,7 @@ create table RequestOrders(
 	ID_Clients int not null foreign key references Clients(ID_Clients)
 );
 
-create table RequestOrders_clientsProducts_Cart(
+create table RequestOrders_products(
 	ID_RequestOrders_Products int not null identity(1 , 1 ) primary key ,
 	created_at datetime not null default current_timestamp , 
 	updated_at datetime not null ,

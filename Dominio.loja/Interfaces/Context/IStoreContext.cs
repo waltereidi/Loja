@@ -20,9 +20,8 @@ namespace Dominio.loja.Interfaces.Context
         DbSet<Clients> clients { get; set; }
         DbSet<ClientsProductsCart> clientsProducts_cart { get; set; }
         DbSet<RequestOrders> requestOrders { get; set; }
-        DbSet<RequestOrdersClientsProductsCart> requestOrdersClientsProductsCart { get; set; }
-        IQueryable<GetRequestOrdersDTO> GetOrdersRequest(int ID_Clients);
-        IQueryable<ClientsProductsCart> GetCartProducts();
+        DbSet<RequestOrdersProducts> requestOrdersProducts { get; set; }
+
 
     }
 }

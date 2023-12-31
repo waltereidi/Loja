@@ -4,11 +4,12 @@ using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Linq;
 namespace Api.loja.Data
 {
-    public abstract class StoreContext : DbContext
+    public class StoreContext : DbContext , IStoreClientsContext , IStoreProductsContext , IStoreContext
     {
         private readonly string _connectionString;
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
@@ -23,22 +24,21 @@ namespace Api.loja.Data
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }
-        private DbSet<Clients> clients { get; set; }
-        private DbSet<Permissions> permissions { get; set; }
-        private DbSet<PermissionsRelation> permissions_Relation { get; set; }
-        private DbSet<PermissionsGroup> permissionsGroup { get; set; }
         public DbSet<Categories> categories { get; set; } = null!;
+        public DbSet<CategoryPromotion> categoryPromotion { get; set; } = null!;
+        public DbSet<Clients> clients { get; set; }
+        public DbSet<ClientsProductsCart> clientsProducts_cart { get; set; }= null!;
+        private DbSet<Permissions> permissions { get; set; }
+        private DbSet<PermissionsGroup> permissionsGroup { get; set; }
+        private DbSet<PermissionsRelation> permissions_Relation { get; set; }
         public DbSet<Prices> prices { get; set; } = null!;
         public DbSet<Products> products { get; set; } = null!;
-        public DbSet<CategoryPromotion> categoryPromotion { get; set; } = null!;
         public DbSet<ProductsCategories> productsCategories { get; set; } = null!;
+        public DbSet<ProductsPrices> productsPrices { get; set; }= null!;
+        public DbSet<ProductsStorage> productsStorage { get; set; } = null!;
+        public DbSet<RequestOrders> requestOrders { get; set; } = null!;
+        public DbSet<RequestOrdersProducts> requestOrdersProducts { get; set; } = null!;
 
-        public Clients? GetClient(string email, string password)
-        {
-            var Return=clients.Where(x => x.Email == email && x.Password == password);
-            return Return.Any() ? Return.First() : null;
-        }
-        
         public void SetPermissionsRelation(string email )
         {
             var query = from perR in permissions_Relation
@@ -54,6 +54,7 @@ namespace Api.loja.Data
                  };
             ClientsPermission.permissionsList = query.Any() ? query.ToList() : null; 
         }
+
     }
 
 }
