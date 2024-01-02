@@ -12,7 +12,7 @@ namespace Dominio.loja.Entity
     public class Permissions
     {
         [Key]
-        public int ID_Permissions { get; set; }
+        public int PermissionsId { get; set; }
 
         [StringLength(255)]
         public string Name { get; set; }

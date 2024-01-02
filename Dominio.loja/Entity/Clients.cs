@@ -12,15 +12,15 @@ namespace Dominio.loja.Entity
     public class Clients : MasterEntity
     {
         [Key]
-        public int ID_Clients { get; set; }
+        public int ClientsId { get; set; }
 
         [StringLength(320)]
         public string Email { get; set; }
 
         [StringLength(30)]
         public string Password { get; set; }
-        [ForeignKey("ID_PermissionsGroup")]
-        public int ID_PermissionsGroup { get; set; }
+        [ForeignKey("PermissionsGroupId")]
+        public int PermissionsGroupId { get; set; }
         [NotMapped]
         public PermissionsGroup? PermissionsGroup { get; set; }
 

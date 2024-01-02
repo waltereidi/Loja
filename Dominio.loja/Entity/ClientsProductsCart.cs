@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
-    [Table("clientsProducts_cart")]
+    [Table("clientsProductsCart")]
     public class ClientsProductsCart : MasterEntity
     {
         [Key]
-        public int ID_ClientsProducts_Cart {get;set;}
+        public int ClientsProductsCartId {get;set;}
         public int Quantity { get;set;}
 
         public bool IsActive { get;set;}
 
-        [ForeignKey("ID_Products")]
-        public int ID_Products { get; set; }
-        [ForeignKey("ID_Clients")]
-        public int ID_Clients { get; set; }
+        [ForeignKey("ProductsId")]
+        public int ProductsId { get; set; }
+        [ForeignKey("ClientsId")]
+        public int ClientsId { get; set; }
 
         [NotMapped]
-        public Products Product { get; set; }
+        public Products Products { get; set; }
         [NotMapped]
-        public Clients Client { get; set; }
+        public Clients Clients { get; set; }
     }
 }

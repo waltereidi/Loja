@@ -12,7 +12,7 @@ namespace Dominio.loja.Entity
     public class Products : MasterEntity
     {
         [Key]
-        public int ID_Products { get; set; }
+        public int ProductsId { get; set; }
 
         [StringLength(255)]
         public string Name { get; set; }

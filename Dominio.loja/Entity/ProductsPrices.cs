@@ -12,15 +12,15 @@ namespace Dominio.loja.Entity
     public class ProductsPrices : MasterEntity
     {
         [Key]
-        public int ID_ProductsPrice { get; set; }
-        [ForeignKey("ID_Products")]
-        public int ID_Products { get; set; }
-        [ForeignKey("ID_Prices")]
-        public int ID_Prices { get;set; }
+        public int ProductsPriceId { get; set; }
+        [ForeignKey("ProductsId")]
+        public int ProductsId { get; set; }
+        [ForeignKey("PricesId")]
+        public int PricesId { get;set; }
         [NotMapped]
-        Prices Price { get; set; }
+        Prices Prices { get; set; }
         [NotMapped]
-        Products Product { get; set; }
+        Products Products { get; set; }
 
     }
 }

@@ -12,12 +12,12 @@ namespace Dominio.loja.Entity
     public class PermissionsRelation : MasterEntity
     {
         [Key]
-        public int ID_Permissions_Relation { get; set; }
+        public int PermissionsRelationId { get; set; }
 
-        [ForeignKey("ID_PermissionsGroup")]
-        public int ID_PermissionsGroup { get; set; }
-        [ForeignKey("ID_Permissions")]
-        public int ID_Permissions { get; set; }
+        [ForeignKey("PermissionsGroupId")]
+        public int PermissionsGroupId { get; set; }
+        [ForeignKey("PermissionsId")]
+        public int PermissionsId { get; set; }
         [NotMapped]
         public PermissionsGroup PermissionsGroup { get; set; }
         [NotMapped]

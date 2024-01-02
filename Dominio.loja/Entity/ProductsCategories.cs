@@ -12,14 +12,14 @@ namespace Dominio.loja.Entity
     public class ProductsCategories : MasterEntity
     {
         [Key]
-        public int ID_ProductsCategories { set; get; }
-        [ForeignKey("ID_Products")]
-        public int ID_Products { get; set; }
-        [ForeignKey("ID_Cateogories")]
-        public int ID_Cateogories { get; set; }
+        public int ProductsCategoriesId { set; get; }
+        [ForeignKey("ProductsId")]
+        public int ProductsId { get; set; }
+        [ForeignKey("CateogoriesId")]
+        public int CateogoriesId { get; set; }
         [NotMapped]
-        public Products Product { get; set; }
+        public Products Products { get; set; }
         [NotMapped]
-        public Categories Category { get; set; }    
+        public Categories Categories { get; set; }    
     }
 }

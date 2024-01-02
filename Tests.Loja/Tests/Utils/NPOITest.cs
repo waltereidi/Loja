@@ -35,7 +35,7 @@ namespace Tests.Loja.Tests.Utils
                 Updated_at = null,
                 Description = "TestCase",
                 Price = (decimal)0.15,
-                ID_Prices = 1
+                PricesId = 1
             };
             path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "") + "\\TestFiles\\CreatedFiles\\";
 
@@ -52,7 +52,7 @@ namespace Tests.Loja.Tests.Utils
 
             //Assert
             Assert.IsTrue(stringList.Count() == 5);
-            Assert.IsTrue(stringList[0] == _prices.ID_Prices.ToString());
+            Assert.IsTrue(stringList[0] == _prices.PricesId.ToString());
             Assert.IsTrue(stringList[1] == _prices.Price.ToString());
             Assert.IsTrue(stringList[2] == _prices.Description.ToString());
             Assert.IsTrue(stringList[3] == _prices.Created_at.ToString());

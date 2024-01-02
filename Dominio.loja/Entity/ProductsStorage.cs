@@ -12,14 +12,14 @@ namespace Dominio.loja.Entity
     public class ProductsStorage
     {
         [Key]
-        public int ID_ProductsStorage { get; set; }
+        public int ProductsStorageId { get; set; }
         public int Quantity { get; set; }
         [StringLength(255)]
         public string Description { get; set; }
 
-        [ForeignKey("ID_Products")]
-        public int ID_Products { get; set; }
+        [ForeignKey("ProductsId")]
+        public int ProductsId { get; set; }
         [NotMapped]
-        public Products Product { get; set; } 
+        public Products Products { get; set; } 
     }
 }

@@ -12,6 +12,10 @@ namespace Api.loja.Data
     public class StoreContext : DbContext , IStoreClientsContext , IStoreProductsContext , IStoreContext
     {
         private readonly string _connectionString;
+        public StoreContext()
+        {
+            _connectionString = "Server=MWALTR;Database=loja;Trusted_Connection=True;TrustServerCertificate=True;User Id=sa;Password=123";
+        }
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
 
@@ -25,7 +29,7 @@ namespace Api.loja.Data
             optionsBuilder.UseSqlServer(_connectionString);
         }
         public DbSet<Categories> categories { get; set; } = null!;
-        public DbSet<CategoryPromotion> categoryPromotion { get; set; } = null!;
+        public DbSet<CategoriesPromotion> categoryPromotion { get; set; } = null!;
         public DbSet<Clients> clients { get; set; }
         public DbSet<ClientsProductsCart> clientsProducts_cart { get; set; }= null!;
         private DbSet<Permissions> permissions { get; set; }
@@ -39,21 +43,7 @@ namespace Api.loja.Data
         public DbSet<RequestOrders> requestOrders { get; set; } = null!;
         public DbSet<RequestOrdersProducts> requestOrdersProducts { get; set; } = null!;
 
-        public void SetPermissionsRelation(string email )
-        {
-            var query = from perR in permissions_Relation
-                 join perG in permissionsGroup on perR.ID_Permissions_Relation equals perG.ID_PermissionsGroup 
-                 join cli in clients on perG.ID_PermissionsGroup equals cli.ID_PermissionsGroup
-                 join per in permissions on perR.ID_Permissions equals per.ID_Permissions
-                 where cli.Email == email 
-                 select new PermissionsRelation() { 
-                    PermissionsGroup = perG ,
-                    Permissions = per ,
-                    Created_at = perR.Created_at,
-                    Updated_at = perR.Updated_at,
-                 };
-            ClientsPermission.permissionsList = query.Any() ? query.ToList() : null; 
-        }
+    
 
     }
 

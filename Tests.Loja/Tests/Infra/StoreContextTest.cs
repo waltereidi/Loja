@@ -34,7 +34,6 @@ namespace Tests.Loja.Tests.Infra
             //setup 
 
             //action
-            _storeContext.SetPermissionsRelation("TestCase");
 
             //assert 
             Assert.IsTrue(ClientsPermission.permissionsList.Count() > 0);

@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
-    [Table("categoryPromotion")]
-    public class CategoryPromotion : MasterEntity
+    [Table("categoriesPromotion")]
+    public class CategoriesPromotion : MasterEntity
     {
         [Key]
-        public int ID_CategoriesPromotion { get; set; }
-        [ForeignKey("ID_Cateogories")]
-        public int ID_Cateogories { get; set; }
+        public int CategoriesPromotionId { get; set; }
+        [ForeignKey("CateogoriesId")]
+        public int CategoriesId { get; set; }
         public int DisplayOrder { get; set; }
         [NotMapped]
-        public Categories Category { get; set; }
+        public Categories Categories { get; set; }
     }
 }

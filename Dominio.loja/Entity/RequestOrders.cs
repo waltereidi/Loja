@@ -10,7 +10,7 @@ namespace Dominio.loja.Entity
     public class RequestOrders : MasterEntity
     {
         [Key]
-        public int ID_RequestOrders { get; set; }
+        public int RequestOrdersId { get; set; }
         [StringLength(2048)]
         public string Descrption { get; set; }
 
