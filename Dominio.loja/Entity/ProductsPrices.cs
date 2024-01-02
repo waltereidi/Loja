@@ -18,9 +18,9 @@ namespace Dominio.loja.Entity
         [ForeignKey("PricesId")]
         public int PricesId { get;set; }
         [NotMapped]
-        Prices Prices { get; set; }
+        public virtual Prices Prices { get; set; }
         [NotMapped]
-        Products Products { get; set; }
+        public virtual Products Products { get; set; }
 
     }
 }

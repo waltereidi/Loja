@@ -21,35 +21,30 @@ namespace Tests.Loja.Tests.Infra
 
         public StoreContextTest()
         {
-            string dir = Directory.GetCurrentDirectory();
-            string jsonDir = dir.Replace("\\Tests.Loja\\bin\\Debug\\net6.0", "") + "\\Api.loja\\appsettings.json";
-            string json = File.ReadAllText(jsonDir);
-            dynamic launchSettings = JObject.Parse(json);
-            //_storeContext = new StoreContext((string)launchSettings.ConnectionString);
+            _storeContext = new StoreContext();
         }
 
         [TestMethod]
-        public void DbSetPermissionsReturnDataSet()
+        public void TestORMCategoriesPromotionXCategories()
         {
             //setup 
 
             //action
-
+            var result =_storeContext.categoriesPromotion.ToList();
             //assert 
-            Assert.IsTrue(ClientsPermission.permissionsList.Count() > 0);
+            Assert.IsTrue(result.Any());
+            Assert.IsTrue(result.First().Categories != null);
 
         }
         [TestMethod]
-        public void GetDataSetReturnsValuesFromDataBase()
+
+        public void TestORMProducts()
         {
             //setup 
-            Clients clients = new Clients();
+            var result = _storeContext.productsCategories.ToList();
+            var result1 = _storeContext.products.ToList();
 
-            //action 
-            // var Return =
-            //Return.First();
-            //assert 
-            //Assert.IsTrue(Return.Count() > 0 );
+            Assert.IsTrue(result.First() != null);
         }
 
     }

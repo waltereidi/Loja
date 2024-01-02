@@ -25,6 +25,6 @@ namespace Dominio.loja.Entity
         [NotMapped]
         public Products Products { get; set; }
         [NotMapped]
-        public Clients Clients { get; set; }
+        public virtual Clients Clients { get; set; }
     }
 }

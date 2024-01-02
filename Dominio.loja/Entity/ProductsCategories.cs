@@ -16,10 +16,8 @@ namespace Dominio.loja.Entity
         [ForeignKey("ProductsId")]
         public int ProductsId { get; set; }
         [ForeignKey("CateogoriesId")]
-        public int CateogoriesId { get; set; }
-        [NotMapped]
-        public Products Products { get; set; }
-        [NotMapped]
-        public Categories Categories { get; set; }    
+        public int CategoriesId { get; set; }
+        public virtual Products Products { get; set; }
+        public virtual Categories Categories { get; set; }    
     }
 }

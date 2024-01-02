@@ -19,9 +19,9 @@ namespace Dominio.loja.Entity
         [ForeignKey("PermissionsId")]
         public int PermissionsId { get; set; }
         [NotMapped]
-        public PermissionsGroup PermissionsGroup { get; set; }
+        public virtual PermissionsGroup PermissionsGroup { get; set; }
         [NotMapped]
-        public Permissions Permissions { get; set; }
+        public virtual Permissions Permissions { get; set; }
 
     }
 }

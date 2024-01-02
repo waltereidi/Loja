@@ -13,7 +13,7 @@ namespace Dominio.loja.Interfaces.Context
          DbSet<Categories> categories { get; set; } 
          DbSet<Prices> prices { get; set; } 
          DbSet<Products> products { get; set; }
-         DbSet<CategoriesPromotion> categoryPromotion { get; set; } 
+         DbSet<CategoriesPromotion> categoriesPromotion { get; set; } 
          DbSet<ProductsCategories> productsCategories { get; set; }
 
 

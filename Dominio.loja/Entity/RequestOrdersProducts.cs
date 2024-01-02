@@ -19,8 +19,8 @@ namespace Dominio.loja.Entity
         public int ProductsId { get; set; }
         public int Quantity { get; set; }
         [NotMapped]
-        public Products Products { get; set; }
+        public virtual Products Products { get; set; }
         [NotMapped]
-        public RequestOrders RequestOrders { get; set; }
+        public virtual RequestOrders RequestOrders { get; set; }
     }
 }
