@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.loja.Dto.CustomEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,10 +19,8 @@ namespace Dominio.loja.Entity
         public int PermissionsGroupId { get; set; }
         [ForeignKey("PermissionsId")]
         public int PermissionsId { get; set; }
-        [NotMapped]
-        public virtual PermissionsGroup PermissionsGroup { get; set; }
-        [NotMapped]
         public virtual Permissions Permissions { get; set; }
+        public virtual PermissionsGroup PermissionsGroup { get; set; }
 
     }
 }

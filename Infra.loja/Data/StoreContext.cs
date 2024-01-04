@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Entity;
+﻿using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -25,7 +26,7 @@ namespace Api.loja.Data
 
         public virtual DbSet<Categories> categories { get; set; }
         public virtual DbSet<CategoriesPromotion> categoriesPromotion { get; set; }
-        private  void CategoriesORM(ModelBuilder modelBuilder)
+        private  void CreateCategoriesORM(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CategoriesPromotion>(entity =>
             {
@@ -44,11 +45,33 @@ namespace Api.loja.Data
         public virtual DbSet<Permissions> permissions { get; set; }
         public virtual DbSet<PermissionsGroup> permissionsGroup { get; set; }
         public virtual DbSet<PermissionsRelation> permissions_Relation { get; set; }
-        
+        public void CreateClientsORM(ModelBuilder modelBuilder)
+        {
+      
+            modelBuilder.Entity<PermissionsRelation>(entity =>
+            {
+                entity.HasKey(e => e.PermissionsRelationId);
+
+                entity.HasOne(e => e.Permissions)
+                .WithOne()
+                .HasForeignKey<PermissionsRelation>(e => e.PermissionsId);
+
+                entity.HasOne(e => e.PermissionsGroup)
+                .WithOne()
+                .HasForeignKey<PermissionsGroup>(e => e.PermissionsGroupId);
+            });
+            
+
+
+
+        }
         public virtual DbSet<Products> products { get; set; }
         public virtual DbSet<ProductsCategories> productsCategories { get; set; }
         public virtual DbSet<Prices> prices { get; set; }
+        public virtual DbSet<ProductsPrices> productsPrices { get; set; } = null!;
+        public virtual DbSet<ProductsStorage> productsStorage { get; set; } = null!;
         private void CreateProductsORM(ModelBuilder modelBuilder)
+
         {
             modelBuilder.Entity<Products>(entity =>
             {
@@ -56,6 +79,11 @@ namespace Api.loja.Data
                 entity.HasOne(e => e.ProductsCategories)
                 .WithOne()
                 .HasForeignKey<ProductsCategories>(e => e.ProductsId);
+
+                entity.HasMany(e => e.ProductsPrices)
+                .WithOne(e => e.Products)
+                .HasForeignKey(e => e.ProductsPriceId);
+
             });
             modelBuilder.Entity<ProductsCategories>(entity =>
             {
@@ -69,16 +97,35 @@ namespace Api.loja.Data
                 .WithOne()
                 .HasForeignKey<ProductsCategories>(e => e.CategoriesId);
             });
+            modelBuilder.Entity<ProductsPrices>(entity => {
+                entity.HasKey(e=> e.ProductsPriceId);
+                entity.HasOne(e => e.Products)
+                .WithOne()
+                .HasForeignKey<Products>(e => e.ProductsId);
+                entity.HasKey(e => e.Prices);
+                entity.HasOne(e => e.Prices)
+                .WithOne()
+                .HasForeignKey<Prices>(e => e.PricesId);
+            });
+            modelBuilder.Entity<ProductsStorage>(entity =>
+            {
+                entity.HasKey(e => e.ProductsStorageId);
+
+                entity.HasOne(e => e.Products)
+                .WithMany()
+                .HasForeignKey(e => e.ProductsId);
+            });
+
         }
         
-        public virtual DbSet<ProductsPrices> productsPrices { get; set; }= null!;
-        public virtual DbSet<ProductsStorage> productsStorage { get; set; } = null!;
+
         public virtual DbSet<RequestOrders> requestOrders { get; set; } = null!;
         public virtual DbSet<RequestOrdersProducts> requestOrdersProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            CategoriesORM(modelBuilder);
+            CreateCategoriesORM(modelBuilder);
+            CreateProductsORM(modelBuilder);
             
         }
        
