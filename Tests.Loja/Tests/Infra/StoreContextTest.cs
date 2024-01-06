@@ -37,7 +37,6 @@ namespace Tests.Loja.Tests.Infra
 
         }
         [TestMethod]
-
         public void TestORMProducts()
         {
             //setup 
@@ -45,6 +44,13 @@ namespace Tests.Loja.Tests.Infra
             var result1 = _storeContext.products.ToList();
 
             Assert.IsTrue(result.First() != null);
+        }
+        [TestMethod]
+        public void TestORMClients()
+        {
+            var result = _storeContext.clients.ToList();
+
+            Assert.IsTrue(result.First().PermissionsGroup != null);
         }
 
     }

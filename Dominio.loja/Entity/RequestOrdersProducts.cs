@@ -15,12 +15,9 @@ namespace Dominio.loja.Entity
         public int RequestOrdersProductsId { get; set; }
         [ForeignKey("RequestOrdersId")]
         public int RequestOrdersId { get; set; }
-        [ForeignKey("ClientsProductsCartId")]
+        [ForeignKey("ProductsId")]
         public int ProductsId { get; set; }
         public int Quantity { get; set; }
-        [NotMapped]
         public virtual Products Products { get; set; }
-        [NotMapped]
-        public virtual RequestOrders RequestOrders { get; set; }
     }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Dominio.loja.Entity
 {
@@ -21,8 +17,8 @@ namespace Dominio.loja.Entity
         public string Password { get; set; }
         [ForeignKey("PermissionsGroupId")]
         public int PermissionsGroupId { get; set; }
-        [NotMapped]
         public virtual PermissionsGroup? PermissionsGroup { get; set; }
+        public virtual IEnumerable<ClientsProductsCart> ClientsProductsCart { get; set; }
 
     }
 }

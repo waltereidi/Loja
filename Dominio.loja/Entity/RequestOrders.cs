@@ -13,6 +13,6 @@ namespace Dominio.loja.Entity
         public int RequestOrdersId { get; set; }
         [StringLength(2048)]
         public string Descrption { get; set; }
-
+        public virtual IEnumerable<RequestOrdersProducts> RequestOrdersProducts { get; set; }
     }
 }

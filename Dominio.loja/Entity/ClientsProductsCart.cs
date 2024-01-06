@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
@@ -22,9 +19,7 @@ namespace Dominio.loja.Entity
         [ForeignKey("ClientsId")]
         public int ClientsId { get; set; }
 
-        [NotMapped]
-        public Products Products { get; set; }
-        [NotMapped]
+        public virtual Products Products { get; set; }
         public virtual Clients Clients { get; set; }
     }
 }
