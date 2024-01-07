@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity
 {
     [Table("categoriesPromotion")]
-    public class CategoriesPromotion : MasterEntity
+    public class CategoriesPromotion : Entity
     {
         [Key]
         public int CategoriesPromotionId { get; set; }

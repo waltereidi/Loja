@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("prices")]
-    public class Prices : MasterEntity
+    public class Prices : Entity
     {
         [Key]
         public int PricesId { get; set; }

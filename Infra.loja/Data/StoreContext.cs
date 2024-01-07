@@ -1,27 +1,16 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-
+using WConnectionKeyVault;
 
 namespace Api.loja.Data
 {
 	public class StoreContext : DbContext , IStoreClientsContext , IStoreProductsContext , IStoreContext
 	{
-		private readonly string _connectionString;
 		public StoreContext()
 		{
-			string dir = Directory.GetCurrentDirectory();
-			string jsonDir = dir.Replace("\\Tests.Loja\\bin\\Debug\\net6.0", "") + "\\Api.loja\\appsettings.json";
-			string json = File.ReadAllText(jsonDir);
-			dynamic launchSettings = JObject.Parse(json);
-			_connectionString = (string)launchSettings.ConnectionString;
 		}
-		public StoreContext(DbContextOptions<StoreContext> options) : base(options)
-		{
-
-		}
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseSqlServer(_connectionString);
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseSqlServer("loja.Infra".GetConnectionString());
 
 		public virtual DbSet<Categories> categories { get; set; }
 		public virtual DbSet<CategoriesPromotion> categoriesPromotion { get; set; }

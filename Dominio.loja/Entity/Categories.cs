@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("categories")]
-    public class Categories : MasterEntity
+    public class Categories : Entity
     {
         [Key]
         public int CategoriesId { get; set; }

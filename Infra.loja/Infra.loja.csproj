@@ -23,4 +23,10 @@
     <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="WConnectionKeyVault">
+      <HintPath>WConnectionKeyVault.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

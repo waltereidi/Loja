@@ -1,13 +1,5 @@
-﻿using Api.loja.Data;
-using Api.loja.Services;
-using Dominio.loja.Dto.CustomEntities;
-using Dominio.loja.Dto.Models;
-using Dominio.loja.Dto.Requests;
-using Dominio.loja.Entity;
-using Dominio.loja.Interfaces;
-using Dominio.loja.Interfaces.Context;
+﻿using Dominio.loja.Entity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.loja.Controllers
@@ -22,7 +14,8 @@ namespace Api.loja.Controllers
         
         [HttpGet]
         [Authorize]
-        public IActionResult GetEditMyProfile([FromHeader]int ID_Clients)
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> GetEditMyProfile([FromHeader]int ID_Clients)
         {
 
             return Ok();
@@ -30,44 +23,49 @@ namespace Api.loja.Controllers
 
         [HttpPut]
         [Authorize]
-        public IActionResult PutEditMyProfile([FromBody] Clients dataSource)
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> PutEditMyProfile([FromBody] Clients dataSource)
         {
 
             return Ok();
         }
         [HttpGet]
         [Authorize]
-        public IActionResult GetOrdersRequest([FromHeader] int ID_Clients )
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> GetOrdersRequest([FromHeader] int ID_Clients )
         {
             return Ok();
 
         }
         [HttpPost]
         [Authorize]
-        public IActionResult PostOrdersRequest([FromBody] int dataSource )
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> PostOrdersRequest([FromBody] int dataSource )
         {
             return Ok();
         }
 
         [HttpPut]
         [Authorize]
-        public IActionResult PutCartProducts()
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> PutCartProducts()
         {
             return Ok();
         }
         [HttpDelete]
         [Authorize]
-        public IActionResult DeleteCartProducts()
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> DeleteCartProducts()
         {
             return Ok();
         }
         [HttpDelete]
         [Authorize]
-        public IActionResult GetCartProducts()
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> GetCartProducts()
         {
             return Ok();
         }
 
-        // GET: StoreClientsController
      }
 }

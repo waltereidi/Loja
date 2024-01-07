@@ -1,9 +1,4 @@
-﻿using Api.loja.Services;
-using Dominio.loja.Dto.CustomEntities;
-using Dominio.loja.DTO.Requests;
-using Dominio.loja.Entity;
-using Dominio.loja.Interfaces.Context;
-using Dominio.loja.Interfaces.Services;
+﻿using Dominio.loja.DTO.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -13,24 +8,17 @@ namespace Api.loja.Controllers
     [ApiController]
     public class StoreController : BaseController
     {
-        private readonly IStore _service;
-        private readonly IConfiguration _config;
-        public StoreController(ILogger<StoreController> logger ,IConfiguration config ) : base(logger)
+        public StoreController(ILogger<StoreController> logger  ) : base(logger)
         {
-            IStore _service = new Store();
-            _config = config;
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-            loginRequest.issuer = _config["Jwt:Issuer"];
-            loginRequest.jwtKey = _config["Jwt:Key"];
-
-            return Ok(ClientsPermission.permissionsList) ;
+            return Ok();
         }
         [HttpGet]
-        public IActionResult GetConfiguration()
+        public async Task<IActionResult> GetConfiguration()
         {
             return Ok();
         }

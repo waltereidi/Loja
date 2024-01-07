@@ -17,30 +17,34 @@ namespace Api.loja.Controllers
     {
         public StoreProductsController(ILogger<StoreProductsController> logger) : base(logger)
         {
-
         }
         [HttpGet]
-       public IActionResult GetNavBarCategories()
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> GetNavBarCategories()
         {
             return Ok();
         }
         [HttpGet]
-        public IActionResult GetBarCategories()
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> GetBarCategories()
         {
             return Ok();
         }
         [HttpGet]
-        public IActionResult GetPromotionCategoriesProducts()
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> GetPromotionCategoriesProducts()
         {
             return Ok();
         }
         [HttpGet]
-        public IActionResult GetProduct(int id)
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> GetProduct(int id)
         {
             return Ok();
         }
         [HttpGet]
-        public IActionResult GetProductsByCategories()
+        [Route("/[controller]/[action]")]
+        public async Task<IActionResult> GetProductsByCategories()
         {
             return Ok();
         }

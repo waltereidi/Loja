@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
-    public class RequestOrders : MasterEntity
+    public class RequestOrders : Entity
     {
         [Key]
         public int RequestOrdersId { get; set; }

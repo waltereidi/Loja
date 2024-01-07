@@ -18,7 +18,6 @@ public class Startup
         var jwtIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>();
         var jwtKey = Configuration.GetSection("Jwt:Key").Get<string>();
 
-        string connectionString = Configuration.GetValue<string>("ConnectionString");
         service.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         service.AddEndpointsApiExplorer();
@@ -42,10 +41,8 @@ public class Startup
         service.AddAuthorization();
         service.AddSwaggerGen();
 
-        
-
-        service.AddDbContext<StoreContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton)
-               .AddDbContext<StoreAdminContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton); ;
+        service.AddDbContext<StoreContext>(ServiceLifetime.Singleton)
+               .AddDbContext<StoreAdminContext>(ServiceLifetime.Singleton);
         
 
         service.AddDistributedMemoryCache();
@@ -70,7 +67,6 @@ public class Startup
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Loja Api");
             c.DocumentTitle = "Loja BackEnd";
-            
         });
         app.UseEndpoints(endpoints =>
         {
