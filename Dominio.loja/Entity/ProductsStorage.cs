@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
-    [Table("productsStore")]
+    [Table("productsStorage")]
     public class ProductsStorage
     {
         [Key]
@@ -19,6 +19,5 @@ namespace Dominio.loja.Entity
 
         [ForeignKey("ProductsId")]
         public int ProductsId { get; set; }
-        public virtual Products Products { get; set; } 
     }
 }

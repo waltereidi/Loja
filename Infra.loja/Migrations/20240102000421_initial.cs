@@ -245,7 +245,7 @@ namespace Infra.loja.Migrations
 ;                });
 
             migrationBuilder.CreateTable(
-                name: "productsStore",
+                name: "productsStorage",
                 columns: table => new
                 {
                     ProductsStorageId = table.Column<int>(type: "int", nullable: false)

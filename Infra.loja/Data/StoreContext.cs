@@ -1,5 +1,4 @@
-﻿using Dominio.loja.Dto.CustomEntities;
-using Dominio.loja.Entity;
+﻿using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -53,10 +52,6 @@ namespace Api.loja.Data
 				entity.HasOne(e => e.PermissionsGroup)
 				.WithOne()
 				.HasForeignKey<PermissionsGroup>(e=> e.PermissionsGroupId);
-
-				entity.HasMany(e => e.ClientsProductsCart)
-				.WithOne()
-				.HasForeignKey(e => e.ClientsProductsCartId);
 			});
 			//PermissionsGroup
 			modelBuilder.Entity<PermissionsGroup>(entity =>
@@ -80,18 +75,7 @@ namespace Api.loja.Data
 				.HasForeignKey<PermissionsGroup>(e => e.PermissionsGroupId);
 			});
 
-			//ClientsProductsCart 
-			modelBuilder.Entity<ClientsProductsCart>(entity =>
-			{
-				entity.HasKey(e=> e.ClientsProductsCartId);
-				entity.HasOne(e => e.Products)
-				.WithOne()
-				.HasForeignKey<Products>(e => e.ProductsId);
-
-				entity.HasOne(e => e.Clients)
-				.WithOne()
-				.HasForeignKey<Clients>(e => e.ClientsId);
-			});
+			
 		}
 		public virtual DbSet<Products> products { get; set; }
 		public virtual DbSet<ProductsCategories> productsCategories { get; set; }
@@ -112,6 +96,9 @@ namespace Api.loja.Data
 				.WithOne(e => e.Products)
 				.HasForeignKey(e => e.ProductsPriceId);
 
+				entity.HasMany(e => e.ProductsStorage)
+				.WithOne()
+				.HasForeignKey(e => e.ProductsId);
 			});
 			//Products Categories
 			modelBuilder.Entity<ProductsCategories>(entity =>
@@ -126,17 +113,6 @@ namespace Api.loja.Data
 				.WithOne()
 				.HasForeignKey<Categories>(e => e.CategoriesId);
 			});
-			
-			//Products Storage
-			modelBuilder.Entity<ProductsStorage>(entity =>
-			{
-				entity.HasKey(e => e.ProductsStorageId);
-
-				entity.HasOne(e => e.Products)
-				.WithMany()
-				.HasForeignKey(e => e.ProductsId);
-			});
-
 		}
 		
 
@@ -161,16 +137,28 @@ namespace Api.loja.Data
 
 				entity.HasOne(e => e.Products)
 				.WithOne()
-				.HasForeignKey<Products>(e=>e.ProductsId );
+				.HasForeignKey<Products>(e=>e.ProductsId);
 			});
-		}
+            //ClientsProductsCart 
+            modelBuilder.Entity<ClientsProductsCart>(entity =>
+            {
+                entity.HasKey(e => e.ClientsProductsCartId);
+                entity.HasOne(e => e.Products)
+                .WithOne()
+                .HasForeignKey<Products>(e => e.ProductsId);
+
+                entity.HasOne(e => e.Clients)
+                .WithOne()
+                .HasForeignKey<Clients>(e => e.ClientsId);
+            });
+        }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			CreateCategoriesORM(modelBuilder);
 			CreateProductsORM(modelBuilder);
-			CreateRequestORM(modelBuilder);            
+			CreateRequestORM(modelBuilder);        
 		}
 	   
 	}
-
+    
 }

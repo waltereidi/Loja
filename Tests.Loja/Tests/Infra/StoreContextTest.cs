@@ -25,33 +25,28 @@ namespace Tests.Loja.Tests.Infra
         }
 
         [TestMethod]
-        public void TestORMCategoriesPromotionXCategories()
-        {
-            //setup 
-
-            //action
-            var result =_storeContext.categoriesPromotion.ToList();
-            //assert 
-            Assert.IsTrue(result.Any());
-            Assert.IsTrue(result.First().Categories != null);
-
-        }
-        [TestMethod]
-        public void TestORMProducts()
-        {
-            //setup 
-            var result = _storeContext.productsCategories.ToList();
-            var result1 = _storeContext.products.ToList();
-
-            Assert.IsTrue(result.First() != null);
-        }
-        [TestMethod]
         public void TestORMClients()
         {
-            var result = _storeContext.clients.ToList();
-
-            Assert.IsTrue(result.First().PermissionsGroup != null);
+            var result = _storeContext.clients.Find(1);
+            
+            Assert.IsTrue(result.PermissionsGroup != null);
         }
+        [TestMethod]
+        public void TestProductsORM()
+        {
+            var result = _storeContext.products.Find(1);
+            Assert.IsTrue(result.ProductsStorage != null );
+
+        }
+        [TestMethod]
+        public void testRequestORM()
+        {
+            var result = _storeContext.requestOrders.Find(1);
+            var result1 = _storeContext.clientsProducts_cart.Find(1);
+            Assert.IsTrue(result.RequestOrdersProducts is not null);
+            Assert.IsTrue(result1.Products is not null);
+        }
+
 
     }
 }
