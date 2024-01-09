@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Api.loja.Middleware;
+using Utils.loja;
+using Utils.loja.Queue;
 
 public class Startup
 {
@@ -40,7 +42,7 @@ public class Startup
         // 👇 Configuring the Authorization Service
         service.AddAuthorization();
         service.AddSwaggerGen();
-
+        service.AddSingleton<IQueue, Queue>();
         service.AddDbContext<StoreContext>(ServiceLifetime.Singleton)
                .AddDbContext<StoreAdminContext>(ServiceLifetime.Singleton);
         
@@ -53,6 +55,8 @@ public class Startup
             options.Cookie.IsEssential = true;
 
         });
+
+        
 
     }
     public void Configure(IApplicationBuilder app, IHostEnvironment env)
@@ -74,6 +78,7 @@ public class Startup
         });
         app.UseSession();
         app.UseMiddleware<CustomMiddleware>();
+        
     }
  
 }
