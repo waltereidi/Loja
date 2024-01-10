@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.DTO.Requests;
 using Microsoft.AspNetCore.Mvc;
+using NPOI.OpenXmlFormats.Spreadsheet;
 using Utils.loja.Queue;
 
 namespace Api.loja.Controllers
@@ -17,16 +18,33 @@ namespace Api.loja.Controllers
         }
 
         [HttpPost]
+        [Route("/[controller]/[action]")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
 
             return Ok();
         }
+        [Route("/[controller]/[action]")]
         [HttpGet]
         public async Task<IActionResult> GetConfiguration()
         {
             
-            return Ok(_queue.ShowMessage());
+            _queue.ShowMessage();
+            return Ok();
+        }
+        [Route("/[controller]/[action]")]
+        [HttpGet]
+        public async Task<IActionResult> CreateSecondTask()
+        {
+            _queue.counter++;
+            _queue.ShowMessage();
+            return Ok();
+        }
+        [Route("/[controller]/[action]")]
+        [HttpGet]
+        public async Task<IActionResult> GetTaskResult()
+        {
+            return Ok(_queue.StoredResults);
         }
     }
 

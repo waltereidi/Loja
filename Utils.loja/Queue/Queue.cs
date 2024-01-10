@@ -9,22 +9,33 @@ namespace Utils.loja.Queue
 {
     public class Queue : IQueue
     {
-        public static int counter = 0;
-        public async Task<string?> ShowMessage()
+        public int counter { get; set; } = 0;
+        public List<Task<string>> StoredResults { get; set; } = new List<Task<string>>();
+        public string ShowMessage()
         {
-            counter++;
-            Test();
+            Task.Run(()=>{
+                StoredResults.Add(Test());
+                    });
             return counter.ToString();
         }
-        private async Task Test()
+        private async Task<string> Test()
         {
-            Task.Delay(2000);
+            await Test2();
             Console.WriteLine($"{counter} countersdsd.");
+            return $"sdsd{counter}";
+        }
+        private async Task<string> Test2()
+        {
+            Thread.Sleep(20000);
+            Console.WriteLine($"{counter} countersdsd.");
+            return $"sdsd{counter}";
         }
     }
 
     public interface IQueue
     {
-        Task<string> ShowMessage();
+        string ShowMessage();
+        List<Task<string>> StoredResults { get; set; }
+        int counter { get; set; }
     }
 }
