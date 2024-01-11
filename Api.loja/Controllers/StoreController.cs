@@ -46,6 +46,19 @@ namespace Api.loja.Controllers
         {
             return Ok(_queue.StoredResults);
         }
+        [Route("/[controller]/[action]")]
+        [HttpGet]
+        public async Task<IActionResult> GetStoredThreads()
+        {
+            return Ok(_queue.StoredThreads.ToString());
+        }
+        [Route("/[controller]/[action]")]
+        [HttpGet]
+        public async Task<IActionResult> KillThread()
+        {
+            _queue.KillThread();
+            return Ok();
+        }
     }
 
 
