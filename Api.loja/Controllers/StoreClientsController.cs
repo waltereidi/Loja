@@ -1,4 +1,6 @@
-﻿using Dominio.loja.Entity;
+﻿using Api.loja.Services;
+using Dominio.loja.Entity;
+using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,17 +10,19 @@ namespace Api.loja.Controllers
     [ApiController]
     public class StoreClientsController : BaseController
     {
-        public StoreClientsController(ILogger<StoreClientsController> logger  ) : base(logger)
+        private readonly StoreClientsService _service;
+        private readonly IStoreClientsControllerContext _context;
+        public StoreClientsController(ILogger<StoreClientsController> logger , IStoreContext context  ) : base(logger)
         {
+
         }
         
         [HttpGet]
-        [Authorize]
         [Route("/[controller]/[action]")]
         public async Task<IActionResult> GetEditMyProfile([FromHeader]int ID_Clients)
         {
-
-            return Ok();
+            
+            return Ok(_service.GetEditMyProfile(1));
         }
 
         [HttpPut]

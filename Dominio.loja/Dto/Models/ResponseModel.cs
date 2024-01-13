@@ -36,6 +36,13 @@ namespace Dominio.loja.Dto.Models
             Success = success;
             Message = message;
         }
+        public ResponseModel(bool success ,byte[] bytes , string message)
+        {
+            Success = success;
+            Message= message;
+            bytes = bytes;
+        }
+        
     }
 
 }

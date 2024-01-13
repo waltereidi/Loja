@@ -5,7 +5,11 @@ using WConnectionKeyVault;
 
 namespace Api.loja.Data
 {
-	public class StoreContext : DbContext , IStoreClientsContext , IStoreProductsContext , IStoreContext
+	public class StoreContext : DbContext ,
+		IStoreClientsControllerContext ,
+		IStoreProductsControllerContext ,
+		IStoreControllerContext ,
+		IStoreContext 
 	{
 		public StoreContext()
 		{

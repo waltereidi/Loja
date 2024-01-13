@@ -1,21 +1,22 @@
 ﻿using Api.loja.Data;
 using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Entity;
-
-using System.Data.Entity.Infrastructure;
+using Dominio.loja.Interfaces.Context;
 
 namespace Api.loja.Services
 {
-    public class StoreClients 
+    public class StoreClientsService 
     {
-        StoreContext _context; 
-        public StoreClients() 
+        IStoreClientsControllerContext _context;
+        public StoreClientsService(StoreContext context) 
         {
-            
+            _context = context;
         }
-        public Clients GetEditMyProfile(int ID_Clients)
+        
+        public Clients? GetEditMyProfile(int ID_Clients)
         {
-            return null; 
+            var i = _context.clients.First();
+            return i;
         }
         public bool PutEditMyProfile(Clients dataSource)
         {

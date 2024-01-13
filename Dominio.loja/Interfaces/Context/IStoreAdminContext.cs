@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio.loja.Interfaces.Services
+namespace Dominio.loja.Interfaces.Context
 {
-    public interface IStoreClients
+    public interface IStoreAdminContext
     {
-
-
     }
 }

@@ -1,4 +1,6 @@
-﻿using Dominio.loja.DTO.Requests;
+﻿using Api.loja.Services;
+using Dominio.loja.DTO.Requests;
+using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using Utils.loja.Queue;
@@ -11,54 +13,22 @@ namespace Api.loja.Controllers
     [ApiController]
     public class StoreController : BaseController
     {
-        private readonly IQueue _queue;
-        public StoreController(ILogger<StoreController> logger  ,IQueue queue) : base(logger)
+        private readonly IStoreControllerContext _context;
+        private readonly StoreService service; 
+        public StoreController(ILogger<StoreController> logger  ,IStoreContext context) : base(logger)
         {
-            _queue = queue;
+            _context = context;
+            service = new StoreService();
         }
 
         [HttpPost]
         [Route("/[controller]/[action]")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest )
         {
 
             return Ok();
         }
-        [Route("/[controller]/[action]")]
-        [HttpGet]
-        public async Task<IActionResult> GetConfiguration()
-        {
-            
-            _queue.ShowMessage();
-            return Ok();
-        }
-        [Route("/[controller]/[action]")]
-        [HttpGet]
-        public async Task<IActionResult> CreateSecondTask()
-        {
-            _queue.counter++;
-            _queue.ShowMessage();
-            return Ok();
-        }
-        [Route("/[controller]/[action]")]
-        [HttpGet]
-        public async Task<IActionResult> GetTaskResult()
-        {
-            return Ok(_queue.StoredResults);
-        }
-        [Route("/[controller]/[action]")]
-        [HttpGet]
-        public async Task<IActionResult> GetStoredThreads()
-        {
-            return Ok(_queue.StoredThreads.ToString());
-        }
-        [Route("/[controller]/[action]")]
-        [HttpGet]
-        public async Task<IActionResult> KillThread()
-        {
-            _queue.KillThread();
-            return Ok();
-        }
+     
     }
 
 

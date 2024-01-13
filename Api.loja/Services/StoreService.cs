@@ -6,10 +6,10 @@ using Dominio.loja.Interfaces.Services;
 
 namespace Api.loja.Services
 {
-    public class Store : IStore
+    public class StoreService 
     {
         IStoreContext _context; 
-        public Store()
+        public StoreService()
         {
             
         }

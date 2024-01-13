@@ -6,6 +6,7 @@ using System.Text;
 using Api.loja.Middleware;
 using Utils.loja;
 using Utils.loja.Queue;
+using Dominio.loja.Interfaces.Context;
 
 public class Startup
 {
@@ -43,8 +44,8 @@ public class Startup
         service.AddAuthorization();
         service.AddSwaggerGen();
         service.AddSingleton<IQueue, Queue>();
-        service.AddDbContext<StoreContext>(ServiceLifetime.Singleton)
-               .AddDbContext<StoreAdminContext>(ServiceLifetime.Singleton);
+        service.AddSingleton<IStoreContext ,StoreContext>();
+        service.AddSingleton<StoreAdminContext>();
         
 
         service.AddDistributedMemoryCache();
@@ -55,8 +56,6 @@ public class Startup
             options.Cookie.IsEssential = true;
 
         });
-
-        
 
     }
     public void Configure(IApplicationBuilder app, IHostEnvironment env)

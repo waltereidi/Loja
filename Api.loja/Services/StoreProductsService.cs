@@ -1,6 +1,6 @@
 ﻿namespace Api.loja.Services
 {
-    public class StoreProducts
+    public class StoreProductsService
     {
 
 
