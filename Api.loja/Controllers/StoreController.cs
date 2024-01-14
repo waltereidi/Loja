@@ -28,12 +28,12 @@ namespace Api.loja.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-            string key = _configuration.GetSection("Jwt").GetSection("Key").Value;
-            string issuer =_configuration.GetSection("Jwt").GetSection("Issuer").Value;
             var  query = _context.clients.Where(x => x.Email == loginRequest.Email && x.Password == loginRequest.Password);
             if(query.Any())
             {
-                LoginResponse response=new LoginResponse( query.First(),issuer , key) ;
+                string key = _configuration.GetSection("Jwt").GetSection("Key").Value;
+                string issuer = _configuration.GetSection("Jwt").GetSection("Issuer").Value;
+                LoginResponse response=new LoginResponse( query.First() ,issuer , key) ;
                 return Ok(response);
             }
             return StatusCode((int)HttpStatusCode.Unauthorized);

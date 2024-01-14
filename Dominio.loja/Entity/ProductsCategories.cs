@@ -17,5 +17,6 @@ namespace Dominio.loja.Entity
         public int ProductsId { get; set; }
         [ForeignKey("CateogoriesId")]
         public int CategoriesId { get; set; }
+        public ICollection<SubCategories> SubCategories { get; set; }
     }
 }

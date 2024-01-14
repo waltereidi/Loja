@@ -25,6 +25,7 @@ namespace Dominio.loja.Entity
         public virtual ProductsCategories? ProductsCategories { get; set; }
         public virtual ICollection<ProductsPrices> ProductsPrices { get; set; }
         public virtual ICollection<ProductsStorage> ProductsStorage { get; set; }
+      
 
     }
 }

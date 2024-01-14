@@ -83,7 +83,6 @@ namespace Api.loja.Data
 				entity.HasOne(e => e.ProductsCategories)
 				.WithOne()
 				.HasForeignKey<ProductsCategories>(e => e.ProductsId);
-
 				
 
 				entity.HasMany(e => e.ProductsStorage)

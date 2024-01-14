@@ -7,20 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Api.loja.Controllers
 {
     [Route("/[controller]/[action]")]
     [ApiController]
     public class StoreProductsController : BaseController
     {
-        public StoreProductsController(ILogger<StoreProductsController> logger) : base(logger)
+        IStoreProductsControllerContext _context;
+        public StoreProductsController(ILogger<StoreProductsController> logger , StoreContext context) : base(logger)
         {
+            _context = context; 
         }
         [HttpGet]
         public async Task<IActionResult> GetNavBarCategories()
         {
+            
             return Ok();
         }
         [HttpGet]
