@@ -1,22 +1,13 @@
-﻿
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using Dominio.loja.Entity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Dominio.loja.DTO.Requests
+namespace Dominio.loja.Dto.Requests
 {
     public class LoginRequest
     {
         [Required]
-        public string? Login { get; set; }
+        public string Email { get; set; }
         [Required]
-        public string? Password { get; set; }
+        public string Password { get; set; }
 
     }
-  
-
-
-
 }

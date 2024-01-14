@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace Api.loja.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/[controller]/[action]")]
     [ApiController]
     public class StoreProductsController : BaseController
     {
@@ -19,31 +19,26 @@ namespace Api.loja.Controllers
         {
         }
         [HttpGet]
-        [Route("/[controller]/[action]")]
         public async Task<IActionResult> GetNavBarCategories()
         {
             return Ok();
         }
         [HttpGet]
-        [Route("/[controller]/[action]")]
         public async Task<IActionResult> GetBarCategories()
         {
             return Ok();
         }
         [HttpGet]
-        [Route("/[controller]/[action]")]
         public async Task<IActionResult> GetPromotionCategoriesProducts()
         {
             return Ok();
         }
         [HttpGet]
-        [Route("/[controller]/[action]")]
         public async Task<IActionResult> GetProduct(int id)
         {
             return Ok();
         }
         [HttpGet]
-        [Route("/[controller]/[action]")]
         public async Task<IActionResult> GetProductsByCategories()
         {
             return Ok();

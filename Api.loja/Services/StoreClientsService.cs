@@ -8,7 +8,7 @@ namespace Api.loja.Services
     public class StoreClientsService 
     {
         IStoreClientsControllerContext _context;
-        public StoreClientsService(StoreContext context) 
+        public StoreClientsService(IStoreClientsControllerContext context) 
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace Api.loja.Services
             return false;
         }
 
-        public List<GetRequestOrdersDTO> GetOrdersRequest(int ID_Clients)
+        public List<LoginResponse> GetOrdersRequest(int ID_Clients)
         {
             return null;
         }

@@ -44,7 +44,7 @@ public class Startup
         service.AddAuthorization();
         service.AddSwaggerGen();
         service.AddSingleton<IQueue, Queue>();
-        service.AddSingleton<IStoreContext ,StoreContext>();
+        service.AddSingleton<StoreContext>();
         service.AddSingleton<StoreAdminContext>();
         
 

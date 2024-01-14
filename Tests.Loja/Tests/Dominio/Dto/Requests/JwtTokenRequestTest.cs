@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dominio.loja.DTO.Requests;
 using Dominio.loja.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

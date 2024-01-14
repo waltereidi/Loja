@@ -1,34 +1,44 @@
-﻿using Api.loja.Services;
-using Dominio.loja.DTO.Requests;
+﻿using Api.loja.Data;
+using Api.loja.Services;
+using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Dto.Models;
+using Dominio.loja.Dto.Requests;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
-using NPOI.OpenXmlFormats.Spreadsheet;
-using Utils.loja.Queue;
+using System.Net;
 
 namespace Api.loja.Controllers
 {
-    
 
-    [Route("api/[controller]")]
+
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class StoreController : BaseController
     {
         private readonly IStoreControllerContext _context;
-        private readonly StoreService service; 
-        public StoreController(ILogger<StoreController> logger  ,IStoreContext context) : base(logger)
+        private readonly StoreService _service; 
+        private readonly IConfiguration _configuration;
+        public StoreController(ILogger<StoreController> logger  ,StoreContext context , IConfiguration configuration) : base(logger)
         {
             _context = context;
-            service = new StoreService();
+            _service = new StoreService(context);
+            _configuration = configuration; 
         }
-
         [HttpPost]
-        [Route("/[controller]/[action]")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest )
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-
-            return Ok();
+            var key = _configuration.GetSection("Jwt").GetSection("Key");
+            var issuer =_configuration.GetSection("Jwt").GetSection("Issuer");
+            var  query = _context.clients.Where(x => x.Email == loginRequest.Email && x.Password == loginRequest.Password);
+            if(query.Any())
+            {
+                LoginResponse response=new LoginResponse( query.First(),issuer.Value , key.Value ) ;
+                return Ok(response);
+            }
+            return StatusCode((int)HttpStatusCode.Unauthorized);
         }
-     
+
+
     }
 
 

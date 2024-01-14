@@ -8,8 +8,7 @@ namespace Api.loja.Data
 	public class StoreContext : DbContext ,
 		IStoreClientsControllerContext ,
 		IStoreProductsControllerContext ,
-		IStoreControllerContext ,
-		IStoreContext 
+		IStoreControllerContext
 	{
 		public StoreContext()
 		{

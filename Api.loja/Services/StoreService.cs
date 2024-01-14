@@ -1,24 +1,20 @@
-﻿using Dominio.loja.Dto.CustomEntities;
-using Dominio.loja.DTO.Requests;
-using Dominio.loja.Entity;
+﻿using Api.loja.Data;
+using Dominio.loja.Dto.Requests;
 using Dominio.loja.Interfaces.Context;
-using Dominio.loja.Interfaces.Services;
 
 namespace Api.loja.Services
 {
     public class StoreService 
     {
-        IStoreContext _context; 
-        public StoreService()
+        IStoreControllerContext _context;
+        public StoreService( StoreContext context )
         {
-            
+            _context = context;
         }
 
         public void getLogin(LoginRequest loginRequest)
         {
-            //Clients client = _context.GetClient(loginRequest.Login, loginRequest.Password);
-            //loginRequest.Clients = client;
-            //var login = loginRequest.GetToken();
+               
 
         }
 
