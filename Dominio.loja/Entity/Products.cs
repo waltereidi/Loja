@@ -23,8 +23,8 @@ namespace Dominio.loja.Entity
         [StringLength(64)]
         public string? Sku { get; set; }
         public virtual ProductsCategories? ProductsCategories { get; set; }
-        public virtual IEnumerable<ProductsPrices> ProductsPrices { get; set; }
-        public virtual IEnumerable<ProductsStorage> ProductsStorage { get; set; }
+        public virtual ICollection<ProductsPrices> ProductsPrices { get; set; }
+        public virtual ICollection<ProductsStorage> ProductsStorage { get; set; }
 
     }
 }

@@ -1,11 +1,7 @@
-﻿using Castle.Core.Internal;
-using Dominio.loja.Attributes;
+﻿using Dominio.loja.Attributes;
 using Dominio.loja.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 namespace Tests.Loja.TestAttributes
 {

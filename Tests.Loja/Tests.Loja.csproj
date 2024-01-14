@@ -27,7 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="TestEntities\" />
     <Folder Include="TestFiles\CreatedFiles\" />
+    <Folder Include="Tests\Dominio\Dto\" />
   </ItemGroup>
 
 </Project>

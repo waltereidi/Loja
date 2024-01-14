@@ -20,7 +20,6 @@ namespace Dominio.loja.Entity
         [ForeignKey("PermissionsId")]
         public int PermissionsId { get; set; }
         public virtual Permissions Permissions { get; set; }
-        public virtual PermissionsGroup PermissionsGroup { get; set; }
 
     }
 }

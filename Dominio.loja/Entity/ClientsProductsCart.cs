@@ -20,6 +20,5 @@ namespace Dominio.loja.Entity
         public int ClientsId { get; set; }
 
         public virtual Products Products { get; set; }
-        public virtual Clients Clients { get; set; }
     }
 }

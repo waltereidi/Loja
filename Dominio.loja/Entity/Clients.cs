@@ -18,6 +18,7 @@ namespace Dominio.loja.Entity
         [ForeignKey("PermissionsGroupId")]
         public int PermissionsGroupId { get; set; }
         public virtual PermissionsGroup? PermissionsGroup { get; set; }
+        public virtual ICollection<ClientsProductsCart> ClientsProductsCart { get; set; }
 
     }
 }

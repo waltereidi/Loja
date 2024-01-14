@@ -29,6 +29,7 @@ namespace Api.loja.Data
 				.HasForeignKey<CategoriesPromotion>(e => e.CategoriesId)
 				.HasPrincipalKey<Categories>(e => e.CategoriesId).OnDelete(DeleteBehavior.Restrict);
 			});
+			
 		}
 		public virtual DbSet<Clients> clients { get; set; }
 		public virtual DbSet<ClientsProductsCart> clientsProducts_cart { get; set; }
@@ -44,6 +45,10 @@ namespace Api.loja.Data
 				entity.HasOne(e => e.PermissionsGroup)
 				.WithOne()
 				.HasForeignKey<PermissionsGroup>(e=> e.PermissionsGroupId);
+
+				entity.HasMany(e => e.ClientsProductsCart)
+				.WithOne()
+				.HasForeignKey(e => e.ClientsId);
 			});
 			//PermissionsGroup
 			modelBuilder.Entity<PermissionsGroup>(entity =>
@@ -61,12 +66,7 @@ namespace Api.loja.Data
 				entity.HasOne(e => e.Permissions)
 				.WithOne()
 				.HasForeignKey<Permissions>(e => e.PermissionsId);
-
-				entity.HasOne(e => e.PermissionsGroup)
-				.WithOne()
-				.HasForeignKey<PermissionsGroup>(e => e.PermissionsGroupId);
 			});
-
 			
 		}
 		public virtual DbSet<Products> products { get; set; }
@@ -84,30 +84,14 @@ namespace Api.loja.Data
 				.WithOne()
 				.HasForeignKey<ProductsCategories>(e => e.ProductsId);
 
-				entity.HasMany(e => e.ProductsPrices)
-				.WithOne(e => e.Products)
-				.HasForeignKey(e => e.ProductsPriceId);
+				
 
 				entity.HasMany(e => e.ProductsStorage)
 				.WithOne()
 				.HasForeignKey(e => e.ProductsId);
 			});
-			//Products Categories
-			modelBuilder.Entity<ProductsCategories>(entity =>
-			{
-				entity.HasKey(e => e.ProductsCategoriesId);
-				
-				entity.HasOne(e => e.Products)
-				.WithOne()
-				.HasForeignKey<Products>(e => e.ProductsId);
-
-				entity.HasOne(e => e.Categories)
-				.WithOne()
-				.HasForeignKey<Categories>(e => e.CategoriesId);
-			});
-		}
 		
-
+		}
 		public virtual DbSet<RequestOrders> requestOrders { get; set; } = null!;
 		public virtual DbSet<RequestOrdersProducts> requestOrdersProducts { get; set; }
 		
@@ -138,10 +122,6 @@ namespace Api.loja.Data
                 entity.HasOne(e => e.Products)
                 .WithOne()
                 .HasForeignKey<Products>(e => e.ProductsId);
-
-                entity.HasOne(e => e.Clients)
-                .WithOne()
-                .HasForeignKey<Clients>(e => e.ClientsId);
             });
         }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

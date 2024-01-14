@@ -17,6 +17,6 @@ namespace Dominio.loja.Entity
         [StringLength(255)]
         public string Name {  get; set; }
 
-        public virtual IEnumerable<PermissionsRelation> PermissionsRelations { get; set; }
+        public virtual ICollection<PermissionsRelation> PermissionsRelations { get; set; }
     }
 }

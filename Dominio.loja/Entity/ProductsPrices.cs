@@ -17,8 +17,6 @@ namespace Dominio.loja.Entity
         public int ProductsId { get; set; }
         [ForeignKey("PricesId")]
         public int PricesId { get;set; }
-        public virtual Prices Prices { get; set; }
-        public virtual Products Products { get; set; }
 
     }
 }
