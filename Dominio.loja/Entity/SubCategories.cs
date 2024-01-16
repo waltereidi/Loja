@@ -12,10 +12,11 @@ namespace Dominio.loja.Entity
     public class SubCategories
     {
         [Key]
-        public int ID_SubCategories {get;set;}
+        public int SubCategoriesId {get;set;}
         [StringLength(30)]
         public string Name { get;set;}
+        public string Description { get; set; }
         public int ID_Categories { get;set;}
-        
+        public virtual ICollection<SubSubCategories> SubSubCategories { get;set;}
     }
 }

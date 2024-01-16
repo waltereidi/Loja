@@ -19,6 +19,7 @@ namespace Dominio.loja.Entity
         public string Name { get; set; }
         [StringLength(2048)]
         public string? Description { get; set; }
+        public virtual ICollection<SubCategories> SubCategories { get; set; }
     }
 
 

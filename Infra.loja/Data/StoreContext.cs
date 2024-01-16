@@ -29,7 +29,24 @@ namespace Api.loja.Data
 				.HasForeignKey<CategoriesPromotion>(e => e.CategoriesId)
 				.HasPrincipalKey<Categories>(e => e.CategoriesId).OnDelete(DeleteBehavior.Restrict);
 			});
-			
+			modelBuilder.Entity<Categories>(entity =>
+			{
+				entity.HasKey(e => e.CategoriesId);
+
+				entity.HasMany(e => e.SubCategories)
+				.WithOne()
+				.HasForeignKey(e => e.SubCategoriesId)
+				.HasPrincipalKey(e => e.CategoriesId);
+			});
+			modelBuilder.Entity<SubCategories>(entity => 
+			{
+				entity.HasKey(e=> e.SubCategoriesId);
+
+				entity.HasMany(e => e.SubSubCategories)
+				.WithOne()
+				.HasForeignKey(e => e.SubSubCategoriesId)
+				.HasPrincipalKey(e => e.SubCategoriesId);
+			});
 		}
 		public virtual DbSet<Clients> clients { get; set; }
 		public virtual DbSet<ClientsProductsCart> clientsProducts_cart { get; set; }
@@ -82,12 +99,15 @@ namespace Api.loja.Data
 				entity.HasKey(e => e.ProductsId);
 				entity.HasOne(e => e.ProductsCategories)
 				.WithOne()
-				.HasForeignKey<ProductsCategories>(e => e.ProductsId);
-				
+				.HasForeignKey<ProductsCategories>(e => e.ProductsCategoriesId);
 
-				entity.HasMany(e => e.ProductsStorage)
+				entity.HasOne(e => e.ProductsSubCategories)
 				.WithOne()
-				.HasForeignKey(e => e.ProductsId);
+				.HasForeignKey<ProductsSubCategories>(e => e.ProductsSubCategoriesId);
+
+				entity.HasOne(e => e.ProductsSubSubCategories)
+				.WithOne()
+				.HasForeignKey<ProductsSubSubCategories>(e => e.ProductsSubSubCategoriesId);
 			});
 		
 		}

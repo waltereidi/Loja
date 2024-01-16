@@ -13,7 +13,13 @@ namespace Tests.Loja.Tests.Infra
         {
             _storeContext = new StoreContext();
         }
-
+        [TestMethod]
+        public void TestORMCategories()
+        {
+            var result = _storeContext.categories.Find(1);
+            Assert.IsNotNull(result.ToJson());
+            Assert.IsNotNull(result.SubCategories);
+        }
         [TestMethod]
         public void TestORMClients()
         {

@@ -22,9 +22,11 @@ namespace Dominio.loja.Entity
         public long? Ean { get; set; }
         [StringLength(64)]
         public string? Sku { get; set; }
-        public virtual ProductsCategories? ProductsCategories { get; set; }
         public virtual ICollection<ProductsPrices> ProductsPrices { get; set; }
-        public virtual ICollection<ProductsStorage> ProductsStorage { get; set; }
+        public virtual ProductsStorage ProductsStorage { get; set; }
+        public virtual ProductsCategories ProductsCategories { get; set; }
+        public virtual ProductsSubCategories ProductsSubCategories { get; set; }
+        public virtual ProductsSubSubCategories ProductsSubSubCategories { get; set; }
       
 
     }
