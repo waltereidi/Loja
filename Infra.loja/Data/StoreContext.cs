@@ -47,6 +47,15 @@ namespace Api.loja.Data
 				.HasForeignKey(e => e.SubSubCategoriesId)
 				.HasPrincipalKey(e => e.SubCategoriesId);
 			});
+			modelBuilder.Entity<CategoriesPromotion>(entity =>
+			{
+				entity.HasKey(e => e.CategoriesPromotionId);
+
+				entity.HasMany(e => e.ProductsCategories)
+				.WithOne()
+				.HasForeignKey(e => e.CategoriesId)
+				.HasPrincipalKey(e=> e.CategoriesId);
+			});
 		}
 		public virtual DbSet<Clients> clients { get; set; }
 		public virtual DbSet<ClientsProductsCart> clientsProducts_cart { get; set; }
@@ -108,6 +117,15 @@ namespace Api.loja.Data
 				entity.HasOne(e => e.ProductsSubSubCategories)
 				.WithOne()
 				.HasForeignKey<ProductsSubSubCategories>(e => e.ProductsSubSubCategoriesId);
+			});
+			modelBuilder.Entity<ProductsCategories>(entity =>
+			{
+				entity.HasKey(e => e.ProductsCategoriesId);
+
+				entity.HasOne(e => e.Products)
+				.WithOne(e => e.ProductsCategories)
+				.HasForeignKey<Products>(e => e.ProductsId)
+				.HasPrincipalKey<ProductsCategories>(e=> e.ProductsId);
 			});
 		
 		}

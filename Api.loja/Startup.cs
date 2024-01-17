@@ -7,6 +7,7 @@ using Api.loja.Middleware;
 using Utils.loja;
 using Utils.loja.Queue;
 using Dominio.loja.Interfaces.Context;
+using System.Text.Json.Serialization;
 
 public class Startup
 {
@@ -18,11 +19,6 @@ public class Startup
     public IConfiguration Configuration { get; set; }
     public void ConfigureServices(IServiceCollection service)
     {
-        var jwtIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>();
-        var jwtKey = Configuration.GetSection("Jwt:Key").Get<string>();
-
-        service.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         service.AddEndpointsApiExplorer();
 
         service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -34,9 +30,9 @@ public class Startup
                  ValidateAudience = true,
                  ValidateLifetime = true,
                  ValidateIssuerSigningKey = true,
-                 ValidIssuer = jwtIssuer,
-                 ValidAudience = jwtIssuer,
-                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+                 ValidIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>(),
+                 ValidAudience = Configuration.GetSection("Jwt:Key").Get<string>(),
+                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Get<string>()))
              };
          });
 
@@ -56,7 +52,12 @@ public class Startup
             options.Cookie.IsEssential = true;
 
         });
-
+        //Importante para não quebrar o com o modelBuilder do EFCore
+        service.AddControllers()
+       .AddJsonOptions(options =>
+       {
+           options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+       });
     }
     public void Configure(IApplicationBuilder app, IHostEnvironment env)
     {

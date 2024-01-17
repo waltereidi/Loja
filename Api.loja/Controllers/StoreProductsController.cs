@@ -22,29 +22,26 @@ namespace Api.loja.Controllers
         public async Task<IActionResult> GetNavBarCategories()
         {
             
-            return Ok();
+            return Ok(_context.categories.Any() ? _context.categories.OrderBy(o=> o.Name).ToList() : null );
         }
         [HttpGet]
         public async Task<IActionResult> GetBarCategories()
         {
-            return Ok();
+            return Ok(_context.categories.Any() ? _context.categories.OrderBy(o=> o.Name).ToList() : null );
         }
         [HttpGet]
         public async Task<IActionResult> GetPromotionCategoriesProducts()
         {
-            return Ok();
+            return Ok( _context.categoriesPromotion.Any() ? 
+                       _context.categoriesPromotion
+                       .OrderBy(o=>  o.Categories.Name )
+                       .OrderBy(o=> o.ProductsCategories).ToList() : null );
         }
         [HttpGet]
         public async Task<IActionResult> GetProduct(int id)
         {
-            return Ok();
+            return Ok( _context.products.Any(x => x.ProductsId == id) ? _context.products.Single(x => x.ProductsId == id) : null ) ;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetProductsByCategories()
-        {
-            return Ok();
-        }
-
 
     }
 }

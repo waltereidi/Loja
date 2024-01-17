@@ -18,5 +18,6 @@ namespace Dominio.loja.Entity
         public string Description { get; set; }
         public int ID_Categories { get;set;}
         public virtual ICollection<SubSubCategories> SubSubCategories { get;set;}
+
     }
 }

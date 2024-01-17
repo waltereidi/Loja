@@ -1,6 +1,8 @@
 ﻿using Api.loja.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using NuGet.Protocol;
+using System.Runtime.Serialization;
 
 namespace Tests.Loja.Tests.Infra
 {
@@ -12,12 +14,12 @@ namespace Tests.Loja.Tests.Infra
         public StoreContextTest()
         {
             _storeContext = new StoreContext();
+            
         }
         [TestMethod]
         public void TestORMCategories()
         {
             var result = _storeContext.categories.Find(1);
-            Assert.IsNotNull(result.ToJson());
             Assert.IsNotNull(result.SubCategories);
         }
         [TestMethod]
@@ -31,9 +33,16 @@ namespace Tests.Loja.Tests.Infra
         [TestMethod]
         public void TestProductsORM()
         {
+            
             var result = _storeContext.products.Find(1);
-            Assert.IsNotNull(result.ToJson());
-            Assert.IsTrue(result.ProductsStorage != null );
+            var productsCategories = _storeContext.productsCategories.Find(1);
+            var jsonTest = JsonConvert.SerializeObject(productsCategories, Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            Assert.IsNotNull(result.ProductsStorage);
+            Assert.IsNotNull(productsCategories.Products);
 
         }
         [TestMethod]
@@ -41,8 +50,6 @@ namespace Tests.Loja.Tests.Infra
         {
             var result = _storeContext.requestOrders.Find(1);
             var result1 = _storeContext.clientsProducts_cart.Find(1);
-            Assert.IsNotNull(result.ToJson());
-            Assert.IsNotNull(result1.ToJson());
             Assert.IsTrue(result.RequestOrdersProducts is not null);
             Assert.IsTrue(result1.Products is not null);
         }

@@ -145,23 +145,39 @@ namespace Infra.loja.Migrations
                         principalColumn: "SubSubCategoriesId",
                         onDelete: ReferentialAction.Cascade);
                 });
-            migrationBuilder.AlterColumn<int>(
-              name: "ProductsCategoriesId",
-              table: "productsCategories",
-              type: "int",
-              nullable: false,
-              oldClrType: typeof(int),
-              oldType: "int")
-              .OldAnnotation("SqlServer:Identity", "1, 1");
+            
 
             migrationBuilder.AlterColumn<int>(
-                name: "ProductsId",
-                table: "products",
+                name: "ProductsSubCategoriesId",
+                table: "productsSubCategories",
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(int),
                 oldType: "int")
                 .OldAnnotation("SqlServer:Identity", "1, 1");
+            migrationBuilder.AlterColumn<int>(
+                name: "ProductsSubSubCategoriesId",
+                table: "productsSubCategories",
+                type: "int",
+                nullable: false,
+                oldType: "int")
+                .OldAnnotation("SqlServer:Identity", "1 , 1");
+            migrationBuilder.AlterColumn<int>(
+                name: "SubSubCategoriesId",
+                table: "SubSubCategories",
+                type: "int",
+                nullable: false,
+                oldType: "int")
+                .OldAnnotation("SqlServer:Identity", "1 , 1");
+            migrationBuilder.AlterColumn<int>(
+                name: "SubCategoriesId",
+                table: "SubCategories",
+                type: "int",
+                nullable: false,
+                oldType: "int")
+                .OldAnnotation("SqlServer:Identity", "1 , 1");
+
+
 
             //migrationBuilder.CreateIndex(
             //    name: "IX_productsPrices_ProductsId",
