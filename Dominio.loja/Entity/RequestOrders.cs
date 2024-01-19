@@ -12,7 +12,8 @@ namespace Dominio.loja.Entity
         [Key]
         public int RequestOrdersId { get; set; }
         [StringLength(2048)]
-        public string Descrption { get; set; }
+        public string Description { get; set; }
+        public int ClientsId { get; set; }
         public virtual ICollection<RequestOrdersProducts> RequestOrdersProducts { get; set; }
     }
 }

@@ -18,7 +18,16 @@ namespace Dominio.loja.Dto.Models
             Message = message;
             Success = sucesso;
         }
-      
+        public ResponseModel(bool sucesso, dynamic data)
+        {
+            Data = data;
+            Success = sucesso;
+        }
+        public ResponseModel(bool sucesso, string message)
+        {
+            Message = message;
+            Success = sucesso;
+        }
     }
 
 }
