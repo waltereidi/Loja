@@ -27,6 +27,7 @@ namespace Api.loja.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<IActionResult> GetEditMyProfile([FromHeader]int ID_Clients)
         {
            if(_context.clients.Any(x => x.ClientsId == ID_Clients))
