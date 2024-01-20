@@ -8,6 +8,7 @@ using Utils.loja;
 using Utils.loja.Queue;
 using Dominio.loja.Interfaces.Context;
 using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 public class Startup
 {
@@ -20,25 +21,35 @@ public class Startup
     public void ConfigureServices(IServiceCollection service)
     {
         service.AddEndpointsApiExplorer();
-
+        
         service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
          .AddJwtBearer(options =>
          {
              options.TokenValidationParameters = new TokenValidationParameters
              {
                  ValidateIssuer = true,
-                 ValidateAudience = true,
+                 ValidateAudience = false,
                  ValidateLifetime = true,
                  ValidateIssuerSigningKey = true,
                  ValidIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>(),
                  ValidAudience = Configuration.GetSection("Jwt:Key").Get<string>(),
-                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Get<string>()))
+                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Get<string>())),
+                 
              };
+             
          });
 
         // 👇 Configuring the Authorization Service
         service.AddAuthorization();
-        service.AddSwaggerGen();
+        service.AddSwaggerGen(options =>
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey
+            }));
+
         service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
         service.AddSingleton<StoreAdminContext>();
@@ -72,6 +83,7 @@ public class Startup
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Loja Api");
             c.DocumentTitle = "Loja BackEnd";
         });
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

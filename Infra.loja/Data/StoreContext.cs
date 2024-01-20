@@ -19,8 +19,8 @@ namespace Api.loja.Data
 		public virtual DbSet<CategoriesPromotion> categoriesPromotion { get; set; }
 		private  void CreateCategoriesORM(ModelBuilder modelBuilder)
 		{
-			//Categories Promotion
-			modelBuilder.Entity<CategoriesPromotion>(entity =>
+            //Categories Promotion
+            modelBuilder.Entity<CategoriesPromotion>(entity =>
 			{
 				entity.HasKey(e => e.CategoriesPromotionId);
 
@@ -167,7 +167,7 @@ namespace Api.loja.Data
 			CreateProductsORM(modelBuilder);
 			CreateRequestORM(modelBuilder);        
 		}
-	   
-	}
+
+    }
     
 }

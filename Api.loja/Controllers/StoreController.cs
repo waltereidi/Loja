@@ -4,7 +4,9 @@ using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Dto.Models;
 using Dominio.loja.Dto.Requests;
 using Dominio.loja.Interfaces.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
 using System.Net;
 
@@ -33,8 +35,11 @@ namespace Api.loja.Controllers
             {
                 string key = _configuration.GetSection("Jwt").GetSection("Key").Value;
                 string issuer = _configuration.GetSection("Jwt").GetSection("Issuer").Value;
+
+
                 LoginResponse response=new LoginResponse( query.First() ,issuer , key) ;
                 return Ok(response);
+                
             }
             return StatusCode((int)HttpStatusCode.Unauthorized);
         }

@@ -7,12 +7,14 @@ using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Npoi.Mapper;
+using NuGet.Protocol;
 using System.Data.Entity.Core;
 using System.Net;
 
 namespace Api.loja.Controllers
 {
     [Route("api/[controller]/[action]")]
+
     [ApiController]
     public class StoreClientsController : BaseController
     {
@@ -27,8 +29,8 @@ namespace Api.loja.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize]
-        public async Task<IActionResult> GetEditMyProfile([FromHeader]int ID_Clients)
+        [Authorize(Roles ="TestCase")]
+        public async Task<IActionResult> GetEditMyProfile([FromHeader]int ID_Clients )
         {
            if(_context.clients.Any(x => x.ClientsId == ID_Clients))
             {
@@ -39,7 +41,7 @@ namespace Api.loja.Controllers
                     })
                     .First(x => x.ClientsId == ID_Clients);
                 
-                return Ok(new ResponseModel(true , clients));
+                return Ok(new ResponseModel(true, clients));
             }
             return NotFound();
         }
