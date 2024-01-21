@@ -16,17 +16,19 @@ namespace Dominio.loja.Dto.CustomEntities
     {
         public Clients Clients { get; set; }
         public string Authorization { get; set; }
+        
         public LoginResponse(Clients client , string issuer , string jwtKey)
         {
+            List<Claim> listClaim = new List<Claim>();
+            client.PermissionsGroup.PermissionsRelations.ToList().ForEach(f => listClaim.Add(new Claim(ClaimTypes.Role ,f.Permissions.Name)));
+
+
             Clients = client;
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Role, Clients.PermissionsGroup.Name.ToString()),
-                }),
+                Subject = new ClaimsIdentity(listClaim),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature),
                 Issuer = issuer ,

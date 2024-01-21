@@ -6,8 +6,6 @@ using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Npoi.Mapper;
-using NuGet.Protocol;
 using System.Data.Entity.Core;
 using System.Net;
 
@@ -64,7 +62,7 @@ namespace Api.loja.Controllers
             }
             catch(UpdateException ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, new ResponseModel(false, ex.Message));    
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);    
             }
             
             return NotFound();
@@ -117,7 +115,7 @@ namespace Api.loja.Controllers
                 }
                 catch(Exception ex)
                 {
-                    return StatusCode((int)HttpStatusCode.InternalServerError, new ResponseModel(false, ex.Message));
+                    return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
                 }
             }
             return StatusCode((int)HttpStatusCode.NotAcceptable);
@@ -127,25 +125,58 @@ namespace Api.loja.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize]
-        public async Task<IActionResult> PutCartProducts()
+        public async Task<IActionResult> PutCartProducts(PutCartProductsRequest request)
         {
-            return Ok();
+            if(_context.clients.Any(x=>x.ClientsId == request.ClientsId) && _context.products.Any(x=> x.ProductsId == request.ProductsId))
+            {
+                var cartProducts = new ClientsProductsCart()
+                {
+                    ClientsId = request.ClientsId, 
+                    ProductsId = request.ProductsId,
+                    IsActive=true , 
+                    Quantity = request.Quantity,
+                    Created_at = DateTime.Now,
+                };
+                try
+                {
+                    _context.clientsProducts_cart.Add(cartProducts);
+                    return Ok(new ResponseModel(_context.SaveChanges()));
+                }
+                catch(Exception ex)
+                {
+                    return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+                }
+                
+            }
+            return NotFound();
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize]
-        public async Task<IActionResult> DeleteCartProducts()
+        public async Task<IActionResult> DeleteCartProducts(int CartProductsId)
         {
-            return Ok();
+            if(_context.clientsProducts_cart.Any(x=>CartProductsId==x.ClientsProductsCartId))
+            {
+                var entity = _context.clientsProducts_cart.Find(CartProductsId);
+                _context.clientsProducts_cart.Remove(entity);
+                return Ok(new ResponseModel(_context.SaveChanges()));
+            }
+            return NotFound();
+            
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize]
-        public async Task<IActionResult> GetCartProducts()
+        public async Task<IActionResult> GetCartProducts(int ClientsId)
         {
-            return Ok();
+            if( _context.clients.Any(x=>x.ClientsId==ClientsId) )
+            {
+                var clientsCartProducts = _context.clients.Where(x=>x.ClientsId==ClientsId).Select(s => s.ClientsProductsCart);
+                return Ok( new ResponseModel(true  , clientsCartProducts));
+            }
+            return NotFound();
         }
 
      }

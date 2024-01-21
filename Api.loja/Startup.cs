@@ -1,14 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Api.loja.Data;
+﻿using Api.loja.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Api.loja.Middleware;
-using Utils.loja;
 using Utils.loja.Queue;
-using Dominio.loja.Interfaces.Context;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 public class Startup
 {
@@ -48,7 +47,8 @@ public class Startup
                 In = ParameterLocation.Header,
                 Name = "Authorization",
                 Type = SecuritySchemeType.ApiKey
-            }));
+            }
+            ));
 
         service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
@@ -62,6 +62,21 @@ public class Startup
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
 
+        });
+        CultureInfo[] supportedCultures = new[]
+        {
+            new CultureInfo("pt-BR"),
+        };
+        service.Configure<RequestLocalizationOptions>(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture("pt-BR");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+            options.RequestCultureProviders = new List<IRequestCultureProvider>
+        {
+            new QueryStringRequestCultureProvider(),
+            new CookieRequestCultureProvider()
+        };
         });
         //Importante para não quebrar o com o modelBuilder do EFCore
         service.AddControllers()

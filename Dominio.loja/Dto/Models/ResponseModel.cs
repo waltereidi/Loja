@@ -12,6 +12,12 @@ namespace Dominio.loja.Dto.Models
         private string Message { get; set; }
         private int RowCount { get; set; } = 0;
         private bool Success { get; set; }
+        public ResponseModel(int save)
+        {
+            Success = save>0 ? true : false;
+            RowCount = save;
+            Message = $"Total de registros modificados{save}";
+        }
         public ResponseModel( bool sucesso , dynamic data, string message)
         {
             Data = data;
