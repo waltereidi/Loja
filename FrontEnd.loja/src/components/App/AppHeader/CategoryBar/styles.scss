@@ -1,0 +1,19 @@
+@import '/src/variables.scss';
+.category{
+    
+    font-family: 'Montserrat';    
+    margin: 1rem 1rem 1rem 1rem;
+    display:flex;
+    flex-flow:column ;
+    text-align: center;
+    justify-self: center;
+    img{
+        height: 4rem;
+        width: 6rem;
+    }
+    p{
+        font-size: 0.8rem;
+        color:$theme ; 
+        font-weight: 300;
+    }
+}

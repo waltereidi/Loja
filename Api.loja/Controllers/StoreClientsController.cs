@@ -12,7 +12,7 @@ using System.Net;
 namespace Api.loja.Controllers
 {
     [Route("api/[controller]/[action]")]
-
+    [Authorize]
     [ApiController]
     public class StoreClientsController : BaseController
     {
@@ -27,7 +27,6 @@ namespace Api.loja.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(Roles ="TestCase")]
         public async Task<IActionResult> GetEditMyProfile([FromHeader]int ID_Clients )
         {
            if(_context.clients.Any(x => x.ClientsId == ID_Clients))
@@ -48,7 +47,6 @@ namespace Api.loja.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Authorize]
         public async Task<IActionResult> PutEditMyProfile([FromBody] Clients dataSource)
         {
             try
@@ -70,7 +68,6 @@ namespace Api.loja.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize]
         public async Task<IActionResult> GetOrdersRequest([FromHeader] int ID_Clients )
         {
             if(_context.clientsProducts_cart.Any(x=> x.ClientsId == ID_Clients ))
@@ -84,7 +81,6 @@ namespace Api.loja.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-        [Authorize]
         
         public async Task<IActionResult> PostOrdersRequest([FromBody]PostRequestOrdersRequest dataSource )
         {
@@ -124,7 +120,6 @@ namespace Api.loja.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize]
         public async Task<IActionResult> PutCartProducts(PutCartProductsRequest request)
         {
             if(_context.clients.Any(x=>x.ClientsId == request.ClientsId) && _context.products.Any(x=> x.ProductsId == request.ProductsId))
@@ -153,7 +148,6 @@ namespace Api.loja.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize]
         public async Task<IActionResult> DeleteCartProducts(int CartProductsId)
         {
             if(_context.clientsProducts_cart.Any(x=>CartProductsId==x.ClientsProductsCartId))
@@ -168,7 +162,6 @@ namespace Api.loja.Controllers
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize]
         public async Task<IActionResult> GetCartProducts(int ClientsId)
         {
             if( _context.clients.Any(x=>x.ClientsId==ClientsId) )

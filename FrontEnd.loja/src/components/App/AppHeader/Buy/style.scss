@@ -1,0 +1,32 @@
+@import 'src/variables';
+.item{
+    flex-flow:row wrap ;
+    font-size:0.6rem;
+    height: 5rem;
+    max-width: 4rem;
+    display: flex; 
+    font-family: 'Montserrat';
+    color: $theme;
+    &--icon{
+        flex: 0 0 2rem;
+    }
+    &--text{
+        flex: 0 0 3rem;
+        display: flex;
+        p{
+            font-weight: 700;
+        }
+        span{
+            font-weight: 300;
+        }
+    }
+
+}
+
+@media (min-width:360px) and (max-width:460px)
+{
+    .office-hour , .cart{
+        display:none; 
+    }
+}
+

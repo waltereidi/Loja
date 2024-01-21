@@ -1,0 +1,212 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>FrontEnd.loja</Name>
+    <RootNamespace>FrontEnd.loja</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>df0aa249-7cd7-49e0-805a-34c4e7e62b6a</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>node_modules\@vue\cli-service\bin\vue-cli-service.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>5555</NodejsPort>
+    <StartWebBrowser>true</StartWebBrowser>
+    <ScriptArguments>serve</ScriptArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent Condition="!Exists('$(MSBuildProjectExtension)/node_modules')">
+      npm install
+      npm update
+    </PreBuildEvent>
+    <PostBuildEvent>
+      npm run build
+      npm run serve
+    </PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="babel.config.js" />
+    <Content Include="package.json" />
+    <Content Include="postcss.config.js" />
+    <Content Include="public\favicon.ico" />
+    <Content Include="public\fonts\Montserrat\Montserrat-Italic-VariableFont_wght.ttf" />
+    <Content Include="public\fonts\Montserrat\Montserrat-VariableFont_wght.ttf" />
+    <Content Include="public\fonts\Montserrat\OFL.txt" />
+    <Content Include="public\fonts\Montserrat\README.txt" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-Black.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-BlackItalic.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-Bold.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-BoldItalic.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-ExtraBold.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-ExtraBoldItalic.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-ExtraLight.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-ExtraLightItalic.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-Italic.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-Light.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-LightItalic.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-Medium.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-MediumItalic.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-Regular.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-SemiBold.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-SemiBoldItalic.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-Thin.ttf" />
+    <Content Include="public\fonts\Montserrat\static\Montserrat-ThinItalic.ttf" />
+    <Content Include="public\img\CreditCard\cielo-1.svg" />
+    <Content Include="public\img\CreditCard\elo-1.svg" />
+    <Content Include="public\img\CreditCard\mastercard-6.svg" />
+    <Content Include="public\img\CreditCard\visa-2.svg" />
+    <Content Include="public\img\icons\AppHeader\cart.svg" />
+    <Content Include="public\img\icons\AppHeader\clock.svg" />
+    <Content Include="public\img\icons\AppHeader\list.svg" />
+    <Content Include="public\img\icons\AppHeader\menu.svg" />
+    <Content Include="public\img\icons\AppHeader\user.svg" />
+    <Content Include="public\img\Logo\logo.png" />
+    <Content Include="public\index.html" />
+    <Content Include="public\robots.txt" />
+    <Content Include="src\App.vue" />
+    <Content Include="src\assets\logo.png" />
+    <Content Include="src\components\App\AppFooter\AppFooter.vue" />
+    <Content Include="src\components\App\AppFooter\AppFooterBottom.vue" />
+    <Content Include="src\components\App\AppFooter\style.scss" />
+    <Content Include="src\components\App\AppHeader\AppHeader.vue" />
+    <Content Include="src\components\App\AppHeader\Buy\BuyHeader.vue" />
+    <Content Include="src\components\App\AppHeader\Buy\style.scss" />
+    <Content Include="src\components\App\AppHeader\CategoryBar\CategoryBar.vue" />
+    <Content Include="src\components\App\AppHeader\CategoryBar\styles.scss" />
+    <Content Include="src\components\App\AppHeader\Category\CategoryHeader.vue" />
+    <Content Include="src\components\App\AppHeader\Category\style.scss" />
+    <Content Include="src\components\App\AppHeader\Logo\LogoHeader.vue" />
+    <Content Include="src\components\App\AppHeader\Search\SearchHeader.vue" />
+    <Content Include="src\components\App\AppHeader\style.scss" />
+    <Content Include="src\components\ProductCategory\ProductCategory.vue" />
+    <Content Include="src\components\ProductCategory\ProductComponent\ProductComponent.vue" />
+    <Content Include="src\components\ProductCategory\ProductComponent\style.scss" />
+    <Content Include="src\components\ProductCategory\style.scss" />
+    <Content Include="src\index.scss" />
+    <Content Include="src\variables.scss" />
+    <Content Include="src\views\AppBody\AppBody.vue" />
+    <Content Include="src\views\AppBody\style.scss" />
+    <Content Include="src\views\BuyList\BuyList.vue" />
+    <Content Include="src\views\BuyList\style.scss" />
+    <Content Include="src\views\Login\LoginView.vue" />
+    <Content Include="src\views\Login\style.scss" />
+    <Content Include="src\views\Register\RegisterView.vue" />
+    <Content Include="src\views\Register\style.scss" />
+    <Content Include="tailwind.config.js" />
+    <Content Include="tests\json\categoryHeader.json" />
+    <Content Include="tests\json\productCategory.json" />
+    <Content Include="tsconfig.json" />
+    <Content Include="vue.config.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="public\" />
+    <Folder Include="public\fonts\" />
+    <Folder Include="public\fonts\Montserrat\" />
+    <Folder Include="public\fonts\Montserrat\static\" />
+    <Folder Include="public\img\" />
+    <Folder Include="public\img\CreditCard\" />
+    <Folder Include="public\img\icons\" />
+    <Folder Include="public\img\icons\AppHeader\" />
+    <Folder Include="public\img\icons\Category\" />
+    <Folder Include="public\img\Logo\" />
+    <Folder Include="public\json\" />
+    <Folder Include="src\" />
+    <Folder Include="src\assets\" />
+    <Folder Include="src\components\" />
+    <Folder Include="src\components\App\" />
+    <Folder Include="src\components\App\AppFooter\" />
+    <Folder Include="src\components\App\AppHeader\" />
+    <Folder Include="src\components\App\AppHeader\Buy\" />
+    <Folder Include="src\components\App\AppHeader\CategoryBar\" />
+    <Folder Include="src\components\App\AppHeader\Category\" />
+    <Folder Include="src\components\App\AppHeader\Logo\" />
+    <Folder Include="src\components\App\AppHeader\Search\" />
+    <Folder Include="src\components\ProductCategory\" />
+    <Folder Include="src\components\ProductCategory\ProductComponent\" />
+    <Folder Include="src\router\" />
+    <Folder Include="src\store\" />
+    <Folder Include="src\store\Controllers\" />
+    <Folder Include="src\store\Entity\" />
+    <Folder Include="src\views\" />
+    <Folder Include="src\views\AppBody\" />
+    <Folder Include="src\views\BuyList\" />
+    <Folder Include="src\views\Login\" />
+    <Folder Include="src\views\Register\" />
+    <Folder Include="tests\" />
+    <Folder Include="tests\json\" />
+    <Folder Include="tests\unit\" />
+    <Folder Include="tests\unit\Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\registerServiceWorker.ts" />
+    <TypeScriptCompile Include="src\router\index.ts" />
+    <TypeScriptCompile Include="src\shims-vue.d.ts" />
+    <TypeScriptCompile Include="src\store\buyStore.ts" />
+    <TypeScriptCompile Include="src\store\categoryStore.ts" />
+    <TypeScriptCompile Include="src\store\Controllers\buyStoreController.ts" />
+    <TypeScriptCompile Include="src\store\Controllers\categoryStoreController.ts" />
+    <TypeScriptCompile Include="src\store\Controllers\promotionStoreController.ts" />
+    <TypeScriptCompile Include="src\store\Controllers\storeController.ts" />
+    <TypeScriptCompile Include="src\store\Entity\store.ts" />
+    <TypeScriptCompile Include="src\store\promotionStore.ts" />
+    <TypeScriptCompile Include="src\store\store.ts" />
+    <TypeScriptCompile Include="tests\unit\Controllers\categoryStoreController.spec.ts" />
+    <TypeScriptCompile Include="tests\unit\Controllers\compraStoreController.spec.ts" />
+    <TypeScriptCompile Include="tests\unit\Controllers\destaqueStoreController.spec.ts" />
+    <TypeScriptCompile Include="tests\unit\Controllers\storeController.spec.ts" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
