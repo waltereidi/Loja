@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.loja", "Api.loja\Api.lo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.loja", "Infra.loja\Infra.loja.csproj", "{00818977-295E-4060-84C5-52436A2C2BD6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Loja", "Tests.Loja\Tests.Loja.csproj", "{FE9655C9-C124-406A-9C29-583E2FC416EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.loja", "Tests.Loja\Tests.loja.csproj", "{FE9655C9-C124-406A-9C29-583E2FC416EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.loja", "Utils.loja\Utils.loja.csproj", "{9116E0A7-9470-4016-8412-E87C5BB13D56}"
 EndProject
