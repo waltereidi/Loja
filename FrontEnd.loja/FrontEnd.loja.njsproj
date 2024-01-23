@@ -29,7 +29,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent Condition="!Exists('$(MSBuildProjectExtension)/node_modules')">
+    <PreBuildEvent>
       npm install
       npm update
     </PreBuildEvent>

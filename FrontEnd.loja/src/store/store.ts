@@ -1,20 +1,18 @@
 import { Module, createStore } from 'vuex';
 import { StoreController } from './Controllers/storeController';
-import { EnumMessageType , MessageInterface , StoreConfig , State } from './Entity/store';
-
+import { EnumMessageType, MessageInterface, AppSettings , State , HttpHeaders } from './Entity/store';
+import { RequestController } from '@/store/Controllers/requestController';
+import appSettings from 'appsettings.json' assert { type: 'json' };
 const storeController = new StoreController() ; 
 
 const state :State={
   message : [] ,
-  appConfig : storeController.getAppConfig() ,
+  appConfig : appSettings ,
   navMenu : false ,  
 };
 
 const mutations = {
-  test(state:State )
-  {
-    state.appConfig.authorization ='Bearer Token';
-  }, 
+ 
   openMenu(state:State)
   {
     state.navMenu = true; 
@@ -22,17 +20,18 @@ const mutations = {
   closeMenu(state:State)
   {
     state.navMenu = false; 
-  }
+  },
+  
 };
 
 const getters = {
-  getAuthorization(state:State)
-  {
-    return state.appConfig.authorization;
-  },
   getNavMenu(state:State) : boolean
   {
     return state.navMenu ; 
+  },
+  request(state: State)
+  {
+        return null;
   }
 }
 

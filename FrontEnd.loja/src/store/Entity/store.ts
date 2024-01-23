@@ -5,15 +5,23 @@ export enum EnumMessageType {
     loading = 3 , 
     notification = 4 ,
   }
- export interface MessageInterface {
+export interface MessageInterface
+{
     message : string , 
     type : EnumMessageType, 
-  }
- export interface StoreConfig {
-    authorization : string , 
-  }
- export interface State{
+}
+export interface AppSettings
+{
+    ApiUrl : string , 
+}
+export interface State
+{
     message? : MessageInterface[] , 
-    appConfig : StoreConfig ,
+    appConfig: AppSettings,
     navMenu : boolean , 
-  }
+}
+export interface HttpHeaders
+{
+    key: string,
+    value:string
+}
