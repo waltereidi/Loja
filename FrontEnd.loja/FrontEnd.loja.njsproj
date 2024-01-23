@@ -39,6 +39,7 @@
     </PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="appsettings.json" />
     <Content Include="babel.config.js" />
     <Content Include="package.json" />
     <Content Include="postcss.config.js" />
@@ -158,6 +159,7 @@
     <TypeScriptCompile Include="src\shims-vue.d.ts" />
     <TypeScriptCompile Include="src\store\buyStore.ts" />
     <TypeScriptCompile Include="src\store\categoryStore.ts" />
+    <TypeScriptCompile Include="src\store\Controllers\requestController.ts" />
     <TypeScriptCompile Include="src\store\Controllers\buyStoreController.ts" />
     <TypeScriptCompile Include="src\store\Controllers\categoryStoreController.ts" />
     <TypeScriptCompile Include="src\store\Controllers\promotionStoreController.ts" />
