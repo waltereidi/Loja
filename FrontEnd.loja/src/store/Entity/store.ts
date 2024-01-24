@@ -10,15 +10,13 @@ export interface MessageInterface
     message : string , 
     type : EnumMessageType, 
 }
-export interface AppSettings
-{
-    ApiUrl : string , 
-}
+
 export interface State
 {
     message? : MessageInterface[] , 
-    appConfig: AppSettings,
-    navMenu : boolean , 
+    login: any,
+    navMenu: boolean, 
+    axios:any
 }
 export interface HttpHeaders
 {
