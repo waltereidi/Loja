@@ -6,6 +6,7 @@ using Dominio.loja.Dto.Requests;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
 using System.Net;
@@ -42,6 +43,20 @@ namespace Api.loja.Controllers
                 
             }
             return StatusCode((int)HttpStatusCode.Unauthorized);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetSessionMessages()
+        {
+            try
+            {
+                var i= HttpContext.Connection;
+                var k = HttpContext.GetRouteData();
+                return Ok(i);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
 

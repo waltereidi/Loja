@@ -21,7 +21,6 @@ namespace Api.loja.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNavBarCategories()
         {
-            
             return Ok(_context.categories.Any() ? _context.categories.OrderBy(o=> o.Name).ToList() : null );
         }
         [HttpGet]

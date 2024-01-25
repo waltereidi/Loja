@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
 
 public class Startup
 {
@@ -49,20 +50,17 @@ public class Startup
                 Type = SecuritySchemeType.ApiKey
             }
             ));
-
+        
         service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
         service.AddSingleton<StoreAdminContext>();
-        
 
-        service.AddDistributedMemoryCache();
-        service.AddSession( options =>
+        service.AddMvc(options =>
         {
-            options.IdleTimeout = TimeSpan.FromSeconds(10);
-            options.Cookie.HttpOnly = true;
-            options.Cookie.IsEssential = true;
-
+            options.EnableEndpointRouting = false;
         });
+        service.AddDistributedMemoryCache();
+        service.AddSession();
         CultureInfo[] supportedCultures = new[]
         {
             new CultureInfo("pt-BR"),
@@ -89,21 +87,19 @@ public class Startup
     {
         app.UseHttpsRedirection();
         app.UseRouting();
-
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Loja Api");
-            c.DocumentTitle = "Loja BackEnd";
-        });
+  
+        
 
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
         app.UseSession();
+        app.UseMvc();
         app.UseMiddleware<CustomMiddleware>();
         
     }

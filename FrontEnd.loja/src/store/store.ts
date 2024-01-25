@@ -6,6 +6,11 @@ import appSettings from 'appsettings.json' assert { type: 'json' };
 
 axios.defaults.baseURL = appSettings.ApiUrl;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.validateStatus = function (status) {
+    if (status >= 200)
+        return true;
+    return status >= 200 && status < 300; // padr�o
+};
 
 const state :State={
     message: [],
@@ -39,6 +44,10 @@ const getters = {
     getLogin(state: State)
     {
         return state.login;
+    },
+    axios(state:State)
+    {
+        return state.axios;
     }
 }
 
