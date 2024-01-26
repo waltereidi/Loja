@@ -60,7 +60,15 @@ public class Startup
             options.EnableEndpointRouting = false;
         });
         service.AddDistributedMemoryCache();
-        service.AddSession();
+        
+        service.AddSession(options =>
+        {
+            options.Cookie.Name = ".Store.Session";
+            options.IdleTimeout = TimeSpan.FromSeconds(10);
+            options.Cookie.HttpOnly = false;
+            options.Cookie.IsEssential = true;
+        });
+
         CultureInfo[] supportedCultures = new[]
         {
             new CultureInfo("pt-BR"),
@@ -91,8 +99,13 @@ public class Startup
         app.UseStaticFiles();
         app.UseAuthentication();
         app.UseAuthorization();
-  
-        
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Loja Api");
+            c.DocumentTitle = "Loja BackEnd";
+        });
+
 
         app.UseEndpoints(endpoints =>
         {

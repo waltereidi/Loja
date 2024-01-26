@@ -1,3 +1,5 @@
+import { RequestController } from "../Controllers/requestController"
+
 export enum EnumMessageType {
     error = 0 , 
     success = 1 , 
@@ -16,7 +18,7 @@ export interface State
     message? : MessageInterface[] , 
     login: any,
     navMenu: boolean, 
-    axios:any
+    requestController:RequestController
 }
 export interface HttpHeaders
 {
