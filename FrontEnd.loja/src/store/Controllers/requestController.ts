@@ -1,5 +1,5 @@
-import  axios  from 'axios';;
-import appSettings from 'appsettings.json' assert { type: 'json' };
+import  axios  from 'axios';
+import appSettings from '@/../appsettings.json';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 export class RequestController {
@@ -13,45 +13,30 @@ export class RequestController {
     {   
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
-    public request(url: string, body: any,type:string)
+  
+  
+    public async post(url: string, body: any)
     {
-
-
-        return null; 
-    }
-    public async requestAsync(url:string, body:any, type:string)
-    {
-        return null;
-    }
-    private async send(url:string , body:any , type:string)
-    {
-        let result;
-        switch (type)
-        {
-            case 'get': this.get(url); break;
-            case 'post': this.post(url ,body); break;
-            case 'delete': this.delete(url, body); break;
-            case 'put': this.put(url, body); break;
-            
-        }
-    }
-    private post(url: string, body: any)
-    {
-        let result;
         axios.post(url, body).then((response) => {
-            result = response;
+            return response.data;
         }).catch();
     }
-    private get(url: string)
+    public async get(url: string)
     {
-
+        axios.get(url).then((response) => {
+            return response.data;
+        }).catch();
     }
-    private delete(url: string, body: any)
+    public async delete(url: string)
     {
-        
+        axios.delete(url).then((response) => {
+            return response.data;
+        }).catch();
     }
-    private put(put: string, body: any)
+    public async put(url: string, body: any)
     {
-
+        axios.put(url, body).then((response) => {
+            return response.data;
+        }).catch();
     }
 }

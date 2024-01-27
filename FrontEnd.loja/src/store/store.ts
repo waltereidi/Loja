@@ -35,9 +35,9 @@ const getters = {
     {
         return state.login;
     },
-    axios(state:State)
+    getRequestController(state:State)
     {
-        return state.axios;
+        return state.requestController;
     }
 }
 
