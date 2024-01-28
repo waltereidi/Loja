@@ -1,12 +1,11 @@
 
-<script lang="ts">
+<script >
 import AppFooter from "@/components/App/AppFooter/AppFooter.vue";
 import AppHeader from "./components/App/AppHeader/AppHeader.vue";
 import AppFooterBottom from "@/components/App/AppFooter/AppFooterBottom.vue";
 import AppBody from "@/views/AppBody/AppBody.vue";
 //faze de testes 
 import { useToast } from "primevue/usetoast";
-import Toast from 'primevue/toast'
 
 export default {
 
@@ -14,21 +13,22 @@ export default {
     return {
       categoryHeaderDataSource: require("/tests/json/categoryHeader.json"),
       productCategory: require("/tests/json/productCategory.json"),
-
+      toast: useToast()
     }
   },
   methods: {
     show() {
       useToast().add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
-
     }
+  },
+  mounted() {
+    this.toast = useToast();
   },
   components: {
     AppFooter,
     AppHeader,
     AppFooterBottom,
     AppBody,
-    Toast
   }
 }
 </script>
@@ -38,7 +38,6 @@ export default {
     <router-view />
     <AppBody></AppBody>
     <AppFooter></AppFooter>
-
     <Toast />
     <Button label="Show" @click="show()">sdsd</Button>
 

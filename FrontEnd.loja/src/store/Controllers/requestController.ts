@@ -1,7 +1,6 @@
 import  axios  from 'axios';
 import appSettings from '@/../appsettings.json';
 import { useToast } from 'primevue/usetoast';
-import Toast from 'primevue/toast';
 export class RequestController {
 
     constructor()
@@ -19,6 +18,7 @@ export class RequestController {
     {
         axios.post(url, body).then((response) => {
             return response.data;
+            
         }).catch();
     }
     public async get(url: string)
