@@ -4,6 +4,7 @@ using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Dto.Requests;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Net;
 
 namespace Api.loja.Controllers
@@ -39,7 +40,11 @@ namespace Api.loja.Controllers
             }
             return StatusCode((int)HttpStatusCode.Unauthorized);
         }
-  
+        [HttpGet]
+        public IActionResult GetTest()
+        {
+            return Ok("sdsd");
+        }
 
     }
 

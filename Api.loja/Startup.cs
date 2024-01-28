@@ -38,6 +38,16 @@ public class Startup
              };
              
          });
+        service.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+            policy =>
+            {
+                policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+            });
+        });
 
         // 👇 Configuring the Authorization Service
         service.AddAuthorization();
@@ -114,7 +124,7 @@ public class Startup
         app.UseSession();
         app.UseMvc();
         app.UseMiddleware<CustomMiddleware>();
-        
+        app.UseCors();
     }
  
 }
