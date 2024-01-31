@@ -1,5 +1,5 @@
+<script lang="ts">
 
-<script >
 import AppFooter from "@/components/App/AppFooter/AppFooter.vue";
 import AppHeader from "./components/App/AppHeader/AppHeader.vue";
 import AppFooterBottom from "@/components/App/AppFooter/AppFooterBottom.vue";
@@ -16,8 +16,10 @@ export default {
   },
   methods: {
     async show() {
-      const request = this.$store.getters.getRequestController;
+
+      const request: any = this.$store.getters.getRequestController;
       const i = await request.get('Store/GetTest');
+      return null;
     }
   },
   components: {

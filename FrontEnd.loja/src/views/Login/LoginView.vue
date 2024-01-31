@@ -1,5 +1,7 @@
 
 <script lang="ts">
+import GoogleRecaptcha from 'google-recaptcha';
+const googleRecaptcha = new GoogleRecaptcha({ secret: 'RECAPTCHA_SECRET_KEY' })
 export default {
 
 }
@@ -44,7 +46,7 @@ export default {
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 w-full rounded">
                         registrar
                     </button>
-
+                    <div id="html_element"></div>
                 </div>
             </a>
 
