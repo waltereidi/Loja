@@ -1,6 +1,8 @@
 
 <script lang="ts">
-
+import { ref } from 'vue';
+const theme = ref<'light' | 'dark'>('light')
+const response = ref()
 
 export default {
     methods: {
@@ -51,11 +53,15 @@ export default {
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 w-full rounded">
                         registrar
                     </button>
-
                 </div>
             </a>
         </div>
 
+    </div>
+    <div>
+        <ThemeButton v-model="theme" @click="response = ''" />
+        <div>{{ response ? 'Verified' : 'Please click the checkbox' }}</div>
+        <Checkbox :key="theme" v-model="response" :theme="theme" />
     </div>
 </template>
 <style scoped lang="scss">
