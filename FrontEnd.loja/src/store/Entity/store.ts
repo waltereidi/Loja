@@ -18,7 +18,8 @@ export interface State
     message? : MessageInterface[] , 
     login: any,
     navMenu: boolean, 
-    requestController:RequestController
+    requestController: RequestController,
+    config:any
 }
 export interface HttpHeaders
 {

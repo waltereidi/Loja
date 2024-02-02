@@ -1,12 +1,13 @@
 import { Module, createStore } from 'vuex';
 import { EnumMessageType, MessageInterface, State } from './Entity/store';
 import { RequestController } from '@/store/Controllers/requestController';
-
+import appSettings from '@/../appsettings.json';
 const state :State={
     message: [],
     login : null,
     navMenu: false,  
-    requestController:new RequestController(),
+    requestController: new RequestController(),
+    config: appSettings
 };
 
 const mutations = {
@@ -38,6 +39,11 @@ const getters = {
     getRequestController(state:State)
     {
         return state.requestController;
+    },
+    getConfig(state:State)
+    {
+        
+        return state.config;
     }
 }
 
