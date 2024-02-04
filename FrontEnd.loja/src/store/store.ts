@@ -6,8 +6,9 @@ const state :State={
     message: [],
     login : null,
     navMenu: false,  
-    requestController: new RequestController(),
-    config: appSettings
+    requestController: null,
+    config: appSettings, 
+    useToast: null , 
 };
 
 const mutations = {
@@ -25,6 +26,16 @@ const mutations = {
         state.requestController.setToken(login);
         state.login = login;
     },
+    setToast(state: State, useToast: any)
+    {
+        state.requestController = new RequestController(useToast);
+        state.useToast = useToast;
+    },
+    addToast(state: State)
+    {
+        state.useToast.add({ severity: 'info', summary: 'Info Message', detail: 'Message Content', life: 3000 })
+        state.useToast.add({ severity: 'warn', summary: 'Warn Message', detail: 'Message Content', life: 3000 });
+    }
 };
 
 const getters = {
@@ -42,11 +53,9 @@ const getters = {
     },
     getConfig(state:State)
     {
-        
         return state.config;
     }
 }
-
 export default createStore({
     state : state , 
     mutations : mutations , 

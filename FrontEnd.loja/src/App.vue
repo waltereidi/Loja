@@ -4,6 +4,7 @@ import AppFooter from "@/components/App/AppFooter/AppFooter.vue";
 import AppHeader from "./components/App/AppHeader/AppHeader.vue";
 import AppFooterBottom from "@/components/App/AppFooter/AppFooterBottom.vue";
 import AppBody from "@/views/AppBody/AppBody.vue";
+import { useToast } from 'primevue/usetoast';
 //faze de testes 
 
 export default {
@@ -19,6 +20,7 @@ export default {
 
       const request: any = this.$store.getters.getRequestController;
       const i = await request.get('Store/GetTest');
+      this.$store.commit('addToast');
       return null;
     }
   },
@@ -27,19 +29,24 @@ export default {
     AppHeader,
     AppFooterBottom,
     AppBody,
+  },
+  mounted() {
+    this.$store.commit('setToast', useToast());
   }
 }
 </script>
 <template>
+  <Toast />
+
   <div class="app-container">
+    <button @click="show()">ToastTest</button>
     <AppHeader :datasource="categoryHeaderDataSource"> </AppHeader>
     <router-view />
     <AppBody></AppBody>
     <AppFooter></AppFooter>
-    <Toast />
-    <Button label="Show" @click="show()">sdsd</Button>
 
   </div>
+
   <AppFooterBottom />
 </template>
 

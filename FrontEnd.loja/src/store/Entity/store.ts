@@ -19,7 +19,8 @@ export interface State
     login: any,
     navMenu: boolean, 
     requestController: RequestController,
-    config:any
+    config: any,
+    useToast:any,
 }
 export interface HttpHeaders
 {
