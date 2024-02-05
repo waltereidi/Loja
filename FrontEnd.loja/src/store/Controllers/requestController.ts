@@ -100,7 +100,6 @@ export class RequestController {
     }
     public post(url: string, body: any):any
     {
-
         axios.post(url, body)
             .then(response => { return response; })
             .catch(error =>
@@ -109,15 +108,16 @@ export class RequestController {
                 return error;
             });
     }
-    public get(url: string):any
+    public get(url: string ):any
     {
+        let result: any;
         axios.get(url)
-            .then(response => { return response; })
+            .then(response => { result= response; })
             .catch(error => {
                 this.addToastErrorMessage(error.request.status, error.message);
-                return error; 
+                result = error; 
             });
-        
+        return result;
     }
     public delete(url: string):any
     {

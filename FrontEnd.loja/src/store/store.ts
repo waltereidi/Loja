@@ -37,6 +37,10 @@ const mutations = {
     {
         state.useToast.add({ severity: 'info', summary: 'Info Message', detail: 'Message Content', life: 3000 })
         state.useToast.add({ severity: 'warn', summary: 'Warn Message', detail: 'Message Content', life: 3000 });
+    },
+    async test(state: State)
+    {
+        return 1;
     }
     
 };
@@ -56,30 +60,34 @@ const getters = {
     },
 }
 const actions = {
-    // request(requestParams:RequestModel):any
-    // {
-    //     const httpMethod = requestParams.method.toLowerCase();
-    //     switch (httpMethod)
-    //     {
-    //         case 'get': return state.requestController.get(requestParams.url); break;
-    //         case 'post': return state.requestController.post(requestParams.url, requestParams.body); break;
-    //         case 'delete': return state.requestController.delete(requestParams.url); break;
-    //         case 'put': return state.requestController.put(requestParams.url, requestParams.body); break;
-    //         default: return null;
-    //     }
-    // },
-    // async requestAsync(requestParams:RequestModel) :Promise<any>
-    // {
-    //     const httpMethod = requestParams.method.toLowerCase();
-    //     switch (httpMethod)
-    //     {
-    //         case 'get': return state.requestController.getAsync(requestParams.url); break;
-    //         case 'post': return state.requestController.postAsync(requestParams.url, requestParams.body); break;
-    //         case 'delete': return state.requestController.deleteAsync(requestParams.url); break;
-    //         case 'put': return state.requestController.putAsync(requestParams.url, requestParams.body); break;
-    //         default: return null;
-    //     }
-    // },
+
+    request(context ,requestParams:RequestModel):any
+    {
+        const httpMethod = requestParams.method.toLowerCase();
+        let result: any;
+        switch (httpMethod)
+        {
+            case 'get': result= state.requestController.get(requestParams.url); break;
+            case 'post': result= state.requestController.post(requestParams.url, requestParams.body); break;
+            case 'delete': result= state.requestController.delete(requestParams.url); break;
+            case 'put': result= state.requestController.put(requestParams.url, requestParams.body); break;
+            default: result= null;
+        }
+        return result;
+    },
+    async requestAsync(context ,requestParams:RequestModel) :Promise<any>
+    {
+        return 1;
+        const httpMethod = requestParams.method.toLowerCase();
+        switch (httpMethod)
+        {
+            case 'get': return await state.requestController.getAsync(requestParams.url); break;
+            case 'post': return state.requestController.postAsync(requestParams.url, requestParams.body); break;
+            case 'delete': return state.requestController.deleteAsync(requestParams.url); break;
+            case 'put': return state.requestController.putAsync(requestParams.url, requestParams.body); break;
+            default: return null;
+        }
+    },
 }
 export default createStore({
     state : state , 

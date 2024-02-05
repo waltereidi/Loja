@@ -21,15 +21,15 @@ export default {
     }
   },
   methods: {
-    show() {
-
+    async show() {
       const requestParams: RequestModel = {
         url: 'Store/GetTest',
         method: 'GET',
         body: null
       }
       //this.response = this.$store.getters.request(requestParams);
-      console.log(this.response);
+      this.response = await this.$store.dispatch('requestAsync', requestParams);
+
     }
   },
   components: {
@@ -45,6 +45,9 @@ export default {
 </script>
 <template>
   <Toast />
+  <div v-if="response != null">
+    {{ response }}
+  </div>
 
   <div class="app-container">
     <button @click="show()">ToastTest</button>
