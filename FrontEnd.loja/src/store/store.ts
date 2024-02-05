@@ -2,6 +2,8 @@ import { Module, createStore } from 'vuex';
 import { EnumMessageType, MessageInterface, State } from './Entity/store';
 import { RequestController } from '@/store/Controllers/requestController';
 import appSettings from '@/../appsettings.json';
+import RequestModel from './Entity/requestModel';
+
 const state :State={
     message: [],
     login : null,
@@ -36,6 +38,7 @@ const mutations = {
         state.useToast.add({ severity: 'info', summary: 'Info Message', detail: 'Message Content', life: 3000 })
         state.useToast.add({ severity: 'warn', summary: 'Warn Message', detail: 'Message Content', life: 3000 });
     }
+    
 };
 
 const getters = {
@@ -47,18 +50,41 @@ const getters = {
     {
         return state.login;
     },
-    getRequestController(state:State)
-    {
-        return state.requestController;
-    },
     getConfig(state:State)
     {
         return state.config;
-    }
+    },
+}
+const actions = {
+    // request(requestParams:RequestModel):any
+    // {
+    //     const httpMethod = requestParams.method.toLowerCase();
+    //     switch (httpMethod)
+    //     {
+    //         case 'get': return state.requestController.get(requestParams.url); break;
+    //         case 'post': return state.requestController.post(requestParams.url, requestParams.body); break;
+    //         case 'delete': return state.requestController.delete(requestParams.url); break;
+    //         case 'put': return state.requestController.put(requestParams.url, requestParams.body); break;
+    //         default: return null;
+    //     }
+    // },
+    // async requestAsync(requestParams:RequestModel) :Promise<any>
+    // {
+    //     const httpMethod = requestParams.method.toLowerCase();
+    //     switch (httpMethod)
+    //     {
+    //         case 'get': return state.requestController.getAsync(requestParams.url); break;
+    //         case 'post': return state.requestController.postAsync(requestParams.url, requestParams.body); break;
+    //         case 'delete': return state.requestController.deleteAsync(requestParams.url); break;
+    //         case 'put': return state.requestController.putAsync(requestParams.url, requestParams.body); break;
+    //         default: return null;
+    //     }
+    // },
 }
 export default createStore({
     state : state , 
-    mutations : mutations , 
-    getters : getters , 
-  
+    getters: getters, 
+    actions : actions,
+    mutations: mutations, 
+    
 }) ; 

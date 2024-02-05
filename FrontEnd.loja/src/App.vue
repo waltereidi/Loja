@@ -5,7 +5,10 @@ import AppHeader from "./components/App/AppHeader/AppHeader.vue";
 import AppFooterBottom from "@/components/App/AppFooter/AppFooterBottom.vue";
 import AppBody from "@/views/AppBody/AppBody.vue";
 import { useToast } from 'primevue/usetoast';
+import RequestModel from "./store/Entity/requestModel";
 //faze de testes 
+
+
 
 export default {
 
@@ -13,15 +16,20 @@ export default {
     return {
       categoryHeaderDataSource: require("/tests/json/categoryHeader.json"),
       productCategory: require("/tests/json/productCategory.json"),
+      request: null,
+      response: null,
     }
   },
   methods: {
-    async show() {
+    show() {
 
-      const request: any = this.$store.getters.getRequestController;
-      const i = await request.get('Store/GetTest');
-      this.$store.commit('addToast');
-      return null;
+      const requestParams: RequestModel = {
+        url: 'Store/GetTest',
+        method: 'GET',
+        body: null
+      }
+      //this.response = this.$store.getters.request(requestParams);
+      console.log(this.response);
     }
   },
   components: {
