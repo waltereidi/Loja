@@ -5,7 +5,8 @@ import AppHeader from "./components/App/AppHeader/AppHeader.vue";
 import AppFooterBottom from "@/components/App/AppFooter/AppFooterBottom.vue";
 import AppBody from "@/views/AppBody/AppBody.vue";
 import { useToast } from 'primevue/usetoast';
-import RequestModel from "./store/Entity/requestModel";
+import { RequestModel } from "./store/Entity/requestModel";
+import { ToastMessage } from "./store/Entity/toastMessage";
 //faze de testes 
 
 
@@ -22,13 +23,22 @@ export default {
   },
   methods: {
     async show() {
+      const toast: ToastMessage = {
+        severity: 'info',
+        summary: 'Info',
+        detail: 'PrimeVue rocks',
+        life: 3000
+      };
+      this.$store.commit('addToast', toast);
+
+
       const requestParams: RequestModel = {
         url: 'Store/GetTest',
         method: 'GET',
         body: null
       }
       //this.response = this.$store.getters.request(requestParams);
-      this.response = await this.$store.dispatch('requestAsync', requestParams);
+      this.response = await this.$store.dispatch('request', requestParams);
 
     }
   },
@@ -45,8 +55,8 @@ export default {
 </script>
 <template>
   <Toast />
-  <div v-if="response != null">
-    {{ response }}
+  <div v-if="this.response != null">
+    {{ this.response }}
   </div>
 
   <div class="app-container">

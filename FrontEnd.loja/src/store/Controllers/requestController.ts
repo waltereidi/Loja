@@ -25,9 +25,9 @@ export class RequestController {
         axios.defaults.headers.post['Authorization'],
         axios.defaults.headers.put['Authorization'] = `Bearer ${token}`;
     }
-    private getUrlWithToken(url:string , token:string)
+    private getUrlWithToken(url:string )
     {
-        return url.includes('?')? `${url}&${token}` : `${url}?${token}`;
+        return url.includes('?')? `${url}&${this.token}` : `${url}?${this.token}`;
     }
     private addToastErrorMessage(status:number , message:string )
     { 
@@ -59,82 +59,53 @@ export class RequestController {
 
         this.useToast.add({ severity: severity, summary: summary, detail: message, life: life })
     }
-    public async postAsync(url: string, body: any):Promise<any>
+ 
+    async post(url: string, body: any)
     {
-
-        axios.post(url, body)
-            .then(response => { return response; })
-            .catch(error =>
-            {
-                this.addToastErrorMessage(error.request.status, error.message);
-                return error;
-            });
+        try
+        {
+            return await axios.post(url , body)     
+        }
+        catch (error)
+        {
+             this.addToastErrorMessage(error.request.status, error.message);
+             return error;
+        }
     }
-    public async getAsync(url: string):Promise<any>
-    {
-        axios.get(url)
-            .then(response => { return response; })
-            .catch(error => {
-                this.addToastErrorMessage(error.request.status, error.message);
-                return error; 
-            });
-        
+     async get(url: string )
+     {
+         try
+         {
+             return await axios.get(this.getUrlWithToken(url));     
+         }
+         catch (error)
+         {
+             this.addToastErrorMessage(error.request.status, error.message);
+             return error;
+         }         
     }
-    public async deleteAsync(url: string):Promise<any>
+    async delete(url: string)
     {
-        axios.delete(url)
-            .then(response => { return response; })
-            .catch(error => {
-                this.addToastErrorMessage(error.request.status, error.message);
-                return error; 
-             });
+        try
+        {
+           return await axios.delete(this.getUrlWithToken(url))     
+        }
+        catch (error)
+        {
+           this.addToastErrorMessage(error.request.status, error.message);
+           return error;
+        }
     }
-    public async putAsync(url: string, body: any):Promise<any>
+    async put(url: string, body: any)
     {
-        axios.put(url, body)
-            .then((response) => { return response; })
-            .catch(error => {
-                this.addToastErrorMessage(error.request.status, error.message);
-                return error;
-            });
-    }
-    public post(url: string, body: any):any
-    {
-        axios.post(url, body)
-            .then(response => { return response; })
-            .catch(error =>
-            {
-                this.addToastErrorMessage(error.request.status, error.message);
-                return error;
-            });
-    }
-    public get(url: string ):any
-    {
-        let result: any;
-        axios.get(url)
-            .then(response => { result= response; })
-            .catch(error => {
-                this.addToastErrorMessage(error.request.status, error.message);
-                result = error; 
-            });
-        return result;
-    }
-    public delete(url: string):any
-    {
-        axios.delete(url)
-            .then(response => { return response; })
-            .catch(error => {
-                this.addToastErrorMessage(error.request.status, error.message);
-                return error; 
-             });
-    }
-    public put(url: string, body: any):any
-    {
-        axios.put(url, body)
-            .then((response) => { return response; })
-            .catch(error => {
-                this.addToastErrorMessage(error.request.status, error.message);
-                return error;
-            });
+        try
+        {
+           return await axios.put(url , body)     
+        }
+        catch (error)
+        {
+            this.addToastErrorMessage(error.request.status, error.message);
+            return error;
+        }
     }
 }

@@ -1,4 +1,4 @@
-export default interface RequestModel
+export  interface RequestModel
 {
     method: string
     url: string
