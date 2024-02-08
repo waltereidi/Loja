@@ -10,5 +10,10 @@ module.exports = {
         }
         return options
       })
+  },
+  configureWebpack:{
+    resolve:{
+      extensions:[".ts"],
+    }
   }
 }

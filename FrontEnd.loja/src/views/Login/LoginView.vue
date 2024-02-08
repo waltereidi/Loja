@@ -6,12 +6,21 @@ function logar() {
     alert(window.grecaptcha.getResponse());
 }
 
+function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    }
+function onFailure(error) {
+    console.log(error);
+}
 onMounted(() => {
     var onloadCallback = function () {
         window.grecaptcha.render('googleRecaptcha_v2', {
             'sitekey': this.$store.getters.getConfig.GoogleReCaptcha.SiteKey_v2
         })
-    }
+    };
+    window.gapi.load('my-signin2', {
+      });
+    
 })
 </script>
 
@@ -55,7 +64,7 @@ onMounted(() => {
                     </button>
                 </div>
             </a>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div id="my-signin2"></div>
             <div class="g-recaptcha" id="googleRecaptcha_v2"
                 :data-sitekey="this.$store.getters.getConfig.GoogleReCaptcha.SiteKey_v2">
             </div>

@@ -2,12 +2,14 @@
 <html >
   <head>
     <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script src="https://apis.google.com/js/platform.js"></script>
-    <meta name="google-signin-client_id" content="1091504502849-ls52u56dilc2860uihi7s316uqsr4evf.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+
+    <meta name="google-signin-client_id" content="1091504502849-ls52u56dilc2860uihi7s316uqsr4evf.apps.googleusercontent.com">
+    
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
