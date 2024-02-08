@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Google;
 
 public class Startup
 {
@@ -21,8 +22,24 @@ public class Startup
     public void ConfigureServices(IServiceCollection service)
     {
         service.AddEndpointsApiExplorer();
-        
+
         service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddGoogle(googleOptions =>
+        {
+             googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+             googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+         })
+         .AddFacebook(facebookOptions =>
+         {
+             facebookOptions.AppId= Configuration["Authentication:Facebook:ClientId"];
+             facebookOptions.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
+         })
+         .AddTwitter(twitterOptions =>
+         {
+             twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerKey"];
+             twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
+         })
+        
          .AddJwtBearer(options =>
          {
              options.TokenValidationParameters = new TokenValidationParameters

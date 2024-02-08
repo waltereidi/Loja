@@ -55,6 +55,7 @@ onMounted(() => {
                     </button>
                 </div>
             </a>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
             <div class="g-recaptcha" id="googleRecaptcha_v2"
                 :data-sitekey="this.$store.getters.getConfig.GoogleReCaptcha.SiteKey_v2">
             </div>
