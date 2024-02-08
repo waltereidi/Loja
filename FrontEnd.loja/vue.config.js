@@ -15,5 +15,14 @@ module.exports = {
     resolve:{
       extensions:[".ts"],
     }
-  }
+  },
+  devServer: {
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+        runtimeErrors: false,
+      },
+    },
+  },
 }

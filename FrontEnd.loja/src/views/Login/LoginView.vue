@@ -7,8 +7,8 @@ function logar() {
 }
 
 function onSuccess(googleUser) {
-      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-    }
+    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+}
 function onFailure(error) {
     console.log(error);
 }
@@ -18,9 +18,16 @@ onMounted(() => {
             'sitekey': this.$store.getters.getConfig.GoogleReCaptcha.SiteKey_v2
         })
     };
-    window.gapi.load('my-signin2', {
-      });
-    
+    window.gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+    });
+
+
+
 })
 </script>
 
