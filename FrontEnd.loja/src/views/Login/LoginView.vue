@@ -13,19 +13,20 @@ function onFailure(error) {
     console.log(error);
 }
 onMounted(() => {
+
+    window.gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 315,
+        'height': 40,
+        'longtitle': true,
+        'theme': 'dark',
+    });
     var onloadCallback = function () {
         window.grecaptcha.render('googleRecaptcha_v2', {
             'sitekey': this.$store.getters.getConfig.GoogleReCaptcha.SiteKey_v2
         })
     };
-    window.gapi.signin2.render('my-signin2', {
-        'scope': 'profile email',
-        'width': 240,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'dark',
-    });
-    //TestDatt
+
 })
 </script>
 
@@ -72,6 +73,13 @@ onMounted(() => {
             <div id="my-signin2"></div>
             <div class="g-recaptcha" id="googleRecaptcha_v2"
                 :data-sitekey="this.$store.getters.getConfig.GoogleReCaptcha.SiteKey_v2">
+            </div>
+
+
+            <div id="spinner"
+                style="background: #4267b2;border-radius: 5px;color: white;height: 40px;text-align: center;width: 250px;">
+                <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with"
+                    data-use-continue-as="true"></div>
             </div>
         </div>
 
