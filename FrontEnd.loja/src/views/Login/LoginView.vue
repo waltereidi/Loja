@@ -25,10 +25,7 @@ onMounted(() => {
         'longtitle': true,
         'theme': 'dark',
     });
-    //TestDay 
-    dsd
-    git commit - m "Test"
-    Co - authored - by: Walter < walter - eidi@hotmail.com>
+    //TestDa
 })
 </script>
 
