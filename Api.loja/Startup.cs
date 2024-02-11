@@ -24,21 +24,17 @@ public class Startup
         service.AddEndpointsApiExplorer();
 
         service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddGoogle(googleOptions =>
-        {
-             googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-             googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-         })
-         .AddFacebook(facebookOptions =>
-         {
-             facebookOptions.AppId= Configuration["Authentication:Facebook:ClientId"];
-             facebookOptions.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
-         })
-         .AddTwitter(twitterOptions =>
-         {
-             twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerKey"];
-             twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
-         })
+        //.AddGoogle(googleOptions =>
+        //{
+        //     googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+        //     googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+        // })
+        // .AddFacebook(facebookOptions =>
+        // {
+        //     facebookOptions.AppId= Configuration["Authentication:Facebook:ClientId"];
+        //     facebookOptions.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
+        // })
+         
         
          .AddJwtBearer(options =>
          {
