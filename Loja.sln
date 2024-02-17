@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils.loja", "Utils.loja\Ut
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "FrontEnd.loja", "FrontEnd.loja\FrontEnd.loja.njsproj", "{DF0AA249-7CD7-49E0-805A-34C4E7E62B6A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{054278CF-B8D9-441D-9832-E9E435AB8BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.loja", "RabbitMQ.loja\RabbitMQ.loja.csproj", "{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,9 +49,16 @@ Global
 		{DF0AA249-7CD7-49E0-805A-34C4E7E62B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF0AA249-7CD7-49E0-805A-34C4E7E62B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF0AA249-7CD7-49E0-805A-34C4E7E62B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C} = {054278CF-B8D9-441D-9832-E9E435AB8BAF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF31C4D9-01AD-4C44-98A6-D26512AC884A}
