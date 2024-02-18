@@ -1,5 +1,7 @@
-﻿using RabbitMQ.Client;
+﻿using Microsoft.Extensions.Configuration;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.loja.Configuration;
 using System.Text;
 using System.Threading.Channels;
 
@@ -7,29 +9,32 @@ namespace RabbitMQ.loja
 {
     public class FileUploadQueue
     {
-        private readonly string _queueName = "fileUploadQueue";
+
         private readonly ConnectionFactory _factory;
         private readonly IConnection _connection;
         private readonly IModel _channel;
+        private readonly IConfiguration _configuration;
         private EventingBasicConsumer _consumer { get; set; }
         public FileUploadQueue(string hostname)
         {
-            _factory = new ConnectionFactory { HostName = hostname };
+            Configurations config = new Configurations();
+            _configuration = config._configuration;
+
+            _factory = new ConnectionFactory { HostName = _configuration.GetSection("UploadQueue:HostName").Value };
             _connection = _factory.CreateConnection();
             _channel = _connection.CreateModel();
-
-            _channel.QueueDeclare(queue: _queueName,
+            _channel.QueueDeclare(queue: _configuration.GetSection("UploadQueue:QueueName").Value,
                      durable: false,
                      exclusive: false,
                      autoDelete: false,
                      arguments: null);
             _channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
             _consumer = new EventingBasicConsumer(_channel);
-            _channel.BasicConsume(queue: _queueName,
+            _channel.BasicConsume(queue: _configuration.GetSection("UploadQueue:QueueName").Value,
                                  autoAck: false,
                                  consumer: _consumer);
 
-
+            //For each message received execute the code below
             _consumer.Received += (model, ea) =>
             {
                 string response = string.Empty;
@@ -42,11 +47,9 @@ namespace RabbitMQ.loja
                 try
                 {
                     response = Encoding.UTF8.GetString(body);
-                    Console.WriteLine($" [.] {response}");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($" [.] {e.Message}");
                     response = string.Empty;
                 }
                 finally

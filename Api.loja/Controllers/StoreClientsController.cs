@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Core;
 using System.Net;
-using RabbitMQ.Client;
 using System.Threading.Channels;
 using NuGet.Protocol;
 using System.Text;
@@ -22,16 +21,11 @@ namespace Api.loja.Controllers
     {
         private readonly StoreClientsService _service;
         private readonly IStoreClientsControllerContext _context;
-        private readonly ConnectionFactory _connectionFactory;
         private const string QUEUE_NAME = "clients";
         public StoreClientsController(ILogger<StoreClientsController> logger , StoreContext context  ) : base(logger)
         {
             _context = context;
             _service = new StoreClientsService(context );
-            _connectionFactory = new ConnectionFactory
-            {
-                HostName = "localhost"
-            };
         }
         
         [HttpGet]
@@ -180,34 +174,6 @@ namespace Api.loja.Controllers
                 return Ok( new ResponseModel(true  , clientsCartProducts));
             }
             return NotFound();
-        }
-        [HttpGet]
-        public async Task<IActionResult> RabbitMQTest(string message)
-        {
-            using (var connection = _connectionFactory.CreateConnection())
-            {
-                using( var channel = connection.CreateModel())
-                {
-                    channel.QueueDeclare(
-                        queue: QUEUE_NAME,
-                        durable: false , 
-                        exclusive:false,
-                        autoDelete: false, 
-                        arguments:null
-                        );
-                    var stringMessage = message.ToJson();
-                    var bytesMessage = Encoding.UTF8.GetBytes(stringMessage);
-
-                    channel.BasicPublish(
-                        exchange:"",
-                        routingKey:QUEUE_NAME , 
-                        basicProperties: null, 
-                        body:bytesMessage
-                        );
-                }
-
-            }
-            return Accepted();
         }
 
      }
