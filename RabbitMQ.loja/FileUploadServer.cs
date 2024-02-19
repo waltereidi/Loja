@@ -7,7 +7,7 @@ using System.Threading.Channels;
 
 namespace RabbitMQ.loja
 {
-    public class FileUploadQueue
+    public class FileUploadServer
     {
 
         private readonly ConnectionFactory _factory;
@@ -15,7 +15,7 @@ namespace RabbitMQ.loja
         private readonly IModel _channel;
         private readonly IConfiguration _configuration;
         private EventingBasicConsumer _consumer { get; set; }
-        public FileUploadQueue(string hostname)
+        public FileUploadServer(string hostname)
         {
             Configurations config = new Configurations();
             _configuration = config._configuration;

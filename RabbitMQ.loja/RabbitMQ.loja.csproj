@@ -35,4 +35,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
+  </ItemGroup>
+
 </Project>
