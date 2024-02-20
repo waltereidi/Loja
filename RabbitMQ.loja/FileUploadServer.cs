@@ -47,6 +47,7 @@ namespace RabbitMQ.loja
                 try
                 {
                     response = Encoding.UTF8.GetString(body);
+                    //Add code to be done here
                 }
                 catch (Exception e)
                 {

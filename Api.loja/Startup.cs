@@ -8,8 +8,8 @@ using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.Google;
+using RabbitMQ.loja.Interfaces;
+using RabbitMQ.loja;
 
 public class Startup
 {
@@ -34,7 +34,6 @@ public class Startup
         //     facebookOptions.AppId= Configuration["Authentication:Facebook:ClientId"];
         //     facebookOptions.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
         // })
-         
         
          .AddJwtBearer(options =>
          {
@@ -78,6 +77,8 @@ public class Startup
         service.AddSingleton<StoreContext>();
         service.AddSingleton<StoreAdminContext>();
 
+        service.AddSingleton<IFileUploadClient , FileUploadClient>();
+        service.AddSingleton<FileUploadServer>();
         service.AddMvc(options =>
         {
             options.EnableEndpointRouting = false;
@@ -139,6 +140,5 @@ public class Startup
         app.UseMiddleware<CustomMiddleware>();
         app.UseCors();
     }
- 
 }
    

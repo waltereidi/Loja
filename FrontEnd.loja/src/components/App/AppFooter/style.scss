@@ -9,7 +9,6 @@
     display: flex;
     flex: 1 1 auto;
     justify-content: space-between;
-    @extend %theme;
     ul {
       padding: 1em 1em 1em 1em;
       min-width: 160px;

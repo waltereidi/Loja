@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace RabbitMQ.loja 
 {
-    public class FileUploadClient : IDisposable , IFileUploadClient
+    public class FileUploadClient : IFileUploadClient
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
@@ -76,6 +76,7 @@ namespace RabbitMQ.loja
         {
             return new UploadQueueRequest(formFile ,fileInfo);
         }
+
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Dto.RabbitMQ;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace RabbitMQ.loja.Interfaces
         ///     Retrieves the model to be used for CallAsync
         /// </summary>
         /// <returns></returns>
-        UploadQueueRequest GetUploadQueueRequest();
+        UploadQueueRequest GetUploadQueueRequest(IFormFile formFile, FileInfo fileInfo);
 
     }
 }

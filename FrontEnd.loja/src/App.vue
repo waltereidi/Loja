@@ -48,9 +48,7 @@ export default {
     AppFooterBottom,
     AppBody,
   },
-  beforeCreate() {
-    require('./index.scss');
-  },
+
   mounted() {
     this.$store.commit('setToast', useToast());
 
@@ -75,4 +73,6 @@ export default {
   <AppFooterBottom />
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import './index.scss';
+</style>

@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
     <ProjectReference Include="..\Infra.loja\Infra.loja.csproj" />
+    <ProjectReference Include="..\RabbitMQ.loja\RabbitMQ.loja.csproj" />
     <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
   </ItemGroup>
 
