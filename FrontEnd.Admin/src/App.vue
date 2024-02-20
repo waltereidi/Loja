@@ -1,26 +1,34 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
+<script lang="ts">
+import { useToast } from 'primevue/usetoast';
+import { RequestModel } from "./store/Entity/requestModel";
+import { ToastMessage } from "./store/Entity/toastMessage";
+//faze de testes 
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
-  name: 'App',
+
+  data() {
+    return {
+    }
+  },
+  methods: {
+  },
   components: {
-    HelloWorld
+  },
+  mounted() {
+    this.$store.commit('setToast', useToast());
+
   }
 }
 </script>
+<template>
+  <Toast />
+  <div class="app-container">
+    <router-view />
+  </div>
+</template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+@import './index.scss';
 </style>
