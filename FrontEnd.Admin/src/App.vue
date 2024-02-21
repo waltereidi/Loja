@@ -6,7 +6,7 @@ import { ToastMessage } from "./vuex/Entity/toastMessage";
 export default {
 
   mounted() {
-    this.$admin.commit('setToast', useToast());
+    this.$store.commit('setToast', useToast());
   }
 }
 </script>
@@ -14,5 +14,4 @@ export default {
   <Toast />
   <router-view />
 </template>
-
 <style lang="scss"></style>

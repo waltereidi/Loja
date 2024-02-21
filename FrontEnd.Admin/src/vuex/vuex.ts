@@ -1,5 +1,5 @@
 import { Module, createStore } from 'vuex';
-import { EnumMessageType, MessageInterface, State } from './Entity/store';
+import { EnumMessageType, MessageInterface, State } from './Entity/vuex';
 import { RequestController } from '@/vuex/Controllers/requestController';
 import appSettings from '@/../appsettings.json';
 import {RequestModel} from './Entity/requestModel';
@@ -55,7 +55,6 @@ const getters = {
     },
 }
 const actions = {
-
     async request(context ,requestParams:RequestModel)
     {
         const httpMethod = requestParams.method.toLowerCase();
