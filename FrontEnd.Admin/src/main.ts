@@ -1,16 +1,21 @@
+import 'primevue/resources/themes/lara-light-green/theme.css';
+
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import admin from './store/admin'
-import {createPinia} from 'pinia'
-import ToastService from 'primevue/toast'
-import PrimeVue from 'primevue/config'
-import Toast from 'primevue/toast'
+import admin from './vuex/admin'
+import { createPinia } from 'pinia';
+import ToastService from 'primevue/toastservice';
+import PrimeVue from 'primevue/config';
+import Toast from 'primevue/toast';
 
 const app = createApp(App);
-app.use(PrimeVue , {ripple : true}); 
-app.use(ToastService);
-app.use(createPinia());
-app.use(admin);
-app.use(router);
-app.mount('#app');
+createApp(App)
+    .use(admin)
+    .use(router)
+    .use(PrimeVue, { ripple: false })
+    .use(ToastService)
+    .use(createPinia())
+    /*eslint-disable*/
+    app.component('Toast' , Toast)
+    .mount('#app')
