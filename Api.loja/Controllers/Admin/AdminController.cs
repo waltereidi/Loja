@@ -33,7 +33,7 @@ namespace Api.loja.Controllers.Admin
                     return NotFound();
 
                var response = new LoginResponse(login.First(), _configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Key").Value);
-                return Ok(response.ToJson());
+                return Ok(response.ToJson());   
             }
             catch(Exception ex)
             {
