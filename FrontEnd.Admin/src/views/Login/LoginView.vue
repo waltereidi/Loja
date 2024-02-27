@@ -1,10 +1,8 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" >
 import { ref } from 'vue';
 import { RequestModel } from '@/vuex/Entity/requestModel';
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
-
 export default {
     setup() {
         return { v$: useVuelidate() }
@@ -18,18 +16,20 @@ export default {
 
         }
     },
-    method: {
+    methods: {
         async submit() {
-            alert()
+
             let request: RequestModel = {
-                url: `api/Admin/Login`,
+                url: "Admin/Login",
                 body: {
-                    username: this.formLogin.txtEmail,
-                    password: this.formLogin.txtPassword,
+                    Email: this.formLogin.txtEmail,
+                    Password: this.formLogin.txtPassword,
                 },
                 method: 'POST'
             }
+
             const result = await this.$store.dispatch('request', request);
+            console.log(result);
             if (result.status == 200) {
                 this.$store.commit('setLogin', result.data);
                 this.$router.push('/Home');
@@ -71,9 +71,9 @@ export default {
                 <router-link to="/register" rel="noopener">
                     <Button label="Register" link>Register</Button>
                 </router-link>
-
             </div>
         </template>
+
     </Card>
 </template>
 <style lang="scss" scoped>

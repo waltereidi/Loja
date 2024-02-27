@@ -47,7 +47,7 @@ export class RequestController {
         {
             life = 5000;
             summary = 'Invalid input'
-            severity = 'warn    '
+            severity = 'warn'
         }
             
         if (status >= 500 && status <= 599 || status == 0 )

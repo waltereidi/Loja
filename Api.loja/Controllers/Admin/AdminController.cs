@@ -1,6 +1,7 @@
 ﻿using Api.loja.Data;
 using Api.loja.Services;
 using Dominio.loja.Dto.CustomEntities;
+using Dominio.loja.Dto.Requests;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +25,14 @@ namespace Api.loja.Controllers.Admin
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Login([FromBody]string email ,string password )
+        [AllowAnonymous]
+        public async Task<IActionResult>Login(LoginRequest request)
         {
             try
             {
-                var login  = _context.clients.Where(x => x.Email == email && x.Password == password);
+                var login  = _context.clients.Where(x => x.Email == request.Email && x.Password == request.Password);
                 if (!login.Any())
-                    return NotFound();
+                    return NoContent();
 
                var response = new LoginResponse(login.First(), _configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Key").Value);
                 return Ok(response.ToJson());   
