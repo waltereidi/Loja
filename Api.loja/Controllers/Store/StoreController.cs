@@ -7,36 +7,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Net;
 
-namespace Api.loja.Controllers
+namespace Api.loja.Controllers.Store
 {
 
 
-    [Route("api/[controller]/[action]")]
+    [Route("api/Store/[controller]/[action]")]
     [ApiController]
     public class StoreController : BaseController
     {
         private readonly IStoreControllerContext _context;
-        private readonly StoreService _service; 
+        private readonly StoreService _service;
         private readonly IConfiguration _configuration;
-        public StoreController(ILogger<StoreController> logger  ,StoreContext context , IConfiguration configuration) : base(logger)
+        public StoreController(ILogger<StoreController> logger, StoreContext context, IConfiguration configuration) : base(logger)
         {
             _context = context;
             _service = new StoreService(context);
-            _configuration = configuration; 
+            _configuration = configuration;
         }
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-            var  query = _context.clients.Where(x => x.Email == loginRequest.Email && x.Password == loginRequest.Password);
-            if(query.Any())
+            var query = _context.clients.Where(x => x.Email == loginRequest.Email && x.Password == loginRequest.Password);
+            if (query.Any())
             {
                 string key = _configuration.GetSection("Jwt").GetSection("Key").Value;
                 string issuer = _configuration.GetSection("Jwt").GetSection("Issuer").Value;
 
 
-                LoginResponse response=new LoginResponse( query.First() ,issuer , key) ;
+                LoginResponse response = new LoginResponse(query.First(), issuer, key);
                 return Ok(response);
-                
+
             }
             return StatusCode((int)HttpStatusCode.Unauthorized);
         }

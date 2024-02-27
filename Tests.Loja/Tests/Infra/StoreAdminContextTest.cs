@@ -15,7 +15,7 @@ namespace Tests.Loja.Tests.Infra
     [TestClass]
     public class StoreAdminContextTest
     {
-        private readonly StoreAdminContext _context;
+        private readonly AdminContext _context;
         public StoreAdminContextTest()
         {
             string dir = Directory.GetCurrentDirectory();

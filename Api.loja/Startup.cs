@@ -75,10 +75,10 @@ public class Startup
         
         service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
-        service.AddSingleton<StoreAdminContext>();
+        service.AddSingleton<AdminContext>();
 
-        service.AddSingleton<IFileUploadClient , FileUploadClient>();
-        service.AddSingleton<FileUploadServer>();
+        //service.AddSingleton<IFileUploadClient , FileUploadClient>();
+        //service.AddSingleton<FileUploadServer>();
         service.AddMvc(options =>
         {
             options.EnableEndpointRouting = false;

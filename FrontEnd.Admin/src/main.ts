@@ -15,7 +15,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import FloatLabel from 'primevue/floatlabel';
-
+import Card from 'primevue/card';
 
 const app = createApp(App);
 
@@ -31,6 +31,6 @@ app.component('Password', Password);
 app.component('InputText', InputText);
 app.component('FloatLabel', FloatLabel);
 app.component('Password', Password);
-
+app.component('Card', Card);
 
 app.mount('#app');
