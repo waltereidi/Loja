@@ -9,11 +9,7 @@ export class RequestController {
         this.token = ''; 
         this.useToast = useToast;
         axios.defaults.baseURL = appSettings.ApiUrl;
-        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-        axios.defaults.headers.post['Access-Control-Allow-Origin'] = 'GET, POST, PUT, DELETE';
-        axios.defaults.headers.post['Access-Control-Allow-Headers'] = 'Origin, Content-Type, X-Auth-Token';
-        axios.defaults.headers.post['Access-Control-Request-Headers'] = 'Content-Type, Authorization';
+        axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
         axios.defaults.headers.post['Accept'] = '*/*';
         axios.defaults.headers.post['Connection'] = 'keep-alive';
         axios.defaults.headers.post['Accept-Encoding'] = 'gzip, deflate, br';
