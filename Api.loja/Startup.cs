@@ -57,7 +57,8 @@ public class Startup
             {
                 policy.AllowAnyOrigin()
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod();            
+                
             });
         });
 

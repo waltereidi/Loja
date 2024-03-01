@@ -18,7 +18,6 @@ export default {
     },
     methods: {
         async submit() {
-
             let request: RequestModel = {
                 url: "Admin/Login",
                 body: {

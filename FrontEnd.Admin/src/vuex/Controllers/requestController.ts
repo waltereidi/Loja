@@ -11,9 +11,14 @@ export class RequestController {
         axios.defaults.baseURL = appSettings.ApiUrl;
         axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
         axios.defaults.headers.post['Accept'] = '*/*';
-        axios.defaults.headers.post['Connection'] = 'keep-alive';
+        axios.defaults.headers.post['Connection'] = 'close';
         axios.defaults.headers.post['Accept-Encoding'] = 'gzip, deflate, br';
+        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+        axios.defaults.headers.post['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
+        axios.defaults.headers.post['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With';
+        axios.defaults.headers.post['Content-Length'] = '450';
         axios.defaults.headers.put = axios.defaults.headers.post;
+        axios.defaults.headers.options = axios.defaults.headers.post;
     }
     public  setToken(token:string):void
     {   
