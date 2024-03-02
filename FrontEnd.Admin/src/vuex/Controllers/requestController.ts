@@ -77,7 +77,7 @@ export class RequestController {
      {
          try
          {
-             return await axios.get(this.getUrlWithToken(url));     
+             return await axios.get(url);     
          }
          catch (error)
          {

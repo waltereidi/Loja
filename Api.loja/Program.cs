@@ -14,11 +14,14 @@ namespace Api.loja
                Host.CreateDefaultBuilder(args)
                    .ConfigureWebHostDefaults(webBuilder =>
                    {
-                       webBuilder.ConfigureLogging((hostingContext,logging) =>
-                         {
-                            logging.ClearProviders();
-                            logging.SetMinimumLevel(LogLevel.Trace);
-                         }).UseNLog().UseStartup<Startup>();
+                       webBuilder.ConfigureKestrel(serverOptions =>
+                       {
+                           serverOptions.ConfigureHttpsDefaults(co =>
+                           {
+                               co.SslProtocols = SslProtocols.Tls12;
+                           });
+                       }).UseStartup<Startup>();
+      
                    });
     }
 

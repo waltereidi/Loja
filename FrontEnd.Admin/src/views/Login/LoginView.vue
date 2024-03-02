@@ -19,12 +19,12 @@ export default {
     methods: {
         async submit() {
             let request: RequestModel = {
-                url: "Admin/Login",
+                url: "Admin/Teste",
                 body: {
                     Email: this.formLogin.txtEmail,
                     Password: this.formLogin.txtPassword,
                 },
-                method: 'POST'
+                method: 'GET'
             }
 
             const result = await this.$store.dispatch('request', request);
