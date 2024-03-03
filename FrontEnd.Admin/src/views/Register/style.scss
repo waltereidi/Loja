@@ -15,10 +15,6 @@
   align-items: center;
   gap: 20px;
 
-  &--title {
-    flex: 0 0 auto;
-  }
-
   &--content {
     flex: 1 1 auto;
     max-width: 100%;
@@ -34,7 +30,4 @@
       flex: 0 0 auto;
     }
   }
-}
-.login-img {
-  max-width: 200px;
 }

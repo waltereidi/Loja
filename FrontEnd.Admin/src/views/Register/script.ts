@@ -3,13 +3,13 @@ export class Register {
         return password !== confirmPassword ? false : true;
     }
     public isPasswordContainsUperCasedLetter(password, confirmPassword){
-        return password.toLower() === confirmPassword ? false : true;
+        return password.toLowerCase() === confirmPassword ? false : true;
     }
 
     public isPasswordContainsSpecialCharacter(password){
         let isValid = false;
         //does any character is a special character
-        password.forEach((value) => {
+        password.split().forEach((value) => {
             //65 ~ 90 A-Z , 97 ~ 122 a-z
             isValid = value.charAt(0) >= 65 && value.charAt(0) <= 90
                 || value.charAt(0) >= 97 && value.charAt(0) <= 122 ? isValid : true;

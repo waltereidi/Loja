@@ -12,15 +12,19 @@ export default {
     data() {
         return {
             formCadastro: {
-                txtEmail: String,
-                txtPassword: String,
-                txtConfirmPassword: String,
-                txtFirstName: String,
-                txtLastName: String
+                txtEmail: '',
+                txtPassword: '',
+                txtConfirmPassword: '',
+                txtFirstName: '',
+                txtLastName: ''
             }
         }
     },
-    method: {
+    methods: {
+        async submit() {
+            return this.$router.push('/');
+
+        }
     },
     validations() {
         return {
@@ -43,31 +47,55 @@ export default {
         </template>
 
         <template #content>
+            <div class="flex flex-column gap-2">
+                <FloatLabel>
+                    <InputText v-model="formCadastro.txtEmail" />
+                    <label>Email</label>
+                </FloatLabel>
+            </div>
+            <div class="flex flex-column gap-2">
+                <FloatLabel>
+                    <InputText v-model="formCadastro.txtFirstName" />
+                    <label>First Name</label>
+                </FloatLabel>
+            </div>
+            <div class="flex flex-column gap-2">
+                <FloatLabel>
+                    <InputText v-model="formCadastro.txtLastName" />
+                    <label>Last Name</label>
+                </FloatLabel>
+            </div>
+            <Password v-model="formCadastro.txtPassword">
+                <template #header>
+                    <h6>Pick a password</h6>
+                </template>
 
-            <FloatLabel>
-                <InputText v-model="formCadastro.txtEmail" />
-                <label>Email</label>
-            </FloatLabel>
-            <FloatLabel>
-                <InputText v-model="formCadastro.txtFirstName" />
-                <label>First Name</label>
-            </FloatLabel>
-            <FloatLabel>
-                <InputText v-model="formCadastro.txtLastName" />
-                <label>Last Name</label>
-            </FloatLabel>
+                <template #footer>
+                    <Divider />
+                    <p class="mt-2">Suggestions</p>
+                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                        <li>At least one lowercase</li>
+                        <li>At least one uppercase</li>
+                        <li>At least one numeric</li>
+                        <li>Minimum 8 characters</li>
+                    </ul>
+                </template>
+            </Password>
 
-            <Password v-model="formCadastro.txtPassword" toggleMask
-                :invalid="!this.v$.formCadastro.Password.txtPassword.$invalid" />
-
-            <Password v-model="formCadastro.txtConfirmPassword" toggleMask />
-
-
-
+            <div class="flex flex-column gap-2">
+                <FloatLabel>
+                    <Password v-model="formCadastro.txtConfirmPassword" inputId="password" toggleMask />
+                    <label for="password">Retype Password</label>
+                </FloatLabel>
+            </div>
         </template>
 
         <template #footer>
-
+            <Button label="Submit" @click="submit" :disabled="this.v$.formCadastro.$invalid">Submit</Button>
         </template>
     </Card>
 </template>
+
+<style>
+@import './style.scss';
+</style>
