@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/register',
     name: 'register',
-    component: () => import('../views/Login/RegisterView.vue')
+    component: () => import('../views/Register/RegisterView.vue')
   }
 ]
 
