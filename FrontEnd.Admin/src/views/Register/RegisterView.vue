@@ -17,7 +17,8 @@ export default {
                 txtConfirmPassword: '',
                 txtFirstName: '',
                 txtLastName: ''
-            }
+            },
+            register: new Register(),
         }
     },
     methods: {
@@ -47,48 +48,65 @@ export default {
         </template>
 
         <template #content>
-            <div class="flex flex-column gap-2">
-                <FloatLabel>
-                    <InputText v-model="formCadastro.txtEmail" />
-                    <label>Email</label>
-                </FloatLabel>
-            </div>
-            <div class="flex flex-column gap-2">
-                <FloatLabel>
-                    <InputText v-model="formCadastro.txtFirstName" />
-                    <label>First Name</label>
-                </FloatLabel>
-            </div>
-            <div class="flex flex-column gap-2">
-                <FloatLabel>
-                    <InputText v-model="formCadastro.txtLastName" />
-                    <label>Last Name</label>
-                </FloatLabel>
-            </div>
-            <Password v-model="formCadastro.txtPassword">
-                <template #header>
-                    <h6>Pick a password</h6>
-                </template>
+            <div class="container">
+                <div class="container--doubled">
+                    <FloatLabel>
+                        <InputText v-model="formCadastro.txtFirstName" />
+                        <label>First Name</label>
+                    </FloatLabel>
+                </div>
+                <div class="container--doubled">
+                    <FloatLabel>
+                        <InputText v-model="formCadastro.txtLastName" />
+                        <label>Last Name</label>
+                    </FloatLabel>
+                </div>
+                <div class="container--single">
+                    <FloatLabel>
+                        <InputText v-model="formCadastro.txtEmail" />
+                        <label>Email</label>
+                    </FloatLabel>
+                </div>
+                <div class="container--doubled">
+                    <FloatLabel>
+                        <Password v-model="formCadastro.txtPassword" inputId="password"
+                            :invalid="!register.isPasswordValid(this.formCadastro.txtPassword, this.formCadastro.txtConfirmPassword)"
+                            toggleMask>
 
-                <template #footer>
-                    <Divider />
-                    <p class="mt-2">Suggestions</p>
-                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                        <li>At least one lowercase</li>
-                        <li>At least one uppercase</li>
-                        <li>At least one numeric</li>
-                        <li>Minimum 8 characters</li>
-                    </ul>
-                </template>
-            </Password>
+                            <template #header>
+                                <h6>Pick a password</h6>
+                            </template>
 
-            <div class="flex flex-column gap-2">
-                <FloatLabel>
-                    <Password v-model="formCadastro.txtConfirmPassword" inputId="password" toggleMask />
-                    <label for="password">Retype Password</label>
-                </FloatLabel>
+                            <template #footer>
+                                <Divider />
+                                <InlineMessage
+                                    :severity="register.isPasswordContainsUperCasedLetter(this.formCadastro.txtPassword) ? 'success' : 'error'">
+                                    At least one uppercase</InlineMessage>
+                                <br>
+                                <InlineMessage
+                                    :severity="register.isPasswordContainsSpecialCharacter(this.formCadastro.txtPassword) ? 'success' : 'error'">
+                                    At least one numeric or special character</InlineMessage>
+                                <br>
+                                <InlineMessage
+                                    :severity="register.isPasswordLengthBiggerThanEight(this.formCadastro.txtPassword) ? 'success' : 'error'">
+                                    Minimum 8 characters</InlineMessage>
+                                <br>
+                            </template>
+
+                        </Password>
+                        <label for="password">Password</label>
+                    </FloatLabel><!-- Complex password input end-->
+                </div>
+                <div class="container--doubled">
+                    <FloatLabel>
+                        <Password v-model="formCadastro.txtConfirmPassword" inputId="confirmPassword"
+                            :invalid="!register.isPasswordValid(this.formCadastro.txtPassword, this.formCadastro.txtConfirmPassword)"
+                            toggleMask />
+                        <label for="confirmPassword">Retype Password</label>
+                    </FloatLabel>
+                </div>
             </div>
-        </template>
+        </template><!-- Form end -->
 
         <template #footer>
             <Button label="Submit" @click="submit" :disabled="this.v$.formCadastro.$invalid">Submit</Button>
@@ -96,6 +114,6 @@ export default {
     </Card>
 </template>
 
-<style>
+<style lang="scss">
 @import './style.scss';
 </style>

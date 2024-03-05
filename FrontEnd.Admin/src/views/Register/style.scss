@@ -5,27 +5,29 @@
   width: 100vw;
   height: 100vh;
 }
-
+.error {
+  color: red;
+}
+.error {
+  color: red;
+}
 .container {
   display: flex;
-  flex-flow: column;
-  justify-content: space-around;
-  justify-items: center;
-  align-content: space-around;
-  align-items: center;
-  gap: 20px;
-
-  &--content {
-    flex: 1 1 auto;
-    max-width: 100%;
-  }
-
+  flex-flow: row wrap;
+  row-gap: 20px;
+  max-width: 600px;
   @media (max-width: 480px) {
     &--actions {
       flex: 0 0 100%;
     }
   }
   @media (min-width: 481px) {
+    &--single {
+      flex: 1 1 100%;
+    }
+    &--doubled {
+      flex: 1 1 50%;
+    }
     &--actions {
       flex: 0 0 auto;
     }

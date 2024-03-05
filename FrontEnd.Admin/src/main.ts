@@ -16,7 +16,7 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import FloatLabel from 'primevue/floatlabel';
 import Card from 'primevue/card';
-
+import InlineMessage from 'primevue/inlinemessage';
 const app = createApp(App);
 
 app.use(PrimeVue, { ripple: true });
@@ -31,6 +31,7 @@ app.component('Password', Password);
 app.component('InputText', InputText);
 app.component('FloatLabel', FloatLabel);
 app.component('Password', Password);
+app.component('InlineMessage', InlineMessage);
 app.component('Card', Card);
 
 app.mount('#app');
