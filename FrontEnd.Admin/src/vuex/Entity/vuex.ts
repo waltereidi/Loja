@@ -17,7 +17,7 @@ export interface State
 {
     message? : MessageInterface[] , 
     login: any,
-    navMenu: boolean, 
+    isNavBarVisible: boolean, 
     requestController: RequestController,
     config: any,
     useToast:any,

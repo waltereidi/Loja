@@ -109,7 +109,10 @@ export default {
         </template><!-- Form end -->
 
         <template #footer>
-            <Button label="Submit" @click="submit" :disabled="this.v$.formCadastro.$invalid">Submit</Button>
+            <Button label="Submit" @click="submit" :disabled="this.v$.formCadastro.$invalid
+                            && !register.isPasswordValid(
+                                this.formCadastro.txtPassword
+                                , this.formCadastro.txtConfirmPassword)">Submit</Button>
         </template>
     </Card>
 </template>

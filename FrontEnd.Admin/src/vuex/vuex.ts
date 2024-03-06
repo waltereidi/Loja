@@ -8,7 +8,7 @@ import { ToastMessage } from './Entity/toastMessage';
 const state :State={
     message: [],
     login : null,
-    navMenu: false,  
+    isNavBarVisible: true,  
     requestController: null,
     config: appSettings, 
     useToast: null , 
@@ -18,11 +18,11 @@ const mutations = {
  
     openMenu(state:State)
     {
-        state.navMenu = true; 
+        state.isNavBarVisible = true; 
     },
     closeMenu(state:State)
     {
-        state.navMenu = false; 
+        state.isNavBarVisible = false; 
     },
     setLogin(state: State, login: any)
     {   
@@ -43,7 +43,7 @@ const mutations = {
 const getters = {
     getNavMenu(state:State) : boolean
     {
-        return state.navMenu ; 
+        return state.isNavBarVisible ; 
     },
     getLogin(state: State)
     {
