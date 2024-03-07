@@ -31,17 +31,15 @@ export default {
 .app-container {
   display: flex;
   flex-flow: row wrap;
-  flex-basis: content;
-  flex-wrap: nowrap;
 }
 
 .navBar {
-  flex: 1 1 auto;
-  justify-content: flex-start;
-
+  display: flex;
+  flex: 0 0 auto;
 }
 
 .routerView {
+  display: flex;
   flex: 1 1 auto;
 }
 </style>

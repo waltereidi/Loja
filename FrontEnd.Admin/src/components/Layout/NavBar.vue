@@ -30,41 +30,29 @@ const router = useRouter();
 
 const items = ref([
     {
-        label: 'Router',
-        icon: 'pi pi-palette',
-        items: [
-            {
-                label: 'Styled',
-                icon: 'pi pi-eraser',
-                route: '/theming'
-            },
-            {
-                label: 'Unstyled',
-                icon: 'pi pi-heart',
-                route: '/unstyled'
-            }
-        ]
-    },
-    {
-        label: 'Programmatic',
-        icon: 'pi pi-link',
+        label: 'Home',
+        icon: 'pi-chart-line',
         command: () => {
-            router.push('/introduction');
+            router.push('/Home');
         }
     },
     {
-        label: 'External',
-        icon: 'pi pi-home',
+        label: 'Store',
+        icon: 'pi pi-database',
         items: [
             {
-                label: 'Vue.js',
-                icon: 'pi pi-star',
-                url: 'https://vuejs.org/'
+                label: 'Categories',
+                icon: 'pi pi-list',
+                command: () => {
+                    router.push('/Store/Categories');
+                }
             },
             {
-                label: 'Vite.js',
-                icon: 'pi pi-bookmark',
-                url: 'https://vuejs.org/'
+                label: 'Users',
+                icon: 'pi pi-user',
+                command: () => {
+                    router.push('/Store/Users');
+                }
             }
         ]
     }

@@ -18,7 +18,10 @@ import FloatLabel from 'primevue/floatlabel';
 import Card from 'primevue/card';
 import InlineMessage from 'primevue/inlinemessage';
 import PanelMenu from 'primevue/panelmenu';
-
+import DataTable from "primevue/datatable";
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';   // optional
+import Row from 'primevue/row';                   // optional
 const app = createApp(App);
 
 app.use(PrimeVue, { ripple: true });
@@ -36,4 +39,8 @@ app.component('Password', Password);
 app.component('InlineMessage', InlineMessage);
 app.component('Card', Card);
 app.component('PanelMenu', PanelMenu);
+app.component('DataTable', DataTable);
+app.component('Column', Column);
+app.component('ColumnGroup', ColumnGroup);
+app.component('Row', Row);
 app.mount('#app');
