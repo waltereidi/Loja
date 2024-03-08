@@ -17,7 +17,7 @@ export default {
     },
     methods: {
         async submit() {
-            return this.$router.push('/Home');
+            //return this.$router.push('/Home');
 
             // eslint-disable-next-line no-unreachable
             let request: RequestModel = {

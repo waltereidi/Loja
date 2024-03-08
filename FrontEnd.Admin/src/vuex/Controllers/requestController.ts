@@ -14,6 +14,7 @@ export class RequestController {
         axios.defaults.headers.post['Connection'] = 'close';
         axios.defaults.headers.post['Accept-Encoding'] = 'gzip, deflate, br';
         axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+        
         axios.defaults.headers.post['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
         axios.defaults.headers.post['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With';
         axios.defaults.headers.post['Content-Length'] = '450';

@@ -139,7 +139,7 @@ public class Startup
         app.UseSession();
         app.UseMvc();
         app.UseMiddleware<CustomMiddleware>();
-        app.UseCors();
+        app.UseCors(option=>option.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowedToAllowWildcardSubdomains());
     }
 }
    

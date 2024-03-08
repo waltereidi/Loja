@@ -1,54 +1,68 @@
-<script lang="ts"></script>
+<script lang="ts">
+import axios from 'axios';
+export default {
+    mounted: {
+
+    }
+
+}
+
+// const onRowExpand = (event) => {
+//     toast.add({ severity: 'info', summary: 'Product Expanded', detail: event.data.name, life: 3000 });
+// };
+// const onRowCollapse = (event) => {
+//     toast.add({ severity: 'success', summary: 'Product Collapsed', detail: event.data.name, life: 3000 });
+// };
+// const expandAll = () => {
+//     expandedRows.value = products.value.reduce((acc, p) => (acc[p.id] = true) && acc, {});
+// };
+// const collapseAll = () => {
+//     expandedRows.value = null;
+// };
+// const formatCurrency = (value) => {
+//     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+// };
+
+</script>
 
 <template>
-    <DataTable v-model:editingRows="editingRows" :value="products" editMode="row" dataKey="id"
-        @row-edit-save="onRowEditSave" :pt="{
-        table: { style: 'min-width: 50rem' },
-        column: {
-            bodycell: ({ state }) => ({
-                style: state['d_editing'] && 'padding-top: 0.6rem; padding-bottom: 0.6rem'
-            })
-        }
-    }">
-        <Column field="code" header="Code" style="width: 20%">
-            <template #editor="{ data, field }">
-                <InputText v-model="data[field]" />
+    <div class="card">
+        <DataTable v-model:expandedRows="expandedRows" :value="dataSource" dataKey="id" @rowExpand="onRowExpand"
+            @rowCollapse="onRowCollapse" tableStyle="min-width: 60rem">
+            <template #header>
+                <div class="flex flex-wrap justify-content-end gap-2">
+                    <Button text icon="pi pi-plus" label="Expand All" @click="expandAll" />
+                    <Button text icon="pi pi-minus" label="Collapse All" @click="collapseAll" />
+                </div>
             </template>
-        </Column>
-        <Column field="name" header="Name" style="width: 20%">
+            <Column expander style="width: 5rem" />
+            <Column field="name" header="Name"></Column>
+            <Column header="Image">
 
-            <template #editor="{ data, field }">
-                <InputText v-model="data[field]" />
-            </template>
-        </Column>
-        <Column field="inventoryStatus" header="Status" style="width: 20%">
+                <template #body="dataSource">
+                    <img :src="`https://primefaces.org/cdn/primevue/images/product/${dataSource.data.image}`"
+                        :alt="dataSource.data.image" class="shadow-4" width="64" />
+                </template>
+            </Column>
 
-            <template #editor="{ data, field }">
-                <Dropdown v-model="data[field]" :options="statuses" optionLabel="label" optionValue="value"
-                    placeholder="Select a Status">
-                    <template #option="slotProps">
-                        <Tag :value="slotProps.option.value" :severity="getStatusLabel(slotProps.option.value)" />
-                    </template>
-                </Dropdown>
-            </template>
+            <Column field="description" header="Description"></Column>
+            <Column field="order" header="Order"></Column>
 
-            <template #body="slotProps">
-                <Tag :value="slotProps.data.inventoryStatus"
-                    :severity="getStatusLabel(slotProps.data.inventoryStatus)" />
-            </template>
-        </Column>
-        <Column field="price" header="Price" style="width: 20%">
+            <template #expansion="dataSource">
+                <div class="p-3">
+                    <h5>SubCategories</h5>
+                    <DataTable :value="dataSource.subCateories">
+                        <Column field="ID_SubCategories" header="Id" sortable></Column>
+                        <Column field="name" header="Name" headerStyle="width:4rem"></Column>
+                        <Column field="description" header="Description"></Column>
+                        <Column field="order" header="Order"></Column>
 
-            <template #body="{ data, field }">
-                {{ formatCurrency(data[field]) }}
+                    </DataTable>
+                </div>
             </template>
-
-            <template #editor="{ data, field }">
-                <InputNumber v-model="data[field]" mode="currency" currency="USD" locale="en-US" />
-            </template>
-        </Column>
-        <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
-    </DataTable>
+        </DataTable>
+        <Toast />
+    </div>
 </template>
 
 <style scoped></style>
