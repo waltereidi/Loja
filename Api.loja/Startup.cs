@@ -57,8 +57,8 @@ public class Startup
             {
                 policy.AllowAnyOrigin()
                 .AllowAnyHeader()
-                .AllowAnyMethod();            
-                
+                .AllowAnyMethod()
+                .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
             });
         });
 
@@ -139,7 +139,7 @@ public class Startup
         app.UseSession();
         app.UseMvc();
         app.UseMiddleware<CustomMiddleware>();
-        app.UseCors(option=>option.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowedToAllowWildcardSubdomains());
+        app.UseCors(option=>option.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => new Uri(origin).Host =="localhost"));
     }
 }
    

@@ -12,17 +12,12 @@ namespace Api.loja
         }
         public static IHostBuilder CreateHostBuilder(string[] args) =>
                Host.CreateDefaultBuilder(args)
-                   .ConfigureWebHostDefaults(webBuilder =>
-                   {
-                       webBuilder.ConfigureKestrel(serverOptions =>
-                       {
-                           serverOptions.ConfigureHttpsDefaults(co =>
-                           {
-                               co.SslProtocols = SslProtocols.Tls12;
-                           });
-                       }).UseStartup<Startup>();
-      
-                   });
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder
+                .UseUrls("http://0.0.0.0:5556")
+                .UseStartup<Startup>();
+            });
     }
 
 }

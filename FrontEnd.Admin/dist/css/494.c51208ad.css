@@ -1,1 +1,0 @@
-.center{display:flex;align-items:center;justify-content:center;width:100vw;height:100vh}.error{color:red}.container{display:flex;flex-flow:row wrap;row-gap:20px;max-width:600px}@media(max-width:480px){.container--actions{flex:0 0 100%}}@media(min-width:481px){.container--single{flex:1 1 100%}.container--doubled{flex:1 1 50%}.container--actions{flex:0 0 auto}}
