@@ -35,7 +35,7 @@ namespace Api.loja.Controllers.Admin
                     return NoContent();
 
                var response = new LoginResponse(login.First(), _configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Key").Value);
-                return Ok(response.ToJson());   
+                return Ok(response);   
             }
             catch(Exception ex)
             {
