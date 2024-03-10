@@ -21,11 +21,9 @@ export class RequestController {
     {   
         this.token = `Authorization=Bearer ${token}`;
         axios.defaults.headers.post['Authorization'],
-        axios.defaults.headers.put['Authorization'] = `Bearer ${token}`;
-    }
-    private getUrlWithToken(url:string )
-    {
-        return url.includes('?')? `${url}&${this.token}` : `${url}?${this.token}`;
+        axios.defaults.headers.put['Authorization'],
+        axios.defaults.headers.delete['Authorization'],
+        axios.defaults.headers.get['Authorization'] = `Bearer ${token}`;
     }
     private addToastErrorMessage(status:number , message:string )
     { 
@@ -86,7 +84,7 @@ export class RequestController {
     {
         try
         {
-           return await axios.delete(this.getUrlWithToken(url))     
+           return await axios.delete(url)     
         }
         catch (error)
         {

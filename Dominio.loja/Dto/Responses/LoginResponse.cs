@@ -15,7 +15,7 @@ namespace Dominio.loja.Dto.CustomEntities
     public class LoginResponse
     {
         public Clients Clients { get; set; }
-        public string Authorization { get; set; }
+        public string Token { get; set; }
         
         public LoginResponse(Clients client , string issuer , string jwtKey)
         {
@@ -34,7 +34,7 @@ namespace Dominio.loja.Dto.CustomEntities
                 Issuer = issuer ,
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            Authorization =new JwtSecurityTokenHandler().WriteToken(token);
+            Token =new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
     

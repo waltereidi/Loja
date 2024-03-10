@@ -1,24 +1,35 @@
-<script lang="ts">
-export default {
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex'
+import { RequestModel } from '@/vuex/Entity/requestModel';
+import Cookies from 'js-cookie'
+const store = useStore();
+let dataSource = ref();
 
-}
-
-// const onRowExpand = (event) => {
-//     toast.add({ severity: 'info', summary: 'Product Expanded', detail: event.data.name, life: 3000 });
-// };
-// const onRowCollapse = (event) => {
-//     toast.add({ severity: 'success', summary: 'Product Collapsed', detail: event.data.name, life: 3000 });
-// };
+const onRowExpand = (event) => {
+    store.commit('addToast', { severity: 'info', summary: 'Product Expanded', detail: event.data.name, life: 3000 });
+};
+const onRowCollapse = (event) => {
+    store.commit('addToast', { severity: 'success', summary: 'Product Collapsed', detail: event.data.name, life: 3000 });
+};
 // const expandAll = () => {
 //     expandedRows.value = products.value.reduce((acc, p) => (acc[p.id] = true) && acc, {});
 // };
 // const collapseAll = () => {
 //     expandedRows.value = null;
 // };
-// const formatCurrency = (value) => {
-//     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-// };
+const formatCurrency = (value) => {
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+};
+onMounted(() => {
+    let request: RequestModel = {
+        url: "Admin/Store/Categories/GetCategories",
+        method: 'GET'
+    }
+    store.dispatch('request', request).then((data) => { dataSource = data; });
+    console.log(Cookies.get('vuex'));
 
+});
 </script>
 
 <template>

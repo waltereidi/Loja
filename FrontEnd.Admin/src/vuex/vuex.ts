@@ -4,6 +4,8 @@ import { RequestController } from '@/vuex/Controllers/requestController';
 import appSettings from '@/../appsettings.json';
 import {RequestModel} from './Entity/requestModel';
 import { ToastMessage } from './Entity/toastMessage';
+import createPersistedState from 'vuex-persistedstate'
+import  Cookies from 'js-cookie'
 
 const state :State={
     message: [],
@@ -26,7 +28,7 @@ const mutations = {
     },
     setLogin(state: State, login: any)
     {   
-        state.requestController.setToken(login);
+        state.requestController.setToken(login.token);
         state.login = login;
     },
     setToast(state: State, useToast: any)
@@ -73,4 +75,10 @@ export default createStore({
     getters: getters, 
     actions : actions,
     mutations: mutations, 
+     plugins: [
+    createPersistedState({
+      getState: (key) => Cookies.get(key),
+      setState: (key, state) => Cookies.set(key, JSON.stringify(state), { expires: 7200, secure: true })
+    })
+  ]
 }) ; 

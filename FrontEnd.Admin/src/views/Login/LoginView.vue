@@ -30,7 +30,6 @@ export default {
             }
 
             const result = await this.$store.dispatch('request', request);
-            console.log(result);
             if (result.status == 200) {
                 this.$store.commit('setLogin', result.data);
                 this.$router.push('/Home');
@@ -73,9 +72,6 @@ export default {
         <template #footer>
             <div class="flex gap-3 mt-1">
                 <Button label="Submit" @click="submit" :disabled="this.v$.formLogin.$invalid">Submit</Button>
-                <router-link to="/register" rel="noopener">
-                    <Button label="Register" link>Register</Button>
-                </router-link>
             </div>
         </template>
 

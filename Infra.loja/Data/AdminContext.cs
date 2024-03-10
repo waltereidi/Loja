@@ -5,7 +5,7 @@ using WConnectionKeyVault;
 
 namespace Api.loja.Data
 {
-    public class AdminContext : DbContext , IAdminControllerContext
+    public class AdminContext : DbContext , IAdminControllerContext , IAdminStoreCategoriesControllerContext
     {
 
         public AdminContext()
