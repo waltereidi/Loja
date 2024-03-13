@@ -29,11 +29,13 @@ export default {
                 method: 'POST'
             }
 
-            const result = await this.$store.dispatch('request', request);
-            if (result.status == 200) {
-                this.$store.commit('setLogin', result.data);
-                this.$router.push('/Home');
-            }
+            const result = this.$store.dispatch('requestAsync', request)
+                .then((result) => {
+                    if (result.status == 200) {
+                        this.$store.commit('setLogin', result.data);
+                        this.$router.push('/Home');
+                    }
+                }).catch((error) => console.log(error));
         }
     },
     validations() {

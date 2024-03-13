@@ -104,4 +104,48 @@ export class RequestController {
             return error;
         }
     }
+    async postAsync(url: string, body: any)
+    {
+        return new Promise((resolve, reject) => {
+            axios.post(url, body)
+                .then(result => resolve(result))
+                .catch(error => {
+                    this.addToastErrorMessage(error.request.status, error.message);
+                    reject(error);
+                }); 
+        });
+    }
+    async getAsync(url: string )
+     {
+         return new Promise((resolve, reject) => {
+            axios.get(url)
+                .then(result => resolve(result))
+                .catch(error => {
+                    this.addToastErrorMessage(error.request.status, error.message);
+                    reject(error);
+                }); 
+        });       
+    }
+    async deleteAsync(url: string)
+    {
+        return new Promise((resolve, reject) => {
+            axios.delete(url)
+                .then(result => resolve(result))
+                .catch(error => {
+                    this.addToastErrorMessage(error.request.status, error.message);
+                    reject(error);
+                }); 
+        });  
+    }
+    async putAsync(url: string, body: any)
+    {
+        return new Promise((resolve, reject) => {
+            axios.put(url, body)
+                .then(result => resolve(result))
+                .catch(error => {
+                    this.addToastErrorMessage(error.request.status, error.message);
+                    reject(error);
+                }); 
+        });
+    }
 }

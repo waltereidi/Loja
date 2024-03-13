@@ -68,7 +68,20 @@ const actions = {
             case 'put': return await state.requestController.put(requestParams.url, requestParams.body); break;
             default: return null;
         }
+    },
+    async requestAsync(context ,requestParams:RequestModel)
+    {
+        const httpMethod = requestParams.method.toLowerCase();
+        switch (httpMethod)
+        {
+            case 'get': return  state.requestController.get(requestParams.url); break;
+            case 'post': return  state.requestController.post(requestParams.url, requestParams.body); break;
+            case 'delete': return  state.requestController.delete(requestParams.url); break;
+            case 'put': return  state.requestController.put(requestParams.url, requestParams.body); break;
+            default: return null;
+        }
     }
+
 }
 export default createStore({
     state : state , 
