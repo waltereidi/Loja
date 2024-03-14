@@ -15,7 +15,7 @@ namespace Api.loja
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder
-                .UseUrls("http://192.168.0.108:5556")                
+                .UseUrls("http://localhost:5556")                
                 .UseStartup<Startup>();
             });
     }

@@ -42,6 +42,7 @@ namespace Api.loja.Controllers.Admin
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

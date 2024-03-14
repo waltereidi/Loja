@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkfrontend_admin"]=self["webpackChunkfrontend_admin"]||[]).push([[315],{7315:function(n,e,r){r.r(e),r.d(e,{default:function(){return c}});var t=r(6768);function u(n,e){return(0,t.uX)(),(0,t.CE)("div",null,"s")}var d=r(1241);const a={},f=(0,d.A)(a,[["render",u],["__scopeId","data-v-940d3ef6"]]);var c=f}}]);
+//# sourceMappingURL=315.ef3051b3.js.map

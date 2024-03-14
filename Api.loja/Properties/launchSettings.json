@@ -8,35 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5556"
-    },
-    "FrontEnd.Admin": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "index",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:1337;"
-    },
-    "FrontEnd.loja": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "index",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:5555;"
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      "applicationUrl": "https://localhost:5556;https://localhost:5555"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",
