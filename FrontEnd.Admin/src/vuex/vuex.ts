@@ -88,10 +88,11 @@ export default createStore({
     getters: getters, 
     actions : actions,
     mutations: mutations, 
-     plugins: [
-    createPersistedState({
-      getState: (key) => Cookies.get(key),
-      setState: (key, state) => Cookies.set(key, JSON.stringify(state), { expires: 7200, secure: true })
-    })
-  ]
+    plugins: [createPersistedState({
+    storage: {
+      getItem: key => Cookies.get(key),
+      setItem: (key, value) => Cookies.set(key, value, { expires: 3, secure: true }),
+      removeItem: key => Cookies.remove(key)
+    }
+  })],
 }) ; 

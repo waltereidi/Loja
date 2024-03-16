@@ -27,7 +27,7 @@ onMounted(() => {
         method: 'GET'
     }
     store.dispatch('request', request).then((data) => { dataSource = data; });
-    console.log(Cookies.get('vuex'));
+
 
 });
 </script>

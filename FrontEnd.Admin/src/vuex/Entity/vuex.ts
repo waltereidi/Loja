@@ -20,7 +20,8 @@ export interface State
     isNavBarVisible: boolean, 
     requestController: RequestController,
     config: any,
-    useToast:any,
+    useToast: any,
+    
 }
 export interface HttpHeaders
 {
