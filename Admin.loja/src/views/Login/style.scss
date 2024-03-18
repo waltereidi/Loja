@@ -1,0 +1,40 @@
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  justify-items: center;
+  align-content: space-around;
+  align-items: center;
+  gap: 20px;
+
+  &--title {
+    flex: 0 0 auto;
+  }
+
+  &--content {
+    flex: 1 1 auto;
+    max-width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    &--actions {
+      flex: 0 0 100%;
+    }
+  }
+  @media (min-width: 481px) {
+    &--actions {
+      flex: 0 0 auto;
+    }
+  }
+}
+.login-img {
+  max-width: 200px;
+}

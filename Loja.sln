@@ -5,8 +5,6 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dominio.loja", "Dominio.loja\Dominio.loja.csproj", "{D1731265-612B-4E7B-87A0-05467AFCC47A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.loja_", "Api.loja_\Api.loja_.csproj", "{53489F76-E1AD-4B1E-9C26-A031A1483D15}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.loja", "Infra.loja\Infra.loja.csproj", "{00818977-295E-4060-84C5-52436A2C2BD6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.loja", "Tests.Loja\Tests.loja.csproj", "{FE9655C9-C124-406A-9C29-583E2FC416EA}"
@@ -37,10 +35,6 @@ Global
 		{D1731265-612B-4E7B-87A0-05467AFCC47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1731265-612B-4E7B-87A0-05467AFCC47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1731265-612B-4E7B-87A0-05467AFCC47A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{53489F76-E1AD-4B1E-9C26-A031A1483D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53489F76-E1AD-4B1E-9C26-A031A1483D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53489F76-E1AD-4B1E-9C26-A031A1483D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53489F76-E1AD-4B1E-9C26-A031A1483D15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00818977-295E-4060-84C5-52436A2C2BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00818977-295E-4060-84C5-52436A2C2BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00818977-295E-4060-84C5-52436A2C2BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,15 +1,5 @@
 ﻿using Dominio.loja.Enums;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dominio.loja.Attributes
 {
@@ -90,7 +80,7 @@ namespace Dominio.loja.Attributes
 
         public Tuple<bool , string> Required(string value)
         {
-            if(value.IsNullOrEmpty())
+            if(String.IsNullOrEmpty(value))
             {
                 return new Tuple<bool, string>(false, "This value cannot be not empty");
             }else

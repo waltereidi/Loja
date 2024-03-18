@@ -2,7 +2,6 @@
 using Dominio.loja.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using NuGet.Protocol;
 
 namespace Tests.Loja.Tests.Infra
 {
@@ -28,7 +27,7 @@ namespace Tests.Loja.Tests.Infra
             var result = _storeContext.clients.Find(1);
             
             Assert.IsTrue(result.PermissionsGroup != null);
-            Assert.IsNotNull(result.ToJson());
+            Assert.IsNotNull(result);
         }
         [TestMethod]
         public void TestProductsORM()

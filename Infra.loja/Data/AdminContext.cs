@@ -2,7 +2,6 @@
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using WConnectionKeyVault;
-
 namespace Api.loja.Data
 {
     public class AdminContext : DbContext , IAdminControllerContext , IAdminStoreCategoriesControllerContext
@@ -11,7 +10,8 @@ namespace Api.loja.Data
         public AdminContext()
         {
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseSqlServer("loja.Infra".GetConnectionString());
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies()
+                                                                                                       .UseSqlServer("loja.Infra".GetConnectionString());
 
         public virtual DbSet<Categories> categories { get; set; }
         public virtual DbSet<SubCategories> subCategories { get; set; }
