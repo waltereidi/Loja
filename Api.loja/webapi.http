@@ -1,6 +1,10 @@
-@webapi_HostAddress = http://localhost:5173
+@Api.loja.Server_HostAddress = http://localhost:8080
 
-GET {{webapi_HostAddress}}/weatherforecast/
+GET {{Api.loja.Server_HostAddress}}/Api.loja/
 Accept: application/json
 
 ###
+@Api.loja.Server_HostAddress = http://localhost:8081
+
+GET {{Api.loja.Server_HostAddress}}/Api.loja/
+Accept: application/json

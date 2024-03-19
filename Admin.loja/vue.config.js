@@ -18,14 +18,18 @@ const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
 module.exports = {
+    chainWebpack: config => {
+        config.resolve.alias.set('@', path.join(__dirname, './src'));
+    },
+    transpileDependencies: true,
     devServer: {
         https: {
             key: fs.readFileSync(keyFilePath),
             cert: fs.readFileSync(certFilePath),
         },
         proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7226/'
+            '^/Api.loja': {
+                target: 'https://localhost:5556/'
             }
         },
         port: 5002

@@ -5,6 +5,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>false</InvariantGlobalization>
+    <SpaRoot>..\Admin.loja</SpaRoot>
+    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>https://localhost:8080</SpaProxyServerUrl>
+
+    <SpaRoot>..\Loja.loja</SpaRoot>
+    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>https://localhost:8081</SpaProxyServerUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +37,14 @@
     <ProjectReference Include="..\Infra.loja\Infra.loja.csproj" />
     <ProjectReference Include="..\RabbitMQ.loja\RabbitMQ.loja.csproj" />
     <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Admin.loja\Admin.loja.esproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+        <ProjectReference Include="..\Loja.loja\Loja.loja.esproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

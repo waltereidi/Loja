@@ -1,7 +1,7 @@
 {
-  "name": "vueapp",
+  "name": "Admin.loja",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "serve": "node aspnetcore-https.js && vue-cli-service serve",
     "build": "vue-cli-service build",
