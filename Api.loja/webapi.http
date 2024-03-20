@@ -1,10 +1,1 @@
 @Api.loja.Server_HostAddress = http://localhost:8080
-
-GET {{Api.loja.Server_HostAddress}}/Api.loja/
-Accept: application/json
-
-###
-@Api.loja.Server_HostAddress = http://localhost:8081
-
-GET {{Api.loja.Server_HostAddress}}/Api.loja/
-Accept: application/json

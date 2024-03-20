@@ -1,17 +1,12 @@
-﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.83-alpha">
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.271090-alpha">
   <PropertyGroup>
-    <StartupCommand>npm run serve</StartupCommand>
+    <StartupCommand>npm run dev</StartupCommand>
     <JavaScriptTestRoot>.\</JavaScriptTestRoot>
     <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
-    <!-- Command to run on project build -->
-    <BuildCommand>
-    </BuildCommand>
-    <!-- Command to create an optimized build of the project that's ready for publishing -->
-    <ProductionBuildCommand>npm run build</ProductionBuildCommand>
+    <!-- Allows the build (or compile) script located on package.json to run on Build -->
+    <ShouldRunBuildScript>false</ShouldRunBuildScript>
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
-  <ItemGroup>
-    <None Include="src\components\HelloWorld.vue" />
-  </ItemGroup>
+
 </Project>
