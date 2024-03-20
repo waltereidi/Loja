@@ -14,21 +14,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>8.*-*</Version>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-	  
   </ItemGroup>
 
     <ItemGroup>
     <ProjectReference Include="..\Admin.loja\Admin.loja.esproj">
         <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
+    <ProjectReference Include="..\Infra.loja\Infra.loja.csproj" />
     </ItemGroup>
     <ItemGroup>
 	    <ProjectReference Include="..\Loja.loja\Loja.loja.esproj">
 		    <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 	    </ProjectReference>
+	    <ProjectReference Include="..\RabbitMQ.loja\RabbitMQ.loja.csproj" />
+	    <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
     </ItemGroup>
+
 </Project>

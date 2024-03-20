@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQ.loja", "RabbitMQ.l
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "FrontEnd.Admin", "FrontEnd.Admin_\FrontEnd.Admin.njsproj", "{84EA5C1C-8D59-49EF-B7B0-BAB69903BF68}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.loja_old", "Api.loja_old\Api.loja_old.csproj", "{6E94E703-8FCA-4C36-8BEF-0A1237293BCE}"
-EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Admin.loja", "Admin.loja\Admin.loja.esproj", "{38643B03-3C1F-4167-A204-A0991D817CD5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.loja", "Api.loja\Api.loja.csproj", "{763624BB-10DB-4F09-B027-096974F1BEE4}"
@@ -61,10 +59,6 @@ Global
 		{84EA5C1C-8D59-49EF-B7B0-BAB69903BF68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84EA5C1C-8D59-49EF-B7B0-BAB69903BF68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84EA5C1C-8D59-49EF-B7B0-BAB69903BF68}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E94E703-8FCA-4C36-8BEF-0A1237293BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E94E703-8FCA-4C36-8BEF-0A1237293BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E94E703-8FCA-4C36-8BEF-0A1237293BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E94E703-8FCA-4C36-8BEF-0A1237293BCE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38643B03-3C1F-4167-A204-A0991D817CD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38643B03-3C1F-4167-A204-A0991D817CD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38643B03-3C1F-4167-A204-A0991D817CD5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU

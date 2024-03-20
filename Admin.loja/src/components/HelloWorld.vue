@@ -18,12 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="forecast in post" :key="forecast.date">
-                        <td>{{ forecast.date }}</td>
-                        <td>{{ forecast.temperatureC }}</td>
-                        <td>{{ forecast.temperatureF }}</td>
-                        <td>{{ forecast.summary }}</td>
-                    </tr>
+                    {{forecast}}
                 </tbody>
             </table>
         </div>
@@ -66,7 +61,7 @@
                 this.post = null;
                 this.loading = true;
 
-                fetch('weatherforecast')
+                fetch('https://localhost:7179/api/Admin/Store/Categories/GetCategories')
                     .then(r => r.json())
                     .then(json => {
                         this.post = json as Forecasts;

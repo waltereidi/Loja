@@ -1,6 +1,5 @@
-@VueApp1.Server_HostAddress = http://localhost:5232
+@Api.loja.Server_HostAddress = http://localhost:5556
 
-GET {{VueApp1.Server_HostAddress}}/weatherforecast/
+GET {{Api.loja.Server_HostAddress}}/api/
 Accept: application/json
-
 ###
