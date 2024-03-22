@@ -1,0 +1,6 @@
+@Loja.Api.Server_HostAddress = http://localhost:5556/Api
+
+GET {{Loja.Api.Server_HostAddress}}/Admin/Store/Categories/GetCategories/
+Accept: application/json
+
+###
