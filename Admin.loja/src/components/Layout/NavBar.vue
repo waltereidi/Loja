@@ -1,5 +1,5 @@
 <template>
-    <div :class="{ 'navMenu': this.$store.getters.getNavMenu, 'hide': !this.$store.getters.getNavMenu }">
+    <div class="">
         <div class="card flex justify-content-center">
             <PanelMenu :model="items" class="w-full md:w-20rem">
                 <template #item="{ item }">

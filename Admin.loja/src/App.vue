@@ -3,13 +3,13 @@ import { useToast } from 'primevue/usetoast';
 import { RequestModel } from "./vuex/Entity/requestModel";
 import { ToastMessage } from "./vuex/Entity/toastMessage";
 import NavBar from "./components/Layout/NavBar.vue"
-
-//faze de testes 
 export default {
 
-  components: {
+  components: { 
     NavBar,
-  }
+        },
+        mounted() {
+        }
 }
 </script>
 
