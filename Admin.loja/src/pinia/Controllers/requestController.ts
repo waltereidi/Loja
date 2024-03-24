@@ -1,14 +1,19 @@
 import  axios  from 'axios';
-import appSettings from '@/../appsettings.json';
+import  appSettings from '@/../appsettings.json';
 export class RequestController {
-    
     private useToast: any;
     private token: string;
-    constructor(useToast:any)
+    
+    constructor(useToast:any , token:string = null)
     {
         this.token = ''; 
         this.useToast = useToast;
-        axios.defaults.baseURL = appSettings.ApiUrl;
+        this.setDefaultHeaders();
+        if(token != null)
+            this.setToken(token);
+    }
+    private setDefaultHeaders() {
+        //axios.defaults.baseURL = appSettings.ApiUrl;
         axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
         axios.defaults.headers.post['Accept'] = '*/*';
         axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
@@ -17,7 +22,7 @@ export class RequestController {
         axios.defaults.headers.put = axios.defaults.headers.post;
         axios.defaults.headers.options = axios.defaults.headers.post;
     }
-    public  setToken(token:string):void
+    private setToken(token:string):void
     {   
         this.token = `Authorization=Bearer ${token}`;
         axios.defaults.headers.post['Authorization'],

@@ -29,6 +29,8 @@ namespace Api.loja.Controllers.Admin
         {
             try
             {
+                var i = HttpContext;
+
                 var login  = _context.clients.Where(x => x.Email == request.Email && x.Password == request.Password);
                 if (!login.Any())
                     return NoContent();
@@ -41,6 +43,7 @@ namespace Api.loja.Controllers.Admin
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
         
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]

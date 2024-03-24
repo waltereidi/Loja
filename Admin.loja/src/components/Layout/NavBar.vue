@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div :class="{ 'navMenu': di.getShowNavbar, 'hide': !di.getShowNavbar }">
         <div class="card flex justify-content-center">
             <PanelMenu :model="items" class="w-full md:w-20rem">
                 <template #item="{ item }">
@@ -25,8 +25,10 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
-
+import { useDi } from '@/pinia/dependencyInjection'
+const di = useDi();
 const router = useRouter();
+
 
 const items = ref([
     {

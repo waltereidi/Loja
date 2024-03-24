@@ -2,6 +2,7 @@
 import { RequestModel } from '@/vuex/Entity/requestModel';
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
+import { useDi } from '@/pinia/dependencyInjection'
 export default {
     setup() {
         return { v$: useVuelidate() }
@@ -11,25 +12,21 @@ export default {
             formLogin: {
                 txtEmail: '',
                 txtPassword: '',
-            }
-
+            },
+            di: null,
+            request: null,
         }
     },
     methods: {
         async submit() {
-            //return this.$router.push('/Home');
-
-            // eslint-disable-next-line no-unreachable
-            let request: RequestModel = {
-                url: "Admin/Login",
-                body: {
-                    Email: this.formLogin.txtEmail,
-                    Password: this.formLogin.txtPassword,
-                },
-                method: 'POST'
+            const url = "api/Admin/Login";
+            const body = {
+                Email: this.formLogin.txtEmail,
+                Password: this.formLogin.txtPassword,
             }
 
-          
+            this.request.postAsync(url, body);
+            this.$router.push('/Home');
         }
     },
     validations() {
@@ -39,6 +36,10 @@ export default {
                 txtPassword: { required }
             }
         }
+    },
+    mounted() {
+        this.di = useDi();
+        this.request = this.di.getRequestController;
     }
 }
 </script>

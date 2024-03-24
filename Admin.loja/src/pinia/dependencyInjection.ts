@@ -3,12 +3,12 @@ import { defineStore } from 'pinia';
 import { RequestController } from './Controllers/requestController'
 
 
-export const categoryStore = defineStore('dependencyInjection' , {
+export const useDi = defineStore('di' , {
     
     state: () => {
         return {
             showNavBar: false,
-            
+            useToast: null,
             
         }
     },
@@ -16,13 +16,16 @@ export const categoryStore = defineStore('dependencyInjection' , {
         getShowNavbar(state) {
             return state.showNavBar;
         }, 
+        getRequestController(state) {
+            return new RequestController(state.useToast);
+        },
+
     },
     actions: {
         toggleNavBar() {
             return this.showNavbar = !this.showNavbar;
         },
         setToast(state: State, useToast: any) {
-            state.requestController = new RequestController(useToast);
             state.useToast = useToast;
         },
     }
