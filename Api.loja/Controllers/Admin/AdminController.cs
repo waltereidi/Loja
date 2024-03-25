@@ -29,11 +29,9 @@ namespace Api.loja.Controllers.Admin
         {
             try
             {
-                var i = HttpContext;
-
                 var login  = _context.clients.Where(x => x.Email == request.Email && x.Password == request.Password);
                 if (!login.Any())
-                    return NoContent();
+                    return BadRequest("Incorrect email or password");
 
                var response = new LoginResponse(login.First(), _configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Key").Value);
                 return Ok(response);   

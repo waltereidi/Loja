@@ -9,24 +9,35 @@ export const useDi = defineStore('di' , {
         return {
             showNavBar: false,
             useToast: null,
-            
         }
     },
     getters: {
-        getShowNavbar(state) {
+        getShowNavbar(state)
+        {
             return state.showNavBar;
         }, 
-        getRequestController(state) {
-            return new RequestController(state.useToast);
+        getRequestController(state)
+        {
+            const token:string= sessionStorage.getItem('token')??null;
+            return new RequestController(state.useToast , token);
         },
 
     },
     actions: {
-        toggleNavBar() {
+        toggleNavBar()
+        {
             return this.showNavbar = !this.showNavbar;
         },
-        setToast(state: State, useToast: any) {
-            state.useToast = useToast;
+        setToast(useToast: any)
+        {
+            this.useToast = useToast;
+        },
+        setLogin(login: any)
+        {
+            Object.keys(login)
+                .forEach((f) => {
+                    login[f] = sessionStorage.setItem(f, login[f]);
+            });
         },
     }
 

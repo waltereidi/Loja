@@ -1,5 +1,4 @@
 <script lang="ts">
-import { RequestModel } from '@/vuex/Entity/requestModel';
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 import { useDi } from '@/pinia/dependencyInjection'
@@ -24,9 +23,12 @@ export default {
                 Email: this.formLogin.txtEmail,
                 Password: this.formLogin.txtPassword,
             }
-
-            this.request.postAsync(url, body);
-            this.$router.push('/Home');
+            console.log(this.request.post(url, body));
+            this.request.postAsync(url, body)
+                .then((result) => {
+                    this.di.setLogin(result.data);
+                    this.$router.push('/Home');
+                })
         }
     },
     validations() {
@@ -37,8 +39,9 @@ export default {
             }
         }
     },
-    mounted() {
+    beforeMount() {
         this.di = useDi();
+
         this.request = this.di.getRequestController;
     }
 }

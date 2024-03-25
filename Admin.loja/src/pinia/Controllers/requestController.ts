@@ -6,7 +6,6 @@ export class RequestController {
     
     constructor(useToast:any , token:string = null)
     {
-        this.token = ''; 
         this.useToast = useToast;
         this.setDefaultHeaders();
         if(token != null)
@@ -113,9 +112,9 @@ export class RequestController {
     {
         return new Promise((resolve, reject) => {
             axios.post(url, body)
-                .then(result => resolve(result))
+                .then(result => resolve(result?.data))
                 .catch(error => {
-                    this.addToastErrorMessage(error.request.status, error.message);
+                    this.addToastErrorMessage(error.request.status, error.request.responseText);
                     reject(error);
                 }); 
         });
@@ -124,9 +123,9 @@ export class RequestController {
      {
          return new Promise((resolve, reject) => {
             axios.get(url)
-                .then(result => resolve(result))
+                .then(result => resolve(result?.data))
                 .catch(error => {
-                    this.addToastErrorMessage(error.request.status, error.message);
+                    this.addToastErrorMessage(error.request.status, error.request.responseText);
                     reject(error);
                 }); 
         });       
@@ -135,9 +134,9 @@ export class RequestController {
     {
         return new Promise((resolve, reject) => {
             axios.delete(url)
-                .then(result => resolve(result))
+                .then(result => resolve(result?.data))
                 .catch(error => {
-                    this.addToastErrorMessage(error.request.status, error.message);
+                    this.addToastErrorMessage(error.request.status, error.request.responseText);
                     reject(error);
                 }); 
         });  
@@ -146,9 +145,9 @@ export class RequestController {
     {
         return new Promise((resolve, reject) => {
             axios.put(url, body)
-                .then(result => resolve(result))
+                .then(result => resolve(result?.data))
                 .catch(error => {
-                    this.addToastErrorMessage(error.request.status, error.message);
+                    this.addToastErrorMessage(error.request.status, error.request.responseText);
                     reject(error);
                 }); 
         });

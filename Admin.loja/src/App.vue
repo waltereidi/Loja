@@ -14,9 +14,10 @@ export default {
   components: {
     NavBar,
   },
-  mounted() {
+  beforeCreate() {
     this.di = useDi();
     this.di.setToast(useToast());
+    console.log(this.di.getRequestController)
   }
 }
 </script>
