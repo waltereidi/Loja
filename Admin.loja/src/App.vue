@@ -6,6 +6,11 @@ import { useDi } from '@/pinia/dependencyInjection'
 
 import NavBar from "./components/Layout/NavBar.vue"
 export default {
+  setup() {
+    const di = useDi();
+    di.constructor(useToast());
+
+  },
   data() {
     return {
       di: null
@@ -15,15 +20,13 @@ export default {
     NavBar,
   },
   beforeCreate() {
-    this.di = useDi();
-    this.di.setToast(useToast());
-    console.log(this.di.getRequestController)
   }
 }
 </script>
 
 <template>
   <Toast />
+
   <div class="app-container">
     <div class="navBar">
       <NavBar></NavBar>

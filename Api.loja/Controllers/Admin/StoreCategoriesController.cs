@@ -18,7 +18,7 @@ namespace Api.loja.Controllers.Admin
     {
         private readonly IAdminStoreCategoriesControllerContext _context;
         private readonly IConfiguration _configuration;
-        public StoreCategoriesController(ILogger<BaseController> logger , AdminContext context ) : base(logger)
+        public StoreCategoriesController(ILogger<BaseController> logger , StoreContext context ) : base(logger)
         {
             _context = context;
         }

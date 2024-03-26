@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { RequestController } from './Controllers/requestController'
 
 
-export const useDi = defineStore('di' , {
+export const useDi = defineStore('di', {
     
     state: () => {
         return {
@@ -19,21 +19,22 @@ export const useDi = defineStore('di' , {
         getRequestController(state)
         {
             const token:string= sessionStorage.getItem('token')??null;
-            return new RequestController(state.useToast , token);
+            return new RequestController(state.useToast ,token);
         },
 
     },
     actions: {
+        constructor(useToast: any )
+        {
+            this.useToast = useToast;
+        },
         toggleNavBar()
         {
             return this.showNavbar = !this.showNavbar;
         },
-        setToast(useToast: any)
-        {
-            this.useToast = useToast;
-        },
         setLogin(login: any)
         {
+            sessionStorage.clear();
             Object.keys(login)
                 .forEach((f) => {
                     login[f] = sessionStorage.setItem(f, login[f]);

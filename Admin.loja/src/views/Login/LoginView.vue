@@ -23,7 +23,7 @@ export default {
                 Email: this.formLogin.txtEmail,
                 Password: this.formLogin.txtPassword,
             }
-            console.log(this.request.post(url, body));
+
             this.request.postAsync(url, body)
                 .then((result) => {
                     this.di.setLogin(result.data);

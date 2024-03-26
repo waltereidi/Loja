@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using RabbitMQ.loja.Interfaces;
 using RabbitMQ.loja;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 public class Startup
 {
@@ -72,28 +74,27 @@ public class Startup
                 Type = SecuritySchemeType.ApiKey
             }
             ));
-        
+        service.AddRateLimiter(_ => _
+            .AddFixedWindowLimiter(policyName: "fixed", options =>
+            {
+                options.PermitLimit = 2;
+                options.Window = TimeSpan.FromSeconds(1);
+                options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                options.QueueLimit = 1;
+            }));
+
         service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
-        service.AddSingleton<AdminContext>();
 
         //service.AddSingleton<IFileUploadClient , FileUploadClient>();
         //service.AddSingleton<FileUploadServer>();
+
         service.AddMvc(options =>
         {
             options.EnableEndpointRouting = false;
         });
         service.AddDistributedMemoryCache();
         
-        service.AddSession(options =>
-        {
-            options.Cookie.Name = ".Store.Session";
-            options.IdleTimeout = TimeSpan.FromSeconds(10);
-            options.Cookie.HttpOnly = false;
-            options.Cookie.IsEssential = true;
-        });
-
-
         //Importante para não quebrar o com o modelBuilder do EFCore
         service.AddControllers()
        .AddJsonOptions(options =>
@@ -116,7 +117,7 @@ public class Startup
             c.DocumentTitle = "Loja BackEnd";
         });
 
-
+        app.UseRateLimiter();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

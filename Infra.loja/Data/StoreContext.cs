@@ -8,8 +8,10 @@ namespace Api.loja.Data
 	public class StoreContext : DbContext ,
 		IStoreClientsControllerContext ,
 		IStoreProductsControllerContext ,
-		IStoreControllerContext
-	{
+		IStoreControllerContext,
+		IAdminControllerContext, 
+		IAdminStoreCategoriesControllerContext
+    {
 		public StoreContext()
 		{
 		}
@@ -51,7 +53,7 @@ namespace Api.loja.Data
 			});
 			modelBuilder.Entity<CategoriesPromotion>(entity =>
 			{
-				entity.HasKey(e => e.CategoriesPromotionId);
+				entity.HasKey(e => e.CategoriesPromotionId) ;
 
 				entity.HasMany(e => e.ProductsCategories)
 				.WithOne()
@@ -69,8 +71,8 @@ namespace Api.loja.Data
 			//Clients
 			modelBuilder.Entity<Clients>(entity =>
 			{
-				entity.HasKey(e=> e.ClientsId);
-				entity.HasOne(e => e.PermissionsGroup)
+				entity.Property(e => e.Email).IsConcurrencyToken();
+                entity.HasOne(e => e.PermissionsGroup)
 				.WithOne()
 				.HasForeignKey<PermissionsGroup>(e=> e.PermissionsGroupId);
 

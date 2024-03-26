@@ -3,10 +3,11 @@ import  appSettings from '@/../appsettings.json';
 export class RequestController {
     private useToast: any;
     private token: string;
-    
-    constructor(useToast:any , token:string = null)
+    private router: any;    
+    constructor(useToast:any ,router:any ,token:string = null)
     {
         this.useToast = useToast;
+        this.router = router;
         this.setDefaultHeaders();
         if(token != null)
             this.setToken(token);
@@ -31,6 +32,9 @@ export class RequestController {
     }
     private addToastErrorMessage(status:number , message:string )
     { 
+        if (status == 401)
+            return this.unauthorizedRedicret(message);
+        
         //Severity types : info , success , warn , error 
         let severity: string;
         let summary: string;
@@ -58,6 +62,10 @@ export class RequestController {
         }
 
         this.useToast.add({ severity: severity, summary: summary, detail: message, life: life })
+    }
+    private unauthorizedRedicret(message:string)
+    {
+
     }
  
     async post(url: string, body: any)
