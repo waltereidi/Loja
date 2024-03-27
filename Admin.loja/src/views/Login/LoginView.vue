@@ -26,9 +26,10 @@ export default {
 
             this.request.postAsync(url, body)
                 .then((result) => {
-                    this.di.setLogin(result.data);
+                    this.di.setLogin(result);
+                    this.di.showNavbar(true);
                     this.$router.push('/Home');
-                })
+                });
         }
     },
     validations() {

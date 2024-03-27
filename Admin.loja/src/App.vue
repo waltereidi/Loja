@@ -1,14 +1,12 @@
 <script lang="ts">
 import { useToast } from 'primevue/usetoast';
-import { RequestModel } from "./vuex/Entity/requestModel";
-import { ToastMessage } from "./vuex/Entity/toastMessage";
 import { useDi } from '@/pinia/dependencyInjection'
 
 import NavBar from "./components/Layout/NavBar.vue"
 export default {
   setup() {
     const di = useDi();
-    di.constructor(useToast());
+    di.init(useToast());
 
   },
   data() {
@@ -20,6 +18,7 @@ export default {
     NavBar,
   },
   beforeCreate() {
+
   }
 }
 </script>

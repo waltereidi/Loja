@@ -7,7 +7,7 @@ export const useDi = defineStore('di', {
     
     state: () => {
         return {
-            showNavBar: false,
+            showNavBar:Boolean,
             useToast: null,
         }
     },
@@ -24,15 +24,15 @@ export const useDi = defineStore('di', {
 
     },
     actions: {
-        constructor(useToast: any )
+        async init(useToast: any )
         {
             this.useToast = useToast;
         },
-        toggleNavBar()
+        async showNavbar(isVisible:boolean)
         {
-            return this.showNavbar = !this.showNavbar;
+            this.showNavbar = isVisible;
         },
-        setLogin(login: any)
+        async setLogin(login: any)
         {
             sessionStorage.clear();
             Object.keys(login)

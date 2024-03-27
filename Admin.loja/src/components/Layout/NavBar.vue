@@ -26,10 +26,9 @@
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
 import { useDi } from '@/pinia/dependencyInjection'
-const di = useDi();
+var di = useDi();
 const router = useRouter();
-
-
+di.showNavbar(new URL(window.location.href).pathname == "/" ? false : true);
 const items = ref([
     {
         label: 'Home',

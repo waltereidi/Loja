@@ -47,7 +47,6 @@ public class Startup
                  ValidIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>(),
                  ValidAudience = Configuration.GetSection("Jwt:Key").Get<string>(),
                  IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Get<string>())),
-                 
              };
              
          });
@@ -122,7 +121,6 @@ public class Startup
         {
             endpoints.MapControllers();
         });
-        app.UseSession();
         app.UseMvc();
         app.UseCors(option=>option.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => new Uri(origin).Host =="localhost"));
     }
