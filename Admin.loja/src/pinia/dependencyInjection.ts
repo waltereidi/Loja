@@ -30,7 +30,7 @@ export const useDi = defineStore('di', {
         },
         async showNavbar(isVisible:boolean)
         {
-            this.showNavbar = isVisible;
+            this.showNavBar = isVisible;
         },
         async setLogin(login: any)
         {

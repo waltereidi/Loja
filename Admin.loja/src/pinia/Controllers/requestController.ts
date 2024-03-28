@@ -1,13 +1,9 @@
 import  axios  from 'axios';
-import  appSettings from '@/../appsettings.json';
 export class RequestController {
     private useToast: any;
-    private token: string;
-    private router: any;    
-    constructor(useToast:any ,router:any ,token:string = null)
+    constructor(useToast:any ,token:string = null)
     {
         this.useToast = useToast;
-        this.router = router;
         this.setDefaultHeaders();
         if(token != null)
             this.setToken(token);
@@ -24,7 +20,6 @@ export class RequestController {
     }
     private setToken(token:string):void
     {   
-        this.token = `Authorization=Bearer ${token}`;
         axios.defaults.headers.post['Authorization'],
         axios.defaults.headers.put['Authorization'],
         axios.defaults.headers.delete['Authorization'],
@@ -33,7 +28,7 @@ export class RequestController {
     private addToastErrorMessage(status:number , message:string )
     { 
         if (status == 401)
-            return this.unauthorizedRedicret(message);
+            return this.unauthorizedRedirect();
         
         //Severity types : info , success , warn , error 
         let severity: string;
@@ -63,9 +58,9 @@ export class RequestController {
 
         this.useToast.add({ severity: severity, summary: summary, detail: message, life: life })
     }
-    private unauthorizedRedicret(message:string)
+    private unauthorizedRedirect()
     {
-
+        this.useToast.add({ severity: 'warn', summary: 'Session expired, please log in again', group: 'bc' });
     }
  
     async post(url: string, body: any)

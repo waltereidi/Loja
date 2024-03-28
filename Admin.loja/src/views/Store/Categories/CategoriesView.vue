@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-let dataSource = ref();
+import { useDi } from '@/pinia/dependencyInjection';
 
+
+const di = useDi();
+const request = di.getRequestController;
+let result;
+request.getAsync("/api/Admin/Store/Categories/GetCategories").then((r, result) => { result = r });
+console.log(result)
+let dataSource = ref(result);
 const onRowExpand = (event) => {
+
+
 };
 const onRowCollapse = (event) => {
+
 };
 // const expandAll = () => {
 //     expandedRows.value = products.value.reduce((acc, p) => (acc[p.id] = true) && acc, {});
@@ -16,8 +26,6 @@ const formatCurrency = (value) => {
     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 };
 onMounted(() => {
-
-
 
 });
 </script>

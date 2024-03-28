@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useToast } from 'primevue/usetoast';
 import { useDi } from '@/pinia/dependencyInjection'
-
+import ToastUnauthorized from "./components/Toast/ToastUnauthorized.vue"
 import NavBar from "./components/Layout/NavBar.vue"
 export default {
   setup() {
@@ -16,6 +16,7 @@ export default {
   },
   components: {
     NavBar,
+    ToastUnauthorized
   },
   beforeCreate() {
 
@@ -25,6 +26,7 @@ export default {
 
 <template>
   <Toast />
+  <ToastUnauthorized />
 
   <div class="app-container">
     <div class="navBar">
