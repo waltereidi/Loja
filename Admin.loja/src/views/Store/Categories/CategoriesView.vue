@@ -5,10 +5,11 @@ import { useDi } from '@/pinia/dependencyInjection';
 
 const di = useDi();
 const request = di.getRequestController;
-let result;
-request.getAsync("/api/Admin/Store/Categories/GetCategories").then((r, result) => { result = r });
-console.log(result)
-let dataSource = ref(result);
+let dataSource;
+request.getAsync("/api/Admin/Store/Categories/GetCategories")
+    .then((result) => { dataSource = ref(result); })
+    .catch((error) => console.log(error));
+
 const onRowExpand = (event) => {
 
 

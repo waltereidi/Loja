@@ -18,8 +18,7 @@ export const useDi = defineStore('di', {
         }, 
         getRequestController(state)
         {
-            const token:string= sessionStorage.getItem('token')??null;
-            return new RequestController(state.useToast ,token);
+            return new RequestController(state.useToast );
         },
 
     },

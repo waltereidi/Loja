@@ -7,7 +7,7 @@
                         <span class="font-bold text-900">Unauthorized</span>
                     </div>
                     <div class="font-medium text-lg my-3 text-900">{{ slotProps.message.summary }}</div>
-                    <Button class="p-button-sm" label="Logout" @click="onReply()"></Button>
+                    <Button class="p-button-sm" label="Sign in" @click="onReply()"></Button>
                 </div>
             </template>
         </Toast>

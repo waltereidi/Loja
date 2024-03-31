@@ -1,13 +1,18 @@
-import  axios  from 'axios';
+import axios from 'axios';
+
+
 export class RequestController {
     private useToast: any;
-    constructor(useToast:any ,token:string = null)
+    private redirectUnauthorized: boolean = true;
+    constructor(useToast:any)
     {
         this.useToast = useToast;
         this.setDefaultHeaders();
-        if(token != null)
-            this.setToken(token);
     }
+    private addToken = (url): string => url.includes("?") ?
+        `${url}&Authorization=Bearer ${window.sessionStorage.getItem('token')}`
+        : `${url}?Authorization=Bearer ${window.sessionStorage.getItem('token')}`;
+
     private setDefaultHeaders() {
         //axios.defaults.baseURL = appSettings.ApiUrl;
         axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
@@ -17,13 +22,6 @@ export class RequestController {
         axios.defaults.headers.post['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With';
         axios.defaults.headers.put = axios.defaults.headers.post;
         axios.defaults.headers.options = axios.defaults.headers.post;
-    }
-    private setToken(token:string):void
-    {   
-        axios.defaults.headers.post['Authorization'],
-        axios.defaults.headers.put['Authorization'],
-        axios.defaults.headers.delete['Authorization'],
-        axios.defaults.headers.get['Authorization'] = `Bearer ${token}`;
     }
     private addToastErrorMessage(status:number , message:string )
     { 
@@ -60,17 +58,27 @@ export class RequestController {
     }
     private unauthorizedRedirect()
     {
+        if(!this.redirectUnauthorized)
+            return; 
+
         this.useToast.add({ severity: 'warn', summary: 'Session expired, please log in again', group: 'bc' });
+        this.redirectUnauthorized = false;
     }
  
     async post(url: string, body: any)
     {
         try
         {
-            return await axios.post(url , body)     
+            const header = {
+                headers: {
+                    Authorization: `Bearer ${window.sessionStorage.getItem('token')}`
+                }
+            };
+            return await axios.post(url , body, header)     
         }
         catch (error)
         {
+            console.warn(error);
              this.addToastErrorMessage(error.request.status, error.message);
              return error;
         }
@@ -79,10 +87,11 @@ export class RequestController {
      {
          try
          {
-             return await axios.get(url);     
+             return await axios.get(this.addToken(url));     
          }
          catch (error)
          {
+             console.warn(error);
              this.addToastErrorMessage(error.request.status, error.message);
              return error;
          }         
@@ -91,43 +100,58 @@ export class RequestController {
     {
         try
         {
-           return await axios.delete(url)     
+           return await axios.delete(this.addToken(url))     
         }
         catch (error)
         {
-           this.addToastErrorMessage(error.request.status, error.message);
-           return error;
+            console.warn(error);
+            this.addToastErrorMessage(error.request.status, error.message);
+            return error;
         }
     }
     async put(url: string, body: any)
     {
         try
         {
-           return await axios.put(url , body)     
+            const header = {
+                headers: {
+                    Authorization: `Bearer ${window.sessionStorage.getItem('token')}`
+                }
+            };
+           return await axios.put(url , body , header)     
         }
         catch (error)
         {
+            console.warn(error);
             this.addToastErrorMessage(error.request.status, error.message);
             return error;
         }
     }
     async postAsync(url: string, body: any)
     {
+        const header = {
+                headers: {
+                    Authorization: `Bearer ${window.sessionStorage.getItem('token')}`
+                }
+            };
         return new Promise((resolve, reject) => {
-            axios.post(url, body)
+            axios.post(url, body , header)
                 .then(result => resolve(result?.data))
                 .catch(error => {
+                    console.warn(error);
                     this.addToastErrorMessage(error.request.status, error.request.responseText);
                     reject(error);
                 }); 
         });
     }
     async getAsync(url: string )
-     {
+    {
+        axios.defaults.headers.get['Authorization'] = `Bearer ${window.sessionStorage.getItem('token')}`;
          return new Promise((resolve, reject) => {
-            axios.get(url)
+            axios.get(this.addToken(url))
                 .then(result => resolve(result?.data))
                 .catch(error => {
+                    console.warn(error);
                     this.addToastErrorMessage(error.request.status, error.request.responseText);
                     reject(error);
                 }); 
@@ -136,9 +160,10 @@ export class RequestController {
     async deleteAsync(url: string)
     {
         return new Promise((resolve, reject) => {
-            axios.delete(url)
+            axios.delete(this.addToken(url))
                 .then(result => resolve(result?.data))
                 .catch(error => {
+                    console.warn(error);
                     this.addToastErrorMessage(error.request.status, error.request.responseText);
                     reject(error);
                 }); 
@@ -146,10 +171,16 @@ export class RequestController {
     }
     async putAsync(url: string, body: any)
     {
+        const header = {
+                headers: {
+                    Authorization: `Bearer ${window.sessionStorage.getItem('token')}`
+                }
+            };
         return new Promise((resolve, reject) => {
-            axios.put(url, body)
+            axios.put(url, body , header)
                 .then(result => resolve(result?.data))
                 .catch(error => {
+                    console.warn(error);
                     this.addToastErrorMessage(error.request.status, error.request.responseText);
                     reject(error);
                 }); 
