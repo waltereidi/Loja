@@ -1,13 +1,11 @@
 ﻿using Api.loja.Data;
-using Api.loja.Services;
 using Dominio.loja.Dto.CustomEntities;
-using Dominio.loja.Dto.Requests;
+using Dominio.loja.Dto.Requests.AdminControllerRequests;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Net;
-
 namespace Api.loja.Controllers.Admin
 {
     [Route("api/Admin/[action]")]
@@ -21,10 +19,10 @@ namespace Api.loja.Controllers.Admin
             _context = context;
             _configuration = configuration;
         }
-
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType<LoginResponse>(StatusCodes.Status200OK)]
+        [ProducesResponseType<string>(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [EnableRateLimiting("fixed")]
         [AllowAnonymous]
         public async Task<IActionResult>Login(LoginRequest request)
@@ -35,19 +33,20 @@ namespace Api.loja.Controllers.Admin
                 if (!login.Any())
                     return BadRequest("Incorrect email or password");
 
-               var response = new LoginResponse(login.First(), _configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Key").Value);
-                return Ok(response);   
+                var response = new LoginResponse(login.First(), _configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Key").Value);
+               return Ok(response);   
             }
             catch(Exception ex)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
         
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [AllowAnonymous]
         public async Task<IActionResult> Teste()
         {

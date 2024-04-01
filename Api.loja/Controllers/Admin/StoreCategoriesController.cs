@@ -1,13 +1,8 @@
 ﻿using Api.loja.Data;
-using Api.loja.Services;
-using Dominio.loja.Dto.CustomEntities;
-using Dominio.loja.Dto.Requests;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Net;
 
 namespace Api.loja.Controllers.Admin
@@ -17,7 +12,6 @@ namespace Api.loja.Controllers.Admin
     public class StoreCategoriesController : BaseController
     {
         private readonly IAdminStoreCategoriesControllerContext _context;
-        private readonly IConfiguration _configuration;
         public StoreCategoriesController(ILogger<BaseController> logger , StoreContext context ) : base(logger)
         {
             _context = context;

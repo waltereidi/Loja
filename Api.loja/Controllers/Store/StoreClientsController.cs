@@ -1,15 +1,13 @@
 ﻿using Api.loja.Data;
 using Api.loja.Services;
 using Dominio.loja.Dto.Models;
-using Dominio.loja.Dto.Requests;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Core;
 using System.Net;
-using System.Threading.Channels;
-using System.Text;
+using Dominio.loja.Dto.RequestsStoreClientsControllerRequests;
 
 namespace Api.loja.Controllers.Store
 {
@@ -85,7 +83,7 @@ namespace Api.loja.Controllers.Store
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
 
-        public async Task<IActionResult> PostOrdersRequest([FromBody] PostRequestOrdersRequest dataSource)
+        public async Task<IActionResult> PostOrdersRequest([FromBody] OrdersRequest dataSource)
         {
             if (_context.clients.Any(x => x.ClientsId == dataSource.ClientsId))
             {
@@ -124,7 +122,7 @@ namespace Api.loja.Controllers.Store
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PutCartProducts(PutCartProductsRequest request)
+        public async Task<IActionResult> PutCartProducts(ProductsRequest request)
         {
             if (_context.clients.Any(x => x.ClientsId == request.ClientsId) && _context.products.Any(x => x.ProductsId == request.ProductsId))
             {

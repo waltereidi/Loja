@@ -1,10 +1,9 @@
 ﻿using Api.loja.Data;
 using Api.loja.Services;
 using Dominio.loja.Dto.CustomEntities;
-using Dominio.loja.Dto.Requests;
+using Dominio.loja.Dto.Requests.AdminControllerRequests;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Net;
 
 namespace Api.loja.Controllers.Store

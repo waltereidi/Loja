@@ -58,8 +58,6 @@ export class RequestController {
     }
     private unauthorizedRedirect()
     {
-        if(!this.redirectUnauthorized)
-            return; 
 
         this.useToast.add({ severity: 'warn', summary: 'Session expired, please log in again', group: 'bc' });
         this.redirectUnauthorized = false;

@@ -1,5 +1,4 @@
 ﻿using Api.loja.Data;
-using Dominio.loja.Dto.Requests;
 using Dominio.loja.Interfaces.Context;
 
 namespace Api.loja.Services
@@ -12,11 +11,6 @@ namespace Api.loja.Services
             _context = context;
         }
 
-        public void getLogin(LoginRequest loginRequest)
-        {
-               
-
-        }
 
     }
 }
