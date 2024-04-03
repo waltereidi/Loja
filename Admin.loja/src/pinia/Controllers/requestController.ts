@@ -9,9 +9,6 @@ export class RequestController {
         this.useToast = useToast;
         this.setDefaultHeaders();
     }
-    private addToken = (url): string => url.includes("?") ?
-        `${url}&Authorization=Bearer ${window.sessionStorage.getItem('token')}`
-        : `${url}?Authorization=Bearer ${window.sessionStorage.getItem('token')}`;
 
     private setDefaultHeaders() {
         //axios.defaults.baseURL = appSettings.ApiUrl;
@@ -56,14 +53,15 @@ export class RequestController {
 
         this.useToast.add({ severity: severity, summary: summary, detail: message, life: life })
     }
-    private unauthorizedRedirect()
+    private unauthorizedRedirect():void
     {
 
-        this.useToast.add({ severity: 'warn', summary: 'Session expired, please log in again', group: 'bc' });
+        
+        this.useToast.add({ severity: 'success', summary: 'Session expired, please log in again', group: 'bc' });
         this.redirectUnauthorized = false;
     }
  
-    async post(url: string, body: any)
+    async post(url: string, body: any) :Promise<any>
     {
         try
         {
@@ -81,11 +79,11 @@ export class RequestController {
              return error;
         }
     }
-     async get(url: string )
+     async get(url: string ):Promise<any>
      {
          try
          {
-             return await axios.get(this.addToken(url));     
+             return await axios.get(url);     
          }
          catch (error)
          {
@@ -94,11 +92,11 @@ export class RequestController {
              return error;
          }         
     }
-    async delete(url: string)
+    async delete(url: string):Promise<any>
     {
         try
         {
-           return await axios.delete(this.addToken(url))     
+           return await axios.delete(url)     
         }
         catch (error)
         {
@@ -107,7 +105,7 @@ export class RequestController {
             return error;
         }
     }
-    async put(url: string, body: any)
+    async put(url: string, body: any):Promise<any>
     {
         try
         {
@@ -125,7 +123,7 @@ export class RequestController {
             return error;
         }
     }
-    async postAsync(url: string, body: any)
+    async postAsync(url: string, body: any):Promise<any>
     {
         const header = {
                 headers: {
@@ -142,11 +140,11 @@ export class RequestController {
                 }); 
         });
     }
-    async getAsync(url: string )
+    async getAsync(url: string ):Promise<any>
     {
-        axios.defaults.headers.get['Authorization'] = `Bearer ${window.sessionStorage.getItem('token')}`;
+        axios.defaults.headers.get['Authorization'] = `Bearers ${window.sessionStorage.getItem('token')}`;
          return new Promise((resolve, reject) => {
-            axios.get(this.addToken(url))
+            axios.get(url)
                 .then(result => resolve(result?.data))
                 .catch(error => {
                     console.warn(error);
@@ -155,10 +153,10 @@ export class RequestController {
                 }); 
         });       
     }
-    async deleteAsync(url: string)
+    async deleteAsync(url: string):Promise<any>
     {
         return new Promise((resolve, reject) => {
-            axios.delete(this.addToken(url))
+            axios.delete(url)
                 .then(result => resolve(result?.data))
                 .catch(error => {
                     console.warn(error);
@@ -167,7 +165,7 @@ export class RequestController {
                 }); 
         });  
     }
-    async putAsync(url: string, body: any)
+    async putAsync(url: string, body: any):Promise<any>
     {
         const header = {
                 headers: {
