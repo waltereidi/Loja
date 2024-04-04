@@ -55,8 +55,9 @@ export class RequestController {
     }
     private unauthorizedRedirect():void
     {
+        if ( document.querySelector("div[data-pc-section='message'] > div"))
+            return;
 
-        
         this.useToast.add({ severity: 'success', summary: 'Session expired, please log in again', group: 'bc' });
         this.redirectUnauthorized = false;
     }
@@ -142,7 +143,7 @@ export class RequestController {
     }
     async getAsync(url: string ):Promise<any>
     {
-        axios.defaults.headers.get['Authorization'] = `Bearers ${window.sessionStorage.getItem('token')}`;
+        axios.defaults.headers.get['Authorization'] = `Bearer ${window.sessionStorage.getItem('token')}`;
          return new Promise((resolve, reject) => {
             axios.get(url)
                 .then(result => resolve(result?.data))

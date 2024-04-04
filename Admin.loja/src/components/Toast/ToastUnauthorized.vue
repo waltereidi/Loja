@@ -21,7 +21,7 @@ const rules = computed(() => {
 });
 const v$ = useVuelidate(rules, form);
 const submit = () => {
-    const url = "api/Admin/Login";
+    const url = "/api/Admin/Login";
     const body = {
         Email: form.txtEmail,
         Password: form.txtPassword,
@@ -30,11 +30,10 @@ const submit = () => {
     request.postAsync(url, body)
         .then((result) => {
             di.setLogin(result);
-            di.showNavbar(true);
-            this.$router.push('/Home');
+            toast.removeGroup('bc');
+            visible.value = false;
         });
-    toast.removeGroup('bc');
-    visible.value = false;
+
 }
 
 const onClose = () => {

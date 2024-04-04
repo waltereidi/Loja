@@ -5,9 +5,9 @@ import { useDi } from '@/pinia/dependencyInjection';
 
 const di = useDi();
 const request = di.getRequestController;
-let dataSource;
+let dataSource = ref();
 request.getAsync("/api/Admin/Store/Categories/GetCategories")
-    .then((result) => { dataSource = ref(result); })
+    .then((result) => { dataSource.value = result })
     .catch((error) => console.log(error));
 
 const onRowExpand = (event) => {
@@ -57,8 +57,8 @@ onMounted(() => {
             <template #expansion="dataSource">
                 <div class="p-3">
                     <h5>SubCategories</h5>
-                    <DataTable :value="dataSource.subCateories">
-                        <Column field="ID_SubCategories" header="Id" sortable></Column>
+                    <DataTable :value="dataSource.data.subCategories">
+                        <Column field="subCategoriesId" header="Id" sortable></Column>
                         <Column field="name" header="Name" headerStyle="width:4rem"></Column>
                         <Column field="description" header="Description"></Column>
                         <Column field="order" header="Order"></Column>
