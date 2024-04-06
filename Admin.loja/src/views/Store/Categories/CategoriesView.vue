@@ -6,6 +6,9 @@ import { useDi } from '@/pinia/dependencyInjection';
 const di = useDi();
 const request = di.getRequestController;
 let dataSource = ref();
+
+const editingRows = ref([]);
+
 const expandSubCategories = ref({});
 const expandSubSubCategories = ref({});
 request.getAsync("/api/Admin/Store/Categories/GetCategories")
@@ -13,7 +16,6 @@ request.getAsync("/api/Admin/Store/Categories/GetCategories")
     .catch((error) => console.log(error));
 
 const onRowExpand = (event) => {
-    console.log(event)
 
 };
 const onRowCollapse = (event) => {
@@ -29,9 +31,7 @@ const formatCurrency = (value) => {
     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 };
 const onRowEditSave = (event) => {
-    let { newData, index } = event;
-    alert()
-    dataSource.value[index] = newData;
+    console.log(event)
 };
 onMounted(() => {
 
@@ -40,8 +40,9 @@ onMounted(() => {
 
 <template>
     <div class="card">
-        <DataTable v-model:expandedRows="expandSubCategories" :value="dataSource" dataKey="id" @rowExpand="onRowExpand"
-            @row-edit-save="onRowEditSave" @rowCollapse="onRowCollapse" tableStyle="min-width: 60rem">
+        <DataTable v-model:expandedRows="expandSubCategories" :value="dataSource" v-model:editingRows="editingRows"
+            editMode="row" dataKey="categoriesId" @row-edit-save="onRowEditSave" @rowCollapse="onRowCollapse"
+            tableStyle="min-width: 60rem" @rowExpand="onRowExpand">
             <template #header>
                 <div class="flex flex-wrap justify-content-end gap-2">
                     <Button text icon="pi pi-plus" label="Expand All" @click="expandAll" />
@@ -49,47 +50,66 @@ onMounted(() => {
                 </div>
             </template>
             <Column expander style="width: 5rem" />
-            <Column field="name" header="Name"></Column>
-            <Column header="Image">
-
-                <template #body="dataSource">
-                    <img :src="`https://primefaces.org/cdn/primevue/images/product/${dataSource.data.image}`"
-                        :alt="dataSource.data.image" class="shadow-4" width="64" />
+            <Column field="categoriesId" header="ID"></Column>
+            <Column field="name" header="Name">
+                <template #editor="{ data, field }">
+                    <InputText v-model="data[field]" />
                 </template>
             </Column>
 
-            <Column field="description" header="Description"></Column>
+            <Column field="description" header="Description">
+                <template #editor="{ data, field }">
+                    <InputText v-model="data[field]" />
+                </template>
+            </Column>
             <Column field="order" header="Order"></Column>
             <!-- Row editor -->
-            <Column :rowEditor="true" style="width: 10%; min-width: 8rem" field="name" header="edit"
-                bodyStyle="text-align:center">
+            <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center">
             </Column>
             <template #expansion="subCategories">
                 <div class="p-3">
                     <h5>SubCategories</h5>
                     <DataTable v-model:expandedRows="expandSubSubCategories" :value="subCategories.data?.subCategories"
-                        dataKey="id" @rowExpand="onRowExpand" @rowCollapse="onRowCollapse"
-                        tableStyle="min-width: 60rem">
+                        @rowExpand="onRowExpand" @rowCollapse="onRowCollapse" tableStyle="min-width: 60rem"
+                        v-model:editingRows="editingRows" editMode="row" dataKey="subCategoriesId"
+                        @row-edit-save="onRowEditSave">
                         <Column expander style="width: 5rem" />
                         <Column field="subCategoriesId" header="Id" sortable></Column>
-                        <Column field="name" header="Name" headerStyle="width:4rem"></Column>
-                        <Column field="description" header="Description"></Column>
+                        <Column field="name" header="Name" headerStyle="width:4rem">
+                            <template #editor="{ data, field }">
+                                <InputText v-model="data[field]" />
+                            </template>
+                        </Column>
+                        <Column field="description" header="Description">
+                            <template #editor="{ data, field }">
+                                <InputText v-model="data[field]" />
+                            </template>
+                        </Column>
                         <Column field="order" header="Order"></Column>
-                        <Column :rowEditor="true" field="name" header="edit" style="width: 10%; min-width: 8rem"
-                            bodyStyle="text-align:center">
+                        <Column :rowEditor="true" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center">
                         </Column>
                         <template #expansion="subSubCategories">
                             <div class="p-3">
                                 <h5>SubSubCategories</h5>
                                 <DataTable v-model:expandedRows="expandSubSubCategories"
-                                    :value="subSubCategories.data?.subSubCategories" dataKey="id"
-                                    tableStyle="min-width: 60rem">
+                                    :value="subSubCategories.data?.subSubCategories" tableStyle="min-width: 60rem"
+                                    v-model:editingRows="editingRows" editMode="row" dataKey="subSubCategoriesId"
+                                    @row-edit-save="onRowEditSave">
                                     <Column field="subSubCategoriesId" header="Id" sortable></Column>
-                                    <Column field="name" header="Name" headerStyle="width:4rem"></Column>
-                                    <Column field="description" header="Description"></Column>
+                                    <Column field="name" header="Name" headerStyle="width:4rem">
+                                        <template #editor="{ data, field }">
+                                            <InputText v-model="data[field]" />
+                                        </template>
+                                    </Column>
+                                    <Column field="description" header="Description">
+                                        <template #editor="{ data, field }">
+                                            <InputText v-model="data[field]" />
+                                        </template>
+                                    </Column>
                                     <Column field="order" header="Order"></Column>
                                     <Column :rowEditor="true" style="width: 10%; min-width: 8rem"
-                                        bodyStyle="text-align:center"></Column>
+                                        bodyStyle="text-align:center">
+                                    </Column>
                                 </DataTable>
                             </div>
                         </template>

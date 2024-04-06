@@ -27,6 +27,7 @@ namespace Api.loja.Controllers.Admin
         [AllowAnonymous]
         public async Task<IActionResult>Login(LoginRequest request)
         {
+            
             try
             {
                 var login  = _context.clients.Where(x => x.Email == request.Email && x.Password == request.Password);
