@@ -8,5 +8,6 @@ namespace WFileManager.Interfaces
 {
     public interface IFileObserver
     {
+        
     }
 }

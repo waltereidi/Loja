@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace WFileManager.Interfaces
 {
-    public interface IFileUploadStrategy
+    public interface IFileStrategy
     {
-        IEnumerable<ServerUploadDTO>UploadFile();
+        IEnumerable<T> Start<T>() where T : class;
     }
 }
