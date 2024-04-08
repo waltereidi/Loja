@@ -29,6 +29,7 @@ namespace Api.loja.Controllers.Store
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetEditMyProfile([FromHeader] int ID_Clients)
         {
+            
             if (_context.clients.Any(x => x.ClientsId == ID_Clients))
             {
                 Clients clients = _context.clients

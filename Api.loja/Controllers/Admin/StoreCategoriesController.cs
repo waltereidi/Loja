@@ -3,6 +3,7 @@ using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NPOI.OpenXmlFormats;
 using System.Net;
 
 namespace Api.loja.Controllers.Admin
@@ -12,9 +13,11 @@ namespace Api.loja.Controllers.Admin
     public class StoreCategoriesController : BaseController
     {
         private readonly IAdminStoreCategoriesControllerContext _context;
-        public StoreCategoriesController(ILogger<BaseController> logger , StoreContext context ) : base(logger)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public StoreCategoriesController(ILogger<BaseController> logger , StoreContext context , IWebHostEnvironment webHostEnvironment ) : base(logger)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]

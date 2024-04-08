@@ -10,15 +10,14 @@ namespace WFileManager
     public class WFileManager
     {
 
-        public readonly IFileStrategy _fileStrategy;
-        public WFileManager(IFileStrategy fileStrategy)
+        public WFileManager()
         {
-            _fileStrategy = fileStrategy?? throw new ArgumentNullException("Not provided Interface");
+            
         }
         
-        public IEnumerable<FileInfo>Start<T>(IEnumerable<T> files) where T : class
+        public IEnumerable<T>Start<T>(IFileStrategy fileStrategy) where T : class
         {
-            return _fileStrategy.Start<T>(files);
+            return fileStrategy.Start<T>();
         }
 
     }
