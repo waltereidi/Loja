@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WFileManager.Utility
+namespace WFileManager.loja.Utility
 {
     public class FileManagerUtility
     {

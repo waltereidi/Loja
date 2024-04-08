@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WFileManager.Interfaces
+namespace WFileManager.loja.Interfaces
 {
     public interface IFileStrategy
     {

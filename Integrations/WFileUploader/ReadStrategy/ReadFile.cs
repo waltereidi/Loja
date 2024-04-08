@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WFileManager.Interfaces;
 
-namespace WFileManager.ReadStrategy
+namespace WFileManager.loja.ReadStrategy
 {
     public class ReadFile : IFileStrategy
     {
