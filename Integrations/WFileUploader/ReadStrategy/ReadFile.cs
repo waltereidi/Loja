@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WFileManager.Interfaces;
+using WFileManager.loja.Interfaces;
 
 namespace WFileManager.loja.ReadStrategy
 {
     public class ReadFile : IFileStrategy
     {
-
-        IEnumerable<FileInfo> IFileStrategy.Start<T>(IEnumerable<T> file) 
+        public IEnumerable<T> Start<T>() where T : class
         {
             throw new NotImplementedException();
         }
+
     }
 }

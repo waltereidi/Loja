@@ -11,7 +11,6 @@ namespace WFileManager.loja.Utility
 
         public FileManagerUtility()
         {
-            FileInfo fi = new FileInfo();
 
         }
     }

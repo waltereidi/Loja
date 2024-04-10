@@ -15,12 +15,11 @@ namespace Tests.loja.Integrations
     [TestClass]
     public class WFileManagerTest
     {
-        private readonly WFileManager.loja.WFileManager _fileManager;
+        private readonly WFileManager.loja.WFileManager _fileManager = new WFileManager.loja.WFileManager();
         public WFileManagerTest() 
         { 
-            _fileManager = new WFileManager.loja.WFileManager();
         }
-        [TestMethod]
+         [TestMethod]
         public async void UploadFileShouldReturnFileInfo()
         {
             //Setup mock file using a memory stream
@@ -34,14 +33,12 @@ namespace Tests.loja.Integrations
 
             //create FormFile with desired data
             IFormFile file = new FormFile(stream, 0, stream.Length, "id_from_form", fileName);
-            IFormCollection formCollection = new FormCollection();
             IFileStrategy strategy = new UploadFile(file);
 
             //Act
-
-            var result = await sut.UploadSingle(file);
-            //Assert
-            Assert.IsInstanceOfType(result, typeof(IActionResult));
+            _fileManager.StartAsync<FileInfo>(strategy)
+                .ContinueWith(_=> Assert.IsInstanceOfType(_.Result, typeof(IActionResult)));
+            
         }
     }
 }
