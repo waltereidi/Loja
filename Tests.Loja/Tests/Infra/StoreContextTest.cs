@@ -47,9 +47,9 @@ namespace Tests.Loja.Tests.Infra
         [TestMethod]
         public void testRequestORM()
         {
-            ValueTask<RequestOrders> result =_storeContext.requestOrders.FindAsync(1);
+            var result =_storeContext.requestOrders.Find(1);
             var result1 = _storeContext.clientsProducts_cart.Find(1);
-            Assert.IsTrue(result.Result.RequestOrdersProducts is not null);
+            Assert.IsTrue(result.RequestOrdersProducts is not null);
             Assert.IsTrue(result1.Products is not null);
         }
 

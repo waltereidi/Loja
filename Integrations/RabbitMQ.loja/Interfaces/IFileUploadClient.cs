@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Dto.RabbitMQ;
+﻿
+using Dominio.loja.Dto.RabbitMQ;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

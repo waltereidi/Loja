@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TestEntities\**" />
+    <EmbeddedResource Remove="TestEntities\**" />
+    <None Remove="TestEntities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.0.0" />
     <PackageReference Include="GenFu" Version="1.6.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
@@ -23,13 +29,12 @@
     <ProjectReference Include="..\Api.loja\Api.loja.csproj" />
     <ProjectReference Include="..\Dominio.loja\Dominio.loja.csproj" />
     <ProjectReference Include="..\Infra.loja\Infra.loja.csproj" />
+    <ProjectReference Include="..\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj" />
     <ProjectReference Include="..\Integrations\WFileUploader\WFileManager.csproj" />
-    <ProjectReference Include="..\RabbitMQ.loja\RabbitMQ.loja.csproj" />
     <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestEntities\" />
     <Folder Include="TestFiles\CreatedFiles\" />
     <Folder Include="Tests\Dominio\Dto\" />
   </ItemGroup>

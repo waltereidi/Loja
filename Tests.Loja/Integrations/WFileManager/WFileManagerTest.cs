@@ -1,26 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WFileManager.loja;
 using WFileManager.loja.Interfaces;
 using WFileManager.loja.WriteStrategy;
-namespace Tests.loja.Integrations
+
+namespace Tests.loja.Integrations.RabbitMQ.Configuration
 {
     [TestClass]
     public class WFileManagerTest
     {
         private readonly WFileManager.loja.WFileManager _fileManager = new WFileManager.loja.WFileManager();
-        public WFileManagerTest() 
-        { 
+        public WFileManagerTest()
+        {
         }
-         [TestMethod]
-        public async void UploadFileShouldReturnFileInfo()
+
+        [TestMethod]
+        public void UploadFileShouldReturnFileInfo()
         {
             //Setup mock file using a memory stream
             var content = "Hello World from a Fake File";
@@ -37,8 +32,8 @@ namespace Tests.loja.Integrations
 
             //Act
             _fileManager.StartAsync<FileInfo>(strategy)
-                .ContinueWith(_=> Assert.IsInstanceOfType(_.Result, typeof(IActionResult)));
-            
+                .ContinueWith(_ => Assert.IsFalse(_.Result.Any(x=>!x.Exists)));
+
         }
     }
 }

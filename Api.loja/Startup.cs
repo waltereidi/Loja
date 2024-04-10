@@ -5,10 +5,6 @@ using System.Text;
 using Utils.loja.Queue;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
-using RabbitMQ.loja.Interfaces;
-using RabbitMQ.loja;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 

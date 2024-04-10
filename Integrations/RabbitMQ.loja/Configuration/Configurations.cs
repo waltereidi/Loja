@@ -18,8 +18,9 @@ namespace RabbitMQ.loja.Configuration
 #if DEBUG
             configFileName = "appsettings.Development.json";
 #endif
+            var path = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.Parent.FullName, "Integrations", "RabbitMq.loja");
             _configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+                .SetBasePath(path)
                 .AddJsonFile(configFileName, false)
                 .Build();
         }

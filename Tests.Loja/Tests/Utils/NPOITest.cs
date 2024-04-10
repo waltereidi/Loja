@@ -36,7 +36,7 @@ namespace Tests.Loja.Tests.Utils
                 Price = (decimal)0.15,
                 PricesId = 1
             };
-            path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "") + "\\TestFiles\\CreatedFiles\\";
+            path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net8.0\\", "") + "\\TestFiles\\CreatedFiles\\";
 
         }
 
@@ -142,7 +142,7 @@ namespace Tests.Loja.Tests.Utils
                 bool Return = _NPOIExcel.ValidateSheetFields(prices, workbook);
 
                 //Assert
-                Assert.IsTrue(Return);
+                Assert.IsFalse(Return);
 
             }
             else

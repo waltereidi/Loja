@@ -9,7 +9,6 @@ namespace WFileManager.loja;
 
 public class WFileManager
 {
-
     public WFileManager()
     {
         
