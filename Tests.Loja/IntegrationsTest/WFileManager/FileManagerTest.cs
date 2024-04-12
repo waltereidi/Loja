@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Integrations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WFileManager.loja.Interfaces;
 using WFileManager.loja.WriteStrategy;
 
-namespace Tests.loja.Integrations.RabbitMQ.Configuration
+namespace Tests.loja.IntegrationsTest
 {
     [TestClass]
-    public class WFileManagerTest
+    public class FileManagerTest
     {
-        private readonly WFileManager.loja.WFileManager _fileManager = new WFileManager.loja.WFileManager();
-        public WFileManagerTest()
+        private readonly  FileManager _fileManager = new FileManager();
+        public FileManagerTest()
         {
         }
 

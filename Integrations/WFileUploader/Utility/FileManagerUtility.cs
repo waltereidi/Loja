@@ -13,6 +13,7 @@ namespace WFileManager.loja.Utility
         {
 
         }
+        public string GetFileExtension(string fileName) => fileName.Substring(fileName.LastIndexOf('.') , fileName.Length- fileName.LastIndexOf('.'));
     }
 
 }

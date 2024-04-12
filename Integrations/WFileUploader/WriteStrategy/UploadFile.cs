@@ -58,6 +58,7 @@ namespace WFileManager.loja.WriteStrategy
             {
                 using (Stream fileStream = new FileStream(_path, FileMode.Create))
                 {
+                    
                     file.CopyToAsync(fileStream);
                     yield return new FileInfo(_path);
                 };

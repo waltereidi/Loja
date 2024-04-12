@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WFileManager.loja.Interfaces;
 
-namespace WFileManager.loja;
+namespace Integrations;
 
-public class WFileManager
+public class FileManager
 {
-    public WFileManager()
+    public FileManager()
     {
         
     }
@@ -21,5 +21,10 @@ public class WFileManager
     public async Task<IEnumerable<T>> StartAsync<T>(IFileStrategy fileStrategy) where T : class
     {
         return fileStrategy.Start<T>();
+    }
+
+    public async void LogFile(IEnumerable<FileInfo> files)
+    {
+
     }
 }
