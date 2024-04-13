@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dominio.loja.Entity.Integrations.WFileManager;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WFileManager.Enum;
 using WFileManager.loja.Interfaces;
+using WFileManager.loja.Utility;
 
 namespace WFileManager.loja.WriteStrategy
 {
@@ -14,51 +16,36 @@ namespace WFileManager.loja.WriteStrategy
     {
         private readonly IFormCollection _formCollection;
         private readonly IFormFile _formFile;
-        private readonly Stream _stream;
         private readonly UploadOptions _options;
-        private readonly string _path = Path.Combine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory, Guid.NewGuid().ToString());
-        private readonly string _environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory;
-        public UploadFile(IFormCollection file) 
+        private readonly FileDirectory _dir;
+        private readonly FileManagerUtility _utils = new FileManagerUtility();
+        private readonly string _path = Path.Combine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory);
+        public UploadFile(IFormCollection file , FileDirectory dir =null) 
         {
             _formCollection = file;
             _options = UploadOptions.FormColletion;
         }
-        public UploadFile(IFormFile file)
+        public UploadFile(IFormFile file , FileDirectory dir = null)
         {
             _formFile = file;
             _options = UploadOptions.FormColletion;
         }
-        public UploadFile(Stream file) 
-        {
-            _stream = file;
-            _options = UploadOptions.Stream;
-        }
+        
         public IEnumerable<T> Start<T>() where T : class
         {
             switch (_options)
             {
                 case UploadOptions.FormColletion: return (IEnumerable<T>)UploadCollection<FileInfo>();
                 case UploadOptions.FormFile: return (IEnumerable<T>)UploadFormFile<FileInfo>();
-                case UploadOptions.Stream: return (IEnumerable<T>)UploadStream<FileInfo>();
                 default:return null;
             }
         }
-        private IEnumerable<FileInfo> UploadStream<T>()
-        {
-            using(FileStream fs =File.Create( _path ))
-            {
-                _stream.CopyTo(fs);
-                yield return new FileInfo(_path);
-            }
-        }
-
         private IEnumerable<FileInfo> UploadCollection<T>()
         {
             foreach (var file in _formCollection.Files)
             {
-                using (Stream fileStream = new FileStream(_path, FileMode.Create))
+                using (Stream fileStream = new FileStream(Path.Combine(_path, _dir?.DirectoryName??"" , file.FileName,_utils.GetFileExtension(file.FileName)), FileMode.Create))
                 {
-                    
                     file.CopyToAsync(fileStream);
                     yield return new FileInfo(_path);
                 };
@@ -66,10 +53,10 @@ namespace WFileManager.loja.WriteStrategy
         }
         private IEnumerable<FileInfo> UploadFormFile<T>()
         {
-            using (Stream fileStream = new FileStream(_path, FileMode.Create))
+            using (Stream fileStream = new FileStream(Path.Combine(_path, _dir?.DirectoryName??"" , _formFile.FileName,_utils.GetFileExtension(_formFile.FileName)), FileMode.Create))
             {
                 _formFile.CopyToAsync(fileStream);
-                yield return new FileInfo(_path);
+                yield return new FileInfo($"{_path}{_utils.GetFileExtension(_formFile.FileName)}");
             };
         }
 

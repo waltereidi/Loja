@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Dominio.loja\Dominio.loja.csproj" />
+  </ItemGroup>
+
 </Project>
