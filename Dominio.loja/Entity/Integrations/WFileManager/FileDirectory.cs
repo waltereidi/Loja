@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [Table("FileDirectory")]
-    public class FileDirectory
+    public class FileDirectory : Entity
     {
         [Key]
         public int FileDirectoryId { get; set; }

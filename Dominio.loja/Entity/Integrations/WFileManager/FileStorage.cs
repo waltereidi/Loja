@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [Table("FileStorage")]
-    public class FileStorage
+    public class FileStorage : Entity
     {
         [Key]
         public int FileStorageId { get; set; }
