@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Entity;
+using Dominio.loja.Entity.Integrations.WFileManager;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using WConnectionKeyVault;
@@ -169,9 +170,23 @@ namespace Api.loja.Data
 		{
 			CreateCategoriesORM(modelBuilder);
 			CreateProductsORM(modelBuilder);
-			CreateRequestORM(modelBuilder);        
-		}
+			CreateRequestORM(modelBuilder);
+            CreateFileManagerORM(modelBuilder);
+        }
+		public virtual DbSet<FileDirectory> fileDirectory { get; set; } = null;
+		public virtual DbSet<FileStorage> fileStorage { get; set; } = null;
 
+        private void CreateFileManagerORM(ModelBuilder modelBuilder)
+        {
+			modelBuilder.Entity<FileStorage>(entity =>
+			{
+				entity.HasKey(e => e.FileStorageId);
+
+				entity.HasOne(e => e.Directory)
+				.WithOne()
+				.HasForeignKey<FileDirectory>(e => e.FileDirectoryId);
+			});
+        }
     }
     
 }

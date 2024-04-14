@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WFileManager.loja.Interfaces;
 using WFileManager.loja.WriteStrategy;
 
-namespace Tests.loja.IntegrationsTest
+namespace Tests.loja.IntegrationsTest.WFileManagerTest
 {
     [TestClass]
     public class FileManagerTest

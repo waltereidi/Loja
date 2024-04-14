@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WFileManager.loja.Utility;
 
-namespace Tests.loja.Integrations.WFileManager
+namespace Tests.loja.IntegrationsTest.WFileManagerTest
 {
     [TestClass]
     public class FileManagerUtilityTest

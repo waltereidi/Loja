@@ -17,13 +17,19 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public DateTime CreationTimeUtc { get; set; }
         public long Length { get; set; }
         public string Extension { get; set; }
-        public FileDirectory Directory {get;set;}
+        [ForeignKey("FileDirectoryId")]
+        public int FileDirectoryId { get; set; }
+        public virtual FileDirectory Directory {get;set;}
+        public FileStorage()
+        {
 
+        }
         public FileStorage(FileInfo fi)
         {
             CreationTime=fi.CreationTime;
             CreationTimeUtc=fi.CreationTimeUtc;
             Extension = fi.Extension;
         }
+        
     }
 }
