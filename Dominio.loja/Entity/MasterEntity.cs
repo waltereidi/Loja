@@ -8,19 +8,21 @@ namespace Dominio.loja.Entity
        
     {
         private readonly Action<object> _applier;
-
+        private readonly List<object> _changes;
         public TId Id { get; protected set; }
         public DateTime? Created_at { get; set; }
         public DateTime? Updated_at { get; set; }
-        protected MasterEntity(Action<object> applier) => _applier = applier;
-        protected MasterEntity() { }
-        protected abstract void When(object @event);
+        protected MasterEntity() => _changes = new List<object>();
         protected void Apply(object @event)
         {
             When(@event);
-            _applier(@event);
+            EnsureValidState();
+            _changes.Add(@event);
         }
-        
+        protected abstract void When(object @event);
+        protected abstract void EnsureValidState();
+        protected void ApplyToEntity(IInternalEventHandler entity, object @event) => entity?.Handle(@event);
+        public IEnumerable<object> GetChanges() => _changes.AsEnumerable();
         void IInternalEventHandler.Handle(object @event) => When(@event);
     }
 

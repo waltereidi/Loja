@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.loja.Events.Integracoes.WFileManager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -33,7 +34,11 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
 
         protected override void When(object @event)
         {
-            throw new NotImplementedException();
+            switch (@event)
+            {
+                case FileManagerEvents.FileUploaded e:; break;
+
+            }
         }
     }
 }

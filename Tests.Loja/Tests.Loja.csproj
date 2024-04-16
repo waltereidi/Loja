@@ -11,8 +11,11 @@
 
   <ItemGroup>
     <Compile Remove="TestEntities\**" />
+    <Compile Remove="Tests\Dominio\**" />
     <EmbeddedResource Remove="TestEntities\**" />
+    <EmbeddedResource Remove="Tests\Dominio\**" />
     <None Remove="TestEntities\**" />
+    <None Remove="Tests\Dominio\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +39,6 @@
 
   <ItemGroup>
     <Folder Include="TestFiles\CreatedFiles\" />
-    <Folder Include="Tests\Dominio\Dto\" />
   </ItemGroup>
 
 </Project>

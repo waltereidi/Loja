@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Events.Integracoes.WFileManager
 {
-    public static class FileManagerEvents
+    public  class FileManagerEvents : Events
     {
         public class FileUploaded
         { 
-            public IFormFile formFile;
+            public IFormFile FormFile;
         
         }
 
