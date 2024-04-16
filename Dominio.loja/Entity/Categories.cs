@@ -10,10 +10,8 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("categories")]
-    public class Categories : Entity
+    public abstract class Categories : MasterEntity<int>
     {
-        [Key]
-        public int CategoriesId { get; set; }
 
         [StringLength(120)]
         public string Name { get; set; }

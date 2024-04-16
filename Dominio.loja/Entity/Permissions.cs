@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("permissions")]
-    public class Permissions
+    public abstract class Permissions : MasterEntity<int>
     {
         [Key]
         public int PermissionsId { get; set; }

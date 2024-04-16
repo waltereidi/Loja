@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [Table("FileStorage")]
-    public class FileStorage : Entity
+    public class FileStorage : MasterEntity<int>
     {
         [Key]
         public int FileStorageId { get; set; }
@@ -30,6 +30,10 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
             CreationTimeUtc=fi.CreationTimeUtc;
             Extension = fi.Extension;
         }
-        
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

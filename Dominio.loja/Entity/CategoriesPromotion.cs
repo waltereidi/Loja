@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace Dominio.loja.Entity
 {
     [Table("categoriesPromotion")]
-    public class CategoriesPromotion : Entity
+    public class CategoriesPromotion : MasterEntity<int>
     {
         [Key]
         public int CategoriesPromotionId { get; set; }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity
 {
     [Table("clients")]
-    public class Clients : Entity
+    public class Clients : MasterEntity<int>
     {
         [Key]
         public int ClientsId { get; set; }

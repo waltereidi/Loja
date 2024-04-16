@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity
 {
     [Table("clientsProductsCart")]
-    public class ClientsProductsCart : Entity
+    public class ClientsProductsCart : MasterEntity<int>
     {
         [Key]
         public int ClientsProductsCartId {get;set;}

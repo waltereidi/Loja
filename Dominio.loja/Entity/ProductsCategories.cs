@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("productsCategories")]
-    public class ProductsCategories : Entity
+    public class ProductsCategories : MasterEntity<int>
     {
         [Key]
         public int ProductsCategoriesId { set; get; }

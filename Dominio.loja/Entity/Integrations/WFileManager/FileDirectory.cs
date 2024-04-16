@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [Table("FileDirectory")]
-    public class FileDirectory : Entity
+    public class FileDirectory : MasterEntity<int>
     {
         [Key]
         public int FileDirectoryId { get; set; }
@@ -34,5 +34,10 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         }
         public static explicit operator FileDirectory(string dir) => new FileDirectory(dir);
         public static explicit operator FileDirectory(int id) => new FileDirectory(id);
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
