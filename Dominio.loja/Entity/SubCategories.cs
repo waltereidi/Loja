@@ -11,13 +11,21 @@ namespace Dominio.loja.Entity
     [Table("SubCategories")]
     public class SubCategories : MasterEntity<int>
     {
-        [Key]
-        public int SubCategoriesId {get;set;}
+
         [StringLength(30)]
         public string Name { get;set;}
         public string Description { get; set; }
         public int ID_Categories { get;set;}
         public virtual ICollection<SubSubCategories> SubSubCategories { get;set;}
 
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

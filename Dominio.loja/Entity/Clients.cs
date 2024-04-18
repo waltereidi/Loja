@@ -7,8 +7,7 @@ namespace Dominio.loja.Entity
     [Table("clients")]
     public class Clients : MasterEntity<int>
     {
-        [Key]
-        public int ClientsId { get; set; }
+
 
         [StringLength(320)]
         public string Email { get; set; }
@@ -20,5 +19,14 @@ namespace Dominio.loja.Entity
         public virtual PermissionsGroup? PermissionsGroup { get; set; }
         public virtual ICollection<ClientsProductsCart> ClientsProductsCart { get; set; }
 
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

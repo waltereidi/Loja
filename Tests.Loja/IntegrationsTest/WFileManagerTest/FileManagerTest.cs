@@ -9,7 +9,7 @@ namespace Tests.loja.IntegrationsTest.WFileManagerTest
     [TestClass]
     public class FileManagerTest
     {
-        private readonly  FileManager _fileManager = new FileManager();
+        private readonly  FileManager _fileManager = new ();
         public FileManagerTest()
         {
         }

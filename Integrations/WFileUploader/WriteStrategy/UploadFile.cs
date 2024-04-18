@@ -18,7 +18,7 @@ namespace WFileManager.loja.WriteStrategy
         private readonly IFormFile _formFile;
         private readonly UploadOptions _options;
         private readonly FileDirectory _dir;
-        private readonly FileManagerUtility _utils = new FileManagerUtility();
+        private readonly FileManagerUtility _utils = new ();
         private readonly string _path = Path.Combine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory);
         public UploadFile(IFormCollection file , FileDirectory dir =null) 
         {

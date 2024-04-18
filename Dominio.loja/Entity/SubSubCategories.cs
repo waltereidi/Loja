@@ -8,9 +8,19 @@ namespace Dominio.loja.Entity
 {
     public class SubSubCategories : MasterEntity<int>
     {
-        public int SubSubCategoriesId { get; set; }
+
         public int SubCategoriesId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

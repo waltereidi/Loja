@@ -11,12 +11,20 @@ namespace Dominio.loja.Entity
     [Table("productsPrices")]
     public class ProductsPrices : MasterEntity<int>
     {
-        [Key]
-        public int ProductsPriceId { get; set; }
+
         [ForeignKey("ProductsId")]
         public int ProductsId { get; set; }
         [ForeignKey("PricesId")]
         public int PricesId { get;set; }
 
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

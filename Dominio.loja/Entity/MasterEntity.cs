@@ -12,7 +12,7 @@ namespace Dominio.loja.Entity
         public TId Id { get; protected set; }
         public DateTime? Created_at { get; set; }
         public DateTime? Updated_at { get; set; }
-        protected MasterEntity() => _changes = new List<object>();
+        protected MasterEntity() => _changes = new();
         protected void Apply(object @event)
         {
             When(@event);

@@ -20,7 +20,7 @@ namespace Tests.Loja.Tests.Utils
     [TestClass]
     public class ERPlusTest
     {
-        private string path;
+        private readonly string path;
         public ERPlusTest()
         {
             path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "") + "\\TestFiles\\CreatedFiles\\";

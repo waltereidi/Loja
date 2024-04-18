@@ -30,18 +30,18 @@ namespace Api.loja.Controllers.Store
         public async Task<IActionResult> GetEditMyProfile([FromHeader] int ID_Clients)
         {
             
-            if (_context.clients.Any(x => x.ClientsId == ID_Clients))
-            {
-                Clients clients = _context.clients
-                    .Select(s => new Clients
-                    {
-                        ClientsId = s.ClientsId,
-                        Password = s.Password,
-                    })
-                    .First(x => x.ClientsId == ID_Clients);
+            //if (_context.clients.Any(x => x.ClientsId == ID_Clients))
+            //{
+            //    Clients clients = _context.clients
+            //        .Select(s => new Clients
+            //        {
+            //            Id = s.Id,
+            //            Password = s.Password,
+            //        })
+            //        .First(x => x.ClientsId == ID_Clients);
 
-                return Ok(new ResponseModel(true, clients));
-            }
+            //    return Ok(new ResponseModel(true, clients));
+            //}
             return NotFound();
         }
 
@@ -53,12 +53,12 @@ namespace Api.loja.Controllers.Store
         {
             try
             {
-                if (_context.clients.Any(x => x.ClientsId == dataSource.ClientsId))
-                {
-                    _context.clients.Update(dataSource);
-                    _context.SaveChanges();
-                    return Ok();
-                }
+                //if (_context.clients.Any(x => x.ClientsId == dataSource.ClientsId))
+                //{
+                //    _context.clients.Update(dataSource);
+                //    _context.SaveChanges();
+                //    return Ok();
+                //}
             }
             catch (UpdateException ex)
             {
@@ -72,12 +72,12 @@ namespace Api.loja.Controllers.Store
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetOrdersRequest([FromHeader] int ID_Clients)
         {
-            if (_context.clientsProducts_cart.Any(x => x.ClientsId == ID_Clients))
-            {
-                List<ClientsProductsCart> productsCart = _context.clientsProducts_cart.Where(x => x.ClientsId == ID_Clients).ToList();
+            //if (_context.clientsProducts_cart.Any(x => x.ClientsId == ID_Clients))
+            //{
+            //    var productsCart = (List<ClientsProductsCart>)_context.clientsProducts_cart.Where(x => x.ClientsId == ID_Clients);
 
-                return Ok(new ResponseModel(true, productsCart));
-            }
+            //    return Ok(new ResponseModel(true, productsCart));
+            //}
             return NotFound();
         }
         [HttpPost]
@@ -86,38 +86,39 @@ namespace Api.loja.Controllers.Store
 
         public async Task<IActionResult> PostOrdersRequest([FromBody] OrdersRequest dataSource)
         {
-            if (_context.clients.Any(x => x.ClientsId == dataSource.ClientsId))
-            {
-                try
-                {
-                    var request = new RequestOrders
-                    {
-                        ClientsId = dataSource.ClientsId,
-                        Description = dataSource.Description,
-                        Created_at = DateTime.Now
-                    };
+            //if (_context.clients.Any(x => x.ClientsId == dataSource.ClientsId))
+            //{
+            //    try
+            //    {
+            //        var request = new RequestOrders
+            //        {
+            //            ClientsId = dataSource.ClientsId,
+            //            Description = dataSource.Description,
+            //            Created_at = DateTime.Now
+            //        };
 
-                    var createdRequest = _context.requestOrders.Add(request);
-                    dataSource.CartProducts.ForEach(f =>
-                    {
-                        RequestOrdersProducts requestOrdersProducts = new RequestOrdersProducts()
-                        {
-                            Created_at = DateTime.Now,
-                            ProductsId = f.ProductsId,
-                            Quantity = f.Quantity,
-                            RequestOrdersId = createdRequest.Entity.ClientsId
-                        };
-                        _context.requestOrdersProducts.Add(requestOrdersProducts);
-                    });
+            //        var createdRequest = _context.requestOrders.Add(request);
+            //        dataSource.CartProducts.ForEach(f =>
+            //        {
+            //            RequestOrdersProducts requestOrdersProducts = new ()
+            //            {
+            //                Created_at = DateTime.Now,
+            //                ProductsId = f.ProductsId,
+            //                Quantity = f.Quantity,
+            //                RequestOrdersId = createdRequest.Entity.ClientsId
+            //            };
+            //            _context.requestOrdersProducts.Add(requestOrdersProducts);
+            //        });
 
-                    return Ok(new ResponseModel(true, _context.SaveChanges()));
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-                }
-            }
-            return StatusCode((int)HttpStatusCode.NotAcceptable);
+            //        return Ok(new ResponseModel(true, _context.SaveChanges()));
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            //    }
+            //}
+            //return StatusCode((int)HttpStatusCode.NotAcceptable);
+            return Ok();
         }
 
         [HttpPut]
@@ -125,27 +126,27 @@ namespace Api.loja.Controllers.Store
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutCartProducts(ProductsRequest request)
         {
-            if (_context.clients.Any(x => x.ClientsId == request.ClientsId) && _context.products.Any(x => x.ProductsId == request.ProductsId))
-            {
-                var cartProducts = new ClientsProductsCart()
-                {
-                    ClientsId = request.ClientsId,
-                    ProductsId = request.ProductsId,
-                    IsActive = true,
-                    Quantity = request.Quantity,
-                    Created_at = DateTime.Now,
-                };
-                try
-                {
-                    _context.clientsProducts_cart.Add(cartProducts);
-                    return Ok(new ResponseModel(_context.SaveChanges()));
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-                }
+            //if (_context.clients.Any(x => x.ClientsId == request.ClientsId) && _context.products.Any(x => x.ProductsId == request.ProductsId))
+            //{
+            //    var cartProducts = new ClientsProductsCart()
+            //    {
+            //        ClientsId = request.ClientsId,
+            //        ProductsId = request.ProductsId,
+            //        IsActive = true,
+            //        Quantity = request.Quantity,
+            //        Created_at = DateTime.Now,
+            //    };
+            //    try
+            //    {
+            //        _context.clientsProducts_cart.Add(cartProducts);
+            //        return Ok(new ResponseModel(_context.SaveChanges()));
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            //    }
 
-            }
+            //}
             return NotFound();
         }
         [HttpDelete]
@@ -153,12 +154,12 @@ namespace Api.loja.Controllers.Store
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCartProducts(int CartProductsId)
         {
-            if (_context.clientsProducts_cart.Any(x => CartProductsId == x.ClientsProductsCartId))
-            {
-                var entity = _context.clientsProducts_cart.Find(CartProductsId);
-                _context.clientsProducts_cart.Remove(entity);
-                return Ok(new ResponseModel(_context.SaveChanges()));
-            }
+            //if (_context.clientsProducts_cart.Any(x => CartProductsId == x.ClientsProductsCartId))
+            //{
+            //    var entity = _context.clientsProducts_cart.Find(CartProductsId);
+            //    _context.clientsProducts_cart.Remove(entity);
+            //    return Ok(new ResponseModel(_context.SaveChanges()));
+            //}
             return NotFound();
 
         }
@@ -167,11 +168,11 @@ namespace Api.loja.Controllers.Store
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCartProducts(int ClientsId)
         {
-            if (_context.clients.Any(x => x.ClientsId == ClientsId))
-            {
-                var clientsCartProducts = _context.clients.Where(x => x.ClientsId == ClientsId).Select(s => s.ClientsProductsCart);
-                return Ok(new ResponseModel(true, clientsCartProducts));
-            }
+            //if (_context.clients.Any(x => x.ClientsId == ClientsId))
+            //{
+            //    var clientsCartProducts = _context.clients.Where(x => x.ClientsId == ClientsId).Select(s => s.ClientsProductsCart);
+            //    return Ok(new ResponseModel(true, clientsCartProducts));
+            //}
             return NotFound();
         }
 

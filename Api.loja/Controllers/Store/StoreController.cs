@@ -33,7 +33,7 @@ namespace Api.loja.Controllers.Store
                 string issuer = _configuration.GetSection("Jwt").GetSection("Issuer").Value;
 
 
-                LoginResponse response = new LoginResponse(query.First(), issuer, key);
+                LoginResponse response = new (query.First(), issuer, key);
                 return Ok(response);
 
             }

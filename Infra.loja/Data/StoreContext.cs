@@ -22,44 +22,44 @@ namespace Api.loja.Data
         public virtual DbSet<SubCategories> subCategories { get; set; }
         public virtual DbSet<SubSubCategories> subSubCategories { get; set; }
         public virtual DbSet<CategoriesPromotion> categoriesPromotion { get; set; }
-		private  void CreateCategoriesORM(ModelBuilder modelBuilder)
+		private void CreateCategoriesORM(ModelBuilder modelBuilder)
 		{
             //Categories Promotion
             modelBuilder.Entity<CategoriesPromotion>(entity =>
 			{
-				entity.HasKey(e => e.CategoriesPromotionId);
+				entity.HasKey(e => e.Id);
 
 				entity.HasOne(e => e.Categories)
 				.WithOne()
-				.HasForeignKey<CategoriesPromotion>(e => e.CategoriesId)
-				.HasPrincipalKey<Categories>(e => e.CategoriesId).OnDelete(DeleteBehavior.Restrict);
+				.HasForeignKey<CategoriesPromotion>(e => e.Id)
+				.HasPrincipalKey<Categories>(e => e.Id).OnDelete(DeleteBehavior.Restrict);
 			});
 			modelBuilder.Entity<Categories>(entity =>
 			{
-				entity.HasKey(e => e.CategoriesId);
+				entity.HasKey(e => e.Id);
 
 				entity.HasMany(e => e.SubCategories)
 				.WithOne()
-				.HasForeignKey(e => e.SubCategoriesId)
-				.HasPrincipalKey(e => e.CategoriesId);
+				.HasForeignKey(e => e.Id)
+				.HasPrincipalKey(e => e.Id);
 			});
 			modelBuilder.Entity<SubCategories>(entity => 
 			{
-				entity.HasKey(e=> e.SubCategoriesId);
+				entity.HasKey(e=> e.Id);
 
 				entity.HasMany(e => e.SubSubCategories)
 				.WithOne()
-				.HasForeignKey(e => e.SubSubCategoriesId)
-				.HasPrincipalKey(e => e.SubCategoriesId);
+				.HasForeignKey(e => e.Id)
+				.HasPrincipalKey(e => e.Id);
 			});
 			modelBuilder.Entity<CategoriesPromotion>(entity =>
 			{
-				entity.HasKey(e => e.CategoriesPromotionId) ;
+				entity.HasKey(e => e.Id) ;
 
 				entity.HasMany(e => e.ProductsCategories)
 				.WithOne()
 				.HasForeignKey(e => e.CategoriesId)
-				.HasPrincipalKey(e=> e.CategoriesId);
+				.HasPrincipalKey(e=> e.Id);
 			});
 		}
 		public virtual DbSet<Clients> clients { get; set; }
@@ -75,7 +75,7 @@ namespace Api.loja.Data
 				entity.Property(e => e.Email).IsConcurrencyToken();
                 entity.HasOne(e => e.PermissionsGroup)
 				.WithOne()
-				.HasForeignKey<PermissionsGroup>(e=> e.PermissionsGroupId);
+				.HasForeignKey<PermissionsGroup>(e=> e.Id);
 
 				entity.HasMany(e => e.ClientsProductsCart)
 				.WithOne()
@@ -84,19 +84,19 @@ namespace Api.loja.Data
 			//PermissionsGroup
 			modelBuilder.Entity<PermissionsGroup>(entity =>
 			{
-				entity.HasKey(e=> e.PermissionsGroupId);
+				entity.HasKey(e=> e.Id);
 				entity.HasMany(e => e.PermissionsRelations)
 				.WithOne()
-				.HasForeignKey(e => e.PermissionsRelationId);
+				.HasForeignKey(e => e.PermissionsGroupId);
 			});
 			//PermissionsRelation
 			modelBuilder.Entity<PermissionsRelation>(entity =>
 			{
-				entity.HasKey(e => e.PermissionsRelationId);
+				entity.HasKey(e => e.Id);
 
 				entity.HasOne(e => e.Permissions)
 				.WithOne()
-				.HasForeignKey<Permissions>(e => e.PermissionsId);
+				.HasForeignKey<Permissions>(e => e.Id);
 			});
 			
 		}
@@ -110,26 +110,26 @@ namespace Api.loja.Data
 			//Products
 			modelBuilder.Entity<Products>(entity =>
 			{
-				entity.HasKey(e => e.ProductsId);
+				entity.HasKey(e => e.Id);
 				entity.HasOne(e => e.ProductsCategories)
 				.WithOne()
-				.HasForeignKey<ProductsCategories>(e => e.ProductsCategoriesId);
+				.HasForeignKey<ProductsCategories>(e => e.ProductsId);
 
 				entity.HasOne(e => e.ProductsSubCategories)
 				.WithOne()
-				.HasForeignKey<ProductsSubCategories>(e => e.ProductsSubCategoriesId);
+				.HasForeignKey<ProductsSubCategories>(e => e.ProductsId);
 
 				entity.HasOne(e => e.ProductsSubSubCategories)
 				.WithOne()
-				.HasForeignKey<ProductsSubSubCategories>(e => e.ProductsSubSubCategoriesId);
+				.HasForeignKey<ProductsSubSubCategories>(e => e.ProductsId);
 			});
 			modelBuilder.Entity<ProductsCategories>(entity =>
 			{
-				entity.HasKey(e => e.ProductsCategoriesId);
+				entity.HasKey(e => e.Id);
 
 				entity.HasOne(e => e.Products)
 				.WithOne(e => e.ProductsCategories)
-				.HasForeignKey<Products>(e => e.ProductsId)
+				.HasForeignKey<Products>(e => e.Id)
 				.HasPrincipalKey<ProductsCategories>(e=> e.ProductsId);
 			});
 		
@@ -142,28 +142,28 @@ namespace Api.loja.Data
 			//RequestOrders 
 			modelBuilder.Entity<RequestOrders>(entity =>
 			{
-				entity.HasKey(e=> e.RequestOrdersId);
+				entity.HasKey(e=> e.Id);
 
 				entity.HasMany(e => e.RequestOrdersProducts)
 				.WithOne()
-				.HasForeignKey(e=> e.RequestOrdersProductsId);
+				.HasForeignKey(e=> e.RequestOrdersId);
 			});
 			//RequestOrders Products
 			modelBuilder.Entity<RequestOrdersProducts>(entity =>
 			{
-				entity.HasKey(e => e.RequestOrdersProductsId);
+				entity.HasKey(e => e.Id);
 
 				entity.HasOne(e => e.Products)
 				.WithOne()
-				.HasForeignKey<Products>(e=>e.ProductsId);
+				.HasForeignKey<Products>(e=>e.Id);
 			});
             //ClientsProductsCart 
             modelBuilder.Entity<ClientsProductsCart>(entity =>
             {
-                entity.HasKey(e => e.ClientsProductsCartId);
+                entity.HasKey(e => e.Id);
                 entity.HasOne(e => e.Products)
                 .WithOne()
-                .HasForeignKey<Products>(e => e.ProductsId);
+                .HasForeignKey<Products>(e => e.Id);
             });
         }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -180,11 +180,11 @@ namespace Api.loja.Data
         {
 			modelBuilder.Entity<FileStorage>(entity =>
 			{
-				entity.HasKey(e => e.FileStorageId);
+				entity.HasKey(e => e.Id);
 
 				entity.HasOne(e => e.Directory)
 				.WithOne()
-				.HasForeignKey<FileDirectory>(e => e.FileDirectoryId);
+				.HasForeignKey<FileDirectory>(e => e.Id);
 			});
         }
     }

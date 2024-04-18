@@ -15,7 +15,6 @@ namespace Tests.loja.IntegrationsTest.WFileManagerTest
         private readonly FileStorage fs;
         public FileStorageTest() 
         {
-            fs = new FileStorage(new Events.FileUploaded(){ FormFile = null });
         }
     }
 }

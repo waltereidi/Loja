@@ -9,10 +9,8 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
     [Table("FileDirectory")]
     public class FileDirectory : MasterEntity<int>
     {
-        public static explicit operator FileDirectory(string dir) => new FileDirectory(dir);
-        public static explicit operator FileDirectory(int id) => new FileDirectory(id);
-        [Key]
-        public int FileDirectoryId { get; set; }
+        public static explicit operator FileDirectory(string dir) => new (dir);
+        public static explicit operator FileDirectory(int id) => new (id);
         [Required]
         public string DirectoryName { get; set; }
         public FileDirectory()
@@ -26,7 +24,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         }
         public FileDirectory(int id)
         {
-            FileDirectoryId = id;
+            Id = id;
         }
 
         public static implicit operator string(FileDirectory fd)
@@ -36,7 +34,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         }
         protected override void When(object @event)
         {
-  
+            var i = @event;
         }
 
         protected override void EnsureValidState()

@@ -12,8 +12,6 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
     [Table("FileStorage")]
     public class FileStorage : MasterEntity<int>
     {
-        [Key]
-        public int FileStorageId { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime CreationTimeUtc { get; set; }
         public long Length { get; set; }
@@ -39,6 +37,11 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
                 case FileManagerEvents.FileUploaded e:; break;
 
             }
+        }
+
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
         }
     }
 }

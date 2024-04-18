@@ -17,7 +17,7 @@ namespace RabbitMQ.loja
         private EventingBasicConsumer _consumer { get; set; }
         public FileUploadServer(string hostname)
         {
-            Configurations config = new Configurations();
+            Configurations config = new ();
             _configuration = config._configuration;
 
             _factory = new ConnectionFactory { HostName = _configuration.GetSection("UploadQueue:HostName").Value };

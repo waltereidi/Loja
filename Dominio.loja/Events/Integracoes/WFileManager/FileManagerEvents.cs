@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Events.Integracoes.WFileManager
 {
-    public  class FileManagerEvents : Events
+    public  class FileManagerEvents 
     {
         public class FileUploaded
         { 

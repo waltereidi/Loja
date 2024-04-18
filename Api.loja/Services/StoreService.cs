@@ -5,7 +5,7 @@ namespace Api.loja.Services
 {
     public class StoreService 
     {
-        IStoreControllerContext _context;
+        private readonly IStoreControllerContext _context;
         public StoreService( StoreContext context )
         {
             _context = context;

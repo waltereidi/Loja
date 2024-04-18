@@ -10,9 +10,9 @@ namespace Utils.loja.Queue
     public class Queue : IQueue
     {
         public int counter { get; set; } = 0;
-        public List<Task<string>> StoredResults { get; set; } = new List<Task<string>>();
+        public List<Task<string>> StoredResults { get; set; } = new();
         public List<Thread> StoredThreads { get; set; } = new List<Thread>();
-        public List<string> StoredConcurrency { get; set; } = new List<string>();
+        public List<string> StoredConcurrency { get; set; } = new ();
         private Thread ThreadA;
         private Thread ThreadB;
 

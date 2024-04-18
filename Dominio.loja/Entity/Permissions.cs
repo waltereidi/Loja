@@ -9,12 +9,21 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("permissions")]
-    public abstract class Permissions : MasterEntity<int>
+    public class Permissions : MasterEntity<int>
     {
-        [Key]
-        public int PermissionsId { get; set; }
+
 
         [StringLength(255)]
         public string Name { get; set; }
+
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

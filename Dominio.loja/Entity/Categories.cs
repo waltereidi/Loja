@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("categories")]
-    public abstract class Categories : MasterEntity<int>
+    public class Categories : MasterEntity<int>
     {
 
         [StringLength(120)]
@@ -18,6 +18,16 @@ namespace Dominio.loja.Entity
         [StringLength(2048)]
         public string? Description { get; set; }
         public virtual ICollection<SubCategories> SubCategories { get; set; }
+
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

@@ -11,9 +11,18 @@ namespace Dominio.loja.Entity
     [Table("ProductsSubCategories")]
     public class ProductsSubCategories : MasterEntity<int>
     {
-        [Key]
-        public int ProductsSubCategoriesId { get; set; }
+
         public int ProductsId { get; set; }
         public int SubCategoriesId { get; set; }
+
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

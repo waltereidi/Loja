@@ -12,8 +12,7 @@ namespace Dominio.loja.Entity
     [Table("permissionsRelation")]
     public class PermissionsRelation : MasterEntity<int>
     {
-        [Key]
-        public int PermissionsRelationId { get; set; }
+
 
         [ForeignKey("PermissionsGroupId")]
         public int PermissionsGroupId { get; set; }
@@ -21,5 +20,14 @@ namespace Dominio.loja.Entity
         public int PermissionsId { get; set; }
         public virtual Permissions Permissions { get; set; }
 
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

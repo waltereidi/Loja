@@ -22,7 +22,7 @@ namespace RabbitMQ.loja
         private readonly ConcurrentDictionary<string, TaskCompletionSource<string>> callbackMapper = new();
         public FileUploadClient()
         {
-            Configurations config = new Configurations();
+            Configurations config = new ();
             IConfiguration _configuration = config._configuration;
 
             _factory = new ConnectionFactory { HostName = _configuration.GetSection("UploadQueue:QueueName").Value };

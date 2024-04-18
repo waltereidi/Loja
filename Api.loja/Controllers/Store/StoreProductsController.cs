@@ -12,7 +12,7 @@ namespace Api.loja.Controllers.Store
     [ApiController]
     public class StoreProductsController : BaseController
     {
-        IStoreProductsControllerContext _context;
+        private readonly IStoreProductsControllerContext _context;
         public StoreProductsController(ILogger<StoreProductsController> logger, StoreContext context) : base(logger)
         {
             _context = context;
@@ -38,7 +38,7 @@ namespace Api.loja.Controllers.Store
         [HttpGet]
         public async Task<IActionResult> GetProduct(int id)
         {
-            return Ok(_context.products.Any(x => x.ProductsId == id) ? _context.products.Single(x => x.ProductsId == id) : null);
+            return Ok(_context.products.Any(x => x.Id == id) ? _context.products.Single(x => x.Id== id) : null);
         }
 
     }

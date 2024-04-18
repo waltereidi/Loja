@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.loja.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240118235045_RequestOrdersClientsIdForeignKey")]
-    partial class RequestOrdersClientsIdForeignKey
+    [Migration("20240417233647_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -30,11 +30,11 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.Categories", b =>
                 {
-                    b.Property<int>("CategoriesId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriesId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Created_at")
                         .HasColumnType("datetime2");
@@ -51,18 +51,15 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("CategoriesId");
+                    b.HasKey("Id");
 
                     b.ToTable("categories");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.CategoriesPromotion", b =>
                 {
-                    b.Property<int>("CategoriesPromotionId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("Id")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriesPromotionId"));
 
                     b.Property<int>("CategoriesId")
                         .HasColumnType("int");
@@ -79,18 +76,18 @@ namespace Infra.loja.Migrations
                     b.Property<bool>("isActive")
                         .HasColumnType("bit");
 
-                    b.HasKey("CategoriesPromotionId");
+                    b.HasKey("Id");
 
                     b.ToTable("categoriesPromotion");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Clients", b =>
                 {
-                    b.Property<int>("ClientsId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientsId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Created_at")
                         .HasColumnType("datetime2");
@@ -111,7 +108,7 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ClientsId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PermissionsGroupId");
 
@@ -120,11 +117,11 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.ClientsProductsCart", b =>
                 {
-                    b.Property<int>("ClientsProductsCartId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientsProductsCartId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClientsId")
                         .HasColumnType("int");
@@ -144,56 +141,123 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ClientsProductsCartId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ClientsId");
 
                     b.ToTable("clientsProductsCart");
                 });
 
-            modelBuilder.Entity("Dominio.loja.Entity.Permissions", b =>
+            modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.FileDirectory", b =>
                 {
-                    b.Property<int>("PermissionsId")
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DirectoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileDirectory");
+                });
+
+            modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", b =>
+                {
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionsId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FileDirectoryId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("Length")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileStorage");
+                });
+
+            modelBuilder.Entity("Dominio.loja.Entity.Permissions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("PermissionsId");
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
 
                     b.ToTable("permissions");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.PermissionsGroup", b =>
                 {
-                    b.Property<int>("PermissionsGroupId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionsGroupId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("PermissionsGroupId");
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
 
                     b.ToTable("permissionsGroup");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.PermissionsRelation", b =>
                 {
-                    b.Property<int>("PermissionsRelationId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionsRelationId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Created_at")
                         .HasColumnType("datetime2");
@@ -207,7 +271,7 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("PermissionsRelationId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PermissionsGroupId");
 
@@ -218,11 +282,11 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.Prices", b =>
                 {
-                    b.Property<int>("PricesId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PricesId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Created_at")
                         .HasColumnType("datetime2");
@@ -238,14 +302,14 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("PricesId");
+                    b.HasKey("Id");
 
                     b.ToTable("prices");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Products", b =>
                 {
-                    b.Property<int>("ProductsId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("Created_at")
@@ -270,18 +334,18 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ProductsId");
+                    b.HasKey("Id");
 
                     b.ToTable("products");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsCategories", b =>
                 {
-                    b.Property<int>("ProductsCategoriesId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductsCategoriesId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoriesId")
                         .HasColumnType("int");
@@ -295,7 +359,7 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ProductsCategoriesId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoriesId");
 
@@ -304,11 +368,11 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsPrices", b =>
                 {
-                    b.Property<int>("ProductsPriceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductsPriceId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Created_at")
                         .HasColumnType("datetime2");
@@ -322,7 +386,7 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("ProductsPriceId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProductsId");
 
@@ -331,11 +395,14 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsStorage", b =>
                 {
-                    b.Property<int>("ProductsStorageId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductsStorageId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -348,7 +415,10 @@ namespace Infra.loja.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductsStorageId");
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ProductsId")
                         .IsUnique();
@@ -358,8 +428,14 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsSubCategories", b =>
                 {
-                    b.Property<int>("ProductsSubCategoriesId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ProductsId")
                         .HasColumnType("int");
@@ -367,15 +443,27 @@ namespace Infra.loja.Migrations
                     b.Property<int>("SubCategoriesId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductsSubCategoriesId");
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductsId")
+                        .IsUnique();
 
                     b.ToTable("ProductsSubCategories");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsSubSubCategories", b =>
                 {
-                    b.Property<int>("ProductsSubSubCategoriesId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ProductsId")
                         .HasColumnType("int");
@@ -383,18 +471,24 @@ namespace Infra.loja.Migrations
                     b.Property<int>("SubSubCategoriesId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductsSubSubCategoriesId");
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductsId")
+                        .IsUnique();
 
                     b.ToTable("ProductsSubSubCategories");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.RequestOrders", b =>
                 {
-                    b.Property<int>("RequestOrdersId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestOrdersId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClientsId")
                         .HasColumnType("int");
@@ -402,7 +496,7 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Created_at")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Descrption")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
@@ -410,15 +504,18 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("RequestOrdersId");
+                    b.HasKey("Id");
 
                     b.ToTable("requestOrders");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.RequestOrdersProducts", b =>
                 {
-                    b.Property<int>("RequestOrdersProductsId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Created_at")
                         .HasColumnType("datetime2");
@@ -435,15 +532,20 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("RequestOrdersProductsId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestOrdersId");
 
                     b.ToTable("RequestOrdersProducts");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.SubCategories", b =>
                 {
-                    b.Property<int>("SubCategoriesId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -457,15 +559,21 @@ namespace Infra.loja.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("SubCategoriesId");
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
 
                     b.ToTable("SubCategories");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.SubSubCategories", b =>
                 {
-                    b.Property<int>("SubSubCategoriesId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -478,16 +586,19 @@ namespace Infra.loja.Migrations
                     b.Property<int>("SubCategoriesId")
                         .HasColumnType("int");
 
-                    b.HasKey("SubSubCategoriesId");
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
 
-                    b.ToTable("SubSubCategories");
+                    b.HasKey("Id");
+
+                    b.ToTable("subSubCategories");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.CategoriesPromotion", b =>
                 {
                     b.HasOne("Dominio.loja.Entity.Categories", "Categories")
                         .WithOne()
-                        .HasForeignKey("Dominio.loja.Entity.CategoriesPromotion", "CategoriesId")
+                        .HasForeignKey("Dominio.loja.Entity.CategoriesPromotion", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -514,6 +625,15 @@ namespace Infra.loja.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.FileDirectory", b =>
+                {
+                    b.HasOne("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", null)
+                        .WithOne("Directory")
+                        .HasForeignKey("Dominio.loja.Entity.Integrations.WFileManager.FileDirectory", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Dominio.loja.Entity.PermissionsRelation", b =>
                 {
                     b.HasOne("Dominio.loja.Entity.PermissionsGroup", null)
@@ -535,20 +655,20 @@ namespace Infra.loja.Migrations
                 {
                     b.HasOne("Dominio.loja.Entity.ClientsProductsCart", null)
                         .WithOne("Products")
-                        .HasForeignKey("Dominio.loja.Entity.Products", "ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Dominio.loja.Entity.ProductsCategories", "ProductsCategories")
-                        .WithOne("Products")
-                        .HasForeignKey("Dominio.loja.Entity.Products", "ProductsId")
-                        .HasPrincipalKey("Dominio.loja.Entity.ProductsCategories", "ProductsId")
+                        .HasForeignKey("Dominio.loja.Entity.Products", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Dominio.loja.Entity.RequestOrdersProducts", null)
                         .WithOne("Products")
-                        .HasForeignKey("Dominio.loja.Entity.Products", "ProductsId")
+                        .HasForeignKey("Dominio.loja.Entity.Products", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dominio.loja.Entity.ProductsCategories", "ProductsCategories")
+                        .WithOne("Products")
+                        .HasForeignKey("Dominio.loja.Entity.Products", "Id")
+                        .HasPrincipalKey("Dominio.loja.Entity.ProductsCategories", "ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -560,7 +680,6 @@ namespace Infra.loja.Migrations
                     b.HasOne("Dominio.loja.Entity.CategoriesPromotion", null)
                         .WithMany("ProductsCategories")
                         .HasForeignKey("CategoriesId")
-                        .HasPrincipalKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -587,7 +706,7 @@ namespace Infra.loja.Migrations
                 {
                     b.HasOne("Dominio.loja.Entity.Products", null)
                         .WithOne("ProductsSubCategories")
-                        .HasForeignKey("Dominio.loja.Entity.ProductsSubCategories", "ProductsSubCategoriesId")
+                        .HasForeignKey("Dominio.loja.Entity.ProductsSubCategories", "ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -596,7 +715,7 @@ namespace Infra.loja.Migrations
                 {
                     b.HasOne("Dominio.loja.Entity.Products", null)
                         .WithOne("ProductsSubSubCategories")
-                        .HasForeignKey("Dominio.loja.Entity.ProductsSubSubCategories", "ProductsSubSubCategoriesId")
+                        .HasForeignKey("Dominio.loja.Entity.ProductsSubSubCategories", "ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -605,7 +724,7 @@ namespace Infra.loja.Migrations
                 {
                     b.HasOne("Dominio.loja.Entity.RequestOrders", null)
                         .WithMany("RequestOrdersProducts")
-                        .HasForeignKey("RequestOrdersProductsId")
+                        .HasForeignKey("RequestOrdersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -614,7 +733,7 @@ namespace Infra.loja.Migrations
                 {
                     b.HasOne("Dominio.loja.Entity.Categories", null)
                         .WithMany("SubCategories")
-                        .HasForeignKey("SubCategoriesId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -623,7 +742,7 @@ namespace Infra.loja.Migrations
                 {
                     b.HasOne("Dominio.loja.Entity.SubCategories", null)
                         .WithMany("SubSubCategories")
-                        .HasForeignKey("SubSubCategoriesId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -646,6 +765,12 @@ namespace Infra.loja.Migrations
             modelBuilder.Entity("Dominio.loja.Entity.ClientsProductsCart", b =>
                 {
                     b.Navigation("Products")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", b =>
+                {
+                    b.Navigation("Directory")
                         .IsRequired();
                 });
 

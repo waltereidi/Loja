@@ -21,7 +21,7 @@ namespace Dominio.loja.Dto.CustomEntities
         
         public LoginResponse(Clients client , string issuer , string jwtKey)
         {
-            List<Claim> listClaim = new List<Claim>();
+            List<Claim> listClaim = new ();
             client.PermissionsGroup.PermissionsRelations.ToList().ForEach(f => listClaim.Add(new Claim(ClaimTypes.Role ,f.Permissions.Name)));
 
             var tokenHandler = new JwtSecurityTokenHandler();

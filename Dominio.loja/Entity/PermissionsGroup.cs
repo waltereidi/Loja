@@ -11,12 +11,21 @@ namespace Dominio.loja.Entity
     [Table("permissionsGroup")]
     public class PermissionsGroup : MasterEntity<int>
     {
-        [Key]
-        public int PermissionsGroupId { get; set; }
+
 
         [StringLength(255)]
         public string Name {  get; set; }
 
         public virtual ICollection<PermissionsRelation> PermissionsRelations { get; set; }
+
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

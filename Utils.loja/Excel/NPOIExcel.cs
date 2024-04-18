@@ -52,7 +52,7 @@ namespace Utils.loja.Excel
             styleNormal.FillForegroundColor = IndexedColors.White.Index;
             styleError.FillPattern = FillPattern.SolidForeground;
             styleNormal.FillPattern = FillPattern.SolidForeground;
-            List<HSSFCellStyle> Return = new List<HSSFCellStyle>();
+            List<HSSFCellStyle> Return = new ();
 
             Return.Add(styleHeader);
             Return.Add(styleRowStrong);
@@ -107,7 +107,7 @@ namespace Utils.loja.Excel
         private List<string> GetSheetHeaders<T>(T data)
         {
             string[] headerNames = data.GetType().GetProperties().Select(key => key.Name).ToArray();
-            List<string> Return = new List<string>();
+            List<string> Return = new ();
             foreach (var header in headerNames.Select((Name, i) => new { Name, i }))
             {
                 Return.Add(header.Name);
@@ -148,7 +148,7 @@ namespace Utils.loja.Excel
         }
         private List<string> ObjectToStringList( object data )
         {
-            List<string> Return = new List<string?>();
+            List<string> Return = new ();
             
             foreach( var prop in data.GetType().GetProperties().ToArray() )
             {
@@ -160,7 +160,7 @@ namespace Utils.loja.Excel
         
         public HSSFWorkbook CreateExcel<T>(List<T> data , NPOISheetStyles sheetStyle )
         {
-            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFWorkbook workbook = new ();
 
             List<HSSFCellStyle> styleList = CreateStyle(workbook, sheetStyle);
 
@@ -189,14 +189,14 @@ namespace Utils.loja.Excel
         public Tuple<bool , IWorkbook?> ReturnValidationSheet<T>(List<T> validationClass , NPOISheetStyles sheetStyle ) where T : class
         {
             //Sheet setup 
-            List<ExcelValidatedRow> excelValidationRows = new List<ExcelValidatedRow>();
-            HSSFWorkbook workbook = new HSSFWorkbook();
+            List<ExcelValidatedRow> excelValidationRows = new ();
+            HSSFWorkbook workbook = new ();
             List<HSSFCellStyle> styleList = CreateStyle(workbook, sheetStyle);
             ISheet sheet = workbook.CreateSheet("Report");
             IRow HeaderRow = sheet.CreateRow(0);
             CreateSheetHeader(HeaderRow, validationClass.First(), styleList.First());
             IDrawing drawing = sheet.CreateDrawingPatriarch();
-            HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, 1, 1, 1, 1);
+            HSSFClientAnchor anchor = new (0, 0, 0, 0, 1, 1, 1, 1);
             IComment comment = drawing.CreateCellComment(anchor);
             //Create cell comment
 
@@ -204,7 +204,7 @@ namespace Utils.loja.Excel
             //Gets all rows inside of list and get all attributes of class  and validate every custom attribute inside of class attribute.
             foreach ( var row in validationClass.Select( (row , index) => new { values = row , index = index+1  } ) ) //For every class inside of the list , starts validation
             {
-                List<ExcelValidatedCell> excelValidationCells = new List<ExcelValidatedCell>();
+                List<ExcelValidatedCell> excelValidationCells = new ();
                 var debug = row.values.GetType().GetMembers();
                 IRow newRow = sheet.CreateRow(row.index);
                 foreach (var member in row.values.GetType().GetMembers().Where( x=> x.MemberType == MemberTypes.Property).Select( (values , index)=> new{ values , index } ).ToList()) //For every attribute inside of the class start validation
@@ -212,7 +212,7 @@ namespace Utils.loja.Excel
                     
                     string cellValue = row.values.GetType().GetProperty(member.values.Name)?.GetValue(row.values).ToString(); //get Current cell value
 
-                    ExcelValidatedCell currentValidation = new ExcelValidatedCell(cellValue);
+                    ExcelValidatedCell currentValidation = new (cellValue);
                     foreach ( ExcelValidationAttributes attribute in member.values.GetCustomAttributes<ExcelValidationAttributes>().ToList() ) //For every Custom attribute inside of the class attribute
                     {
                         switch (attribute.Validation) //Validate row by custom attribute definition in class
@@ -254,10 +254,10 @@ namespace Utils.loja.Excel
         }
         public List<T> GetSheetValues<T>(IWorkbook workbook , int sheetNumber) where T : class
         {
-            Mapper mapper = new Mapper(workbook);
+            Mapper mapper = new (workbook);
             var obj= mapper.Take<T>(sheetNumber).ToList();
 
-            List<T> Return = new List<T>();
+            List<T> Return = new ();
             foreach (var item in obj)
             {
                 Return.Add(item.Value);
@@ -270,7 +270,7 @@ namespace Utils.loja.Excel
             var workbook = new HSSFWorkbook();
             if(File.Exists(path + fileName))
             {
-                using (FileStream file = new FileStream(path + fileName, FileMode.Open, FileAccess.Read))
+                using (FileStream file = new (path + fileName, FileMode.Open, FileAccess.Read))
                 {
                     try
                     {

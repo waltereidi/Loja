@@ -54,13 +54,13 @@ namespace Dominio.loja.Attributes
 
             if(MinLength >= 0 && MaxLength >= 0 || MinLength <=  MaxLength )
             {
-                Tuple<bool , string> invalidatedString = new Tuple<bool, string>(false, $"String must be smaller than {MinLength} and bigger than {MaxLength}");
+                Tuple<bool , string> invalidatedString = new(false, $"String must be smaller than {MinLength} and bigger than {MaxLength}");
 
-                return ( value.Length >= MinLength && value.Length <= MaxLength) ? new Tuple<bool, string>(true, "") : invalidatedString; 
+                return ( value.Length >= MinLength && value.Length <= MaxLength) ? new(true, "") : invalidatedString; 
             }
             else
             {
-                return new Tuple<bool, string>(false, "Invalid Constructor of method, parameters not set at attribute declaration");
+                return new(false, "Invalid Constructor of method, parameters not set at attribute declaration");
                 throw new InvalidDataException("minLen and maxLen must be setted , maxLen must be bigger than minLen and the provided value must be a string");
             }
 
@@ -70,11 +70,11 @@ namespace Dominio.loja.Attributes
             int numberValue = 0;
             if (int.TryParse(value, out numberValue))
             {
-                return new Tuple<bool, string>(true , "");
+                return new(true , "");
             }
             else
             {
-                return new Tuple<bool, string>(false, "Invalid number");
+                return new(false, "Invalid number");
             }
         }
 
@@ -82,10 +82,10 @@ namespace Dominio.loja.Attributes
         {
             if(String.IsNullOrEmpty(value))
             {
-                return new Tuple<bool, string>(false, "This value cannot be not empty");
+                return new(false, "This value cannot be not empty");
             }else
             {
-                return new Tuple<bool, string>(true , "");
+                return new(true , "");
             }
 
             
@@ -152,7 +152,7 @@ namespace Dominio.loja.Attributes
                 default: throw new InvalidDataException("Parameters defined in constructor not match defined returns");
             }
 
-                return !isValid ? new Tuple<bool, string>(false , "Invalid dateTimeFormat provided , allow") : new Tuple<bool, string>(true, ""); 
+                return !isValid ? new (false , "Invalid dateTimeFormat provided , allow") : new (true, ""); 
 
 
         }

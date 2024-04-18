@@ -8,8 +8,7 @@ namespace Dominio.loja.Entity
     [Table("clientsProductsCart")]
     public class ClientsProductsCart : MasterEntity<int>
     {
-        [Key]
-        public int ClientsProductsCartId {get;set;}
+
         public int Quantity { get;set;}
 
         public bool IsActive { get;set;}
@@ -20,5 +19,15 @@ namespace Dominio.loja.Entity
         public int ClientsId { get; set; }
 
         public virtual Products Products { get; set; }
+
+        protected override void EnsureValidState()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void When(object @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

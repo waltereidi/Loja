@@ -18,7 +18,7 @@ namespace Tests.Loja.TestAttributes
         public void StringLengthMustReturnTrueAndEmptyString()
         {
             //Setup 
-            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.StringLength , 3 , 12);
+            ExcelValidationAttributes excelValidationAttributes = new (ExcelValidation.StringLength , 3 , 12);
 
             //Action 
             var Return = excelValidationAttributes.StringLength("StringLength");
@@ -31,7 +31,7 @@ namespace Tests.Loja.TestAttributes
         public void StringLengthMustReturnFalseAndMessageString() 
         {
             //Setup 
-            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.StringLength, 3, 12);
+            ExcelValidationAttributes excelValidationAttributes = new (ExcelValidation.StringLength, 3, 12);
 
             //Action 
             var Return = excelValidationAttributes.StringLength("StringLengthTooBigForTheSettedMaximumLength");
@@ -56,7 +56,7 @@ namespace Tests.Loja.TestAttributes
         public void IsNumberReturnsFalseWhenInvalidNumber()
         {
             //Setup 
-            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.IsNumber);
+            ExcelValidationAttributes excelValidationAttributes = new (ExcelValidation.IsNumber);
             //Action
             var Return = excelValidationAttributes.IsNumber("sd");
             //Assert 
@@ -68,7 +68,7 @@ namespace Tests.Loja.TestAttributes
         public void RequiredReturnsFalseWhenValueIsEmptyAndTrueWhenValueNotEmpty()
         {
             //Setup
-            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.Required);
+            ExcelValidationAttributes excelValidationAttributes = new (ExcelValidation.Required);
             //Action 
             var Return = excelValidationAttributes.Required("");
             var ValidatedReturn = excelValidationAttributes.Required("Not Empty");
@@ -80,19 +80,19 @@ namespace Tests.Loja.TestAttributes
         public void DateTimeFormatReturnsTrueForAllWithValidTimeStampValues()
         {
             //Setup 
-            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat , DateTimeFormatValidation.ddmmyyyy);
+            ExcelValidationAttributes excelValidationAttributes = new (ExcelValidation.DateTimeFormat , DateTimeFormatValidation.ddmmyyyy);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("29/12/2023").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("2/2/2023").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("29-12-2023").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("23-2-2023").Item1);
 
-            excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyy);
+            excelValidationAttributes = new (ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyy);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("9/22/2023").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("2/23/2023").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("9-2-2023").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("12-30-2023").Item1);
 
-            excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyyHHMMSS );
+            excelValidationAttributes = new (ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyyHHMMSS );
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("9/22/2023 18:30:59").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("2/23/2023 21:11:02").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("9-2-2023 23:59:59").Item1);
@@ -101,7 +101,7 @@ namespace Tests.Loja.TestAttributes
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("12-30-2023 2:8:8").Item1);
 
 
-            excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat, DateTimeFormatValidation.ddmmyyyyHHMMSS);
+            excelValidationAttributes = new (ExcelValidation.DateTimeFormat, DateTimeFormatValidation.ddmmyyyyHHMMSS);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("22/02/2023 18:30:59").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("02/03/2023 21:11:02").Item1);
             Assert.IsTrue(excelValidationAttributes.DateTimeFormat("9-2-2023 23:59:59").Item1);
@@ -113,17 +113,17 @@ namespace Tests.Loja.TestAttributes
         public void DateTimeFormatRetutnsFalseWhenFormatIsNotValid()
         {
             //Setup 
-            ExcelValidationAttributes excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat, DateTimeFormatValidation.ddmmyyyy);
+            ExcelValidationAttributes excelValidationAttributes = new (ExcelValidation.DateTimeFormat, DateTimeFormatValidation.ddmmyyyy);
             Assert.IsFalse(excelValidationAttributes.DateTimeFormat("29/12/202").Item1);
 
-            excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyy);
+            excelValidationAttributes = new (ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyy);
             Assert.IsFalse(excelValidationAttributes.DateTimeFormat("9\\22\\2023").Item1);
 
-            excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyyHHMMSS);
+            excelValidationAttributes = new (ExcelValidation.DateTimeFormat, DateTimeFormatValidation.mmddyyyyHHMMSS);
             Assert.IsFalse(excelValidationAttributes.DateTimeFormat("9/32/2023 18:30:59").Item1);
 
 
-            excelValidationAttributes = new ExcelValidationAttributes(ExcelValidation.DateTimeFormat, DateTimeFormatValidation.ddmmyyyyHHMMSS);
+            excelValidationAttributes = new (ExcelValidation.DateTimeFormat, DateTimeFormatValidation.ddmmyyyyHHMMSS);
             Assert.IsFalse(excelValidationAttributes.DateTimeFormat("22/02/20232 18:30:59").Item1);
 
         }

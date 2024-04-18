@@ -34,7 +34,7 @@ namespace Tests.Loja.Tests.Utils
                 Updated_at = null,
                 Description = "TestCase",
                 Price = (decimal)0.15,
-                PricesId = 1
+              
             };
             path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net8.0\\", "") + "\\TestFiles\\CreatedFiles\\";
 
@@ -51,8 +51,6 @@ namespace Tests.Loja.Tests.Utils
 
             //Assert
             Assert.IsTrue(stringList.Count() == 5);
-            Assert.IsTrue(stringList[0] == _prices.PricesId.ToString());
-            Assert.IsTrue(stringList[1] == _prices.Price.ToString());
             Assert.IsTrue(stringList[2] == _prices.Description.ToString());
             Assert.IsTrue(stringList[3] == _prices.Created_at.ToString());
             Assert.IsTrue(stringList[4] == _prices.Updated_at.ToString());
@@ -82,7 +80,7 @@ namespace Tests.Loja.Tests.Utils
                 File.Delete(path);
             }
 
-            List<Prices> listPrices = new List<Prices>();
+            List<Prices> listPrices = new();
             listPrices.Add(_prices);
             listPrices.Add(_prices);
             listPrices.Add(_prices);
@@ -109,7 +107,7 @@ namespace Tests.Loja.Tests.Utils
                 File.Delete(path + "CreateExcelReturnsNotNUllObject.xlsx");
             }
             object obj = new { Property = "prop", Number = 1, Decimal = 0.1, DateTime = DateTime.Now, Boolean = true };
-            List<object> listObject = new List<object>();
+            List<object> listObject = new();
             listObject.Add(obj);
             listObject.Add(obj);
             listObject.Add(obj);
@@ -203,7 +201,7 @@ namespace Tests.Loja.Tests.Utils
         public void GetSheetValuesReturnsMappedObject()
         {
             //Setup 
-            List<Prices> prices = new List<Prices>();
+            List<Prices> prices = new();
             Prices price = new Prices();
             HSSFWorkbook workbook;
             using (FileStream file = new FileStream(path + "ValidSheetFromPricesClass.xlsx", FileMode.Open, FileAccess.Read))
@@ -227,7 +225,7 @@ namespace Tests.Loja.Tests.Utils
                 File.Delete(path + "ReturnValidationSheetReturnsSheet.xlsx");
             }
 
-            List<ExcelImportProducts> listProducts = new List<ExcelImportProducts>();
+            List<ExcelImportProducts> listProducts = new ();
             listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "1" });
             listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "s" });
             listProducts.Add(new ExcelImportProducts() { Name = "1", Description = "1", ID_Products = "1" });

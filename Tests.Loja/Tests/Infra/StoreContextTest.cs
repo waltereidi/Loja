@@ -1,7 +1,9 @@
 ﻿using Api.loja.Data;
 using Dominio.loja.Entity;
+using Dominio.loja.Entity.Integrations.WFileManager;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using System.Security.Permissions;
 
 namespace Tests.Loja.Tests.Infra
 {
@@ -52,7 +54,15 @@ namespace Tests.Loja.Tests.Infra
             Assert.IsTrue(result.RequestOrdersProducts is not null);
             Assert.IsTrue(result1.Products is not null);
         }
+        [TestMethod]
+        public void testEvents()
+        {
+            FileDirectory dir = new();
+            
 
+            Assert.IsFalse(false);
+
+        }
 
     }
 }

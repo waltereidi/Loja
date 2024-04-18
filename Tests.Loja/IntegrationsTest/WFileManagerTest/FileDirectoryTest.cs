@@ -12,7 +12,7 @@ namespace Tests.loja.IntegrationsTest.WFileManagerTest
     [TestClass]
     public class FileDirectoryTest
     {
-        private readonly FileDirectory _fd = new FileDirectory("TestDir");
+        private readonly FileDirectory _fd = new ("TestDir");
         [TestMethod]
         public void testc()
         {
