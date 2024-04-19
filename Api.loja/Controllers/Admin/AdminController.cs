@@ -19,47 +19,8 @@ namespace Api.loja.Controllers.Admin
             _context = context;
             _configuration = configuration;
         }
-        [HttpPost]
-        [ProducesResponseType<LoginResponse>(StatusCodes.Status200OK)]
-        [ProducesResponseType<string>(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [EnableRateLimiting("fixed")]
-        [AllowAnonymous]
-        public async Task<IActionResult>Login(LoginRequest request)
-        {
-            
-            try
-            {
-                var login  = _context.clients.Where(x => x.Email == request.Email && x.Password == request.Password);
-                if (!login.Any())
-                    return BadRequest("Incorrect email or password");
-
-                var response = new LoginResponse(login.First(), _configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Key").Value);
-               return Ok(response);   
-            }
-            catch(Exception ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
+    
+         
         
-
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [AllowAnonymous]
-        public async Task<IActionResult> Teste()
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
-
     }
 }

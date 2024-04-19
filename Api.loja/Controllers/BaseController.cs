@@ -11,5 +11,18 @@ namespace Api.loja.Controllers
             _logger = logger;
 
         }
+        private async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler)
+        {
+            try
+            {
+                await handler(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex);
+            }
+        }
     }
 }
