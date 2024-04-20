@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.loja;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity
 {
     [Table("clientsProductsCart")]
-    public class ClientsProductsCart : MasterEntity<int>
+    public class ClientsProductsCart : Entity<int>
     {
 
         public int Quantity { get;set;}
@@ -20,10 +21,6 @@ namespace Dominio.loja.Entity
 
         public virtual Products Products { get; set; }
 
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
 
         protected override void When(object @event)
         {

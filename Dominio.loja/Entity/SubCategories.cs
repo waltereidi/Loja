@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.loja;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("SubCategories")]
-    public class SubCategories : MasterEntity<int>
+    public class SubCategories : Entity<int>
     {
 
         [StringLength(30)]
@@ -17,12 +18,6 @@ namespace Dominio.loja.Entity
         public string Description { get; set; }
         public int ID_Categories { get;set;}
         public virtual ICollection<SubSubCategories> SubSubCategories { get;set;}
-
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void When(object @event)
         {
             throw new NotImplementedException();

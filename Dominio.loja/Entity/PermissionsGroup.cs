@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.loja;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("permissionsGroup")]
-    public class PermissionsGroup : MasterEntity<int>
+    public class PermissionsGroup : Entity<int>
     {
 
 
@@ -17,11 +18,6 @@ namespace Dominio.loja.Entity
         public string Name {  get; set; }
 
         public virtual ICollection<PermissionsRelation> PermissionsRelations { get; set; }
-
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
 
         protected override void When(object @event)
         {

@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.loja", "Api.loja\Api.lo
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Loja.loja", "Loja.loja\Loja.loja.esproj", "{1245CBC0-65B6-4F7D-A3AE-DF4D590BE046}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFileManager", "Integrations\WFileUploader\WFileManager.csproj", "{FBD3C04A-022A-4344-9359-D116ECF56391}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFileManager", "Integrations\WFileUploader\WFileManager.csproj", "{FBD3C04A-022A-4344-9359-D116ECF56391}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.loja", "Framework.loja\Framework.loja.csproj", "{F02D2E32-EF1A-4A9F-8924-2286F5D04F1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{FBD3C04A-022A-4344-9359-D116ECF56391}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD3C04A-022A-4344-9359-D116ECF56391}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD3C04A-022A-4344-9359-D116ECF56391}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F02D2E32-EF1A-4A9F-8924-2286F5D04F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F02D2E32-EF1A-4A9F-8924-2286F5D04F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F02D2E32-EF1A-4A9F-8924-2286F5D04F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F02D2E32-EF1A-4A9F-8924-2286F5D04F1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

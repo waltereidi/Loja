@@ -1,16 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Framework.loja;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
     [Table("categories")]
-    public class Categories : MasterEntity<int>
+    public class Categories : Entity<int>
     {
 
         [StringLength(120)]
@@ -18,11 +13,6 @@ namespace Dominio.loja.Entity
         [StringLength(2048)]
         public string? Description { get; set; }
         public virtual ICollection<SubCategories> SubCategories { get; set; }
-
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
 
         protected override void When(object @event)
         {

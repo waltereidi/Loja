@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Dto.CustomEntities;
+using Framework.loja;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("permissionsRelation")]
-    public class PermissionsRelation : MasterEntity<int>
+    public class PermissionsRelation : Entity<int>
     {
 
 
@@ -19,12 +20,6 @@ namespace Dominio.loja.Entity
         [ForeignKey("PermissionsId")]
         public int PermissionsId { get; set; }
         public virtual Permissions Permissions { get; set; }
-
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void When(object @event)
         {
             throw new NotImplementedException();

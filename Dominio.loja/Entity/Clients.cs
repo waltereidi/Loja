@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Framework.loja;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Dominio.loja.Entity
 {
     [Table("clients")]
-    public class Clients : MasterEntity<int>
+    public class Clients : Entity<int>
     {
 
 
@@ -19,11 +20,7 @@ namespace Dominio.loja.Entity
         public virtual PermissionsGroup? PermissionsGroup { get; set; }
         public virtual ICollection<ClientsProductsCart> ClientsProductsCart { get; set; }
 
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
-
+    
         protected override void When(object @event)
         {
             throw new NotImplementedException();

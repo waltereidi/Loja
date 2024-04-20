@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.loja;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("productsCategories")]
-    public class ProductsCategories : MasterEntity<int>
+    public class ProductsCategories : Entity<int>
     {
 
         [ForeignKey("ProductsId")]
@@ -17,12 +18,6 @@ namespace Dominio.loja.Entity
         [ForeignKey("CateogoriesId")]
         public int CategoriesId { get; set; }
         public virtual Products Products { get; set; }
-
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void When(object @event)
         {
             throw new NotImplementedException();

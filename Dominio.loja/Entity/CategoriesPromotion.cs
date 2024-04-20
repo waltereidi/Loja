@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Framework.loja;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
 namespace Dominio.loja.Entity
 {
     [Table("categoriesPromotion")]
-    public class CategoriesPromotion : MasterEntity<int>
+    public class CategoriesPromotion : Entity<int>
     {
        
         [ForeignKey("CateogoriesId")]
@@ -15,11 +16,6 @@ namespace Dominio.loja.Entity
         public bool isActive { get; set; }
         public virtual Categories Categories { get; set; }
         public virtual ICollection<ProductsCategories> ProductsCategories { get; set; }
-
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
 
         protected override void When(object @event)
         {

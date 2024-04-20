@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using Framework.loja;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
     [Table("RequestOrdersProducts")]
-    public class RequestOrdersProducts : MasterEntity<int>
+    public class RequestOrdersProducts : Entity<int>
     {
 
         [ForeignKey("RequestOrdersId")]
@@ -18,12 +13,6 @@ namespace Dominio.loja.Entity
         public int ProductsId { get; set; }
         public int Quantity { get; set; }
         public virtual Products Products { get; set; }
-
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void When(object @event)
         {
             throw new NotImplementedException();
