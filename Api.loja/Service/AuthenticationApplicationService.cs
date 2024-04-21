@@ -6,7 +6,12 @@ namespace Api.loja.Service
     {
         public Task Handle(object command)
         {
-            throw new NotImplementedException();
+            switch(command)
+            {
+                case Authentication.V1.LoginRequest:
+                    
+            }
+
         }
     }
 }
