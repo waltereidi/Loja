@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using Api.loja.Service;
 
 public class Startup
 {
@@ -18,6 +19,7 @@ public class Startup
     public IConfiguration Configuration { get; set; }
     public void ConfigureServices(IServiceCollection service)
     {
+
         service.AddEndpointsApiExplorer();
 
         service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -80,15 +82,9 @@ public class Startup
 
         service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
-
+        service.AddScoped<AuthenticationApplicationService>();
         //service.AddSingleton<IFileUploadClient , FileUploadClient>();
         //service.AddSingleton<FileUploadServer>();
-
-        service.AddMvc(options =>
-        {
-            options.EnableEndpointRouting = false;
-        });
-        service.AddDistributedMemoryCache();
         
         //Importante para não quebrar o com o modelBuilder do EFCore
         service.AddControllers()

@@ -43,5 +43,8 @@
 	    <ProjectReference Include="..\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj" />
 	    <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Controllers\Store\" />
+    </ItemGroup>
 
 </Project>

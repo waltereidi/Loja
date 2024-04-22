@@ -1,8 +1,8 @@
 ﻿using Api.loja.Contracts;
 using Api.loja.Data;
 using Api.loja.Service;
-using Dominio.loja.Dto.CustomEntities;
 using Dominio.loja.Dto.Models;
+using Dominio.loja.Events.Authentication;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,10 +21,10 @@ namespace Api.loja.Controllers.Admin
             _configuration = configuration;
         }
         [HttpPost]
-        [ProducesResponseType<LoginResponse>(StatusCodes.Status200OK)]
+        [ProducesResponseType<LoginAdmin>(StatusCodes.Status200OK)]
         [ProducesResponseType<ResponseModel>(StatusCodes.Status400BadRequest)]
         [ProducesResponseType<ResponseModel>(StatusCodes.Status500InternalServerError)]
-        public Task<IActionResult> Login(Authentication.V1.LoginRequest login) => HandleRequest(login, _service.Handle);
+        public Task<IActionResult> Login(AuthenticationContract.V1.LoginRequest login) => HandleRequest(login, _service.Handle);
 
 
     }
