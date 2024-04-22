@@ -1,4 +1,4 @@
-﻿using Dominio.loja.Interfaces.Context;
+﻿using Framework.loja.Dto.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.loja.Controllers
@@ -11,12 +11,12 @@ namespace Api.loja.Controllers
             _logger = logger;
 
         }
-        private async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler)
+        protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<ControllerResponse<T>>> handler) where T : class
         {
             try
             {
-                await handler(request);
-                return Ok();
+                ControllerResponse<T> response = await handler(request);
+                return StatusCode((int)response.StatusCode , response.Response);
             }
             catch (Exception ex)
             {

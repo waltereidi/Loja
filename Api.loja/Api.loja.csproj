@@ -14,6 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Store\Service\**" />
+    <Content Remove="Controllers\Store\Service\**" />
+    <EmbeddedResource Remove="Controllers\Store\Service\**" />
+    <None Remove="Controllers\Store\Service\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
@@ -35,9 +42,6 @@
 	    </ProjectReference>
 	    <ProjectReference Include="..\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj" />
 	    <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Controllers\Store\Service\" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 ﻿using Api.loja.Data;
-using Api.loja.Services;
 using Dominio.loja.Dto.Models;
 using Dominio.loja.Entity;
 using Dominio.loja.Interfaces.Context;
@@ -16,12 +15,10 @@ namespace Api.loja.Controllers.Store
     [ApiController]
     public class StoreClientsController : BaseController
     {
-        private readonly StoreClientsService _service;
         private readonly IStoreClientsControllerContext _context;
         public StoreClientsController(ILogger<StoreClientsController> logger, StoreContext context) : base(logger)
         {
             _context = context;
-            _service = new StoreClientsService(context);
         }
 
         [HttpGet]

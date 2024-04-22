@@ -1,11 +1,6 @@
 ﻿using Dominio.loja.Events.Integracoes.WFileManager;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using Framework.loja;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
@@ -39,9 +34,5 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
             }
         }
 
-        protected override void EnsureValidState()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
