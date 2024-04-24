@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Framework.loja.Interfaces
 {
-    public interface IApplicationService
+    public interface IApplicationService 
     {
         Task<ControllerResponse<T>> Handle<T>(T command) where T : class;
-        Task<ControllerResponse<T>> HandleCreate<T>(T dataSource, Action<T> operation) where T : class;
+        Task<ControllerResponse<T>> HandleCreate<T>(T dataSource) where T : class;
         Task<ControllerResponse<T>> HandleUpdate<T>(T dataSource, Action<T> operation) where T : class;
         Task<ControllerResponse<T>> HandleDelete<T>(T dataSource, Action<T> operation) where T : class;
     }

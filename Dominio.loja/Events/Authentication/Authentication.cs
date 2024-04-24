@@ -10,7 +10,7 @@ namespace Dominio.loja.Events.Authentication
     {
         public LoginAdmin loginAdmin { get; set; }
 
-        public Authentication(string Email , string Password , IConfiguration config)
+        public Authentication(Clients clients , string issuer ,string jwtKey)
         {
 
         }
