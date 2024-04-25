@@ -26,6 +26,5 @@ namespace Api.loja.Controllers.Admin
         [ProducesResponseType<ResponseModel>(StatusCodes.Status500InternalServerError)]
         public Task<IActionResult> Login(AuthenticationContract.V1.LoginRequest login) => HandleRequest(login, _service.Handle);
 
-
     }
 }

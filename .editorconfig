@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0055: Corrigir a formatação
+dotnet_diagnostic.IDE0055.severity = none

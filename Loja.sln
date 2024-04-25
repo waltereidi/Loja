@@ -25,7 +25,7 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Loja.loja", "Loja.loja\Loja
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFileManager", "Integrations\WFileUploader\WFileManager.csproj", "{FBD3C04A-022A-4344-9359-D116ECF56391}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.loja", "Framework.loja\Framework.loja.csproj", "{F02D2E32-EF1A-4A9F-8924-2286F5D04F1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.loja", "Framework.loja\Framework.loja.csproj", "{F02D2E32-EF1A-4A9F-8924-2286F5D04F1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,12 +11,11 @@ namespace Api.loja.Controllers
             _logger = logger;
 
         }
-        protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<ControllerResponse<T>>> handler) where T : class
+        protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler) where T : class
         {
             try
             {
-                ControllerResponse<T> response = await handler(request);
-                return StatusCode((int)response.StatusCode , response.Response);
+                return Ok();
             }
             catch (Exception ex)
             {

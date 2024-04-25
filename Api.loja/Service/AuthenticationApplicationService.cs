@@ -1,14 +1,9 @@
 ﻿using Api.loja.Contracts;
 using Api.loja.Data;
-using Dominio.loja.Events.Authentication;
 using Framework.loja.Dto.Models;
 using Framework.loja.Interfaces;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
-using NPOI.SS.Formula.Functions;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure.DependencyResolution;
-using System.Reflection.Metadata.Ecma335;
+using Microsoft.AspNetCore.Identity.Data;
+using System.Reflection;
 
 namespace Api.loja.Service
 {
@@ -21,21 +16,39 @@ namespace Api.loja.Service
             _configuration = configuration;
             _context = context;
         }
-        public Task Handle<T>(T command) where T : class => command switch
-        {
-             
-        };
 
+        public Task Handle<T>(T command) where T : class
+        {
+            switch (command)
+            {
+                case AuthenticationContract.V1.LoginRequest cmd : return HandleAuthentication(cmd);
+                        
+                default: return null; break;
+            }
+            return null;
+        }
+
+        private Task HandleAuthentication(AuthenticationContract.V1.LoginRequest command) 
+        {
+            
+            return ;
+        }
+
+        public void test() { }
         public Task<ControllerResponse<T>> HandleCreate<T>(T dataSource) where T : class
         {
             throw new NotImplementedException();
         }
 
-        Task<ControllerResponse<T>> IApplicationService.Handle<T>(T command)
+        public Task<ControllerResponse<T>> HandleDelete<T>(T dataSource, Action<T> operation) where T : class
         {
             throw new NotImplementedException();
         }
 
-  
+        public Task<ControllerResponse<T>> HandleUpdate<T>(T dataSource, Action<T> operation) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
