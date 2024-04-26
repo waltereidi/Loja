@@ -15,6 +15,7 @@ namespace Api.loja.Controllers
         {
             try
             {
+                await handler(request);
                 return Ok();
             }
             catch (Exception ex)

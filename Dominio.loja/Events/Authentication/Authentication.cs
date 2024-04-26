@@ -12,7 +12,7 @@ namespace Dominio.loja.Events.Authentication
 
         public Authentication(Clients clients , string issuer ,string jwtKey)
         {
-
+            Apply( new AuthenticationEvents.LoginAdminRequest(new LoginAdmin(clients , issuer , jwtKey)));
         }
 
         protected override void EnsureValidState()
@@ -22,7 +22,11 @@ namespace Dominio.loja.Events.Authentication
 
         protected override void When(object @event)
         {
-            throw new NotImplementedException();
+            switch (@event)
+            {
+                case AuthenticationEvents.LoginAdminRequest:break;
+            
+            }
         }
     }
 }
