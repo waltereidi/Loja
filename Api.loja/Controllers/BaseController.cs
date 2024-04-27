@@ -1,5 +1,7 @@
-﻿using Framework.loja.Dto.Models;
+﻿using Dominio.loja.Events.Authentication;
+using Framework.loja.Dto.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Entity.Core;
 
 namespace Api.loja.Controllers
 {
@@ -18,11 +20,16 @@ namespace Api.loja.Controllers
                 await handler(request);
                 return Ok();
             }
+            catch(ObjectNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex);
             }
         }
+
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Security.Permissions;
 
-namespace Tests.Loja.Tests.Infra
+namespace Tests.loja.Infra
 {
     [TestClass]
     public class StoreContextTest
@@ -15,7 +15,7 @@ namespace Tests.Loja.Tests.Infra
         public StoreContextTest()
         {
             _storeContext = new StoreContext();
-            
+
         }
         [TestMethod]
         public void TestORMCategories()
@@ -27,14 +27,14 @@ namespace Tests.Loja.Tests.Infra
         public void TestORMClients()
         {
             var result = _storeContext.clients.Find(1);
-            
+
             Assert.IsTrue(result.PermissionsGroup != null);
             Assert.IsNotNull(result);
         }
         [TestMethod]
         public void TestProductsORM()
         {
-            
+
             var result = _storeContext.products.Find(1);
             var productsCategories = _storeContext.productsCategories.Find(1);
             var jsonTest = JsonConvert.SerializeObject(productsCategories, Formatting.Indented,
@@ -49,7 +49,7 @@ namespace Tests.Loja.Tests.Infra
         [TestMethod]
         public void testRequestORM()
         {
-            var result =_storeContext.requestOrders.Find(1);
+            var result = _storeContext.requestOrders.Find(1);
             var result1 = _storeContext.clientsProducts_cart.Find(1);
             Assert.IsTrue(result.RequestOrdersProducts is not null);
             Assert.IsTrue(result1.Products is not null);
@@ -58,7 +58,7 @@ namespace Tests.Loja.Tests.Infra
         public void testEvents()
         {
             FileDirectory dir = new();
-            
+
 
             Assert.IsFalse(false);
 

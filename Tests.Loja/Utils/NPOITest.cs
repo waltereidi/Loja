@@ -17,7 +17,7 @@ using NPOI.XSSF.UserModel;
 using Utils.loja.Enums;
 using Utils.loja.Excel;
 
-namespace Tests.Loja.Tests.Utils
+namespace Tests.loja.Utils
 {
     [TestClass]
     public class NPOITest
@@ -34,7 +34,7 @@ namespace Tests.Loja.Tests.Utils
                 Updated_at = null,
                 Description = "TestCase",
                 Price = (decimal)0.15,
-              
+
             };
             path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net8.0\\", "") + "\\TestFiles\\CreatedFiles\\";
 
@@ -225,7 +225,7 @@ namespace Tests.Loja.Tests.Utils
                 File.Delete(path + "ReturnValidationSheetReturnsSheet.xlsx");
             }
 
-            List<ExcelImportProducts> listProducts = new ();
+            List<ExcelImportProducts> listProducts = new();
             listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "1" });
             listProducts.Add(new ExcelImportProducts() { Name = "Product1", Description = "Product1", ID_Products = "s" });
             listProducts.Add(new ExcelImportProducts() { Name = "1", Description = "1", ID_Products = "1" });

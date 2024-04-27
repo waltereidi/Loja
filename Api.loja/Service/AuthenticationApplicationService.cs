@@ -4,6 +4,7 @@ using Dominio.loja.Events.Authentication;
 using Framework.loja.Dto.Models;
 using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Core;
 using System.Reflection;
 
@@ -13,6 +14,7 @@ namespace Api.loja.Service
     {
         private readonly IConfiguration _configuration;
         private readonly StoreContext _context;
+        public readonly Authentication _auth;
         public AuthenticationApplicationService(IConfiguration configuration ,StoreContext context )
         {
             _configuration = configuration;
@@ -38,21 +40,6 @@ namespace Api.loja.Service
 
         }
 
-        public void test() { }
 
-        Task IApplicationService.HandleCreate<T>(T dataSource)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task IApplicationService.HandleUpdate<T>(T dataSource, Action<T> operation)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task IApplicationService.HandleDelete<T>(T dataSource, Action<T> operation)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

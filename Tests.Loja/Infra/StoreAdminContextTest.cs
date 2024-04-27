@@ -10,12 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.Loja.Tests.Infra
+namespace Tests.loja.Infra
 {
     [TestClass]
     public class StoreAdminContextTest
     {
-        private readonly  StoreContext _context;
+        private readonly StoreContext _context;
         public StoreAdminContextTest()
         {
             string dir = Directory.GetCurrentDirectory();

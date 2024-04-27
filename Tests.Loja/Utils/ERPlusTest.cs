@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.Loja.Tests.Utils
+namespace Tests.loja.Utils
 {
     [TestClass]
     public class ERPlusTest
@@ -26,7 +26,7 @@ namespace Tests.Loja.Tests.Utils
             path = AppContext.BaseDirectory.Replace("\\bin\\Debug\\net6.0\\", "") + "\\TestFiles\\CreatedFiles\\";
         }
 
-       
+
         [TestMethod]
         public void WriteColoredExcelFileCanReadFile()
         {
