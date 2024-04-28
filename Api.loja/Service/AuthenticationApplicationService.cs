@@ -14,7 +14,7 @@ namespace Api.loja.Service
     {
         private readonly IConfiguration _configuration;
         private readonly StoreContext _context;
-        public readonly Authentication _auth;
+        public Authentication _auth;
         public AuthenticationApplicationService(IConfiguration configuration ,StoreContext context )
         {
             _configuration = configuration;
@@ -36,8 +36,7 @@ namespace Api.loja.Service
             if (!_context.clients.Any(x => x.Email == cmd.Email && x.Password == cmd.Password))
                 throw new ObjectNotFoundException("User not found");
 
-            Authentication login = new(_context.clients.First(x=>x.Email==cmd.Email && x.Password == cmd.Password) , _configuration.GetSection("Jwt:Issuer").Value ,_configuration.GetSection("Jwt:Key").Value );
-
+            _auth = new(_context.clients.First(x=>x.Email==cmd.Email && x.Password == cmd.Password) , _configuration.GetSection("Jwt:Issuer").Value ,_configuration.GetSection("Jwt:Key").Value );
         }
 
 

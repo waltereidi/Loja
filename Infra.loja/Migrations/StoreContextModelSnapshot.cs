@@ -50,7 +50,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categories");
+                    b.ToTable("categories", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.CategoriesPromotion", b =>
@@ -75,7 +75,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categoriesPromotion");
+                    b.ToTable("categoriesPromotion", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Clients", b =>
@@ -109,7 +109,7 @@ namespace Infra.loja.Migrations
 
                     b.HasIndex("PermissionsGroupId");
 
-                    b.ToTable("clients");
+                    b.ToTable("clients", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ClientsProductsCart", b =>
@@ -142,7 +142,7 @@ namespace Infra.loja.Migrations
 
                     b.HasIndex("ClientsId");
 
-                    b.ToTable("clientsProductsCart");
+                    b.ToTable("clientsProductsCart", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.FileDirectory", b =>
@@ -162,7 +162,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FileDirectory");
+                    b.ToTable("FileDirectory", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", b =>
@@ -197,7 +197,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FileStorage");
+                    b.ToTable("FileStorage", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Permissions", b =>
@@ -221,7 +221,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("permissions");
+                    b.ToTable("permissions", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.PermissionsGroup", b =>
@@ -245,7 +245,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("permissionsGroup");
+                    b.ToTable("permissionsGroup", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.PermissionsRelation", b =>
@@ -274,7 +274,7 @@ namespace Infra.loja.Migrations
 
                     b.HasIndex("PermissionsId");
 
-                    b.ToTable("permissionsRelation");
+                    b.ToTable("permissionsRelation", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Prices", b =>
@@ -301,7 +301,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("prices");
+                    b.ToTable("prices", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Products", b =>
@@ -333,7 +333,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("products");
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsCategories", b =>
@@ -360,7 +360,7 @@ namespace Infra.loja.Migrations
 
                     b.HasIndex("CategoriesId");
 
-                    b.ToTable("productsCategories");
+                    b.ToTable("productsCategories", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsPrices", b =>
@@ -387,7 +387,7 @@ namespace Infra.loja.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("productsPrices");
+                    b.ToTable("productsPrices", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsStorage", b =>
@@ -420,7 +420,7 @@ namespace Infra.loja.Migrations
                     b.HasIndex("ProductsId")
                         .IsUnique();
 
-                    b.ToTable("productsStorage");
+                    b.ToTable("productsStorage", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsSubCategories", b =>
@@ -448,7 +448,7 @@ namespace Infra.loja.Migrations
                     b.HasIndex("ProductsId")
                         .IsUnique();
 
-                    b.ToTable("ProductsSubCategories");
+                    b.ToTable("ProductsSubCategories", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsSubSubCategories", b =>
@@ -476,7 +476,7 @@ namespace Infra.loja.Migrations
                     b.HasIndex("ProductsId")
                         .IsUnique();
 
-                    b.ToTable("ProductsSubSubCategories");
+                    b.ToTable("ProductsSubSubCategories", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.RequestOrders", b =>
@@ -503,7 +503,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("requestOrders");
+                    b.ToTable("requestOrders", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.RequestOrdersProducts", b =>
@@ -533,7 +533,7 @@ namespace Infra.loja.Migrations
 
                     b.HasIndex("RequestOrdersId");
 
-                    b.ToTable("RequestOrdersProducts");
+                    b.ToTable("RequestOrdersProducts", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.SubCategories", b =>
@@ -561,7 +561,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SubCategories");
+                    b.ToTable("SubCategories", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.SubSubCategories", b =>
@@ -588,7 +588,7 @@ namespace Infra.loja.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("subSubCategories");
+                    b.ToTable("subSubCategories", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.CategoriesPromotion", b =>

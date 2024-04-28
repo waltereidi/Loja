@@ -60,6 +60,7 @@ namespace Infra.loja.Migrations
                 {
                     table.PrimaryKey("PK_permissions", x => x.Id);
                 });
+            
 
             migrationBuilder.CreateTable(
                 name: "permissionsGroup",
@@ -75,7 +76,7 @@ namespace Infra.loja.Migrations
                 {
                     table.PrimaryKey("PK_permissionsGroup", x => x.Id);
                 });
-
+            
             migrationBuilder.CreateTable(
                 name: "prices",
                 columns: table => new
@@ -107,6 +108,7 @@ namespace Infra.loja.Migrations
                 {
                     table.PrimaryKey("PK_requestOrders", x => x.Id);
                 });
+            
 
             migrationBuilder.CreateTable(
                 name: "categoriesPromotion",
@@ -194,7 +196,7 @@ namespace Infra.loja.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
+            
             migrationBuilder.CreateTable(
                 name: "permissionsRelation",
                 columns: table => new
@@ -222,6 +224,7 @@ namespace Infra.loja.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+            
 
             migrationBuilder.CreateTable(
                 name: "RequestOrdersProducts",
@@ -438,6 +441,11 @@ namespace Infra.loja.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.Sql("insert into permissions( name , created_at) values( 'testCase' , current_timestamp)");
+            migrationBuilder.Sql("insert into permissionsgroup( name , created_at) values( 'testCase' , current_timestamp)");
+            migrationBuilder.Sql("insert into permissionsRelation(permissionsGroupId,permissionsId, created_at) values( 1 , 1 , current_timestamp)");
+            migrationBuilder.Sql("insert into clients( email , password , permissionsGroupId , created_at) values('testCase@email.com' , '123' , 1 ,current_timestamp)");
 
             migrationBuilder.CreateIndex(
                 name: "IX_clients_PermissionsGroupId",

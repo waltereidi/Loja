@@ -1,5 +1,4 @@
-﻿using Dominio.loja.Dto.CustomEntities;
-using Framework.loja;
+﻿using Framework.loja;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

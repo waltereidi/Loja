@@ -10,6 +10,8 @@ namespace Framework.loja
 {
     public abstract class Entity<TId> : IInternalEventHandler
     {
+        public DateTime Created_at { get; set; }
+        public DateTime? Updated_at { get; set; }
         private readonly Action<object> _applier;
         public TId Id { get; protected set; }
         protected Entity(Action<object> applier) => _applier = applier;
