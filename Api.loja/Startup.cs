@@ -83,9 +83,12 @@ public class Startup
         service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
         service.AddScoped<AuthenticationApplicationService>();
+        service.AddScoped<ProductsApplicationService>();
+        service.AddScoped<CategoriesApplicationService>();
+
         //service.AddSingleton<IFileUploadClient , FileUploadClient>();
         //service.AddSingleton<FileUploadServer>();
-        
+
         //Importante para não quebrar o com o modelBuilder do EFCore
         service.AddControllers()
        .AddJsonOptions(options =>

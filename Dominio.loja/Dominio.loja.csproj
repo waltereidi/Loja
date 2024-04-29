@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Framework.loja\Framework.loja.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\Products\" />
+  </ItemGroup>
+
 </Project>
