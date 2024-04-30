@@ -35,6 +35,31 @@ namespace Api.loja.Data
 		public virtual DbSet<RequestOrdersProducts> requestOrdersProducts { get; set; }
 		public virtual DbSet<FileDirectory> fileDirectory { get; set; } = null;
 		public virtual DbSet<FileStorage> fileStorage { get; set; } = null;
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            CreateCategoriesORM(modelBuilder);
+        }
+
+        void CreateCategoriesORM(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SubCategories>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasOne(e => e.Categories)
+                .WithOne()
+                .HasForeignKey<Categories>(e => e.Id);
+            });
+
+            modelBuilder.Entity<SubSubCategories>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasOne(e => e.SubCategories)
+                .WithOne()
+                .HasForeignKey<SubCategories>(e => e.Id);
+            });
+        }
+
+
     }
-    
+   
 }

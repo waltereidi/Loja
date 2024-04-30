@@ -10,16 +10,26 @@ namespace Dominio.loja.Entity
     {
 
 
-        [StringLength(320)]
+        [StringLength(120)]
         public string Email { get; set; }
 
         [StringLength(30)]
         public string Password { get; set; }
         [ForeignKey("PermissionsGroupId")]
         public int PermissionsGroupId { get; set; }
-        public virtual PermissionsGroup? PermissionsGroup { get; set; }
-        public virtual ICollection<ClientsProductsCart> ClientsProductsCart { get; set; }
+        [Required]
+        [StringLength(60)]
+        public string FirstName { get; set; }
+        [Required]
+        [StringLength(60)]
+        public string LastName { get; set; }
+        [Required]
+        [StringLength(250)]
+        public string Address { get; set; }
+        [StringLength(20)]
+        public string PhoneNumber { get; set; }
 
+        public virtual PermissionsGroup? PermissionsGroup { get; set; }
     
         protected override void When(object @event)
         {

@@ -16,8 +16,8 @@ namespace Dominio.loja.Entity
         [StringLength(30)]
         public string Name { get;set;}
         public string Description { get; set; }
-        public int ID_Categories { get;set;}
-        public virtual ICollection<SubSubCategories> SubSubCategories { get;set;}
+        public int CategoriesId { get;set;}
+        public virtual Categories Categories { get;set;}
         protected override void When(object @event)
         {
             throw new NotImplementedException();

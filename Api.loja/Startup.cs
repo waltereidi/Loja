@@ -84,7 +84,7 @@ public class Startup
         service.AddSingleton<StoreContext>();
         service.AddScoped<AuthenticationApplicationService>();
         service.AddScoped<ProductsApplicationService>();
-        service.AddScoped<CategoriesApplicationService>();
+        service.AddScoped<PraedicamentaApplicationService>();
 
         //service.AddSingleton<IFileUploadClient , FileUploadClient>();
         //service.AddSingleton<FileUploadServer>();

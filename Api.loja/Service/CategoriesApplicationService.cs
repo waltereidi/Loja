@@ -37,7 +37,7 @@ namespace Api.loja.Service
 
         private async Task HandleCreateCategories(PraedicamentaContract.V1.AddCategories c)
         {
-            throw new NotImplementedException();
+            _praedicamenta = new Praedicamenta();
         }
     }
 }
