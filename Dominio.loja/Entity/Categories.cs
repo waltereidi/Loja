@@ -18,6 +18,7 @@ namespace Dominio.loja.Entity
         public Categories(Action<object> applier) :base(applier)
         {
         }
+        public Categories() { }
 
         protected override void When(object @event)
         {

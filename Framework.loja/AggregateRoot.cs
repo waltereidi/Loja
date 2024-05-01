@@ -24,7 +24,6 @@ namespace Framework.loja
             EnsureValidState();
             _changes.Add(@event);
         }
-
         public IEnumerable<object> GetChanges() => _changes.AsEnumerable();
 
         public void ClearChanges() => _changes.Clear();

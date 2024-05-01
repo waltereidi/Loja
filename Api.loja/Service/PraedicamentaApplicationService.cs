@@ -10,6 +10,7 @@ namespace Api.loja.Service
     public class PraedicamentaApplicationService : IApplicationService
     {
         private readonly StoreContext _context;
+        public Praedicamenta praedicamenta;
         public PraedicamentaApplicationService(StoreContext context)
         {
             _context = context;
@@ -27,18 +28,25 @@ namespace Api.loja.Service
 
         private void HandleCreateSubSubCategories(PraedicamentaContract.V1.AddSubSubCategories c)
         {
-            
+            SubCategories subCategory = _context.subCategories.First(x => x.Id == c.SubCategoriesId);
+            praedicamenta = new(new PraedicamentaEvents.CreateSubSubCategory(subCategory, c.Name, c.Description));
+            _context.subCategories.Add(praedicamenta.subCategory);
+            _context.SaveChanges();
         }
 
         private void HandleCreateSubCategories(PraedicamentaContract.V1.AddSubCategories c)
         {
-            throw new NotImplementedException();
+            Categories category = _context.categories.First(x=> x.Id == c.CategoriesId);
+            praedicamenta = new(new PraedicamentaEvents.CreateSubCategory(category ,c.Name, c.Description));
+            _context.subCategories.Add(praedicamenta.subCategory);
+            _context.SaveChanges();
         }
 
         private async Task HandleCreateCategories(PraedicamentaContract.V1.AddCategories c)
         {
-            Praedicamenta praedicamenta= new(new PraedicamentaEvents.CreateCategory(c.Name , c.Description) );
-
+            praedicamenta= new(new PraedicamentaEvents.CreateCategory(c.Name , c.Description) );
+            _context.categories.Add(praedicamenta.category);
+            _context.SaveChanges();
         }
     }
 }

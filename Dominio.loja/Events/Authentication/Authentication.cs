@@ -28,7 +28,6 @@ namespace Dominio.loja.Events.Authentication
             switch (@event)
             {
                 case AuthenticationEvents.LoginAdminRequest @e: loginAdmin = @e.loginAdmin; break;
-            
             }
         }
     }

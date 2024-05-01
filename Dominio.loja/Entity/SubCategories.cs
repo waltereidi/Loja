@@ -21,17 +21,11 @@ namespace Dominio.loja.Entity
         public virtual Categories Categories { get;set;}
 
         public SubCategories(Action<object> applier) : base(applier) { }
-
+        public SubCategories() { }
         protected override void When(object @event)
         {
             switch (@event)
             {
-                case PraedicamentaEvents.CreateSubCategory e: 
-                    Name = e.Name;
-                    Description = e.Description;
-                    CategoriesId = e.Category.Id;
-                    Categories = e.Category;
-                    break;
                 default: throw new NotImplementedException();
             }
 

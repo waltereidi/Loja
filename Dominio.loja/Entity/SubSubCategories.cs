@@ -16,16 +16,12 @@ namespace Dominio.loja.Entity
         public virtual SubCategories SubCategories { get; set; }
 
         public SubSubCategories(Action<object> applier) :base(applier){ }
+        public SubSubCategories() { }
         protected override void When(object @event)
         {
             switch (@event)
             {
-                case PraedicamentaEvents.CreateSubSubCategory e:
-                    SubCategoriesId = e.SubCategory.Id;
-                    Name = e.Name;
-                    Description = e.Description;
-                    SubCategories = e.SubCategory;
-                    break;
+                
                 default: throw new NotImplementedException();
             }
 
