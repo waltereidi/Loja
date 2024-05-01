@@ -11,6 +11,6 @@ namespace Dominio.loja.Events.Praedicamenta
     {
         public record class CreateCategory(string Name , string Description);
         public record class CreateSubCategory(Categories Category, string Name, string Description);
-        public record class CreateSubSubCategory(SubCategories Category, string Name, string Description);
+        public record class CreateSubSubCategory(SubCategories SubCategory, string Name, string Description);
     }
 }

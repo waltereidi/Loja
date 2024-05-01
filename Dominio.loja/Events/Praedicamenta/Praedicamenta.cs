@@ -9,8 +9,10 @@ namespace Dominio.loja.Events.Praedicamenta
 {
     public class Praedicamenta : AggregateRoot<int>
     {
-
-
+        public Praedicamenta(object @event)
+        {
+            Apply(@event);
+        }
 
         protected override void EnsureValidState()
         {
@@ -19,7 +21,13 @@ namespace Dominio.loja.Events.Praedicamenta
 
         protected override void When(object @event)
         {
-            throw new NotImplementedException();
+            switch (@event)
+            {
+                case PraedicamentaEvents.CreateCategory c: 
+                    
+                    ;break; 
+            
+            }
         }
     }
 }

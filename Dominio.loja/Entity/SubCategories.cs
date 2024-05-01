@@ -1,4 +1,5 @@
-﻿using Framework.loja;
+﻿using Dominio.loja.Events.Praedicamenta;
+using Framework.loja;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,9 +19,22 @@ namespace Dominio.loja.Entity
         public string Description { get; set; }
         public int CategoriesId { get;set;}
         public virtual Categories Categories { get;set;}
+
+        public SubCategories(Action<object> applier) : base(applier) { }
+
         protected override void When(object @event)
         {
-            throw new NotImplementedException();
+            switch (@event)
+            {
+                case PraedicamentaEvents.CreateSubCategory e: 
+                    Name = e.Name;
+                    Description = e.Description;
+                    CategoriesId = e.Category.Id;
+                    Categories = e.Category;
+                    break;
+                default: throw new NotImplementedException();
+            }
+
         }
     }
 }

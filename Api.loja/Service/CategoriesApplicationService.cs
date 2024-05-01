@@ -1,5 +1,6 @@
 ﻿using Api.loja.Contracts;
 using Api.loja.Data;
+using Dominio.loja.Entity;
 using Dominio.loja.Events.Praedicamenta;
 using Framework.loja.Interfaces;
 using System.Runtime.CompilerServices;
@@ -8,7 +9,6 @@ namespace Api.loja.Service
 {
     public class PraedicamentaApplicationService : IApplicationService
     {
-        public  Praedicamenta _praedicamenta;
         private readonly StoreContext _context;
         public PraedicamentaApplicationService(StoreContext context)
         {
@@ -37,7 +37,8 @@ namespace Api.loja.Service
 
         private async Task HandleCreateCategories(PraedicamentaContract.V1.AddCategories c)
         {
-            _praedicamenta = new Praedicamenta();
+            Praedicamenta praedicamenta= new(new PraedicamentaEvents.CreateCategory(c.Name , c.Description) );
+
         }
     }
 }

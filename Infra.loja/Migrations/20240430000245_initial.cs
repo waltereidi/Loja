@@ -246,7 +246,7 @@ namespace Infra.loja.Migrations
                         column: x => x.ProductsId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.R);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -345,27 +345,7 @@ namespace Infra.loja.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "SubCategories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false).Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoriesId = table.Column<int>(type: "int", nullable: false),
-                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubCategories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SubCategories_subSubCategories_Id",
-                        column: x => x.Id,
-                        principalTable: "subSubCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+          
 
             migrationBuilder.CreateTable(
                 name: "categories",
@@ -380,13 +360,29 @@ namespace Infra.loja.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_categories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_categories_SubCategories_Id",
-                        column: x => x.Id,
-                        principalTable: "SubCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+              name: "SubCategories",
+              columns: table => new
+              {
+                  Id = table.Column<int>(type: "int", nullable: false).Annotation("SqlServer:Identity", "1, 1"),
+                  Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                  Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                  CategoriesId = table.Column<int>(type: "int", nullable: false),
+                  Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                  Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+              },
+              constraints: table =>
+              {
+                  table.PrimaryKey("PK_SubCategories", x => x.Id);
+                  table.ForeignKey(
+                      name: "FK_SubCategories_Categories_Id",
+                      column: x => x.CategoriesId,
+                      principalTable: "Categories",
+                      principalColumn: "Id",
+                      onDelete: ReferentialAction.Restrict);
+              });
 
             migrationBuilder.CreateTable(
                 name: "categoriesPromotion",
