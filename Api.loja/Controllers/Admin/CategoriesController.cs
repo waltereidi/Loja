@@ -10,21 +10,22 @@ namespace Api.loja.Controllers.Admin
 {
     [Route("api/Admin/[action]")]
     [ApiController]
-    public class AuthenticationController : BaseController
+    public class CategoriesController : BaseController
     {
-        private readonly AuthenticationApplicationService _service;
-        public AuthenticationController(ILogger<AuthenticationController> logger) : base(logger)
+        private readonly PraedicamentaApplicationService _service;
+        public CategoriesController(ILogger<CategoriesController> logger) : base(logger)
         {
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public Task<IActionResult> Login(AuthenticationContract.V1.LoginRequest login) => HandleRequest(login, _service.Handle);
+        public Task<IActionResult> Login(PraedicamentaContract.V1.AddCategories category) => HandleRequest(category, _service.Handle);
 
         [HttpGet]
         [ProducesResponseType<LoginAdmin>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserSession() => Ok(_service._auth.loginAdmin);
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAll() => Ok(_service.GetAll());
+        
 
     }
 }

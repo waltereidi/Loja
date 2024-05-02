@@ -3,6 +3,7 @@ using Api.loja.Data;
 using Dominio.loja.Entity;
 using Dominio.loja.Events.Praedicamenta;
 using Framework.loja.Interfaces;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Api.loja.Service
@@ -47,6 +48,22 @@ namespace Api.loja.Service
             praedicamenta= new(new PraedicamentaEvents.CreateCategory(c.Name , c.Description) );
             _context.categories.Add(praedicamenta.category);
             _context.SaveChanges();
+        }
+
+        public IEnumerable<PraedicamentaContract.V1.getAll>? GetAll()
+        {
+            return _context.categories
+                .Select(cat => new PraedicamentaContract.V1.getAll(cat.Id, cat.Name, cat.Description,
+                _context.subCategories.Any(asub => asub.CategoriesId == cat.Id) ?
+                    _context.subCategories.Where(xsub => xsub.CategoriesId == cat.Id)
+                    .Select(sub => new PraedicamentaContract.V1.getSubCategory(sub.Id, sub.Name, sub.Description,
+                        _context.subSubCategories.Any(asubsub => asubsub.SubCategoriesId == sub.Id) ?
+                            _context.subSubCategories
+                            .Where(xsubsub => xsubsub.SubCategoriesId == sub.Id)
+                            .Select(subsub => new PraedicamentaContract.V1.getSubSubCategory(subsub.Id, subsub.Name, subsub.Description)).ToList() : null
+                    )).ToList() :null
+              )).ToList();
+
         }
     }
 }

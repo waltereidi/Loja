@@ -1,6 +1,6 @@
 ﻿namespace Api.loja.Contracts
 {
-    public static class ProductsContract
+    public static class ProductManagerContract
     {
         public class V1
         {

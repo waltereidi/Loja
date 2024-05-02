@@ -1,12 +1,8 @@
 ﻿using Api.loja.Contracts;
 using Api.loja.Data;
 using Dominio.loja.Events.Authentication;
-using Framework.loja.Dto.Models;
 using Framework.loja.Interfaces;
-using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Core;
-using System.Reflection;
 
 namespace Api.loja.Service
 {

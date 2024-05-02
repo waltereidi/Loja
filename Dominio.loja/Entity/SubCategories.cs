@@ -15,11 +15,10 @@ namespace Dominio.loja.Entity
     {
 
         [StringLength(30)]
-        public string Name { get;set;}
+        public string Name { get; set; }
         public string Description { get; set; }
-        public int CategoriesId { get;set;}
-        public virtual Categories Categories { get;set;}
-
+        public int CategoriesId { get; set; }
+        public virtual Categories Categories { get; set; }
         public SubCategories(Action<object> applier) : base(applier) { }
         public SubCategories() { }
         protected override void When(object @event)

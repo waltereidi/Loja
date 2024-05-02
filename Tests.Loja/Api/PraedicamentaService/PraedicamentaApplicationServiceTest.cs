@@ -57,5 +57,11 @@ namespace Tests.loja.Api.PraedicamentaService
             Assert.IsNotNull(_service.praedicamenta.GetChanges());
             _transaction.Rollback();
         }
+        [TestMethod]
+        public void getAllDoesNotBreakApplication()
+        {
+            var i = _service.GetAll();
+            Assert.IsNotNull(i);
+        }
     }
 }

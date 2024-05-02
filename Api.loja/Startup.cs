@@ -83,7 +83,7 @@ public class Startup
         service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
         service.AddScoped<AuthenticationApplicationService>();
-        service.AddScoped<ProductsApplicationService>();
+        service.AddScoped<ProductManagerApplicationService>();
         service.AddScoped<PraedicamentaApplicationService>();
 
         //service.AddSingleton<IFileUploadClient , FileUploadClient>();
