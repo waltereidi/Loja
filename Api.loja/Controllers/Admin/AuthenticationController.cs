@@ -5,7 +5,7 @@ using Dominio.loja.Dto.Models;
 using Dominio.loja.Events.Authentication;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
-
+using static 
 namespace Api.loja.Controllers.Admin
 {
     [Route("api/Admin/[action]")]

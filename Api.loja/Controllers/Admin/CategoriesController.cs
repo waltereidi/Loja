@@ -2,6 +2,7 @@
 using Api.loja.Data;
 using Api.loja.Service;
 using Dominio.loja.Dto.Models;
+using Dominio.loja.Entity;
 using Dominio.loja.Events.Authentication;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,16 @@ namespace Api.loja.Controllers.Admin
         [ProducesResponseType<LoginAdmin>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll() => Ok(_service.GetAll());
-        
+        [HttpGet]
+        [ProducesResponseType<Categories>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCategoryById(int id) => Ok(_service.GetCategoryById(id));
 
+        [HttpGet]
+        [ProducesResponseType<SubCategories>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetSubCategoryById(int id) => Ok(_service.GetSubCategoryById(id));
+
+        [HttpGet]
+        [ProducesResponseType<SubSubCategories>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetSubSubCategoryById(int id) => Ok(_service.GetSubSubCategoryById(id));
     }
 }

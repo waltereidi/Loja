@@ -18,7 +18,9 @@ namespace Dominio.loja.Events.Praedicamenta
         {
             Apply(@event);
         }
-
+        public Praedicamenta()
+        {
+        }
         protected override void EnsureValidState()
         {
             if ( subCategory!=null && subCategory.CategoriesId != category.Id )
@@ -45,6 +47,36 @@ namespace Dominio.loja.Events.Praedicamenta
                 
                 default:throw new NotImplementedException();
             }
+        }
+
+        public void UpdateCategory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateSubCategory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateSubSubCategory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCategory(int id, string name, string description)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateSubSubCategory(int id, string name, string description)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateSubCategory(int id, string name, string description)
+        {
+            throw new NotImplementedException();
         }
     }
 }
