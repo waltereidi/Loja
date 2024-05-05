@@ -14,8 +14,8 @@
             public record class getAllSubCategory(int Id , string Name , string Description ,IEnumerable<getAllSubSubCategory> getSubSubCategories );
             public record class getAllSubSubCategory(int Id , string Name , string Description );
             public record class updateCategory(int Id, string Name, string Description);
-            public record class updateSubCategory(int Id, string Name, string Description);
-            public record class updateSubSubCategory(int Id, string Name, string Description);
+            public record class updateSubCategory(int Id, string Name, string Description , int CategoriesId);
+            public record class updateSubSubCategory(int Id, string Name, string Description , int SubCategoriesId);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Api.loja.Contracts;
 using Api.loja.Data;
 using Api.loja.Service;
+using Dominio.loja.Entity;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -20,7 +21,6 @@ namespace Tests.loja.Api.PraedicamentaService
         public PraedicamentaApplicationServiceTest() 
         {
             _service = new(_context);
-            _transaction = _context.Database.BeginTransaction();
         }
 
         
@@ -32,8 +32,8 @@ namespace Tests.loja.Api.PraedicamentaService
             //action
             _service.Handle(createCategory);
             //Assert
-            Assert.IsNotNull(_service.praedicamenta.GetChanges());
-            _transaction.Rollback();
+            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            //_transaction.Rollback();
         }
         [TestMethod]
         public void createSubCategoriesRegisterNewEvent()
@@ -43,8 +43,8 @@ namespace Tests.loja.Api.PraedicamentaService
             //action
             _service.Handle(createSubCategory);
             //Assert
-            Assert.IsNotNull(_service.praedicamenta.GetChanges());
-            _transaction.Rollback();
+            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            //_transaction.Rollback();
         }
         [TestMethod]
         public void createSubSubCategoriesRegisterNewEvent()
@@ -54,14 +54,45 @@ namespace Tests.loja.Api.PraedicamentaService
             //action
             _service.Handle(createSubSubCategory);
             //Assert
-            Assert.IsNotNull(_service.praedicamenta.GetChanges());
-            _transaction.Rollback();
+            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            //_transaction.Rollback();
         }
         [TestMethod]
         public void getAllDoesNotBreakApplication()
         {
             var i = _service.GetAll();
             Assert.IsNotNull(i);
+        }
+        [TestMethod]
+        public void updateCategoriesWork()
+        {
+            PraedicamentaContract.V1.updateCategory updateCategory = new(1, "Unit Test Category", "Category created by test unit");
+            //action
+            _service.Handle(updateCategory);
+            //Assert
+            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            //_transaction.Rollback();
+        }
+        [TestMethod]
+        public void updateSubCategoriesWork()
+        {
+            PraedicamentaContract.V1.updateSubCategory updateSubCategory = new(1, "Unit Test Category", "Category created by test unit", 1);
+            //action
+            _service.Handle(updateSubCategory);
+            //Assert
+            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            //_transaction.Rollback();
+        }
+        [TestMethod]
+        public void updateSubSubCategoriesWork()
+        {
+            //setup 
+            PraedicamentaContract.V1.updateSubSubCategory updateSubSubCategory = new(1, "Unit Test Category", "Category created by test unit",1);
+            //action
+            _service.Handle(updateSubSubCategory);
+            //Assert
+            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            //_transaction.Rollback();
         }
     }
 }

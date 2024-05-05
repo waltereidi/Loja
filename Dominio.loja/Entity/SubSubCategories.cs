@@ -21,7 +21,12 @@ namespace Dominio.loja.Entity
         {
             switch (@event)
             {
-                
+                case PraedicamentaEvents.CreateSubSubCategory c:
+                    Name = c.Name;
+                    Description = c.Description;
+                    SubCategoriesId = c.SubCategory.Id;
+                    SubCategories = c.SubCategory;
+                    break;
                 default: throw new NotImplementedException();
             }
 

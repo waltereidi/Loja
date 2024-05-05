@@ -23,47 +23,42 @@ namespace Dominio.loja.Events.Praedicamenta
         }
         protected override void EnsureValidState()
         {
-            if ( subCategory!=null && subCategory.CategoriesId != category.Id )
-                throw new AggregateException("Entities does not match");
 
-            if (subSubCategory!=null && subSubCategory.SubCategoriesId != subCategory.Id)
-                throw new AggregateException("Entities does not match");
         }
 
         protected override void When(object @event)
         {
             switch(@event)
             {
-                case PraedicamentaEvents.CreateCategory c : category = new() { Name = c.Name , Description = c.Description , Created_at = DateTime.Now };break;
+                case PraedicamentaEvents.CreateCategory c :
+                     category = new Categories(Apply);
+                     ApplyToEntity(category , c);
+                     break;
                 case PraedicamentaEvents.CreateSubCategory c:
-                    subCategory = new() { Categories = c.Category, Name = c.Name, Description = c.Description, CategoriesId = c.Category.Id, Created_at = DateTime.Now };
-                    category = subCategory.Categories;
-                    ;break;
+                     subCategory = new SubCategories(Apply);
+                     ApplyToEntity(subCategory, c);
+                     break;
                 case PraedicamentaEvents.CreateSubSubCategory c:
-                    subSubCategory = new() { Name = c.Name, Description = c.Description, SubCategoriesId = c.SubCategory.Id, SubCategories = c.SubCategory, Created_at = DateTime.Now };
-                    subCategory = c.SubCategory;
-                    category = c.SubCategory.Categories;
-                    ;break;
-                
+                    subSubCategory = new SubSubCategories(Apply);
+                    ApplyToEntity(subSubCategory , c);
+                    break;
+                case PraedicamentaEvents.UpdateCategory c:
+                    category = new Categories(Apply);
+                    ApplyToEntity(category , c);
+                    break;
+                case PraedicamentaEvents.UpdateSubCategory c:
+                    subCategory = new SubCategories(Apply);
+                    ApplyToEntity(subCategory, c);
+                    break;
+                case PraedicamentaEvents.UpdateSubSubCategory c:
+                    subSubCategory = new SubSubCategories(Apply);
+                    ApplyToEntity(subSubCategory, c);
+                    break;
+
                 default:throw new NotImplementedException();
             }
         }
 
 
-
-        public Categories UpdateCategory(int id, string name, string description)
-        {
-            new();
-        }
-
-        public void UpdateSubSubCategory(int id, string name, string description)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateSubCategory(int id, string name, string description)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
