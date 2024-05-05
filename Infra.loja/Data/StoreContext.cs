@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Entity.Integrations.WFileManager;
+using Dominio.loja.Events.Praedicamenta;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using WConnectionKeyVault;
@@ -59,7 +60,7 @@ namespace Api.loja.Data
             });
         }
 
-
+      
     }
    
 }

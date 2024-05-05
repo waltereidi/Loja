@@ -49,24 +49,11 @@ namespace Dominio.loja.Events.Praedicamenta
             }
         }
 
-        public void UpdateCategory()
-        {
-            throw new NotImplementedException();
-        }
 
-        public void UpdateSubCategory()
-        {
-            throw new NotImplementedException();
-        }
 
-        public void UpdateSubSubCategory()
+        public Categories UpdateCategory(int id, string name, string description)
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateCategory(int id, string name, string description)
-        {
-            throw new NotImplementedException();
+            new();
         }
 
         public void UpdateSubSubCategory(int id, string name, string description)

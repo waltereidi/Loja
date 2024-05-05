@@ -13,7 +13,7 @@ namespace Framework.loja
         public DateTime Created_at { get; set; }
         public DateTime? Updated_at { get; set; }
         private readonly Action<object> _applier;
-        public TId Id { get; protected set; }
+        public TId Id { get; set; }
         //Constructor used to receive an event
         protected Entity(Action<object> applier) => _applier = applier;
 

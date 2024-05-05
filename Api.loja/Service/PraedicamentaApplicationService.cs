@@ -3,6 +3,11 @@ using Api.loja.Data;
 using Dominio.loja.Entity;
 using Dominio.loja.Events.Praedicamenta;
 using Framework.loja.Interfaces;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using static Api.loja.Contracts.PraedicamentaContract;
@@ -20,21 +25,23 @@ namespace Api.loja.Service
         {
             switch (command)
             {
-                case V1.AddCategories c : HandleCreateCategories(c);break;
+                case V1.AddCategories c: HandleCreateCategories(c); break;
                 case V1.AddSubCategories c: HandleCreateSubCategories(c); break;
                 case V1.AddSubSubCategories c: HandleCreateSubSubCategories(c); break;
-                case V1.updateCategory u: HandleUpdate( c=>c.UpdateCategory(u.Id , u.Name , u.Description ) );break;
-                case V1.updateSubCategory u: HandleUpdate(c => c.UpdateSubCategory(u.Id , u.Name , u.Description)); break;
-                case V1.updateSubSubCategory u: HandleUpdate(c => c.UpdateSubSubCategory(u.Id , u.Name , u.Description )); break;
+                case V1.updateCategory u: UpdateHandler( _context.categories.Update(new Categories() { Id = u.Id, Name = u.Name, Description = u.Description, Updated_at = DateTime.Now })); break;
+                case V1.updateSubCategory u: UpdateHandler(_context.subCategories.Update( new SubCategories() { Id = u.Id,Name= u.Name,Description=  u.Description,Updated_at =DateTime.Now })); break;
+                case V1.updateSubSubCategory u: UpdateHandler(_context.subSubCategories.Update(new SubSubCategories() { Id = u.Id , Name =u.Name , Description = u.Description , Updated_at = DateTime.Now })); break;
                 default:break;
             }
         }
 
-        private async Task HandleUpdate(Action<Praedicamenta> action) 
+        private void UpdateHandler<T>(EntityEntry<T> action) where T : class
         {
-                
+            _context.SaveChangesAsync();
         }
+
         
+
         private void HandleCreateSubSubCategories(V1.AddSubSubCategories c)
         {
             SubCategories subCategory = _context.subCategories.First(x => x.Id == c.SubCategoriesId);
