@@ -9,6 +9,6 @@ namespace Framework.loja.Interfaces
 {
     public interface IApplicationService 
     {
-        Task Handle<T>(T command) where T : class;
+        Task Handle(object command);
     }
 }

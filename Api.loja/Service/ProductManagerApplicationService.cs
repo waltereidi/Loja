@@ -12,7 +12,7 @@ namespace Api.loja.Service
             _context = context;
         }
 
-        public Task Handle<T>(T command) where T : class
+        public Task Handle(object command)
         {
             throw new NotImplementedException();
         }

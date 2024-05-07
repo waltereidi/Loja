@@ -14,8 +14,8 @@ namespace Dominio.loja.Events.Praedicamenta
         public record class CreateCategory(string Name , string Description);
         public record class CreateSubCategory(Categories Category, string Name, string Description);
         public record class CreateSubSubCategory(SubCategories SubCategory, string Name, string Description);
-        public record class UpdateSubSubCategory(SubCategories subCategory, string name, string description);
-        public record class UpdateSubCategory(Categories Category, string name, string description);
-        public record class UpdateCategory( string name, string description);
+        public record class UpdateSubSubCategory(int? Id, string name, string description);
+        public record class UpdateSubCategory(int? Id, string name, string description);
+        public record class UpdateCategory( int? Id, string name, string description);
     }
 }

@@ -18,7 +18,7 @@ namespace Tests.loja.Api.ApplicationServiceTest
         public void LoginRequest_Executes()
         {
             var request = new AuthenticationContract.V1.LoginRequest("testCase@email.com" , "123");
-            _service.Handle<AuthenticationContract.V1.LoginRequest>(request);
+            _service.Handle(request);
             var login = _service._auth;
             Assert.IsNotNull(login.loginAdmin.Token);
             

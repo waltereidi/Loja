@@ -51,12 +51,7 @@ namespace Tests.loja.Api.PraedicamentaService
             //Assert
             Assert.IsNotNull(_service._praedicamenta.GetChanges());
         }
-        [TestMethod]
-        public void getAllDoesNotBreakApplication()
-        {
-            var i = _service.GetAll();
-            Assert.IsNotNull(i);
-        }
+
         [TestMethod]
         public void updateCategoriesWork()
         {
@@ -69,7 +64,7 @@ namespace Tests.loja.Api.PraedicamentaService
         [TestMethod]
         public void updateSubCategoriesWork()
         {
-            PraedicamentaContract.V1.updateSubCategory updateSubCategory = new(1, "Unit Test Category", "Category created by test unit", 1);
+            PraedicamentaContract.V1.updateSubCategory updateSubCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(updateSubCategory);
             //Assert
@@ -79,7 +74,7 @@ namespace Tests.loja.Api.PraedicamentaService
         public void updateSubSubCategoriesWork()
         {
             //setup 
-            PraedicamentaContract.V1.updateSubSubCategory updateSubSubCategory = new(1, "Unit Test Category", "Category created by test unit",1);
+            PraedicamentaContract.V1.updateSubSubCategory updateSubSubCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(updateSubSubCategory);
             //Assert

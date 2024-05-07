@@ -11,28 +11,29 @@ namespace Api.loja.Service
         private readonly IConfiguration _configuration;
         private readonly StoreContext _context;
         public Authentication _auth;
+        private readonly string _issuer;
+        private readonly string _key;
         public AuthenticationApplicationService(IConfiguration configuration ,StoreContext context )
         {
             _configuration = configuration;
             _context = context;
+            _issuer = _configuration.GetSection("Jwt:Issuer").Value ?? throw new ArgumentNullException("Jwt Not configured");
+            _key = _configuration.GetSection("Jwt:Key").Value ?? throw new ArgumentNullException("Jwt Not configured");
         }
 
-        public async Task Handle<T>(T command) where T : class
+        public Task Handle(object command) => command switch
         {
-            switch (command)
-            {
-                case AuthenticationContract.V1.LoginRequest cmd : HandleAuthentication(cmd);break;
-                    default:throw new NotImplementedException();
-            }
+            AuthenticationContract.V1.LoginRequest cmd => HandleAuthentication(cmd),
+            _ => Task.CompletedTask
+        };
             
-        }
 
         private async Task HandleAuthentication(AuthenticationContract.V1.LoginRequest cmd) 
         {
             if (!_context.clients.Any(x => x.Email == cmd.Email && x.Password == cmd.Password))
                 throw new ObjectNotFoundException("User not found");
 
-            _auth = new(_context.clients.First(x=>x.Email==cmd.Email && x.Password == cmd.Password) , _configuration.GetSection("Jwt:Issuer").Value ,_configuration.GetSection("Jwt:Key").Value );
+            _auth = new(_context.clients.First(x=>x.Email==cmd.Email && x.Password == cmd.Password) , _issuer , _key);
         }
 
 

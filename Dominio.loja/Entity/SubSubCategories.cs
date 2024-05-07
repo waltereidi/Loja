@@ -26,14 +26,11 @@ namespace Dominio.loja.Entity
                     Name = c.Name;
                     Description = c.Description;
                     SubCategoriesId = c.SubCategory.Id ?? throw new ArgumentNullException(nameof(c.SubCategory.Id));
-                    SubCategories = c.SubCategory;
                     Created_at = DateTime.Now;
                     break;
                 case PraedicamentaEvents.UpdateSubSubCategory c:
                     Name = c.name;
                     Description = c.description;
-                    SubCategoriesId = c.subCategory.Id ?? throw new ArgumentNullException(nameof(c.subCategory.Id));
-                    SubCategories = c.subCategory;
                     Updated_at = DateTime.Now;
                     break;
                 default: throw new NotImplementedException();

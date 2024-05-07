@@ -25,7 +25,7 @@ namespace Api.loja.Controllers.Admin
         [HttpGet]
         [ProducesResponseType<LoginAdmin>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAll() => Ok(_service.GetAll());
+        
         [HttpGet]
         [ProducesResponseType<Categories>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCategoryById(int id) => Ok(_service.GetCategoryById(id));
