@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity
 {
     [Table("categories")]
-    public class Categories : Entity<int>
+    public class Categories : Entity<int?>
     {
 
         [StringLength(120)]
@@ -26,6 +26,12 @@ namespace Dominio.loja.Entity
                 case PraedicamentaEvents.CreateCategory e:
                     Name = e.Name;
                     Description = e.Description;
+                    Created_at = DateTime.Now;
+                    break;
+                case PraedicamentaEvents.UpdateCategory e:
+                    Name = e.name;
+                    Description = e.description;
+                    Updated_at = DateTime.Now;
                     break;
                 default: throw new NotImplementedException();
             }

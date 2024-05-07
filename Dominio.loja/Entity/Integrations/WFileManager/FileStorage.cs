@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [Table("FileStorage")]
-    public class FileStorage : Entity<int>
+    public class FileStorage : Entity<int?>
     {
         public DateTime CreationTime { get; set; }
         public DateTime CreationTimeUtc { get; set; }

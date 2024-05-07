@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace Dominio.loja.Entity
 {
     [Table("categoriesPromotion")]
-    public class CategoriesPromotion : Entity<int>
+    public class CategoriesPromotion : Entity<int?>
     {
        
         [ForeignKey("CateogoriesId")]

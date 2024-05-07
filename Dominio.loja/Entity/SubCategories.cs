@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("SubCategories")]
-    public class SubCategories : Entity<int>
+    public class SubCategories : Entity<int?>
     {
 
         [StringLength(30)]
@@ -30,8 +30,16 @@ namespace Dominio.loja.Entity
                 case PraedicamentaEvents.CreateSubCategory c:
                     Name = c.Name;
                     Description = c.Description;
-                    CategoriesId = c.Category.Id;
+                    CategoriesId = c.Category.Id ?? throw new ArgumentNullException(nameof(c.Category.Id));
                     Categories = c.Category;
+                    Created_at = DateTime.Now;
+                    break;
+                case PraedicamentaEvents.UpdateSubCategory c:
+                    Name = c.name;
+                    Description = c.description;
+                    CategoriesId = c.Category.Id ?? throw new ArgumentNullException(nameof(c.Category.Id));
+                    Categories = c.Category;
+                    Updated_at = DateTime.Now;
                     break;
                 default: throw new NotImplementedException();
             }

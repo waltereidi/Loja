@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("permissionsRelation")]
-    public class PermissionsRelation : Entity<int>
+    public class PermissionsRelation : Entity<int?>
     {
 
 

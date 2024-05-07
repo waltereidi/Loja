@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity
 {
     [Table("RequestOrdersProducts")]
-    public class RequestOrdersProducts : Entity<int>
+    public class RequestOrdersProducts : Entity<int?>
     {
 
         [ForeignKey("RequestOrdersId")]

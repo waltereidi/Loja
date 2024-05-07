@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity
 {
     [Table("clients")]
-    public class Clients : Entity<int>
+    public class Clients : Entity<int?>
     {
 
 

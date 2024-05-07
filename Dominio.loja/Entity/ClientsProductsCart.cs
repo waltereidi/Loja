@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity
 {
     [Table("clientsProductsCart")]
-    public class ClientsProductsCart : Entity<int>
+    public class ClientsProductsCart : Entity<int?>
     {
 
         public int Quantity { get;set;}

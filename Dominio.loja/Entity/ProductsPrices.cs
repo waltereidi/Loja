@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("productsPrices")]
-    public class ProductsPrices : Entity<int>
+    public class ProductsPrices : Entity<int?>
     {
 
         [ForeignKey("ProductsId")]

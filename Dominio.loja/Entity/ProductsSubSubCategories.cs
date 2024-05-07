@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("ProductsSubSubCategories")]
-    public class ProductsSubSubCategories : Entity<int>
+    public class ProductsSubSubCategories : Entity<int?>
     {
         public int SubSubCategoriesId { get; set; }
         public int ProductsId { get; set; }

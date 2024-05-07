@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Entity
 {
-    public class SubCategoriesProducts : Entity<int>
+    public class SubCategoriesProducts : Entity<int?>
     {
         public int ProductsId { get; set; }
         public int SubCategoriesId { get; set; }

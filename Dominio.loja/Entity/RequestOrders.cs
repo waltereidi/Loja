@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dominio.loja.Entity
 {
-    public class RequestOrders : Entity<int>
+    public class RequestOrders : Entity<int?>
     {
 
         [StringLength(2048)]

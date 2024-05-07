@@ -2,6 +2,7 @@
 using Dominio.loja.Entity;
 using Dominio.loja.Events.Praedicamenta;
 using Framework.loja.Interfaces;
+using NPOI.SS.Formula.Functions;
 using static Api.loja.Contracts.PraedicamentaContract;
 
 namespace Api.loja.Service
@@ -19,7 +20,7 @@ namespace Api.loja.Service
         {
             switch (command)
             {
-                case V1.AddCategories c: HandleCreateCategories(c); break;
+                case V1.AddCategories c: HandleCreateCategories(c);break;
                 case V1.AddSubCategories c: HandleCreateSubCategories(c); break;
                 case V1.AddSubSubCategories c: HandleCreateSubSubCategories(c); break;
                 case V1.updateCategory u: HandleUpdateCategories(u); break;
@@ -29,55 +30,54 @@ namespace Api.loja.Service
             }
         }
 
-        private void HandleUpdateSubSubCategories(V1.updateSubSubCategory c)
+        private async Task HandleUpdateSubSubCategories(V1.updateSubSubCategory c)
         {
             SubCategories subCategory = _context.subCategories.First(x => x.Id == c.SubCategoriesId );
             _praedicamenta = new(new PraedicamentaEvents.UpdateSubSubCategory(subCategory, c.Name, c.Description));
             _context.subSubCategories.Update(_praedicamenta.subSubCategory);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        private void HandleUpdateSubCategories(V1.updateSubCategory c)
+        private async Task HandleUpdateSubCategories(V1.updateSubCategory c)
         {
             Categories category = _context.categories.First(x => x.Id == c.CategoriesId);
             _praedicamenta = new(new PraedicamentaEvents.UpdateSubCategory(category, c.Name, c.Description));
             _context.subCategories.Update(_praedicamenta.subCategory);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        private void HandleUpdateCategories(V1.updateCategory c)
+        private async Task HandleUpdateCategories(V1.updateCategory c)
         {
             _praedicamenta = new(new PraedicamentaEvents.UpdateCategory(c.Name, c.Description));
             _context.categories.Update(_praedicamenta.category);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        private void HandleCreateSubSubCategories(V1.AddSubSubCategories c)
+        private async Task HandleCreateSubSubCategories(V1.AddSubSubCategories c)
         {
             SubCategories subCategory = _context.subCategories.First(x => x.Id == c.SubCategoriesId);
             _praedicamenta = new(new PraedicamentaEvents.CreateSubSubCategory(subCategory, c.Name, c.Description));
             _context.subSubCategories.Add(_praedicamenta.subSubCategory);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        private void HandleCreateSubCategories(V1.AddSubCategories c)
+        private async Task HandleCreateSubCategories(V1.AddSubCategories c)
         {
             Categories category = _context.categories.First(x=> x.Id == c.CategoriesId);
             _praedicamenta = new(new PraedicamentaEvents.CreateSubCategory(category ,c.Name, c.Description));
             _context.subCategories.Add(_praedicamenta.subCategory);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
         private async Task HandleCreateCategories(V1.AddCategories c)
         {
-            _praedicamenta= new(new PraedicamentaEvents.CreateCategory(c.Name , c.Description) );
+            _praedicamenta = new(new PraedicamentaEvents.CreateCategory(c.Name, c.Description));
             _context.categories.Add(_praedicamenta.category);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        public IEnumerable<V1.getAll>? GetAll()
-        {
-            return _context.categories
+        public async Task<IEnumerable<V1.getAll>>? GetAll() =>
+        _context.categories
                 .Select(cat => new V1.getAll(cat.Id, cat.Name, cat.Description,
                 _context.subCategories.Any(asub => asub.CategoriesId == cat.Id) ?
                     _context.subCategories.Where(xsub => xsub.CategoriesId == cat.Id)
@@ -88,18 +88,18 @@ namespace Api.loja.Service
                             .Select(subsub => new V1.getAllSubSubCategory(subsub.Id, subsub.Name, subsub.Description)).ToList() : null
                     )).ToList() :null
               )).ToList();
-        }
-        public V1.GetCategories GetCategoryById(int id) => _context.categories
+
+        public async Task<V1.GetCategories> GetCategoryById(int id) => _context.categories
             .Where(x => x.Id == id)
             .Select(s => new V1.GetCategories(s.Id, s.Name, s.Description, s.Created_at, s.Updated_at))
             .FirstOrDefault();
             
-        public V1.GetSubCategories GetSubCategoryById(int id) => _context.subCategories
+        public async Task<V1.GetSubCategories> GetSubCategoryById(int id) => _context.subCategories
             .Where(x=>x.Id == id)
             .Select(s=> new V1.GetSubCategories(s.Id , s.Name , s.Description ,s.CategoriesId, s.Created_at , s.Updated_at ))
             .FirstOrDefault();
 
-        public V1.GetSubSubCategories GetSubSubCategoryById(int id) => _context.subSubCategories
+        public async Task<V1.GetSubSubCategories> GetSubSubCategoryById(int id) => _context.subSubCategories
             .Where(x=>x.Id == id)
             .Select(s=> new V1.GetSubSubCategories(s.Id, s.Name , s.Description , s.SubCategoriesId , s.Created_at , s.Updated_at))
             .FirstOrDefault();

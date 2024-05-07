@@ -17,7 +17,11 @@ namespace Api.loja.Data
 		public StoreContext()
 		{
 		}
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseSqlServer("loja.Infra".GetConnectionString());
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder
+            .UseLazyLoadingProxies()
+            .UseSqlServer("loja.Infra".GetConnectionString())
+            .LogTo(Console.WriteLine);
+
 		public virtual DbSet<Categories> categories { get; set; }
         public virtual DbSet<SubCategories> subCategories { get; set; }
         public virtual DbSet<SubSubCategories> subSubCategories { get; set; }
@@ -45,18 +49,17 @@ namespace Api.loja.Data
         {
             modelBuilder.Entity<SubCategories>(entity =>
             {
-                entity.HasKey(e => e.Id);
                 entity.HasOne(e => e.Categories)
                 .WithOne()
-                .HasForeignKey<Categories>(e => e.Id);
+                .HasForeignKey<SubCategories>(e => e.CategoriesId);
+
             });
 
             modelBuilder.Entity<SubSubCategories>(entity =>
             {
-                entity.HasKey(e => e.Id);
                 entity.HasOne(e => e.SubCategories)
                 .WithOne()
-                .HasForeignKey<SubCategories>(e => e.Id);
+                .HasForeignKey<SubSubCategories>(e => e.SubCategoriesId);
             });
         }
 

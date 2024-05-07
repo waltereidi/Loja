@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [Table("FileDirectory")]
-    public class FileDirectory : Entity<int>
+    public class FileDirectory : Entity<int?>
     {
         public static explicit operator FileDirectory(string dir) => new (dir);
         public static explicit operator FileDirectory(int id) => new (id);

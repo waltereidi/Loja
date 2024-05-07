@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("prices")]
-    public class Prices : Entity<int>
+    public class Prices : Entity<int?>
     {
 
         [Column("Price", TypeName = "money")]

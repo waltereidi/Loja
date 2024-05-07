@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Dominio.loja.Entity
 {
     [Table("products")]
-    public class Products : Entity<int>
+    public class Products : Entity<int?>
     {
 
         [StringLength(255)]
