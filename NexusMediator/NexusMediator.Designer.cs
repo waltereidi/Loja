@@ -1,4 +1,7 @@
-﻿namespace NexusMediator
+﻿using System.Reflection.Metadata.Ecma335;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace NexusMediator
 {
     partial class NexusMediator
     {
@@ -28,7 +31,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            
             SuspendLayout();
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(12, 37);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(776, 358);
+            richTextBox1.TabIndex = 0;
+            richTextBox1.Text = "";
             // 
             // NexusMediator
             // 
@@ -36,6 +48,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 407);
             ControlBox = false;
+            Controls.Add(richTextBox1);
             Name = "NexusMediator";
             Tag = "";
             Text = "MicroServices Console";
@@ -44,5 +57,11 @@
         }
 
         #endregion
+
+        private static RichTextBox richTextBox1 = new RichTextBox();
+        public void AddText(string text)
+        {
+            richTextBox1.AppendText(text);
+        }
     }
 }
