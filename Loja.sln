@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.loja", "Framework
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServices", "{4B3AD84F-BF21-4D6D-B3CD-565099DE4D0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMediator", "NexusMediator\NexusMediator.csproj", "{4C61533F-CC5D-4B84-8594-181088B0B704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexusMediator", "NexusMediator\NexusMediator.csproj", "{4C61533F-CC5D-4B84-8594-181088B0B704}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
