@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Topshelf;
+using Topshelf.ServiceConfigurators;
 
-namespace NexusMediator.TopShelf
+namespace NexusMediator
 {
     public class TopShelfServices : ServiceControl
     {
         public bool Start(HostControl hostControl)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public bool Stop(HostControl hostControl)
         {
-            hostControl.Stop();
-            return true;
+            throw new NotImplementedException();
         }
     }
 }

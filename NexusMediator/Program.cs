@@ -1,26 +1,23 @@
-
-using NexusMediator.TopShelf;
+﻿
 using Topshelf;
-
-namespace NexusMediator
+namespace TopShelfServicesManager
 {
-    public  class Program
+    public class Program
     {
-        
-        [STAThread]
-        static void Main()
+        public static void Main(string[] args)
         {
             HostFactory.Run(c =>
             {
                 c?.EnablePauseAndContinue();
                 c?.EnableShutdown();
                 c?.Service<TopShelfServices>();
+
                 c?.OnException(ex => Console.WriteLine(ex.Message));
-                c?.RunAsNetworkService();
+                c?.RunAsLocalService();
                 c?.StartAutomaticallyDelayed();
-                c?.SetDescription(string.Intern("MicroService Manager Sample"));
-                c?.SetDisplayName(string.Intern("MicroServiceManager"));
-                c?.SetServiceName(string.Intern("MicroServiceManager"));
+                c?.SetDescription(string.Intern("MicroServices Manager"));
+                c?.SetDisplayName(string.Intern("NexusMeidator"));
+                c?.SetServiceName(string.Intern("NexusMediator"));
                 c?.EnableServiceRecovery(r =>
                 {
                     r?.OnCrashOnly();
@@ -30,9 +27,7 @@ namespace NexusMediator
                     r?.SetResetPeriod(0);
                 });
             });
-            ApplicationConfiguration.Initialize();
-            Application.Run(new WindowsForms());
-
+            Console.ReadLine();
         }
 
     }
