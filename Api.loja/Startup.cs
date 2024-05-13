@@ -116,7 +116,6 @@ public class Startup
         {
             endpoints.MapControllers();
         });
-        app.UseMvc();
         app.UseCors(option=>option.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => new Uri(origin).Host =="localhost"));
     }
 }
