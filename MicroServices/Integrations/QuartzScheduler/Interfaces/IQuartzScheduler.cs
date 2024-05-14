@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Quartz;
 
 namespace QuartzScheduler.Interfaces
 {
@@ -10,10 +6,10 @@ namespace QuartzScheduler.Interfaces
     {
         void Start();
         void ShutDown();
-        void AddJob();
-        void RemoveJob();
-        void AddTrigger();
-        void RemoveTrigger();
+        void AddJob(IJobDetail job , ITrigger trigger);
+        void RemoveJob(IJobDetail job);
+        void CreateJob<T>(string jobName, string group , CronExpression cronExpression);
+        
 
     }
 }
