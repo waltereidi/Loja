@@ -11,6 +11,7 @@ namespace MicroServices.Integrations.QuartzScheduler
         private IScheduler _scheduler { get; set; }
         public QuartzScheduler()
         {
+            LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
             _factory = new StdSchedulerFactory();
 
         }
@@ -29,11 +30,6 @@ namespace MicroServices.Integrations.QuartzScheduler
             await _scheduler.Shutdown();
         }
 
-        public async void AddJob(IJobDetail job, ITrigger trigger)
-        {
-            await _scheduler.ScheduleJob(job, trigger);
-        }
-
         public void RemoveJob(IJobDetail job)
         {
             throw new NotImplementedException();
@@ -42,13 +38,13 @@ namespace MicroServices.Integrations.QuartzScheduler
         public async void CreateJob<T>(string jobName, string group, CronExpression cronExpression)
         {
             var job = JobBuilder.Create(typeof(T))
-                        .WithIdentity("name", "group")
+                        .WithIdentity($"{jobName}_Job", group)
                         .Build();
 
             ITrigger trigger = TriggerBuilder.Create()
-            .WithIdentity("trigger3", "group1")
+            .WithIdentity($"{ jobName }_Trigger", group)
             .WithCronSchedule(cronExpression.CronExpressionString)
-            .ForJob(jobName, group)
+            .ForJob($"{jobName}_Job", group)
             .Build();
 
             await _scheduler.ScheduleJob(job, trigger);

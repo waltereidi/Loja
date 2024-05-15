@@ -40,7 +40,7 @@
 	    <ProjectReference Include="..\Loja.loja\Loja.loja.esproj">
 		    <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 	    </ProjectReference>
-	    <ProjectReference Include="..\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj" />
+	    <ProjectReference Include="..\MicroServices\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj" />
 	    <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
     </ItemGroup>
     <ItemGroup>

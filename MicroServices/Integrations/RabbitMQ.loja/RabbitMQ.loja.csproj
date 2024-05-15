@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Dominio.loja\Dominio.loja.csproj" />
+    <ProjectReference Include="..\..\..\Dominio.loja\Dominio.loja.csproj" />
   </ItemGroup>
 
 

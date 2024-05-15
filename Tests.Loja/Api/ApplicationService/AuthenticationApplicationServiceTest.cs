@@ -1,4 +1,5 @@
-﻿using Api.loja.Contracts;
+﻿
+using Api.loja.Contracts;
 using Api.loja.Data;
 using Api.loja.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

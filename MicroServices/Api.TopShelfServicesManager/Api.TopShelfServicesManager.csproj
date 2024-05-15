@@ -16,4 +16,10 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Integrations\QuartzScheduler\QuartzScheduler.csproj" />
+    <ProjectReference Include="..\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj" />
+    <ProjectReference Include="..\Integrations\WFileUploader\WFileManager.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Entity.Integrations.WFileManager;
+﻿
+using Dominio.loja.Entity.Integrations.WFileManager;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
