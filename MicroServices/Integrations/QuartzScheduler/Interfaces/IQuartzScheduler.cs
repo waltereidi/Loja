@@ -5,10 +5,8 @@ namespace QuartzScheduler.Interfaces
     public interface IQuartzScheduler
     {
         void Start();
-        void ShutDown();
-        void RemoveJob(IJobDetail job);
+        void Stop();
         void CreateJob<T>(string jobName, string group , CronExpression cronExpression);
-        void SetScheduler();
-
+        IScheduler _scheduler { get; set; }
     }
 }

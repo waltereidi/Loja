@@ -5,35 +5,22 @@ using QuartzScheduler.Interfaces;
 
 namespace MicroServices.Integrations.QuartzScheduler
 {
-    public class QuartzScheduler : IQuartzScheduler, ILogProvider
+    
+    public class QuartzScheduler : IQuartzScheduler, ILogProvider 
     {
         private readonly StdSchedulerFactory _factory;
-        private IScheduler _scheduler { get; set; }
+        public IScheduler _scheduler { get; set; }
         public QuartzScheduler()
         {
             LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
             _factory = new StdSchedulerFactory();
-
         }
-        public async void SetScheduler()
-        {
-            _scheduler = await _factory.GetScheduler();
-        }
-
         public async void Start()
         {
+            _scheduler = await _factory.GetScheduler();
             await _scheduler.Start();
         }
-
-        public async void ShutDown()
-        {
-            await _scheduler.Shutdown();
-        }
-
-        public void RemoveJob(IJobDetail job)
-        {
-            throw new NotImplementedException();
-        }
+        public async void Stop()=> await _scheduler.Shutdown();
 
         public async void CreateJob<T>(string jobName, string group, CronExpression cronExpression)
         {
@@ -47,7 +34,7 @@ namespace MicroServices.Integrations.QuartzScheduler
             .ForJob($"{jobName}_Job", group)
             .Build();
 
-            await _scheduler.ScheduleJob(job, trigger);
+            var task =await _scheduler.ScheduleJob(job, trigger);
         }
 
         public Logger GetLogger(string name)
@@ -65,6 +52,9 @@ namespace MicroServices.Integrations.QuartzScheduler
             throw new NotImplementedException();
         }
 
-
+        public void RemoveJob(IJobDetail job)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

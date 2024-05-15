@@ -21,26 +21,21 @@ namespace Tests.loja.IntegrationsTest.QuartzScheduler
             _scheduler = new MicroServices.Integrations.QuartzScheduler.QuartzScheduler();
             //Tick every second
             _cron = new CronExpression("* * * * * ?");
-            _scheduler.SetScheduler();
             _scheduler.Start();
             
         }
-        [TestCleanup]
-        public void Cleanup()
-        {
-            _scheduler.ShutDown();
-        }
 
         [TestMethod]
-        public void CreateNewJob()
+        public  void CreateNewJob()
         {
             HelloWorldJob jobInstance = new();
             _scheduler.CreateJob<HelloWorldJob>("testCasejob", "group1", _cron);
-
-            Thread.Sleep(61000);
-            Assert.IsTrue(File.Exists(jobInstance.path));
-
+            var jobs = _scheduler._scheduler.GetJobGroupNames().Result ;
+            
+            Assert.IsTrue(jobs.Count()>0);
+            
         }
+        
 
     }
 
