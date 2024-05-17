@@ -12,10 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Framework.loja\Framework.loja.csproj" />
     <ProjectReference Include="..\Integrations\QuartzScheduler\QuartzScheduler.csproj" />
     <ProjectReference Include="..\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj" />
     <ProjectReference Include="..\Integrations\WFileUploader\WFileManager.csproj" />

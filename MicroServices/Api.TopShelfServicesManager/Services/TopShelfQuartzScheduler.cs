@@ -6,7 +6,7 @@ namespace Api.TopShelfServicesManager.Services
     
     public class TopShelfQuartzScheduler : ServiceControl
     {
-        public static MicroServices.Integrations.QuartzScheduler.QuartzScheduler _quartz;
+        public static MicroServices.Integrations.QuartzScheduler.QuartzScheduler _quartz = new();
         public bool Start(HostControl hostControl)
         {
             try

@@ -1,6 +1,9 @@
 ﻿using Api.TopShelfServicesManager.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System.ServiceProcess;
 using System.Text.Json.Serialization;
+using System.Threading;
 using Topshelf;
 
 namespace Api.TopShelfServicesManager
@@ -51,14 +54,15 @@ namespace Api.TopShelfServicesManager
             {
                 c?.EnablePauseAndContinue();
                 c?.EnableShutdown();
+                // 👇 Add here microservices integrations to be managed
                 c?.Service<TopShelfQuartzScheduler>();
 
                 c?.OnException(ex => Console.WriteLine(ex.Message));
-                c?.RunAsLocalService();
-                c?.StartAutomaticallyDelayed();
-                c?.SetDescription(string.Intern("MicroServices Manager"));
-                c?.SetDisplayName(string.Intern("NexusMeidator"));
-                c?.SetServiceName(string.Intern("NexusMediator"));
+                c?.RunAsNetworkService();
+                c?.StartManually();
+                c?.SetDescription(string.Intern("TopShelf MicroServices Manager"));
+                c?.SetDisplayName(string.Intern("TopShelf_v0.0.1"));
+                c?.SetServiceName(string.Intern("TopShelf_v0.0.1"));
                 c?.EnableServiceRecovery(r =>
                 {
                     r?.OnCrashOnly();
@@ -68,9 +72,8 @@ namespace Api.TopShelfServicesManager
                     r?.SetResetPeriod(0);
                 });
             });
-            // 👇 Add here microservices integrations to be managed
 
-
+            service.AddSingleton(new ServiceController("TopShelf_v0.0.1"));
 
         }
         public void Configure(IApplicationBuilder app, IHostEnvironment env)

@@ -23,7 +23,7 @@ namespace QuartzScheduler
             ServicesToScheduleOnStart = new List<ScheduledService>();
 
             //Add here your services
-            ServicesToScheduleOnStart.Add(new(new CronExpression("* * * * * ?") , "HelloWorld" , "Group1" , typeof(HelloWorldJob)));
+            ServicesToScheduleOnStart.Add(new(new CronExpression("1 * * * * ?") , "HelloWorld" , "Group1" , typeof(HelloWorldJob)));
 
 
             //Validation
