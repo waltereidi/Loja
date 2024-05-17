@@ -19,8 +19,6 @@ namespace Tests.loja.IntegrationsTest.QuartzScheduler
         public QuartzSchedulerTest()
         {
             _scheduler = new MicroServices.Integrations.QuartzScheduler.QuartzScheduler();
-            //Tick every second
-            _cron = new CronExpression("* * * * * ?");
             _scheduler.Start();
             
         }
@@ -28,12 +26,9 @@ namespace Tests.loja.IntegrationsTest.QuartzScheduler
         [TestMethod]
         public  void CreateNewJob()
         {
-            HelloWorldJob jobInstance = new();
-            _scheduler.CreateJob<HelloWorldJob>("testCasejob", "group1", _cron);
             var jobs = _scheduler._scheduler.GetJobGroupNames().Result ;
-            
+            Thread.Sleep(20000);
             Assert.IsTrue(jobs.Count()>0);
-            
         }
         
 

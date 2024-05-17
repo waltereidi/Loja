@@ -6,7 +6,7 @@ namespace QuartzScheduler.Interfaces
     {
         void Start();
         void Stop();
-        void CreateJob<T>(string jobName, string group , CronExpression cronExpression);
+        void CreateJob(string jobName, string group , CronExpression cronExpression , Type t);
         IScheduler _scheduler { get; set; }
     }
 }

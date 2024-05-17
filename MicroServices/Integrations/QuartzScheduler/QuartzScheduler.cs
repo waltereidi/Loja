@@ -1,6 +1,7 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
+using QuartzScheduler;
 using QuartzScheduler.Interfaces;
 
 namespace MicroServices.Integrations.QuartzScheduler
@@ -14,17 +15,24 @@ namespace MicroServices.Integrations.QuartzScheduler
         {
             LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
             _factory = new StdSchedulerFactory();
+           
         }
         public async void Start()
         {
             _scheduler = await _factory.GetScheduler();
-            await _scheduler.Start();
-        }
-        public async void Stop()=> await _scheduler.Shutdown();
 
-        public async void CreateJob<T>(string jobName, string group, CronExpression cronExpression)
+            await _scheduler.Start();
+
+            ScheduleOnStart scheduleOnStart = new();
+
+            scheduleOnStart.ServicesToScheduleOnStart
+                .ForEach( async f => CreateJob(f.jobName, f.group, f.cron, f.t));
+        }
+        public async void Stop()=> await _scheduler.Shutdown(true);
+
+        public async void CreateJob(string jobName, string group, CronExpression cronExpression , Type t)
         {
-            var job = JobBuilder.Create(typeof(T))
+            var job = JobBuilder.Create(t)
                         .WithIdentity($"{jobName}_Job", group)
                         .Build();
 
@@ -34,7 +42,7 @@ namespace MicroServices.Integrations.QuartzScheduler
             .ForJob($"{jobName}_Job", group)
             .Build();
 
-            var task =await _scheduler.ScheduleJob(job, trigger);
+            await _scheduler.ScheduleJob(job, trigger);
         }
 
         public Logger GetLogger(string name)

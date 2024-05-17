@@ -14,14 +14,8 @@ namespace QuartzScheduler.Jobs
         public string path = Path.Combine(Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.Parent.FullName, "Task Scheduler Test.file");
         public async Task Execute(IJobExecutionContext context)
         {
-            if(!File.Exists(path))
-            {
-                File.Create(path);
-                Console.WriteLine("CREATED FILE");
-                Debug.WriteLine("CREATED FILE");
-            }
-            Console.WriteLine("FILE ALREADY CREATED");
-            Debug.WriteLine("FILE ALREADY CREATED");
+            Console.WriteLine("HELLO WORLD");
+            Debug.WriteLine("HELLO WORLD");
 
         }
     }
