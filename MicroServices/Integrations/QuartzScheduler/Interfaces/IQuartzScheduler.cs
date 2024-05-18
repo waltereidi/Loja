@@ -1,6 +1,6 @@
 ﻿using Quartz;
 
-namespace QuartzScheduler.Interfaces
+namespace MicroServices.Integrations.QuartzScheduler.Interfaces
 {
     public interface IQuartzScheduler
     {

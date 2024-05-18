@@ -1,4 +1,6 @@
-﻿using Api.TopShelfServicesManager.Services;
+﻿using Api.TopShelfServicesManager.Contracts;
+using Api.TopShelfServicesManager.MicroService;
+using Api.TopShelfServicesManager.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.ServiceProcess;
@@ -14,7 +16,7 @@ namespace Api.TopShelfServicesManager
         {
             Configuration = configuration;
         }
-        public IConfiguration Configuration { get; set; }
+        public static IConfiguration Configuration { get; set; }
         public void ConfigureServices(IServiceCollection service)
         {
 
@@ -55,14 +57,25 @@ namespace Api.TopShelfServicesManager
                 c?.EnablePauseAndContinue();
                 c?.EnableShutdown();
                 // 👇 Add here microservices integrations to be managed
-                c?.Service<TopShelfQuartzScheduler>();
-
+                c?.Service<TopShelfQuartzScheduler>(sc =>
+                {
+                    sc.ConstructUsing(() => new TopShelfQuartzScheduler());
+                    sc.WhenCustomCommandReceived((s, hostControl, command) =>
+                    {
+                        switch (command)
+                        {
+                            case (int)WindowsServiceCommand.QuartzStart: s.Start(null); break;
+                            case (int)WindowsServiceCommand.QuartzStop: s.Stop(null); break;
+                        }
+                    });
+                });
+                
                 c?.OnException(ex => Console.WriteLine(ex.Message));
                 c?.RunAsNetworkService();
                 c?.StartManually();
                 c?.SetDescription(string.Intern("TopShelf MicroServices Manager"));
-                c?.SetDisplayName(string.Intern("TopShelf_v0.0.1"));
-                c?.SetServiceName(string.Intern("TopShelf_v0.0.1"));
+                c?.SetDisplayName(string.Intern(Configuration.GetSection("TopShelfServiceName").Value));
+                c?.SetServiceName(string.Intern(Configuration.GetSection("TopShelfServiceName").Value));
                 c?.EnableServiceRecovery(r =>
                 {
                     r?.OnCrashOnly();
@@ -72,9 +85,6 @@ namespace Api.TopShelfServicesManager
                     r?.SetResetPeriod(0);
                 });
             });
-
-            service.AddSingleton(new ServiceController("TopShelf_v0.0.1"));
-
         }
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {

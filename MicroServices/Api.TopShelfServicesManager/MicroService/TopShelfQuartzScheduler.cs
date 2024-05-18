@@ -1,12 +1,12 @@
-﻿using Topshelf;
-using MicroServices.Integrations.QuartzScheduler;
+﻿using MicroServices.Integrations.QuartzScheduler.Interfaces;
+using Topshelf;
 
-namespace Api.TopShelfServicesManager.Services
+namespace Api.TopShelfServicesManager.MicroService
 {
     
     public class TopShelfQuartzScheduler : ServiceControl
     {
-        public static MicroServices.Integrations.QuartzScheduler.QuartzScheduler _quartz = new();
+        public MicroServices.Integrations.QuartzScheduler.Interfaces.IQuartzScheduler _quartz = new MicroServices.Integrations.QuartzScheduler.QuartzScheduler();
         public bool Start(HostControl hostControl)
         {
             try

@@ -2,7 +2,7 @@
 using Quartz.Impl;
 using Quartz.Logging;
 using QuartzScheduler;
-using QuartzScheduler.Interfaces;
+using MicroServices.Integrations.QuartzScheduler.Interfaces;
 
 namespace MicroServices.Integrations.QuartzScheduler
 {
