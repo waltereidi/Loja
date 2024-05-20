@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using MicroServices.Integrations.QuartzScheduler;
+using MicroServices.Integrations.QuartzScheduler.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Quartz;
-using QuartzScheduler.Interfaces;
-using QuartzScheduler.Jobs;
 
-namespace Tests.loja.IntegrationsTest.QuartzScheduler
+namespace Tests.loja
 {
     [TestClass]
     public class QuartzSchedulerTest
@@ -18,19 +18,20 @@ namespace Tests.loja.IntegrationsTest.QuartzScheduler
 
         public QuartzSchedulerTest()
         {
-            _scheduler = new MicroServices.Integrations.QuartzScheduler.QuartzScheduler();
+            _scheduler = new QuartzScheduler();
             _scheduler.Start();
-            
+
         }
 
         [TestMethod]
-        public  void CreateNewJob()
+        public void CreateNewJob()
         {
-            var jobs = _scheduler._scheduler.GetJobGroupNames().Result ;
+            var jobs = _scheduler._scheduler.GetJobGroupNames().Result;
             Thread.Sleep(20000);
-            Assert.IsTrue(jobs.Count()>0);
+            Assert.IsTrue(jobs.Count() > 0);
         }
-        
+
+
 
     }
 

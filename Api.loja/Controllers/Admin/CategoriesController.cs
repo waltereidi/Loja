@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.loja.Controllers.Admin
 {
-    [Route("api/Admin/[action]")]
+    [Route("api/Admin/Categories/[action]")]
     [ApiController]
     public class CategoriesController : BaseController
     {

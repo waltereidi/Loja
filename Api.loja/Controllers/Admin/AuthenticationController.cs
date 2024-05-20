@@ -7,7 +7,7 @@ using Dominio.loja.Interfaces.Context;
 using Microsoft.AspNetCore.Mvc;
 namespace Api.loja.Controllers.Admin
 {
-    [Route("api/Admin/[action]")]
+    [Route("api/Admin/Authentication/[action]")]
     [ApiController]
     public class AuthenticationController : BaseController
     {

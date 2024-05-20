@@ -1,12 +1,7 @@
-﻿using Quartz;
-using QuartzScheduler.Jobs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MicroServices.Integrations.QuartzScheduler.Jobs;
+using Quartz;
 
-namespace QuartzScheduler
+namespace MicroServices.Integrations.QuartzScheduler
 {
     public record class ScheduledService(CronExpression cron , string jobName , string group , Type t);
     public class ScheduleOnStart
@@ -24,7 +19,6 @@ namespace QuartzScheduler
 
             //Add here your services
             ServicesToScheduleOnStart.Add(new(new CronExpression("1 * * * * ?") , "HelloWorld" , "Group1" , typeof(HelloWorldJob)));
-
 
             //Validation
             EnsureValidState();

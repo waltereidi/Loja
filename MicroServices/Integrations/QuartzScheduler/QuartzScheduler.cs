@@ -1,7 +1,6 @@
 ﻿using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
-using QuartzScheduler;
 using MicroServices.Integrations.QuartzScheduler.Interfaces;
 
 namespace MicroServices.Integrations.QuartzScheduler
@@ -11,6 +10,7 @@ namespace MicroServices.Integrations.QuartzScheduler
     {
         private readonly StdSchedulerFactory _factory;
         public IScheduler _scheduler { get; set; }
+        public static int variable { get; set; }
         public QuartzScheduler()
         {
             LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
@@ -32,6 +32,7 @@ namespace MicroServices.Integrations.QuartzScheduler
 
         public async void CreateJob(string jobName, string group, CronExpression cronExpression , Type t)
         {
+
             var job = JobBuilder.Create(t)
                         .WithIdentity($"{jobName}_Job", group)
                         .Build();
@@ -44,6 +45,7 @@ namespace MicroServices.Integrations.QuartzScheduler
 
             await _scheduler.ScheduleJob(job, trigger);
         }
+
 
         public Logger GetLogger(string name)
         {
@@ -64,5 +66,6 @@ namespace MicroServices.Integrations.QuartzScheduler
         {
             throw new NotImplementedException();
         }
+
     }
 }

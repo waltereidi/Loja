@@ -8,5 +8,6 @@ namespace MicroServices.Integrations.QuartzScheduler.Interfaces
         void Stop();
         void CreateJob(string jobName, string group , CronExpression cronExpression , Type t);
         IScheduler _scheduler { get; set; }
+        
     }
 }

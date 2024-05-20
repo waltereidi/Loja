@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuartzScheduler.Jobs
+namespace MicroServices.Integrations.QuartzScheduler.Jobs
 {
     public class HelloWorldJob : IJob
     {

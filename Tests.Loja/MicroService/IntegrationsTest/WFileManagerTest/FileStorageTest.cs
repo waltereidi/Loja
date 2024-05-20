@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.loja.IntegrationsTest.WFileManagerTest
+namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
 {
     [TestClass]
     public class FileStorageTest
     {
         private readonly FileStorage fs;
-        public FileStorageTest() 
+        public FileStorageTest()
         {
         }
     }

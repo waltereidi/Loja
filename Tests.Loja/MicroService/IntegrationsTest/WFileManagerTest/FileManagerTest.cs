@@ -4,12 +4,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WFileManager.loja.Interfaces;
 using WFileManager.loja.WriteStrategy;
 
-namespace Tests.loja.IntegrationsTest.WFileManagerTest
+namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
 {
     [TestClass]
     public class FileManagerTest
     {
-        private readonly  FileManager _fileManager = new ();
+        private readonly FileManager _fileManager = new();
         public FileManagerTest()
         {
         }
@@ -32,7 +32,7 @@ namespace Tests.loja.IntegrationsTest.WFileManagerTest
 
             //Act
             _fileManager.StartAsync<FileInfo>(strategy)
-                .ContinueWith(_ => Assert.IsFalse(_.Result.Any(x=>!x.Exists)));
+                .ContinueWith(_ => Assert.IsFalse(_.Result.Any(x => !x.Exists)));
 
         }
     }

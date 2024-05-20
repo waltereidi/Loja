@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.loja.IntegrationsTest.WFileManagerTest
+namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
 {
     [TestClass]
     public class FileDirectoryTest
     {
-        private readonly FileDirectory _fd = new ("TestDir");
+        private readonly FileDirectory _fd = new("TestDir");
         [TestMethod]
         public void testc()
         {
             string fd = _fd.DirectoryName;
 
         }
-        
 
-        
+
+
 
 
     }

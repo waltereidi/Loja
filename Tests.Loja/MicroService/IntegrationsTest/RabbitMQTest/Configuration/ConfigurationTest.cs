@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using RabbitMQ.loja.Configuration;
 
-namespace Tests.loja.Integrations.RabbitMQ.Configuration
+namespace Tests.loja.MicroServices.IntegrationsTest.RabbitMQTest.Configuration
 {
     [TestClass]
     public class ConfigurationTest
     {
         private readonly Configurations _configuration;
-        public ConfigurationTest() 
+        public ConfigurationTest()
         {
             _configuration = new Configurations();
         }
@@ -22,7 +22,7 @@ namespace Tests.loja.Integrations.RabbitMQ.Configuration
         {
             var config = _configuration._configuration;
             string queueName = config.GetSection("UploadQueue:QueueName").Value;
-            Assert.IsTrue(queueName.Contains("Dev" ));
+            Assert.IsTrue(queueName.Contains("Dev"));
         }
     }
 }

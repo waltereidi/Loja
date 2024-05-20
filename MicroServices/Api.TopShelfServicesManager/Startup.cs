@@ -36,21 +36,16 @@ namespace Api.TopShelfServicesManager
 
             // 👇 Configuring the Authorization Service
             service.AddAuthorization();
-            service.AddSwaggerGen(options =>
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
-                    In = ParameterLocation.Header,
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                }
-                ));
+            service.AddSwaggerGen(
+                );
 
             service.AddControllers()
            .AddJsonOptions(options =>
            {
                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
            });
+            service.AddScoped<TopShelfApplicationService>();
+
             //TopShelf
             HostFactory.Run(c =>
             {

@@ -6,12 +6,13 @@ using static Api.TopShelfServicesManager.Contracts.TopShelfContract;
 
 namespace Api.TopShelfServicesManager.Controllers
 {
+    [Route("api/TopShelfServicesManager/[action]")]
     public class TopShelfController : BaseController
     {
-        private readonly TopShelfApplicationService _service; 
-        public TopShelfController( ILogger<TopShelfController> logger ) : base(logger)
+        private readonly TopShelfApplicationService _service;
+        public TopShelfController( ILogger<BaseController> logger ,TopShelfApplicationService service ) : base(logger)
         {
-            _service = new TopShelfApplicationService();
+            _service = service;
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
