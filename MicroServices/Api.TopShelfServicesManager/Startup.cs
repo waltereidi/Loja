@@ -49,36 +49,30 @@ namespace Api.TopShelfServicesManager
             //TopShelf
             HostFactory.Run(c =>
             {
-                c?.EnablePauseAndContinue();
-                c?.EnableShutdown();
+                c?.OnException(ex => Console.WriteLine(ex.Message));
+                c?.UseAssemblyInfoForServiceInfo();
+                
+                c?.StartManually();
+                c?.RunAsLocalService();
+                
                 // 👇 Add here microservices integrations to be managed
                 c?.Service<TopShelfQuartzScheduler>(sc =>
                 {
-                    sc.ConstructUsing(() => new TopShelfQuartzScheduler());
+  
                     sc.WhenCustomCommandReceived((s, hostControl, command) =>
                     {
                         switch (command)
                         {
-                            case (int)WindowsServiceCommand.QuartzStart: s.Start(null); break;
-                            case (int)WindowsServiceCommand.QuartzStop: s.Stop(null); break;
+                            case (int)WindowsServiceCommand.QuartzStart: s.Start(hostControl); break;
+                            case (int)WindowsServiceCommand.QuartzStop: s.Stop(hostControl); break;
                         }
                     });
+                    sc.WhenStarted((tc, hostControl) => tc.Start(hostControl));
+                    sc.WhenStopped((tc, hostControl) => tc.Stop(hostControl));
+                    
                 });
                 
-                c?.OnException(ex => Console.WriteLine(ex.Message));
-                c?.RunAsNetworkService();
-                c?.StartManually();
-                c?.SetDescription(string.Intern("TopShelf MicroServices Manager"));
-                c?.SetDisplayName(string.Intern(Configuration.GetSection("TopShelfServiceName").Value));
-                c?.SetServiceName(string.Intern(Configuration.GetSection("TopShelfServiceName").Value));
-                c?.EnableServiceRecovery(r =>
-                {
-                    r?.OnCrashOnly();
-                    r?.RestartService(1); //first
-                    r?.RestartService(1); //second
-                    r?.RestartService(1); //subsequents
-                    r?.SetResetPeriod(0);
-                });
+                
             });
         }
         public void Configure(IApplicationBuilder app, IHostEnvironment env)

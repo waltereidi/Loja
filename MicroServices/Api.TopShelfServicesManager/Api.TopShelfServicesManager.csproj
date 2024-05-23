@@ -4,6 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Title>TopShelf</Title>
+    <Description>TopShelf</Description>
+    <Copyright>WalterMatsuda</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
