@@ -17,7 +17,7 @@ namespace Api.TopShelfServicesManager.Services
         public TopShelfApplicationService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _windowsService = new ServiceController(configuration.GetSection("TopShelfServiceName").Value);
+            _windowsService = new ServiceController(configuration.GetSection("TopShelfServiceName").Value , "walter");
         }
         public Task Handle(object command) => command switch
         {
