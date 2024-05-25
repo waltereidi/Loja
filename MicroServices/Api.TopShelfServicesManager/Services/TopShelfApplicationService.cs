@@ -1,10 +1,12 @@
 ﻿using Api.TopShelfServicesManager.Contracts;
 using Api.TopShelfServicesManager.MicroService;
+using Api.TopShelfServicesManager.MicroService.Quartz;
 using Dominio.loja.Events.Authentication;
 using Framework.loja.Interfaces;
 using System.Security.Cryptography.Xml;
 using System.Security.Principal;
 using System.ServiceProcess;
+using Topshelf;
 using static Api.TopShelfServicesManager.Contracts.TopShelfContract;
 
 namespace Api.TopShelfServicesManager.Services
@@ -18,16 +20,33 @@ namespace Api.TopShelfServicesManager.Services
         {
             _configuration = configuration;
             _windowsService = new ServiceController(configuration.GetSection("TopShelfServiceName").Value , "walter");
+ 
         }
         public Task Handle(object command) => command switch
         {
-            T1.StopQuartz c => HandleCommand(WindowsServiceCommand.QuartzStop),
-            T1.StartQuartz c => HandleCommand(WindowsServiceCommand.QuartzStart),
+            T1.StartQuartz c =>Task.Run(()=>HandleStartQuartz()),
+            T1.StopQuartz c => throw new NotImplementedException(),
         };
 
-        private async Task HandleCommand(WindowsServiceCommand command)
+        private void HandleStartQuartz()
         {
-            _windowsService.ExecuteCommand((int)command);
+            HostFactory.Run(c =>
+            {
+
+                c?.OnException(ex => Console.WriteLine(ex.Message));
+                c?.UseAssemblyInfoForServiceInfo();
+
+                c?.StartManually();
+                c?.RunAsLocalSystem();
+                // 👇 Add here microservices integrations to be managed
+                c?.Service<TopShelfQuartzScheduler>(sc =>
+                {
+                    sc.ConstructUsing(() => new TopShelfQuartzScheduler());
+                    sc.WhenStarted((tc, hostControl) => tc.Start(hostControl));
+                    sc.WhenStopped((tc, hostControl) => tc.Stop(hostControl));
+                });
+
+            });
         }
     }
 }

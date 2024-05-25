@@ -1,25 +1,25 @@
 ﻿using MicroServices.Integrations.QuartzScheduler.Interfaces;
 using Topshelf;
 
-namespace Api.TopShelfServicesManager.MicroService
+namespace Api.TopShelfServicesManager.MicroService.Quartz
 {
-    
+
     public class TopShelfQuartzScheduler : ServiceControl
     {
-        public MicroServices.Integrations.QuartzScheduler.Interfaces.IQuartzScheduler _quartz = new MicroServices.Integrations.QuartzScheduler.QuartzScheduler();
+        public IQuartzScheduler _quartz = new MicroServices.Integrations.QuartzScheduler.QuartzScheduler();
         public bool Start(HostControl hostControl)
         {
             try
             {
-                
+
                 _quartz.Start();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
-            
+
         }
 
         public bool Stop(HostControl hostControl)
@@ -33,6 +33,10 @@ namespace Api.TopShelfServicesManager.MicroService
             {
                 return false;
             }
+        }
+        public void ServiceStarted(HostControl hostControl)
+        {
+
         }
     }
 }
