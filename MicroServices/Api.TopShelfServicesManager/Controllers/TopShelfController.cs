@@ -9,20 +9,19 @@ namespace Api.TopShelfServicesManager.Controllers
     [Route("api/TopShelfServicesManager/[action]")]
     public class TopShelfController : BaseController
     {
-        private readonly TopShelfApplicationService _service;
-        public TopShelfController( ILogger<BaseController> logger ,TopShelfApplicationService service ) : base(logger)
-        {
-            _service = service;
-        }
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public Task<IActionResult> StartQuartz(T1.StartQuartz command) => HandleRequest( command , _service.Handle );
+        //public TopShelfController( ILogger<BaseController> logger  service ) : base(logger)
+        //{
+        //    _service = service;
+        //}
+        //[HttpPost]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public Task<IActionResult> StartQuartz(T1.StartQuartz command) => HandleRequest( command , _service.Handle );
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public Task<IActionResult> StopQuartz(T1.StopQuartz command) => HandleRequest(command , _service.Handle );
+        //[HttpPost]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public Task<IActionResult> StopQuartz(T1.StopQuartz command) => HandleRequest(command , _service.Handle );
 
     }
 }
