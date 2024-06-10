@@ -20,11 +20,9 @@ namespace Api.loja.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public Task<IActionResult> Login(AuthenticationContract.V1.LoginRequest login) => HandleRequest(login, _service.Handle);
+        public async Task<IActionResult> Login(AuthenticationContract.V1.LoginRequest login) => Ok(await _service.HandleAuthentication(login));//arrumar depois 
 
-        [HttpGet]
-        [ProducesResponseType<LoginAdmin>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserSession() => Ok(_service._auth.loginAdmin);
+
 
     }
 }

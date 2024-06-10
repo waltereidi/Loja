@@ -23,31 +23,37 @@ public class Startup
         service.AddEndpointsApiExplorer();
 
         service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //.AddGoogle(googleOptions =>
-        //{
-        //     googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-        //     googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-        // })
-        // .AddFacebook(facebookOptions =>
-        // {
-        //     facebookOptions.AppId= Configuration["Authentication:Facebook:ClientId"];
-        //     facebookOptions.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
-        // })
-        
-         .AddJwtBearer(options =>
-         {
-             options.TokenValidationParameters = new TokenValidationParameters
-             {
-                 ValidateIssuer = true,
-                 ValidateAudience = false,
-                 ValidateLifetime = true,
-                 ValidateIssuerSigningKey = true,
-                 ValidIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>(),
-                 ValidAudience = Configuration.GetSection("Jwt:Key").Get<string>(),
-                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Get<string>())),
-             };
-             
-         });
+            .AddCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
+                options.SlidingExpiration = true;
+                options.AccessDeniedPath = "/Forbidden/";
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>(),
+                    ValidAudience = Configuration.GetSection("Jwt:Key").Get<string>(),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Get<string>())),
+                };
+
+            });
+            //.AddGoogle(googleOptions =>
+            //{
+            //     googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+            //     googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            // })
+            // .AddFacebook(facebookOptions =>
+            // {
+            //     facebookOptions.AppId= Configuration["Authentication:Facebook:ClientId"];
+            //     facebookOptions.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
+            // });
+
         service.AddCors(options =>
         {
             options.AddDefaultPolicy(
