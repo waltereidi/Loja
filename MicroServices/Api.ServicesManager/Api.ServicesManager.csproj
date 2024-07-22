@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
@@ -22,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MicroService\Quartz\" />
-    <Folder Include="Services\" />
+    <Folder Include="Services\QuartzService\" />
   </ItemGroup>
 
 </Project>

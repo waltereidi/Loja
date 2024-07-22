@@ -1,8 +1,9 @@
-﻿using Dominio.loja.Events.Authentication;
+﻿using Api.ServicesManager.MicroService.QuartzMS;
+using Dominio.loja.Events.Authentication;
 using Framework.loja.Dto.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.TopShelfServicesManager.Controllers
+namespace Api.ServicesManager.Controllers
 {
     public class BaseController : Controller
     {

@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WFileManager", "MicroServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuartzScheduler", "MicroServices\Integrations\QuartzScheduler\QuartzScheduler.csproj", "{3DAA5D39-55AF-4BBE-B8F1-0408651B4130}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.TopShelfServicesManager", "MicroServices\Api.TopShelfServicesManager\Api.TopShelfServicesManager.csproj", "{C8B91793-6984-41D3-974A-5C478216FD86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.ServicesManager", "MicroServices\Api.ServicesManager\Api.ServicesManager.csproj", "{C8B91793-6984-41D3-974A-5C478216FD86}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQ.loja", "MicroServices\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj", "{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}"
 EndProject
@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{F0078AAC-8F68-407F-9BE6-9DCCDBEE5A1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopShelf", "MicroServices\Integrations\TopShelf\TopShelf.csproj", "{676888E3-D532-4B73-9F43-872569606F31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopShelf", "MicroServices\Integrations\TopShelf\TopShelf.csproj", "{676888E3-D532-4B73-9F43-872569606F31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

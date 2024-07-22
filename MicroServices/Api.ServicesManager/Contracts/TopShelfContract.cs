@@ -1,4 +1,4 @@
-﻿namespace Api.TopShelfServicesManager.Contracts
+﻿namespace Api.ServicesManager.Contracts
 {
     public class TopShelfContract
     {

@@ -12,7 +12,7 @@ namespace Api.loja.Controllers.Admin
     public class AuthenticationController : BaseController
     {
         private readonly AuthenticationApplicationService _service;
-        public AuthenticationController(ILogger<AuthenticationController> logger , AuthenticationApplicationService service) : base(logger)
+        public AuthenticationController(ILogger<AuthenticationController> logger , AuthenticationApplicationService service ) : base(logger)
         {
             _service = service;
         }

@@ -1,6 +1,0 @@
-@Api.TopShelfServicesManager_HostAddress = http://localhost:5126
-
-GET {{Api.TopShelfServicesManager_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -1,10 +1,7 @@
-﻿using Api.TopShelfServicesManager.Contracts;
-using Api.TopShelfServicesManager.MicroService.Quartz;
-using Api.TopShelfServicesManager.Services;
+﻿using Api.ServicesManager.MicroService.QuartzMS;
 using System.Text.Json.Serialization;
-using Topshelf;
 
-namespace Api.TopShelfServicesManager
+namespace Api.ServicesManager
 {
     public class Startup
     {
@@ -39,8 +36,8 @@ namespace Api.TopShelfServicesManager
                {
                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                });
-            service.AddScoped<TopShelfApplicationService>();
-           
+            
+            
         }
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
@@ -51,8 +48,8 @@ namespace Api.TopShelfServicesManager
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api TopShelf Services Manager");
-                c.DocumentTitle = "Api TopShelfServices Manager";
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api Services Manager");
+                c.DocumentTitle = "Api Services Manager";
             });
 
             app.UseEndpoints(endpoints =>
