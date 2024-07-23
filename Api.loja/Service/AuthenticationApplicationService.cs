@@ -22,7 +22,7 @@ namespace Api.loja.Service
             
         }
 
-        public Task Handle(object command) => command switch
+        public async Task<object?> Handle(object command) => command switch
         {
             //AuthenticationContract.V1.LoginRequest cmd => HandleAuthentication(cmd),
             _ => Task.CompletedTask

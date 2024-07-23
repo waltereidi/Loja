@@ -12,12 +12,11 @@ namespace Api.ServicesManager.Controllers
         {
             _logger = logger;
         }
-        protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler) where T : class
+        protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<T>> handler) where T : class
         {
             try
             {
-                await handler(request);
-                return Ok();
+                return Ok(handler(request));
             }
             catch (Exception ex)
             {

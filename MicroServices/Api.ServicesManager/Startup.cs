@@ -1,4 +1,5 @@
 ﻿using Api.ServicesManager.MicroService.QuartzMS;
+using Api.ServicesManager.Services;
 using System.Text.Json.Serialization;
 
 namespace Api.ServicesManager
@@ -36,7 +37,7 @@ namespace Api.ServicesManager
                {
                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                });
-            
+            service.AddSingleton<SMApplicationServices>();
             
         }
         public void Configure(IApplicationBuilder app, IHostEnvironment env)

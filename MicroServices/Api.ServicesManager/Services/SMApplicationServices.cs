@@ -1,30 +1,34 @@
-﻿using Api.ServicesManager.MicroService.QuartzMS;
+﻿using Api.ServicesManager.Contracts;
+using Api.ServicesManager.MicroService.QuartzMS;
+using Api.ServicesManager.MicroService.WFileManager;
 using Dominio.loja.Events.Authentication;
 using Framework.loja.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace Api.ServicesManager.Services
 {
     public class SMApplicationServices : IApplicationService
     {
-        public SMApplicationServices() 
+        private readonly HostApplicationBuilder _builder;
+        private readonly IHost _host;
+        public SMApplicationServices()
         {
             string[] windowsServiceArgs = [];
-            HostApplicationBuilder builder = Host.CreateApplicationBuilder(windowsServiceArgs);
-            builder.Services.AddHostedService<QuartzMS>();
+            _builder = Host.CreateApplicationBuilder(windowsServiceArgs);
+            _builder.Services.AddHostedService<QuartzMS>();
+            _builder.Services.AddHostedService<WFileManagerMS>();
+            _host = _builder.Build();
 
-
-            Task.Run(() => {
-                IHost host = builder.Build();
-                host.Run();
-
-            });
         }
 
-        public Task Handle(object command) => command switch
+        public async Task<object?> Handle(object command) => command switch
         {
-            //AuthenticationContract.V1.LoginRequest cmd => HandleAuthentication(cmd),
+            SMApplicationServicesContract.T1.StartAllServices cmd => _host.RunAsync(),
+            SMApplicationServicesContract.T1.StopAllServices cmd => Task.Run(() => _host.StopAsync()),
+            SMApplicationServicesContract.T1.GetServices cmd => _host.Services ,
             _ => Task.CompletedTask
+            
         };
     }
 }

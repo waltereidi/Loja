@@ -17,7 +17,7 @@ namespace Api.loja.Service
             _praedicamenta = new Praedicamenta();
         }
 
-        public Task Handle(object command) => command switch
+        public async Task<object?> Handle(object command) => command switch
         {
             V1.AddCategories c => HandleCreateCategories(c).ContinueWith(_=> _context.SaveChangesAsync()),
             V1.AddSubCategories c => HandleCreateSubCategories(c).ContinueWith(_ => _context.SaveChangesAsync()),
