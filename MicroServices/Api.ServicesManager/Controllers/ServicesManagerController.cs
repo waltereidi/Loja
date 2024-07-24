@@ -5,6 +5,7 @@ using Dominio.loja.Events.Authentication;
 using Framework.loja.Dto.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using static Api.ServicesManager.Contracts.SMApplicationServicesContract;
 
 namespace Api.ServicesManager.Controllers
 {
@@ -19,10 +20,14 @@ namespace Api.ServicesManager.Controllers
         }
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<IActionResult> StartAllServices(SMApplicationServicesContract.T1.StartAllServices data) => Ok( _service.Handle(data));//arrumar depois 
+        public async Task<IActionResult> StartAllServices(T1.StartAllServices data) => Ok( _service.Handle(data));//arrumar depois 
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpGet]
-        public async Task<IActionResult> GetServices() => Ok(_service.Handle(new SMApplicationServicesContract.T1.GetServices()));
+        public async Task<IActionResult> GetServices() => Ok(_service.Handle(new T1.GetServices()));
+
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [HttpPost]
+        public async Task<IActionResult> StartQuartz(T1.StartQuartz cmd ) => Ok(_service.Handle(cmd));
     }
 }

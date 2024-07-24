@@ -1,22 +1,27 @@
 ﻿
+using MicroServices.Integrations.QuartzScheduler;
+
 namespace Api.ServicesManager.MicroService.QuartzMS
 {
     public sealed class QuartzMS : BackgroundService
     {
+        private readonly QuartzScheduler service; 
+        public QuartzMS()
+        {
+            service = new QuartzScheduler();
+        }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var i = 1;
-            return Task.CompletedTask;
+            return service.Start();
         }
         public override Task StartAsync(CancellationToken cancellationToken)
         {
             return base.StartAsync(cancellationToken);
         }
-        public override Task? ExecuteTask => base.ExecuteTask;
 
         public override Task StopAsync(CancellationToken cancellationToken) 
-        { 
-            return base.StopAsync(cancellationToken); 
+        {
+            return service.Stop();
         }
         
     }

@@ -4,7 +4,10 @@ using Api.ServicesManager.MicroService.WFileManager;
 using Dominio.loja.Events.Authentication;
 using Framework.loja.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using System.ServiceProcess;
 using System.Text;
+using static Api.ServicesManager.Contracts.SMApplicationServicesContract;
 
 namespace Api.ServicesManager.Services
 {
@@ -20,15 +23,29 @@ namespace Api.ServicesManager.Services
             _builder.Services.AddHostedService<WFileManagerMS>();
             _host = _builder.Build();
 
+
         }
 
         public async Task<object?> Handle(object command) => command switch
         {
-            SMApplicationServicesContract.T1.StartAllServices cmd => _host.RunAsync(),
-            SMApplicationServicesContract.T1.StopAllServices cmd => Task.Run(() => _host.StopAsync()),
-            SMApplicationServicesContract.T1.GetServices cmd => _host.Services ,
+            T1.StartAllServices cmd => _host.StartAsync(),
+            T1.StopAllServices cmd => Task.Run(() => _host.StopAsync()),
+            T1.GetServices cmd => _host.Services ,
+            T1.StartQuartz cmd => StartQuartz() , 
             _ => Task.CompletedTask
             
         };
+
+        private object StartQuartz()
+        {
+            var hostedServices = _host.Services.GetServices<IHostedService>().ToList();
+            var service = hostedServices.FirstOrDefault(s => s.GetType().Name == "QuartzMS");
+            if (service != null)
+            {
+                service.StartAsync(CancellationToken.None);
+            }
+            return true;
+
+        }
     }
 }

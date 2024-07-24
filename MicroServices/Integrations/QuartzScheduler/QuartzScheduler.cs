@@ -17,7 +17,7 @@ namespace MicroServices.Integrations.QuartzScheduler
             _factory = new StdSchedulerFactory();
            
         }
-        public async void Start()
+        public async Task Start()
         {
             _scheduler = await _factory.GetScheduler();
 
@@ -28,9 +28,9 @@ namespace MicroServices.Integrations.QuartzScheduler
             scheduleOnStart.ServicesToScheduleOnStart
                 .ForEach( async f => CreateJob(f.jobName, f.group, f.cron, f.t));
         }
-        public async void Stop()=> await _scheduler.Shutdown(true);
+        public async Task Stop()=> await _scheduler.Shutdown(true);
 
-        public async void CreateJob(string jobName, string group, CronExpression cronExpression , Type t)
+        public async Task CreateJob(string jobName, string group, CronExpression cronExpression , Type t)
         {
 
             var job = JobBuilder.Create(t)

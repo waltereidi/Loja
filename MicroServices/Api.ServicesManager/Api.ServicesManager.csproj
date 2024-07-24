@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Integrations\WFileUploader\WFileManager.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\QuartzService\" />
-  </ItemGroup>
-
 </Project>
