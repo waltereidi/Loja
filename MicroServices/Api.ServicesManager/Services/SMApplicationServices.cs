@@ -1,5 +1,7 @@
 ﻿using Api.ServicesManager.Contracts;
-using Api.ServicesManager.MicroService.QuartzMS;
+using Api.ServicesManager.Interfaces;
+using Api.ServicesManager.MicroService;
+using Api.ServicesManager.MicroService.Quartz;
 using Api.ServicesManager.MicroService.WFileManager;
 using Dominio.loja.Events.Authentication;
 using Framework.loja.Interfaces;
@@ -15,8 +17,11 @@ namespace Api.ServicesManager.Services
     {
         private readonly HostApplicationBuilder _builder;
         private readonly IHost _host;
+        private IHostedServices _services;
         public SMApplicationServices()
         {
+            _services = new HostedServices();
+
             string[] windowsServiceArgs = [];
             _builder = Host.CreateApplicationBuilder(windowsServiceArgs);
             _builder.Services.AddHostedService<QuartzMS>();

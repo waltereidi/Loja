@@ -1,7 +1,7 @@
 ﻿
 using MicroServices.Integrations.QuartzScheduler;
 
-namespace Api.ServicesManager.MicroService.QuartzMS
+namespace Api.ServicesManager.MicroService.Quartz
 {
     public sealed class QuartzMS : BackgroundService
     {
@@ -23,6 +23,6 @@ namespace Api.ServicesManager.MicroService.QuartzMS
         {
             return service.Stop();
         }
-        
+       
     }
 }
