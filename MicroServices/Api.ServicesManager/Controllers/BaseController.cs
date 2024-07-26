@@ -1,7 +1,4 @@
-﻿using Api.ServicesManager.MicroService.QuartzMS;
-using Dominio.loja.Events.Authentication;
-using Framework.loja.Dto.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Api.ServicesManager.Controllers
 {
@@ -12,11 +9,12 @@ namespace Api.ServicesManager.Controllers
         {
             _logger = logger;
         }
-        protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<T>> handler) where T : class
+        protected async Task<object?> HandleRequest<T>(T request, Func<T, Task<object?>> handler) where T : class
         {
             try
             {
-                return Ok(handler(request));
+                var result = await handler(request);
+                return result;
             }
             catch (Exception ex)
             {

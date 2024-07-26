@@ -1,4 +1,4 @@
-﻿using Api.ServicesManager.MicroService.QuartzMS;
+﻿using Api.ServicesManager.MicroService.Quartz;
 using Api.ServicesManager.Services;
 using System.Text.Json.Serialization;
 

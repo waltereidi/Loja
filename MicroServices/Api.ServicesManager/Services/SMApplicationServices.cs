@@ -17,7 +17,7 @@ namespace Api.ServicesManager.Services
     {
         private readonly HostApplicationBuilder _builder;
         private readonly IHost _host;
-        private IHostedServices _services;
+        private static IHostedServices _services;
         public SMApplicationServices()
         {
             _services = new HostedServices();
@@ -26,6 +26,7 @@ namespace Api.ServicesManager.Services
             _builder = Host.CreateApplicationBuilder(windowsServiceArgs);
             _builder.Services.AddHostedService<QuartzMS>();
             _builder.Services.AddHostedService<WFileManagerMS>();
+
             _host = _builder.Build();
 
 
@@ -33,24 +34,48 @@ namespace Api.ServicesManager.Services
 
         public async Task<object?> Handle(object command) => command switch
         {
-            T1.StartAllServices cmd => _host.StartAsync(),
-            T1.StopAllServices cmd => Task.Run(() => _host.StopAsync()),
-            T1.GetServices cmd => _host.Services ,
-            T1.StartQuartz cmd => StartQuartz() , 
+            T1.StartAllServices cmd => _host.StartAsync().ContinueWith(_=>_services.EnableAllServices()),
+            T1.StopAllServices cmd => Task.Run(() => _host
+                .StopAsync()
+                .ContinueWith(_=>_services.DisableAllServices())),
+            T1.StartQuartz cmd => StartQuartz()
+                .ContinueWith(_ => { _services.UpdateServiceState(false, typeof(QuartzMS)); return _.Result; }),  
+            T1.StopQuartz cmd => StopQuartz()
+                .ContinueWith(_=> { _services.UpdateServiceState(false, typeof(QuartzMS)) ; return _.Result; }) ,
+            T1.GetServices cmd => _services.GetAllServicesState(),
             _ => Task.CompletedTask
             
         };
 
-        private object StartQuartz()
+        private async Task<object?> StopQuartz()
         {
+            if(!_services.GetState(typeof(QuartzMS)))
+                return new { Success = false  , Message = "Service already stoped"};
+
+            var hostedServices = _host.Services.GetServices<IHostedService>().ToList();
+            var service = hostedServices.FirstOrDefault(s => s.GetType() == typeof(QuartzMS));
+            if (service != null)
+            {
+                service.StopAsync(CancellationToken.None);
+            }
+
+            return new { Success = true , Message = "Service stopped" };
+        }
+
+        private async Task<object?> StartQuartz()
+        {
+            if (_services.GetState(typeof(QuartzMS)))
+                return new { Success = false, Message = "Service already started" };
+
             var hostedServices = _host.Services.GetServices<IHostedService>().ToList();
             var service = hostedServices.FirstOrDefault(s => s.GetType().Name == "QuartzMS");
             if (service != null)
             {
                 service.StartAsync(CancellationToken.None);
             }
-            return true;
 
+            return new { Success = true, Message = "Service started" };
         }
+
     }
 }

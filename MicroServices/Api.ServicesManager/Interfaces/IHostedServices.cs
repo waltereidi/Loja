@@ -7,7 +7,9 @@ namespace Api.ServicesManager.Interfaces
         IEnumerable<Type> GetHostedService();
         void UpdateServiceState(bool isRunning, Type service);
         bool GetState(Type service);
-        IEnumerable<Service> GetServicesState();
+        IEnumerable<ServiceResponse> GetAllServicesState();
+        void EnableAllServices();
+        void DisableAllServices();
 
     }
 }

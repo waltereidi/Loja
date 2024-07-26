@@ -1,11 +1,8 @@
-﻿using Api.ServicesManager.Contracts;
-using Api.ServicesManager.MicroService.QuartzMS;
-using Api.ServicesManager.Services;
-using Dominio.loja.Events.Authentication;
-using Framework.loja.Dto.Models;
+﻿using Api.ServicesManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using static Api.ServicesManager.Contracts.SMApplicationServicesContract;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Api.ServicesManager.Controllers
 {
@@ -20,14 +17,18 @@ namespace Api.ServicesManager.Controllers
         }
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<IActionResult> StartAllServices(T1.StartAllServices data) => Ok( _service.Handle(data));//arrumar depois 
+        public async Task<IActionResult> StartAllServices(T1.StartAllServices data) => Ok( HandleRequest(data ,_service.Handle));//arrumar depois 
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpGet]
-        public async Task<IActionResult> GetServices() => Ok(_service.Handle(new T1.GetServices()));
+        public  async Task<IActionResult> GetServices() => Ok(await HandleRequest(new T1.GetServices(), _service.Handle));
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<IActionResult> StartQuartz(T1.StartQuartz cmd ) => Ok(_service.Handle(cmd));
+        public async Task<IActionResult> StartQuartz(T1.StartQuartz cmd ) => Ok(HandleRequest(cmd, _service.Handle));
+
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [HttpPost]
+        public async Task<IActionResult> StopQuartz(T1.StopQuartz cmd) => Ok(HandleRequest(cmd, _service.Handle));
     }
 }
