@@ -13,7 +13,7 @@ namespace Api.ServicesManager.MicroService
         private readonly IHost _host;
         private List<Service> Services { get; set; }
 
-        public HostedServices(IHost host)
+        public HostedServices()
         {
             string[] windowsServiceArgs = [];
             var builder = Host.CreateApplicationBuilder(windowsServiceArgs);
@@ -27,20 +27,18 @@ namespace Api.ServicesManager.MicroService
             Services.Add(new Service(typeof(WFileManagerMS), false));
             //include here the added microservice to monitored services 
 
-            _host = host;
+            _host = builder.Build();
         }
 
         public async Task UpdateServiceState(bool isRunning, Type service)
         {
             //Is there a service with different state from the requested?
-            if( Services.Where(x => x.service != service).Any(x=>x.IsRunning != isRunning))
+            if( Services.Where(x => x.service == service).Any(x=>x.IsRunning != isRunning))
             {
                 //Get the service from the service type in hosted services
-                var hostedService = _host.Services
+                    await _host.Services
                     .GetServices<IHostedService>()
-                    .FirstOrDefault(s => s.GetType() == service);
-
-                await hostedService
+                    .First(s => s.GetType() == service)
                     .StartAsync(CancellationToken.None)
                     .ContinueWith(_ =>
                     {
@@ -54,8 +52,8 @@ namespace Api.ServicesManager.MicroService
             }
         }
 
-        public async Task<bool> GetState(Type service)=> Services
-            .Where(x => x.service == service)
+        public async Task<bool> GetState(Type service )=> Services
+            .Where(x => x.service == service )
             .Select(s => s.IsRunning)
             .First();
 
@@ -74,8 +72,6 @@ namespace Api.ServicesManager.MicroService
                     .Select(x => new Service(x.service, true))
                     .ToList();
                 });
-
-
         public async Task DisableAllServices() => await _host
                 .StopAsync()
                 .ContinueWith(x =>

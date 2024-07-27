@@ -1,8 +1,8 @@
-﻿using Api.ServicesManager.Services;
+﻿using Api.ServicesManager.Interfaces;
+using Api.ServicesManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using static Api.ServicesManager.Contracts.SMApplicationServicesContract;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Api.ServicesManager.Controllers
 {
@@ -11,24 +11,25 @@ namespace Api.ServicesManager.Controllers
     public class ServicesManagerController : BaseController
     {
         private readonly SMApplicationServices _service;
-        public ServicesManagerController(ILogger<ServicesManagerController> logger , SMApplicationServices service) :base(logger) 
+        public ServicesManagerController(ILogger<ServicesManagerController> logger , IHostedServices hostedServices ) :base(logger) 
         {
-            _service = service ?? throw new ArgumentNullException($"Could not start service {nameof(SMApplicationServices)}");
+            _service = new SMApplicationServices(hostedServices) 
+                ?? throw new ArgumentNullException($"Could not start service {nameof(SMApplicationServices)}");
         }
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<IActionResult> StartAllServices(T1.StartAllServices data) => Ok( HandleRequest(data ,_service.Handle));//arrumar depois 
+        public async Task<IActionResult> StartAllServices(T1.StartAllServices data) 
+            => Ok( await HandleRequest(data ,_service.Handle));//arrumar depois 
+
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [HttpPost]
+        public async Task<IActionResult> StopAllServices(T1.StopAllServices data) 
+            => Ok(await HandleRequest(data, _service.Handle));//arrumar depois 
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpGet]
-        public  async Task<IActionResult> GetServices() => Ok(await HandleRequest(new T1.GetServices(), _service.Handle));
+        public async Task<IActionResult> GetAllServicesState() 
+            => Ok(await HandleRequest(new T1.GetAllServicesState(), _service.Handle));
 
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [HttpPost]
-        public async Task<IActionResult> StartQuartz(T1.StartQuartz cmd ) => Ok(HandleRequest(cmd, _service.Handle));
-
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [HttpPost]
-        public async Task<IActionResult> StopQuartz(T1.StopQuartz cmd) => Ok(HandleRequest(cmd, _service.Handle));
     }
 }

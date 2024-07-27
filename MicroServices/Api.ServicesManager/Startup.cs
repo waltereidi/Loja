@@ -44,9 +44,7 @@ namespace Api.ServicesManager
 
             // Configure and start Hosted Services 
         
-            service.AddSingleton<IHostedServices>();
-
-
+            service.AddSingleton<IHostedServices , HostedServices>();
         }
         
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
