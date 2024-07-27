@@ -1,14 +1,7 @@
-﻿using Api.ServicesManager.Contracts;
-using Api.ServicesManager.Interfaces;
-using Api.ServicesManager.MicroService;
+﻿using Api.ServicesManager.Interfaces;
 using Api.ServicesManager.MicroService.Quartz;
-using Api.ServicesManager.MicroService.WFileManager;
-using Dominio.loja.Events.Authentication;
 using Framework.loja.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System.ServiceProcess;
-using System.Text;
+
 using static Api.ServicesManager.Contracts.SMApplicationServicesContract;
 
 namespace Api.ServicesManager.Services
@@ -18,18 +11,8 @@ namespace Api.ServicesManager.Services
         private readonly HostApplicationBuilder _builder;
         private readonly IHost _host;
         private static IHostedServices _services;
-        public SMApplicationServices()
+        public SMApplicationServices(IHostedServices services)
         {
-            _services = new HostedServices();
-
-            string[] windowsServiceArgs = [];
-            _builder = Host.CreateApplicationBuilder(windowsServiceArgs);
-            _builder.Services.AddHostedService<QuartzMS>();
-            _builder.Services.AddHostedService<WFileManagerMS>();
-
-            _host = _builder.Build();
-
-
         }
 
         public async Task<object?> Handle(object command) => command switch
@@ -42,14 +25,14 @@ namespace Api.ServicesManager.Services
                 .ContinueWith(_ => { _services.UpdateServiceState(false, typeof(QuartzMS)); return _.Result; }),  
             T1.StopQuartz cmd => StopQuartz()
                 .ContinueWith(_=> { _services.UpdateServiceState(false, typeof(QuartzMS)) ; return _.Result; }) ,
-            T1.GetServices cmd => _services.GetAllServicesState(),
+            T1.GetServices cmd => await _services.GetAllServicesState(),
             _ => Task.CompletedTask
             
         };
 
         private async Task<object?> StopQuartz()
         {
-            if(!_services.GetState(typeof(QuartzMS)))
+            if(!_services.GetState(typeof(QuartzMS)).Result)
                 return new { Success = false  , Message = "Service already stoped"};
 
             var hostedServices = _host.Services.GetServices<IHostedService>().ToList();
@@ -64,7 +47,7 @@ namespace Api.ServicesManager.Services
 
         private async Task<object?> StartQuartz()
         {
-            if (_services.GetState(typeof(QuartzMS)))
+            if (_services.GetState(typeof(QuartzMS)).Result)
                 return new { Success = false, Message = "Service already started" };
 
             var hostedServices = _host.Services.GetServices<IHostedService>().ToList();

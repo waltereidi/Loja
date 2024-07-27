@@ -4,12 +4,12 @@ namespace Api.ServicesManager.Interfaces
 {
     public interface IHostedServices
     {
-        IEnumerable<Type> GetHostedService();
-        void UpdateServiceState(bool isRunning, Type service);
-        bool GetState(Type service);
-        IEnumerable<ServiceResponse> GetAllServicesState();
-        void EnableAllServices();
-        void DisableAllServices();
+        Task<IEnumerable<Type>> GetHostedService();
+        Task UpdateServiceState(bool isRunning, Type service);
+        Task<bool> GetState(Type service);
+        Task<IEnumerable<ServiceResponse>> GetAllServicesState();
+        Task EnableAllServices();
+        Task DisableAllServices();
 
     }
 }

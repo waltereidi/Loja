@@ -1,4 +1,7 @@
-﻿using Api.ServicesManager.MicroService.Quartz;
+﻿using Api.ServicesManager.Interfaces;
+using Api.ServicesManager.MicroService;
+using Api.ServicesManager.MicroService.Quartz;
+using Api.ServicesManager.MicroService.WFileManager;
 using Api.ServicesManager.Services;
 using System.Text.Json.Serialization;
 
@@ -37,9 +40,15 @@ namespace Api.ServicesManager
                {
                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                });
-            service.AddSingleton<SMApplicationServices>();
-            
+
+
+            // Configure and start Hosted Services 
+        
+            service.AddSingleton<IHostedServices>();
+
+
         }
+        
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             app.UseHttpsRedirection();
