@@ -13,7 +13,7 @@ namespace Api.ServicesManager.Controllers
         {
             try
             {
-                return handler(request).Result;
+                return handler(request);
             }
             catch (Exception ex)
             {
