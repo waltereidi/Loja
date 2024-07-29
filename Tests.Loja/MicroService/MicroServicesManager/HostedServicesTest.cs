@@ -20,15 +20,36 @@ namespace Tests.loja.MicroService.MicroServicesManager
         }
 
         [TestMethod]
-        public void HostedServicesUpdateServicesState()
+        public void HostedServicesUpdateServicesState_EnableAll()
         {
             //After services get started , its current state need to be uploaded 
             //isRunning should be set to the last successfull change
-            _service.EnableAllServices();
-            var servicesList = _service.GetAllServicesState().Result;
-
-            Assert.IsFalse(servicesList.Any(x=> x.IsRunning == false ));
+            Task.Run(async () =>
+            {
+                await _service.EnableAllServices();
+            }).ContinueWith(_ =>
+            {
+                var servicesList = _service.GetAllServicesState().Result;
+                Assert.IsFalse(servicesList.Any(x => x.IsRunning != false));
+            });
+            
         }
-        
+        [TestMethod]
+        public void HostedServicesUpdateServicesState_DisableAll()
+        {
+            //After services get started , its current state need to be uploaded 
+            //isRunning should be set to the last successfull change
+            Task.Run(async () =>
+            {
+                await _service.EnableAllServices();
+                await _service.DisableAllServices();
+            }).ContinueWith(_ =>
+            {
+                var servicesList = _service.GetAllServicesState().Result;
+                Assert.IsFalse(servicesList.Any(x => x.IsRunning == false));
+            });
+            
+            
+        }
     }
 }

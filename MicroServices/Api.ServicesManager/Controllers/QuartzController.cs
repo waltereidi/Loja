@@ -2,6 +2,7 @@
 using Api.ServicesManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Reflection.Metadata.Ecma335;
 using static Api.ServicesManager.Contracts.QuartzApplicationServicesContract;
 
 namespace Api.ServicesManager.Controllers
@@ -18,13 +19,20 @@ namespace Api.ServicesManager.Controllers
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<IActionResult> StartQuartz(T1.StartQuartz cmd ) 
-            => Ok(await HandleRequest(cmd, _service.Handle));
+        public async Task<IActionResult> StartQuartz(T1.StartQuartz cmd)
+        {
+            HandleRequest(cmd, _service.Handle);
+            return Ok("Quartz start attempt was sent");
+        }
+           
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<IActionResult> StopQuartz(T1.StopQuartz cmd) 
-            => Ok(await HandleRequest(cmd, _service.Handle));
+        public async Task<IActionResult> StopQuartz(T1.StopQuartz cmd)
+        {
+            HandleRequest(cmd, _service.Handle);
+            return Ok("Quartz stop attempt was sent");
+        }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpGet]

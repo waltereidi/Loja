@@ -29,6 +29,7 @@ namespace MicroServices.Integrations.QuartzScheduler
                 .ForEach( async f => CreateJob(f.jobName, f.group, f.cron, f.t));
         }
         public async Task Stop()=> await _scheduler.Shutdown(true);
+        
 
         public async Task CreateJob(string jobName, string group, CronExpression cronExpression , Type t)
         {

@@ -18,13 +18,19 @@ namespace Api.ServicesManager.Controllers
         }
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<IActionResult> StartAllServices(T1.StartAllServices data) 
-            => Ok( await HandleRequest(data ,_service.Handle));//arrumar depois 
+        public async Task<IActionResult> StartAllServices(T1.StartAllServices cmd)
+        {
+            HandleRequest(cmd, _service.Handle);
+            return Ok("Attempt to start all services was sent");
+        }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
-        public async Task<IActionResult> StopAllServices(T1.StopAllServices data) 
-            => Ok(await HandleRequest(data, _service.Handle));//arrumar depois 
+        public async Task<IActionResult> StopAllServices(T1.StopAllServices cmd)
+        {
+            HandleRequest(cmd, _service.Handle);
+            return Ok("Attempt to stop all services was sent");
+        }
 
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpGet]

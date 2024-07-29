@@ -14,11 +14,6 @@ namespace Api.ServicesManager.MicroService.Quartz
         {
             return service.Start();
         }
-        public override Task StartAsync(CancellationToken cancellationToken)
-        {
-            return base.StartAsync(cancellationToken);
-        }
-
         public override Task StopAsync(CancellationToken cancellationToken) 
         {
             return service.Stop();
