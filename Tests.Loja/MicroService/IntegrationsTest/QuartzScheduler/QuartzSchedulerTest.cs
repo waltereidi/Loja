@@ -31,7 +31,14 @@ namespace Tests.loja
             Assert.IsTrue(jobs.Count() > 0);
         }
 
-
+        [TestMethod]
+        public void GetCurrentRunningJobs()
+        {
+            Thread.Sleep(20000);
+            var jobs = _scheduler._scheduler.GetCurrentlyExecutingJobs().Result;
+            Thread.Sleep(20000);
+            Assert.IsTrue(jobs.Count() > 0);
+        }
 
     }
 

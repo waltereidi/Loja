@@ -2,15 +2,15 @@
 using Quartz.Impl;
 using Quartz.Logging;
 using MicroServices.Integrations.QuartzScheduler.Interfaces;
+using QuartzScheduler.Contracts;
 
 namespace MicroServices.Integrations.QuartzScheduler
 {
     
-    public class QuartzScheduler : IQuartzScheduler, ILogProvider 
+    public class QuartzScheduler : IQuartzScheduler, ILogProvider
     {
         private readonly StdSchedulerFactory _factory;
         public IScheduler _scheduler { get; set; }
-        public static int variable { get; set; }
         public QuartzScheduler()
         {
             LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
@@ -46,7 +46,7 @@ namespace MicroServices.Integrations.QuartzScheduler
 
             await _scheduler.ScheduleJob(job, trigger);
         }
-
+        public async Task<IReadOnlyCollection<IJobExecutionContext>> GetCurrentRunningJobs() => await _scheduler.GetCurrentlyExecutingJobs();
 
         public Logger GetLogger(string name)
         {
@@ -68,5 +68,9 @@ namespace MicroServices.Integrations.QuartzScheduler
             throw new NotImplementedException();
         }
 
+        public Task<QuartzSchedullerContracts.Q1.ServiceStateResponse> GetServiceState()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

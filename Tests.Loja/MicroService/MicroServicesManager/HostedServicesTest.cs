@@ -49,7 +49,7 @@ namespace Tests.loja.MicroService.MicroServicesManager
                 Assert.IsFalse(servicesList.Any(x => x.IsRunning == false));
             });
             
-            
         }
+
     }
 }
