@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuartzScheduler.Contracts
+namespace MicroServices.Integrations.QuartzScheduler.Contracts
 {
     public class QuartzSchedullerContracts
     {

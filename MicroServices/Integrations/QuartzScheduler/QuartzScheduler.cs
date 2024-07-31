@@ -2,7 +2,7 @@
 using Quartz.Impl;
 using Quartz.Logging;
 using MicroServices.Integrations.QuartzScheduler.Interfaces;
-using QuartzScheduler.Contracts;
+using MicroServices.Integrations.QuartzScheduler.Contracts;
 
 namespace MicroServices.Integrations.QuartzScheduler
 {
@@ -69,6 +69,11 @@ namespace MicroServices.Integrations.QuartzScheduler
         }
 
         public Task<QuartzSchedullerContracts.Q1.ServiceStateResponse> GetServiceState()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<QuartzSchedullerContracts.Q1.ServiceStateResponse> IQuartzScheduler.GetServiceState()
         {
             throw new NotImplementedException();
         }

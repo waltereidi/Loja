@@ -33,8 +33,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{F0078AAC-8F68-407F-9BE6-9DCCDBEE5A1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopShelf", "MicroServices\Integrations\TopShelf\TopShelf.csproj", "{676888E3-D532-4B73-9F43-872569606F31}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,10 +95,6 @@ Global
 		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{676888E3-D532-4B73-9F43-872569606F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{676888E3-D532-4B73-9F43-872569606F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{676888E3-D532-4B73-9F43-872569606F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{676888E3-D532-4B73-9F43-872569606F31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,7 +105,6 @@ Global
 		{C8B91793-6984-41D3-974A-5C478216FD86} = {BE77E78D-23A1-43A6-A8F8-0C2F49F91CBA}
 		{0E9D6BF6-6827-4CAA-895F-FFF23B93827C} = {F0078AAC-8F68-407F-9BE6-9DCCDBEE5A1E}
 		{F0078AAC-8F68-407F-9BE6-9DCCDBEE5A1E} = {BE77E78D-23A1-43A6-A8F8-0C2F49F91CBA}
-		{676888E3-D532-4B73-9F43-872569606F31} = {F0078AAC-8F68-407F-9BE6-9DCCDBEE5A1E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF31C4D9-01AD-4C44-98A6-D26512AC884A}

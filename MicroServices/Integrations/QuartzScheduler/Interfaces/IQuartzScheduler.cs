@@ -1,5 +1,5 @@
 ﻿using Quartz;
-using static QuartzScheduler.Contracts.QuartzSchedullerContracts;
+using static MicroServices.Integrations.QuartzScheduler.Contracts.QuartzSchedullerContracts;
 namespace MicroServices.Integrations.QuartzScheduler.Interfaces
 {
     public interface IQuartzScheduler

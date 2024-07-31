@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WFileManager.loja.Interfaces;
+﻿using WFileManager.loja.Interfaces;
 
 namespace Integrations;
 
