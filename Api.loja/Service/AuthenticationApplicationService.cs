@@ -4,6 +4,7 @@ using Dominio.loja.Events.Authentication;
 using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Identity.Data;
 using System.Data.Entity.Core;
+using System.Security.Authentication;
 
 namespace Api.loja.Service
 {
@@ -24,7 +25,7 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            //AuthenticationContract.V1.LoginRequest cmd => HandleAuthentication(cmd),
+            AuthenticationContract.V1.LoginRequest cmd => HandleAuthentication(cmd),
             _ => Task.CompletedTask
         };
             
@@ -33,7 +34,7 @@ namespace Api.loja.Service
         {
             
             if (!_context.clients.Any(x => x.Email == cmd.Email && x.Password == cmd.Password))
-                throw new ObjectNotFoundException("User not found");
+                throw new AuthenticationException("User not found");
 
             Authentication auth = new(_context.clients.First(x => x.Email == cmd.Email && x.Password == cmd.Password), _issuer, _key);
             return auth.loginAdmin;

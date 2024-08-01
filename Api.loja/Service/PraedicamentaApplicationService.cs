@@ -25,6 +25,9 @@ namespace Api.loja.Service
             V1.updateCategory u => HandleUpdateCategories(u).ContinueWith(_ => _context.SaveChangesAsync()),
             V1.updateSubCategory u => HandleUpdateSubCategories(u).ContinueWith(_ => _context.SaveChangesAsync()),
             V1.updateSubSubCategory u => HandleUpdateSubSubCategories(u).ContinueWith(_=> _context.SaveChangesAsync()),
+            V1.GetCategories g => GetCategoryById(g.id ?? throw new ArgumentNullException()),
+            V1.GetSubCategories g => GetSubCategoryById(g.id ??throw new ArgumentNullException()),
+            V1.GetSubSubCategories g => GetSubCategoryById(g.id ?? throw new ArgumentNullException()),
             _ => Task.CompletedTask
         };
 

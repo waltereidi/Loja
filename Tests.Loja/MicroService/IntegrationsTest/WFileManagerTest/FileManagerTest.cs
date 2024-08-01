@@ -1,6 +1,7 @@
 ﻿using Integrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WFileManager.Contracts;
 using WFileManager.loja.Interfaces;
 using WFileManager.loja.WriteStrategy;
 
@@ -31,8 +32,11 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
             IFileStrategy strategy = new UploadFile(file);
 
             //Act
-            _fileManager.StartAsync<FileInfo>(strategy)
-                .ContinueWith(_ => Assert.IsFalse(_.Result.Any(x => !x.Exists)));
+            var i = _fileManager.Start<UploadContracts.UploadResponse>(strategy);
+            var e = i.First();
+
+            _fileManager.StartAsync<UploadContracts.UploadResponse>(strategy)
+                .ContinueWith(_ => Assert.IsFalse(_.Result.Any(x => !x.file.Exists)));
 
         }
     }

@@ -20,7 +20,7 @@ namespace Api.loja.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Login(AuthenticationContract.V1.LoginRequest login) => Ok(await _service.HandleAuthentication(login));//arrumar depois 
+        public async Task<IActionResult> Login(AuthenticationContract.V1.LoginRequest login) => Ok( await HandleRequest(login, _service.Handle));//arrumar depois 
 
 
 

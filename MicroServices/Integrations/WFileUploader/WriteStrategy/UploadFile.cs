@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
+using WFileManager.Contracts;
 using WFileManager.Enum;
 using WFileManager.loja.Interfaces;
 using WFileManager.loja.Utility;
@@ -15,6 +16,7 @@ namespace WFileManager.loja.WriteStrategy
 {
     public class UploadFile : IFileStrategy
     {
+
         private readonly IFormCollection _formCollection;
         private readonly IFormFile _formFile;
         private readonly UploadOptions _options;
@@ -29,7 +31,7 @@ namespace WFileManager.loja.WriteStrategy
         public UploadFile(IFormFile file , FileDirectory dir = null)
         {
             _formFile = file;
-            _options = UploadOptions.FormColletion;
+            _options = UploadOptions.FormFile;
         }
         
         public IEnumerable<T> Start<T>() where T : class
@@ -41,23 +43,31 @@ namespace WFileManager.loja.WriteStrategy
                 default:return null;
             }
         }
-        private IEnumerable<FileInfo> UploadCollection<T>()
+        private IEnumerable<UploadContracts.UploadResponse> UploadCollection<T>()
         {
             foreach (var file in _formCollection.Files)
             {
-                using (Stream fileStream = new FileStream(Path.Combine(_path, _dir?.DirectoryName??"" , file.FileName,_utils.GetFileExtension(file.FileName)), FileMode.Create))
+                Guid guid = Guid.NewGuid();
+                string path = Path.Combine(_path, _dir.DirectoryName, guid.ToString(), _utils.GetFileExtension(file.FileName));
+                using (Stream fileStream = new FileStream(path, FileMode.Create))
                 {
                     file.CopyToAsync(fileStream);
-                    yield return new FileInfo(_path);
+                    var result = new UploadContracts.UploadResponse(new FileInfo(path), file.FileName);
+                    yield return result;
                 };
             }
         }
-        private IEnumerable<FileInfo> UploadFormFile<T>()
+        private IEnumerable<UploadContracts.UploadResponse> UploadFormFile<T>()
         {
-            using (Stream fileStream = new FileStream(Path.Combine(_path, _dir?.DirectoryName??"" , _formFile.FileName,_utils.GetFileExtension(_formFile.FileName)), FileMode.Create))
+            
+            var guid = Guid.NewGuid();
+            string path = Path.Combine(_path, _dir.DirectoryName, guid.ToString(), _utils.GetFileExtension(_formFile.FileName));
+            using (Stream fileStream = new FileStream( path , FileMode.Create))
             {
-                _formFile.CopyToAsync(fileStream);
-                yield return new FileInfo($"{_path}{_utils.GetFileExtension(_formFile.FileName)}");
+                _formFile.CopyToAsync(fileStream );
+                var result = new UploadContracts.UploadResponse(new FileInfo(path), _formFile.FileName);
+
+                yield return result;
             };
         }
 
