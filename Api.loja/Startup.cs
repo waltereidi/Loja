@@ -86,11 +86,11 @@ public class Startup
                 options.QueueLimit = 1;
             }));
 
-        service.AddSingleton<IQueue, Queue>();
         service.AddSingleton<StoreContext>();
         service.AddScoped<AuthenticationApplicationService>();
         service.AddScoped<ProductManagerApplicationService>();
         service.AddScoped<PraedicamentaApplicationService>();
+        service.AddScoped<UploadApplicationService>();
 
         //service.AddSingleton<IFileUploadClient , FileUploadClient>();
         //service.AddSingleton<FileUploadServer>();

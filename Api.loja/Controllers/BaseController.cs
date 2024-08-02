@@ -18,6 +18,7 @@ namespace Api.loja.Controllers
         {
             try
             {
+                
                 return Ok(await handler(request));
             }
             catch (AuthenticationException ex)

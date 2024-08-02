@@ -13,7 +13,7 @@ namespace Dominio.loja.Events.FileUpload
 {
     public class FileManager : AggregateRoot<int>
     {
-        
+        List<FileStorage> FileStorages = new List<FileStorage>(); 
         protected override void EnsureValidState()
         {
             throw new NotImplementedException();
@@ -23,10 +23,10 @@ namespace Dominio.loja.Events.FileUpload
         {
             switch (@event)
             {
-                //case FileManagerEvents.Files c:
-                //    subSubCategory = new SubSubCategories(Apply);
-                //    ApplyToEntity(subSubCategory, c);
-                //    break;
+                case FileManagerEvents.Files c:
+                    //var Files= new FileDirectory(Apply);
+                    //ApplyToEntity(Files, c);
+                    break;
 
                 default: throw new NotImplementedException();
             }

@@ -1,7 +1,9 @@
 ﻿using Dominio.loja.Events.Integracoes.WFileManager;
+using Dominio.loja.Events.Praedicamenta;
 using Framework.loja;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
@@ -12,9 +14,12 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public static explicit operator FileDirectory(int id) => new (id);
         [Required]
         public string DirectoryName { get; set; }
-        public FileDirectory()
+        [Required]
+        public string Referer { get; set; }
+        [Required]
+        public string ValidExtensions { get; set; }
+        public FileDirectory(Action<object> applier) : base(applier)
         {
-
         }
         public FileDirectory(string directory )
         {
@@ -26,14 +31,22 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
             Id = id;
         }
 
-        public static implicit operator string(FileDirectory fd)
-        {
+        //public static implicit operator string(FileDirectory fd)
+        //{
 
-            return fd.DirectoryName;
-        }
+        //    return fd.DirectoryName;
+        //}
         protected override void When(object @event)
         {
-            var i = @event;
+            switch (@event)
+            {
+                case FileManagerEvents.FileUploaded e:
+                    break;
+                case PraedicamentaEvents.UpdateCategory e:
+                    Updated_at = DateTime.Now;
+                    break;
+                default: throw new NotImplementedException();
+            }
         }
 
     }

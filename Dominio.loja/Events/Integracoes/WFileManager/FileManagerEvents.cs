@@ -4,11 +4,8 @@ namespace Dominio.loja.Events.Integracoes.WFileManager
 {
     public  class FileManagerEvents 
     {
-        public class FileUploaded
-        { 
-            public IFormFile FormFile;
+        public record class FileUploaded(IEnumerable<FileInfo> FormFile);
         
-        }
 
     }
 }
