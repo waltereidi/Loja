@@ -23,13 +23,25 @@ namespace WFileManager.loja.WriteStrategy
         private readonly FileDirectory _dir;
         private readonly FileManagerUtility _utils = new ();
         private readonly string _path = Path.Combine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory);
-        public UploadFile(IFormCollection file , FileDirectory dir =null) 
+        public UploadFile(IFormCollection file , string dir =null) 
         {
+            if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
+                throw new DirectoryNotFoundException();
+
+            if(Directory.Exists(dir))
+                _path = dir;
+
             _formCollection = file;
             _options = UploadOptions.FormColletion;
         }
-        public UploadFile(IFormFile file , FileDirectory dir = null)
+        public UploadFile(IFormFile file , string dir = null)
         {
+            if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
+                throw new DirectoryNotFoundException();
+
+            if (Directory.Exists(dir))
+                _path = dir;
+
             _formFile = file;
             _options = UploadOptions.FormFile;
         }
@@ -48,7 +60,7 @@ namespace WFileManager.loja.WriteStrategy
             foreach (var file in _formCollection.Files)
             {
                 Guid guid = Guid.NewGuid();
-                string path = Path.Combine(_path, _dir.DirectoryName, guid.ToString(), _utils.GetFileExtension(file.FileName));
+                string path = Path.Combine(_path , guid.ToString() + _utils.GetFileExtension(file.FileName));
                 using (Stream fileStream = new FileStream(path, FileMode.Create))
                 {
                     file.CopyToAsync(fileStream);
@@ -61,7 +73,7 @@ namespace WFileManager.loja.WriteStrategy
         {
             
             var guid = Guid.NewGuid();
-            string path = Path.Combine(_path, _dir.DirectoryName, guid.ToString(), _utils.GetFileExtension(_formFile.FileName));
+            string path = Path.Combine(_path,  guid.ToString() + _utils.GetFileExtension(_formFile.FileName));
             using (Stream fileStream = new FileStream( path , FileMode.Create))
             {
                 _formFile.CopyToAsync(fileStream );

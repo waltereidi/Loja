@@ -40,10 +40,11 @@
 	    <ProjectReference Include="..\Loja.loja\Loja.loja.esproj">
 		    <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 	    </ProjectReference>
-	    <ProjectReference Include="..\MicroServices\Integrations\RabbitMQ.loja\RabbitMQ.loja.csproj" />
+	    <ProjectReference Include="..\MicroServices\Integrations\WFileUploader\WFileManager.csproj" />
 	    <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Controllers\MobileAdmin\" />
       <Folder Include="Controllers\Store\" />
     </ItemGroup>
 

@@ -32,11 +32,9 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
             IFileStrategy strategy = new UploadFile(file);
 
             //Act
-            var i = _fileManager.Start<UploadContracts.UploadResponse>(strategy);
-            var e = i.First();
+            var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy);
 
-            _fileManager.StartAsync<UploadContracts.UploadResponse>(strategy)
-                .ContinueWith(_ => Assert.IsFalse(_.Result.Any(x => !x.file.Exists)));
+            Assert.IsFalse(result.Any(x => !x.file.Exists));
 
         }
     }
