@@ -17,12 +17,9 @@ namespace Api.loja.Data
 		public StoreContext()
 		{
 		}
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder
-            .UseLazyLoadingProxies()
-            .UseSqlServer("loja.Infra".GetConnectionString())
-            .LogTo(Console.WriteLine);
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseSqlServer("loja.Infra".GetConnectionString());
 
-		public virtual DbSet<Categories> categories { get; set; }
+        public virtual DbSet<Categories> categories { get; set; }
         public virtual DbSet<SubCategories> subCategories { get; set; }
         public virtual DbSet<SubSubCategories> subSubCategories { get; set; }
         public virtual DbSet<CategoriesPromotion> categoriesPromotion { get; set; }

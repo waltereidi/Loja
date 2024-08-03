@@ -21,26 +21,28 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            UploadFile cmd => HandleUploadFile(cmd),
+            UploadFile cmd => HandleUploadFile(cmd) ,
             UploadMultipleFiles cmd => HandleUploadMultipleFiles(cmd),
             _ => Task.CompletedTask
         };
-        private async Task HandleUploadFile(UploadFile cmd)
+        private IEnumerable<UploadContracts.UploadResponse> HandleUploadFile(UploadFile cmd)
         {
+            FileDirectory directory = GetDirectoryFromReferer(cmd.request , cmd.file.Headers["Content-Type"].First() );
+            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile( cmd.file ,directory.DirectoryName);
             
-            GetDirectoryFromReferer(cmd.request , cmd.file.Headers["Content-Type"].First() );
-            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile( cmd.file );
             var result = fileUploadService.Start<UploadContracts.UploadResponse>(strategy);
-      
+
+            return result;
         }
 
-        private void GetDirectoryFromReferer(HttpRequest request, string? content)
+        private FileDirectory GetDirectoryFromReferer(HttpRequest request, string? content)
         {
             Uri referer =new Uri(request.Headers.Referer);
 
-            var i = _context.fileDirectory.First();
             if (!_context.fileDirectory.Any(x => x.Referer == referer.LocalPath && x.ValidExtensions.Contains(content)))
                 throw new InvalidDataException("Invalid data exception");
+
+            return _context.fileDirectory.First(x=> x.Referer == referer.LocalPath && x.ValidExtensions.Contains(content));
         }
 
         private async Task HandleUploadMultipleFiles(UploadMultipleFiles cmd)

@@ -6,6 +6,7 @@
         {
             public record class UploadFile(IFormFile file, HttpRequest request);
             public record class UploadMultipleFiles(IFormCollection files, HttpRequest request);
+            public record class UploadFileResponse();
         }
     }
 }

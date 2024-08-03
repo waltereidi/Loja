@@ -10,8 +10,6 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
     [Table("FileDirectory")]
     public class FileDirectory : Entity<int?>
     {
-        public static explicit operator FileDirectory(string dir) => new (dir);
-        public static explicit operator FileDirectory(int id) => new (id);
         [Required]
         public string DirectoryName { get; set; }
         [Required]
@@ -21,15 +19,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public FileDirectory(Action<object> applier) : base(applier)
         {
         }
-        public FileDirectory(string directory )
-        {
-            DirectoryName = directory;
-               
-        }
-        public FileDirectory(int id)
-        {
-            Id = id;
-        }
+        public FileDirectory() { }
 
         //public static implicit operator string(FileDirectory fd)
         //{
@@ -42,10 +32,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
             {
                 case FileManagerEvents.FileUploaded e:
                     break;
-                case PraedicamentaEvents.UpdateCategory e:
-                    Updated_at = DateTime.Now;
-                    break;
-                default: throw new NotImplementedException();
+
             }
         }
 

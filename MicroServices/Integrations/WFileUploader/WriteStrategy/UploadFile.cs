@@ -26,7 +26,7 @@ namespace WFileManager.loja.WriteStrategy
         public UploadFile(IFormCollection file , string dir =null) 
         {
             if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
-                throw new DirectoryNotFoundException();
+                Directory.CreateDirectory(dir);
 
             if(Directory.Exists(dir))
                 _path = dir;
@@ -37,7 +37,7 @@ namespace WFileManager.loja.WriteStrategy
         public UploadFile(IFormFile file , string dir = null)
         {
             if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
-                throw new DirectoryNotFoundException();
+                Directory.CreateDirectory(dir);
 
             if (Directory.Exists(dir))
                 _path = dir;
@@ -71,15 +71,16 @@ namespace WFileManager.loja.WriteStrategy
         }
         private IEnumerable<UploadContracts.UploadResponse> UploadFormFile<T>()
         {
-            
+            List<UploadContracts.UploadResponse> file = new();
             var guid = Guid.NewGuid();
             string path = Path.Combine(_path,  guid.ToString() + _utils.GetFileExtension(_formFile.FileName));
             using (Stream fileStream = new FileStream( path , FileMode.Create))
             {
                 _formFile.CopyToAsync(fileStream );
+                
                 var result = new UploadContracts.UploadResponse(new FileInfo(path), _formFile.FileName);
-
-                yield return result;
+                file.Add(result);
+                return file;
             };
         }
 

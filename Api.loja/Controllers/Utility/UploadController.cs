@@ -16,9 +16,9 @@ namespace Api.loja.Controllers.Utility
             _service = service;
         }
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file ) => Ok(await HandleRequest(new UploadFile(file , HttpContext.Request), _service.Handle));
+        public Task<IActionResult> UploadFile(IFormFile file ) =>  HandleRequest(new UploadFile(file , HttpContext.Request), _service.Handle);
         [HttpPost]
-        public async Task<IActionResult> UploadMultipleFiles(IFormCollection files) => Ok(await HandleRequest(new UploadMultipleFiles(files, HttpContext.Request), _service.Handle));
+        public Task<IActionResult> UploadMultipleFiles(IFormCollection files) =>HandleRequest(new UploadMultipleFiles(files, HttpContext.Request), _service.Handle);
         
     }
 

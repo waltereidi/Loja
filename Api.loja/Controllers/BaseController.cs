@@ -1,6 +1,4 @@
-﻿using Dominio.loja.Events.Authentication;
-using Framework.loja.Dto.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Core;
 using System.Security.Authentication;
 
@@ -18,8 +16,8 @@ namespace Api.loja.Controllers
         {
             try
             {
-                
-                return Ok(await handler(request));
+                var result = await handler(request);
+                return Ok(result);
             }
             catch (AuthenticationException ex)
             {
