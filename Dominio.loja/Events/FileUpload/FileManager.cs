@@ -1,19 +1,17 @@
-﻿using Dominio.loja.Entity;
-using Dominio.loja.Entity.Integrations.WFileManager;
-using Dominio.loja.Events.Praedicamenta;
+﻿using Dominio.loja.Entity.Integrations.WFileManager;
 using Framework.loja;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Dominio.loja.Events.FileUpload
 {
     public class FileManager : AggregateRoot<int>
     {
-        List<FileStorage> FileStorages = new List<FileStorage>(); 
+        FileStorage storage;
+        public FileManager(object @event)
+        {
+            Apply(@event);
+        }
+
         protected override void EnsureValidState()
         {
             throw new NotImplementedException();
@@ -23,13 +21,15 @@ namespace Dominio.loja.Events.FileUpload
         {
             switch (@event)
             {
-                case FileManagerEvents.Files c:
-                    //var Files= new FileDirectory(Apply);
-                    //ApplyToEntity(Files, c);
+                case FileManagerEvents.CreateFiles c:
+                    var Files= new FileStorage(Apply);
+                    ApplyToEntity(Files, c);
                     break;
 
                 default: throw new NotImplementedException();
             }
         }
+
+
     }
 }

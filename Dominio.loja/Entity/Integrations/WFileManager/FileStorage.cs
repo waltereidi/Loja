@@ -1,4 +1,4 @@
-﻿using Dominio.loja.Events.Integracoes.WFileManager;
+﻿using Dominio.loja.Events.FileUpload;
 using Framework.loja;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,18 +18,14 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         {
 
         }
-        public FileStorage(FileInfo fi)
+        public FileStorage(Action<object> applier) : base(applier)
         {
-            CreationTime=fi.CreationTime;
-            CreationTimeUtc=fi.CreationTimeUtc;
-            Extension = fi.Extension;
         }
-
         protected override void When(object @event)
         {
             switch (@event)
             {
-                case FileManagerEvents.FileUploaded e:; break;
+                case FileManagerEvents.CreateFiles e: ; break;
 
             }
         }

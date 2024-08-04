@@ -11,5 +11,6 @@ namespace WFileManager.Enum
         FormColletion = 0,
         FormFile = 1 , 
         Stream = 2,
+        FormFileArray = 3,
     }
 }

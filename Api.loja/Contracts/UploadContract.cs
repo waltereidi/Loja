@@ -5,7 +5,7 @@
         public class V1
         {
             public record class UploadFile(IFormFile file, HttpRequest request);
-            public record class UploadMultipleFiles(IFormCollection files, HttpRequest request);
+            public record class UploadMultipleFiles(IFormFile[] files, HttpRequest request);
             public record class UploadFileResponse();
         }
     }

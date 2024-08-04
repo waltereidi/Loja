@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace WFileManager.Contracts
             public string Extension { get; }
             public UnixFileMode UnixFileMode { get; }
             public bool IsReadOnly { get; }
+            private string FullName { get; set; }
 
             public UploadResponse(FileInfo file, string originalFileName)
             {
@@ -33,6 +35,11 @@ namespace WFileManager.Contracts
                 Extension = file.Extension;
                 UnixFileMode = file.UnixFileMode;
                 IsReadOnly = file.IsReadOnly;
+                FullName = file.FullName;
+            }
+            public FileInfo GetFileInfo()
+            {
+                return new FileInfo(FullName);
             }
             
         }

@@ -1,6 +1,4 @@
-﻿using Dominio.loja.Events.Integracoes.WFileManager;
-using Dominio.loja.Events.Praedicamenta;
-using Framework.loja;
+﻿using Framework.loja;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
@@ -30,8 +28,6 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         {
             switch (@event)
             {
-                case FileManagerEvents.FileUploaded e:
-                    break;
 
             }
         }

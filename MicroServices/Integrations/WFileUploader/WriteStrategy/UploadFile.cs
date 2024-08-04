@@ -17,13 +17,14 @@ namespace WFileManager.loja.WriteStrategy
     public class UploadFile : IFileStrategy
     {
 
-        private readonly IFormCollection _formCollection;
-        private readonly IFormFile _formFile;
+        private readonly IFormCollection? _formCollection;
+        private readonly IFormFile? _formFile;
+        private readonly IFormFile?[] _formFiles;
         private readonly UploadOptions _options;
         private readonly FileDirectory _dir;
         private readonly FileManagerUtility _utils = new ();
         private readonly string _path = Path.Combine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory);
-        public UploadFile(IFormCollection file , string dir =null) 
+        public UploadFile(IFormCollection file , string? dir =null) 
         {
             if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
                 Directory.CreateDirectory(dir);
@@ -34,7 +35,7 @@ namespace WFileManager.loja.WriteStrategy
             _formCollection = file;
             _options = UploadOptions.FormColletion;
         }
-        public UploadFile(IFormFile file , string dir = null)
+        public UploadFile(IFormFile file , string? dir = null)
         {
             if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
                 Directory.CreateDirectory(dir);
@@ -45,14 +46,25 @@ namespace WFileManager.loja.WriteStrategy
             _formFile = file;
             _options = UploadOptions.FormFile;
         }
-        
+        public UploadFile(IFormFile[] file, string? dir = null)
+        {
+            if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
+                Directory.CreateDirectory(dir);
+
+            if (Directory.Exists(dir))
+                _path = dir;
+
+            _formFiles = file;
+            _options = UploadOptions.FormFileArray;
+        }
         public IEnumerable<T> Start<T>() where T : class
         {
             switch (_options)
             {
                 case UploadOptions.FormColletion: return (IEnumerable<T>)UploadCollection<FileInfo>();
                 case UploadOptions.FormFile: return (IEnumerable<T>)UploadFormFile<FileInfo>();
-                default:return null;
+                case UploadOptions.FormFileArray: return (IEnumerable<T>)UploadFormFileArray<FileInfo>();
+                default:throw new InvalidOperationException();
             }
         }
         private IEnumerable<UploadContracts.UploadResponse> UploadCollection<T>()
@@ -82,6 +94,26 @@ namespace WFileManager.loja.WriteStrategy
                 file.Add(result);
                 return file;
             };
+        }
+        private IEnumerable<UploadContracts.UploadResponse> UploadFormFileArray<T>()
+        {
+            List<UploadContracts.UploadResponse> files = new();
+            var guid = Guid.NewGuid();
+            foreach (var item in _formFiles)
+            {
+                string path = Path.Combine(_path, guid.ToString() + _utils.GetFileExtension(item.FileName));
+
+                using (Stream fileStream = new FileStream(path, FileMode.Create))
+                {
+                    item.CopyToAsync(fileStream);
+
+                    var result = new UploadContracts.UploadResponse(new FileInfo(path), item.FileName);
+                    files.Add(result);
+                };
+            }
+            return files;
+            
+            
         }
 
     }

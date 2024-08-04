@@ -2,9 +2,9 @@
 
 namespace Integrations;
 
-public class FileManager
+public class FileManagerMS
 {
-    public FileManager()
+    public FileManagerMS()
     {
         
     }
