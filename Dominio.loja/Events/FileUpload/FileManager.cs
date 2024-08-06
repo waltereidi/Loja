@@ -1,12 +1,15 @@
-﻿using Dominio.loja.Entity.Integrations.WFileManager;
+﻿using Dominio.loja.Entity;
+using Dominio.loja.Entity.Integrations.WFileManager;
 using Framework.loja;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents;
 
 
 namespace Dominio.loja.Events.FileUpload
 {
     public class FileManager : AggregateRoot<int>
     {
-        FileStorage storage;
+        List<FileStorage> _storage = new();
+        
         public FileManager(object @event)
         {
             Apply(@event);
@@ -14,21 +17,30 @@ namespace Dominio.loja.Events.FileUpload
 
         protected override void EnsureValidState()
         {
-            throw new NotImplementedException();
+            if (_storage.Any(x => x.Length > 10000))
+                throw new InvalidOperationException("Data size too Big");
         }
 
         protected override void When(object @event)
         {
             switch (@event)
             {
-                case FileManagerEvents.CreateFiles c:
-                    var Files= new FileStorage(Apply);
-                    ApplyToEntity(Files, c);
-                    break;
-
-                default: throw new NotImplementedException();
+                case CreateFile c: 
+                    var file = new FileStorage(Apply);
+                    ApplyToEntity(file, c);
+                    _storage.Add(file); break;
+                    
+                case CreateFiles c:
+                    c.fi.ForEach(f => {
+                        Apply(new CreateFile(f, c.fd));
+                        var file = new FileStorage(Apply);
+                        _storage.Add(file); 
+                    }); break;
+                default: throw new NotImplementedException(nameof(@event));
             }
         }
+        public List<FileStorage> GetCreatedFiles() => _storage;
+        
 
 
     }

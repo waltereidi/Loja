@@ -6,6 +6,7 @@ using WFileManager.loja.Interfaces;
 using Dominio.loja.Entity.Integrations.WFileManager;
 using Api.loja.Data;
 using Dominio.loja.Events.FileUpload;
+using System.Collections;
 
 namespace Api.loja.Service
 {
@@ -26,40 +27,49 @@ namespace Api.loja.Service
             UploadMultipleFiles cmd => HandleUploadMultipleFiles(cmd),
             _ => Task.CompletedTask
         };
-        private IEnumerable<UploadContracts.UploadResponse> HandleUploadFile(UploadFile cmd)
+        private IEnumerable<FileStorage> HandleUploadFile(UploadFile cmd)
         {
             FileDirectory directory = GetDirectoryFromReferer(cmd.request , cmd.file.ContentType );
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile( cmd.file ,directory.DirectoryName);
-            
+            //Create File Physically
             var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy);
+            
+            //Put created files response into list
+            _fileManager = new FileManager(new FileManagerEvents.CreateFile(result.First().GetFileInfo() , directory ));
+            var createdFiles = _fileManager.GetCreatedFiles();
+            _context.fileStorage.AddRange(createdFiles);
 
-            return result;
+            return createdFiles;
         }
 
+        private IEnumerable<FileStorage> HandleUploadMultipleFiles(UploadMultipleFiles cmd)
+        {
+            FileDirectory directory = GetDirectoryFromReferer(cmd.request, cmd.files);
+            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.files, directory.DirectoryName);
+            
+            //Create File Physically
+            var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy).First();
+            
+            var fileList = new List<FileInfo>();
+            fileList.Add(result.GetFileInfo());//Put created files response into list
+
+            //Save created files in DataBase
+            _fileManager = new(new FileManagerEvents.CreateFiles(fileList , directory));
+            var createdFiles = _fileManager.GetCreatedFiles();
+            
+            _context.fileStorage.AddRange(createdFiles);
+
+            return createdFiles;
+        }
         private FileDirectory GetDirectoryFromReferer(HttpRequest request, string content)
         {
-            Uri referer =new Uri(request.Headers.Referer);
+            Uri referer = new Uri(request.Headers.Referer);
 
             if (!_context.fileDirectory.Any(x => x.Referer == referer.LocalPath && x.ValidExtensions.Contains(content)))
                 throw new InvalidDataException("File type not allowed");
 
-            return _context.fileDirectory.First(x=> x.Referer == referer.LocalPath && x.ValidExtensions.Contains(content));
+            return _context.fileDirectory.First(x => x.Referer == referer.LocalPath && x.ValidExtensions.Contains(content));
         }
-
-        private UploadContracts.UploadResponse HandleUploadMultipleFiles(UploadMultipleFiles cmd)
-        {
-            FileDirectory directory = GetDirectoryFromReferer(cmd.request, cmd.files);
-            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.files, directory.DirectoryName);
-
-            var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy).First();
-            var fileList = new List<FileInfo>();
-            fileList.Add(result.GetFileInfo());
-
-            _fileManager = new(new FileManagerEvents.CreateFiles(fileList , directory));
-
-            return result;
-        }
-
         private FileDirectory GetDirectoryFromReferer(HttpRequest request, IFormFile[] files)
         {
             Uri referer = new Uri(request.Headers.Referer);
@@ -71,7 +81,6 @@ namespace Api.loja.Service
             }
 
             return directory;
-
         }
     }
 }

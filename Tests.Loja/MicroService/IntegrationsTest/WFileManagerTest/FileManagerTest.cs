@@ -10,7 +10,7 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
     [TestClass]
     public class FileManagerTest
     {
-        private readonly FileManager _fileManager = new();
+        private readonly FileManagerMS _fileManager = new();
         public FileManagerTest()
         {
         }
@@ -34,7 +34,7 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
             //Act
             var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy);
 
-            Assert.IsFalse(result.Any(x => !x.file.Exists));
+            Assert.IsFalse(result.Any(x => !x.GetFileInfo().Exists ));
 
         }
     }
