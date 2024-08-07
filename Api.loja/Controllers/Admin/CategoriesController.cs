@@ -14,13 +14,14 @@ namespace Api.loja.Controllers.Admin
     public class CategoriesController : BaseController
     {
         private readonly PraedicamentaApplicationService _service;
-        public CategoriesController(ILogger<CategoriesController> logger) : base(logger)
+        public CategoriesController(ILogger<CategoriesController> logger , PraedicamentaApplicationService service) : base(logger)
         {
+            _service = service;
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public Task<IActionResult> Login(PraedicamentaContract.V1.AddCategories category) => HandleRequest(category, _service.Handle);
+        public Task<IActionResult> AddCategories(PraedicamentaContract.V1.AddCategories category) => HandleRequest(category, _service.Handle);
 
         [HttpGet]
         [ProducesResponseType<LoginAdmin>(StatusCodes.Status200OK)]

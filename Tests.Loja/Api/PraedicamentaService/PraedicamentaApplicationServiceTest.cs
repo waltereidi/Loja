@@ -27,8 +27,10 @@ namespace Tests.loja.Api.PraedicamentaService
             PraedicamentaContract.V1.AddCategories createCategory = new("Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(createCategory);
+            var changes = _service._praedicamenta.GetChanges();
             //Assert
-            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+
+            Assert.IsTrue(changes.Count()>0);
         }
         [TestMethod]
         public void createSubCategoriesRegisterNewEvent()
@@ -38,7 +40,7 @@ namespace Tests.loja.Api.PraedicamentaService
             //action
             _service.Handle(createSubCategory);
             //Assert
-            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
             
         }
         [TestMethod]
@@ -49,7 +51,7 @@ namespace Tests.loja.Api.PraedicamentaService
             //action
             _service.Handle(createSubSubCategory);
             //Assert
-            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
         }
 
         [TestMethod]
@@ -59,7 +61,7 @@ namespace Tests.loja.Api.PraedicamentaService
             //action
             _service.Handle(updateCategory);
             //Assert
-            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
         }
         [TestMethod]
         public void updateSubCategoriesWork()
@@ -68,7 +70,7 @@ namespace Tests.loja.Api.PraedicamentaService
             //action
             _service.Handle(updateSubCategory);
             //Assert
-            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
         }
         [TestMethod]
         public void updateSubSubCategoriesWork()
@@ -78,7 +80,7 @@ namespace Tests.loja.Api.PraedicamentaService
             //action
             _service.Handle(updateSubSubCategory);
             //Assert
-            Assert.IsNotNull(_service._praedicamenta.GetChanges());
+            Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
         }
     }
 }

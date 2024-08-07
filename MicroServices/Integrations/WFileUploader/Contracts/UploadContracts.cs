@@ -9,7 +9,23 @@ namespace WFileManager.Contracts
 {
     public class UploadContracts
     {
-        public record class FileInfoResponse();
+        public class UploadDirectory
+        {
+            private readonly string Env = Path.Combine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory);
+            public string Dir { get; private set; }
+            public string TempDir { get; private set; }
+            public UploadDirectory(string dir)
+            {
+                Dir = Path.Combine(Env , dir);
+                
+                if (!Directory.Exists(Dir))
+                    Directory.CreateDirectory(Dir);
+
+                TempDir = Path.Combine(Dir, "Temp"); 
+                if (!Directory.Exists(TempDir))
+                    Directory.CreateDirectory(TempDir);
+            }
+        }
 
         public class UploadResponse 
         {

@@ -16,7 +16,6 @@ namespace Dominio.loja.Entity
         public string? Description { get; set; }
         public Categories(Action<object> applier) :base(applier)
         {
-            Apply(applier);
         }
         public Categories() { }
 

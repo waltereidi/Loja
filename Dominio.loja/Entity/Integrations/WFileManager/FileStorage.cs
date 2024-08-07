@@ -20,14 +20,12 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         }
         public FileStorage(Action<object> applier) : base(applier)
         {
-            Apply(applier);
         }
         protected override void When(object @event)
         {
             switch (@event)
             {
                 case FileManagerEvents.CreateFile e:
-                    {
                         FileDirectoryId = e.fd.Id ?? throw new ArgumentNullException(nameof(e.fd));
                         Directory = e.fd;
                         Created_at = DateTime.Now;
@@ -35,7 +33,8 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
                         CreationTimeUtc = e.fi.CreationTimeUtc;
                         Length = e.fi.Length;
                         Extension = e.fi.Extension;
-                    }; break;
+                    ; break;
+                default: throw new InvalidOperationException();
             }
         }
 

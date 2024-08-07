@@ -9,7 +9,9 @@ namespace Dominio.loja.Events.FileUpload
     public class FileManager : AggregateRoot<int>
     {
         List<FileStorage> _storage = new();
-        
+        public FileManager()
+        {
+        }
         public FileManager(object @event)
         {
             Apply(@event);
@@ -17,7 +19,7 @@ namespace Dominio.loja.Events.FileUpload
 
         protected override void EnsureValidState()
         {
-            if (_storage.Any(x => x.Length > 10000))
+            if (_storage.Any(x => x.Length > 10000000))
                 throw new InvalidOperationException("Data size too Big");
         }
 

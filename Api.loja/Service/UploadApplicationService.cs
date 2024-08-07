@@ -1,13 +1,12 @@
 ﻿using Framework.loja.Interfaces;
-using static Api.loja.Contracts.UploadContract.V1;
 using Integrations;
 using WFileManager.Contracts;
 using WFileManager.loja.Interfaces;
 using Dominio.loja.Entity.Integrations.WFileManager;
 using Api.loja.Data;
 using Dominio.loja.Events.FileUpload;
-using System.Collections;
 
+using static Api.loja.Contracts.UploadContract.V1;
 namespace Api.loja.Service
 {
     public class UploadApplicationService : IApplicationService
@@ -18,6 +17,7 @@ namespace Api.loja.Service
         public UploadApplicationService(IConfiguration configuration, StoreContext context)
         {
             _fileUploadService = new FileManagerMS();
+            _fileManager = new FileManager();
             _context = context;
         }
 
@@ -38,6 +38,7 @@ namespace Api.loja.Service
             _fileManager = new FileManager(new FileManagerEvents.CreateFile(result.First().GetFileInfo() , directory ));
             var createdFiles = _fileManager.GetCreatedFiles();
             _context.fileStorage.AddRange(createdFiles);
+            _context.SaveChanges();
 
             return createdFiles;
         }
@@ -58,7 +59,7 @@ namespace Api.loja.Service
             var createdFiles = _fileManager.GetCreatedFiles();
             
             _context.fileStorage.AddRange(createdFiles);
-
+            _context.SaveChanges();
             return createdFiles;
         }
         private FileDirectory GetDirectoryFromReferer(HttpRequest request, string content)

@@ -19,7 +19,7 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            V1.AddCategories c => HandleCreateCategories(c).ContinueWith(_=> _context.SaveChangesAsync()),
+            V1.AddCategories c =>await HandleCreateCategories(c).ContinueWith(_=> _context.SaveChangesAsync()),
             V1.AddSubCategories c => HandleCreateSubCategories(c).ContinueWith(_ => _context.SaveChangesAsync()),
             V1.AddSubSubCategories c => HandleCreateSubSubCategories(c).ContinueWith(_ => _context.SaveChangesAsync()),
             V1.updateCategory u => HandleUpdateCategories(u).ContinueWith(_ => _context.SaveChangesAsync()),

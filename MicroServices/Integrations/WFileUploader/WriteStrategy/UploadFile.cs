@@ -21,39 +21,24 @@ namespace WFileManager.loja.WriteStrategy
         private readonly IFormFile? _formFile;
         private readonly IFormFile?[] _formFiles;
         private readonly UploadOptions _options;
-        private readonly FileDirectory _dir;
         private readonly FileManagerUtility _utils = new ();
-        private readonly string _path = Path.Combine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory);
+        private readonly UploadContracts.UploadDirectory _dir; 
+
         public UploadFile(IFormCollection file , string? dir =null) 
         {
-            if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
-                Directory.CreateDirectory(dir);
-
-            if(Directory.Exists(dir))
-                _path = dir;
-
+            _dir = new(dir);
             _formCollection = file;
             _options = UploadOptions.FormColletion;
         }
         public UploadFile(IFormFile file , string? dir = null)
         {
-            if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
-                Directory.CreateDirectory(dir);
-
-            if (Directory.Exists(dir))
-                _path = dir;
-
+            _dir = new(dir);
             _formFile = file;
             _options = UploadOptions.FormFile;
         }
         public UploadFile(IFormFile[] file, string? dir = null)
         {
-            if (!Directory.Exists(dir) && !String.IsNullOrEmpty(dir))
-                Directory.CreateDirectory(dir);
-
-            if (Directory.Exists(dir))
-                _path = dir;
-
+            _dir = new(dir);
             _formFiles = file;
             _options = UploadOptions.FormFileArray;
         }
@@ -72,7 +57,7 @@ namespace WFileManager.loja.WriteStrategy
             foreach (var file in _formCollection.Files)
             {
                 Guid guid = Guid.NewGuid();
-                string path = Path.Combine(_path , guid.ToString() + _utils.GetFileExtension(file.FileName));
+                string path = Path.Combine(_dir.TempDir , guid.ToString() + _utils.GetFileExtension(file.FileName));
                 using (Stream fileStream = new FileStream(path, FileMode.Create))
                 {
                     file.CopyToAsync(fileStream);
@@ -85,7 +70,7 @@ namespace WFileManager.loja.WriteStrategy
         {
             List<UploadContracts.UploadResponse> file = new();
             var guid = Guid.NewGuid();
-            string path = Path.Combine(_path,  guid.ToString() + _utils.GetFileExtension(_formFile.FileName));
+            string path = Path.Combine(_dir.TempDir,  guid.ToString() + _utils.GetFileExtension(_formFile.FileName) );
             using (Stream fileStream = new FileStream( path , FileMode.Create))
             {
                 _formFile.CopyToAsync(fileStream );
@@ -101,7 +86,7 @@ namespace WFileManager.loja.WriteStrategy
             var guid = Guid.NewGuid();
             foreach (var item in _formFiles)
             {
-                string path = Path.Combine(_path, guid.ToString() + _utils.GetFileExtension(item.FileName));
+                string path = Path.Combine(_dir.TempDir, guid.ToString() + _utils.GetFileExtension(item.FileName) );
 
                 using (Stream fileStream = new FileStream(path, FileMode.Create))
                 {
@@ -112,9 +97,7 @@ namespace WFileManager.loja.WriteStrategy
                 };
             }
             return files;
-            
-            
         }
-
+        
     }
 }
