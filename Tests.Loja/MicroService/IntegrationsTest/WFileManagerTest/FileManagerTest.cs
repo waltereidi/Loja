@@ -1,6 +1,7 @@
 ﻿using Integrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Npoi.Mapper;
 using WFileManager.Contracts;
 using WFileManager.loja.Interfaces;
 using WFileManager.loja.WriteStrategy;
@@ -14,7 +15,11 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
         public FileManagerTest()
         {
         }
-
+        /// <summary>
+        /// Upload file should create a temporary file <br></br>
+        /// commit the temporary file should save it on its correct position <br></br>
+        /// Dispose must delete a temporary file if still exists <br></br>
+        /// </summary>
         [TestMethod]
         public void UploadFileShouldReturnFileInfo()
         {
@@ -29,12 +34,16 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
 
             //create FormFile with desired data
             IFormFile file = new FormFile(stream, 0, stream.Length, "id_from_form", fileName);
-            IFileStrategy strategy = new UploadFile(file);
+            IFileStrategy strategy = new UploadFile(file, "testCase");
 
             //Act
-            var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy);
-
-            Assert.IsFalse(result.Any(x => !x.GetFileInfo().Exists ));
+            var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy );
+            result.ForEach(f => f.CommitFile());
+            result.ForEach(f => f.Dispose());
+            //The uploaded file is in mentioned directory 
+            Assert.IsTrue(result.Any(x => x.GetFileInfo().Exists ));
+            //The temporary file is deleted 
+            Assert.IsFalse(result.Any(x => File.Exists(x.FullName)));
 
         }
     }

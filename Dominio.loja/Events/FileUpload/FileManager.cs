@@ -34,7 +34,7 @@ namespace Dominio.loja.Events.FileUpload
                     
                 case CreateFiles c:
                     c.fi.ForEach(f => {
-                        Apply(new CreateFile(f, c.fd));
+                        Apply(new CreateFile(f, c.fd) );
                         var file = new FileStorage(Apply);
                         _storage.Add(file); 
                     }); break;

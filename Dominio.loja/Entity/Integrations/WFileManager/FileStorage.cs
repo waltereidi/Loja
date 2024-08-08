@@ -1,6 +1,7 @@
 ﻿using Dominio.loja.Events.FileUpload;
 using Framework.loja;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO.Enumeration;
 
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
@@ -13,6 +14,8 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public string Extension { get; set; }
         [ForeignKey("FileDirectoryId")]
         public int FileDirectoryId { get; set; }
+        public string FileName { get; set; }
+        public string OriginalName { get; set; }
         public virtual FileDirectory Directory {get;set;}
         public FileStorage()
         {
@@ -33,6 +36,8 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
                         CreationTimeUtc = e.fi.CreationTimeUtc;
                         Length = e.fi.Length;
                         Extension = e.fi.Extension;
+                        FileName = e.fi.Name;
+                        OriginalName = e.OriginalName;
                     ; break;
                 default: throw new InvalidOperationException();
             }

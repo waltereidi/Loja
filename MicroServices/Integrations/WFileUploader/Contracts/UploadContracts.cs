@@ -12,22 +12,22 @@ namespace WFileManager.Contracts
         public class UploadDirectory
         {
             private readonly string Env = Path.Combine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environment.CurrentDirectory);
-            public string Dir { get; private set; }
-            public string TempDir { get; private set; }
+            public DirectoryInfo Dir { get; private set; }
+            public DirectoryInfo TempDir { get; private set; }
             public UploadDirectory(string dir)
             {
-                Dir = Path.Combine(Env , dir);
+                Dir =new( Path.Combine(Env , dir));
                 
-                if (!Directory.Exists(Dir))
-                    Directory.CreateDirectory(Dir);
+                if (!Directory.Exists(Dir.FullName))
+                    Directory.CreateDirectory(Dir.FullName);
 
-                TempDir = Path.Combine(Dir, "Temp"); 
-                if (!Directory.Exists(TempDir))
-                    Directory.CreateDirectory(TempDir);
+                TempDir = new (Path.Combine(Dir.FullName, "Temp")); 
+                if (!TempDir.Exists)
+                    Directory.CreateDirectory(TempDir.FullName);
             }
         }
 
-        public class UploadResponse 
+        public class UploadResponse : IDisposable
         {
             private string OriginalFileName { get; set; }
             private string FileName { get; set; }
@@ -38,9 +38,11 @@ namespace WFileManager.Contracts
             public string Extension { get; }
             public UnixFileMode UnixFileMode { get; }
             public bool IsReadOnly { get; }
-            private string FullName { get; set; }
+            public string FullName { get; private set; }
+            private DirectoryInfo NonTemporaryDirectory { get; set; }
+            public FileInfo NonTemporaryFile { get; set; }
 
-            public UploadResponse(FileInfo file, string originalFileName)
+            public UploadResponse(FileInfo file, string originalFileName , DirectoryInfo nonTemporaryDirectory)
             {
                 OriginalFileName = originalFileName;
                 FileName = file.Name;
@@ -52,12 +54,24 @@ namespace WFileManager.Contracts
                 UnixFileMode = file.UnixFileMode;
                 IsReadOnly = file.IsReadOnly;
                 FullName = file.FullName;
+                NonTemporaryDirectory = nonTemporaryDirectory;
             }
             public FileInfo GetFileInfo()
             {
-                return new FileInfo(FullName);
+                return NonTemporaryFile ?? new(FullName);
             }
-            
+            public void CommitFile()
+            {
+                var file = new FileInfo(FullName);
+                file.MoveTo(Path.Combine(NonTemporaryDirectory.FullName,FileName));
+                NonTemporaryFile= new(file.FullName);
+            }
+
+            public void Dispose()
+            {
+                if(File.Exists(FullName))
+                    File.Delete(FullName);
+            }
         }
 
         
