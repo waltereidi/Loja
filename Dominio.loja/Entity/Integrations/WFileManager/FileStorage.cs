@@ -38,7 +38,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
                         Extension = e.fi.file.Extension;
                         FileName = e.fi.file.Name;
                         OriginalName = e.fi.fileName;
-                    ; break;
+                     break;
                 default: throw new InvalidOperationException();
             }
         }

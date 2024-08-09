@@ -41,6 +41,7 @@ namespace WFileManager.Contracts
             public string FullName { get; private set; }
             private DirectoryInfo NonTemporaryDirectory { get; set; }
             public FileInfo NonTemporaryFile { get; set; }
+            private bool Disposed { get; set; } = false;
 
             public UploadResponse(FileInfo file, string originalFileName , DirectoryInfo nonTemporaryDirectory)
             {
@@ -68,10 +69,23 @@ namespace WFileManager.Contracts
                 NonTemporaryFile= new(file.FullName);
             }
 
+            public void Dispose(bool dispose)
+            {
+                if (Disposed)
+                {
+                    if (File.Exists(FullName))
+                        File.Delete(FullName);
+                    Disposed = true;
+                }
+            }
+            ~UploadResponse()
+            {
+                Dispose(Disposed);
+            }
             public void Dispose()
             {
-                if(File.Exists(FullName))
-                    File.Delete(FullName);
+                Dispose(Disposed);
+                GC.SuppressFinalize(this);
             }
         }
 

@@ -21,6 +21,7 @@ namespace Dominio.loja.Events.FileUpload
         {
             if (_storage.Any(x => x.Length > 10000000))
                 throw new InvalidOperationException("Data size too Big");
+            _storage.RemoveAll(x => x.OriginalName == null);
         }
 
         protected override void When(object @event)
@@ -33,7 +34,7 @@ namespace Dominio.loja.Events.FileUpload
                     _storage.Add(file); break;
                     
                 case CreateFiles c:
-                    c.files.ForEach(f => {
+                    c.files.ForEach(f =>  {
                         Apply(new CreateFile(f, c.fd) );
                         var file = new FileStorage(Apply);
                         _storage.Add(file); 
@@ -42,7 +43,6 @@ namespace Dominio.loja.Events.FileUpload
             }
         }
         public List<FileStorage> GetCreatedFiles() => _storage;
-        
 
 
     }

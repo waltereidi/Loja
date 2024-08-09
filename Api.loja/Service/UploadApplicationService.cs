@@ -35,22 +35,15 @@ namespace Api.loja.Service
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile( cmd.file ,directory.DirectoryName);
             //Create File Physically
             var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy).First();
-            try
-            {
+     
                 //Put created files response into list
-                _fileManager = new (new FileManagerEvents.CreateFile(new(new(result.FullName), result.OriginalFileName) , directory));
-                var createdFiles = _fileManager.GetCreatedFiles();
-                _context.fileStorage.AddRange(createdFiles);
-                _context.SaveChanges();
-                result.CommitFile();
+            _fileManager = new (new FileManagerEvents.CreateFile(new(new(result.FullName), result.OriginalFileName) , directory));
+            var createdFiles = _fileManager.GetCreatedFiles();
+            _context.fileStorage.AddRange(createdFiles);
+            _context.SaveChanges();
+            result.CommitFile();
 
-                return createdFiles;
-            }
-            finally
-            {
-                result.Dispose();
-            }
-            
+            return createdFiles;
         }
 
         private IEnumerable<FileStorage> HandleUploadMultipleFiles(UploadMultipleFiles cmd)
@@ -60,26 +53,21 @@ namespace Api.loja.Service
 
             var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy);
             //Create File Physically
-            try
-            {
-                //Save created files in DataBase
-                List<FileManagerEvents.Files> files = result
-                    .Select(s => new FileManagerEvents.Files( new(s.FullName ) ,  s.OriginalFileName))
-                    .ToList();
 
-                _fileManager = new(new FileManagerEvents.CreateFiles(  files, directory ));
+            //Save created files in DataBase
+            List<FileManagerEvents.Files> files = result
+                .Select(s => new FileManagerEvents.Files( new(s.FullName ) ,  s.OriginalFileName))
+                .ToList();
 
-                var createdFiles = _fileManager.GetCreatedFiles();
+            _fileManager = new(new FileManagerEvents.CreateFiles(  files, directory ));
 
-                _context.fileStorage.AddRange(createdFiles);
-                result.ForEach(f => f.CommitFile());
-                _context.SaveChanges();
-                return createdFiles;
-            }
-            finally
-            {
-                result.ForEach(f=> f.Dispose());
-            }
+            var createdFiles = _fileManager.GetCreatedFiles();
+
+            _context.fileStorage.AddRangeAsync(createdFiles);
+            result.ForEach(f => f.CommitFile());
+            _context.SaveChangesAsync();
+            return createdFiles;
+       
         }
         private FileDirectory GetDirectoryFromReferer(HttpRequest request, string content)
         {
