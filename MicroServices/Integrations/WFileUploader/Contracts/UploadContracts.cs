@@ -29,8 +29,8 @@ namespace WFileManager.Contracts
 
         public class UploadResponse : IDisposable
         {
-            private string OriginalFileName { get; set; }
-            private string FileName { get; set; }
+            public string OriginalFileName { get; set; }
+            public string FileName { get; set; }
             private DateTime CreationTime { get; set; }
             private DateTime CreationTimeUtc { get; set; }
             public DateTime LastWriteTime { get; }
@@ -56,6 +56,7 @@ namespace WFileManager.Contracts
                 FullName = file.FullName;
                 NonTemporaryDirectory = nonTemporaryDirectory;
             }
+            public DirectoryInfo GetDirectory() => NonTemporaryDirectory;
             public FileInfo GetFileInfo()
             {
                 return NonTemporaryFile ?? new(FullName);

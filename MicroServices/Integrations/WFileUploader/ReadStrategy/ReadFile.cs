@@ -1,22 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WFileManager.loja.Interfaces;
+﻿using WFileManager.loja.Interfaces;
 
 namespace WFileManager.loja.ReadStrategy
 {
     public class ReadFile : IFileStrategy
     {
         private readonly IEnumerable<FileInfo> _fileInfos;
-        public ReadFile(string fileName)
+        private readonly List<FileInfo> _files;
+        private readonly DirectoryInfo _dir;
+        public ReadFile(string fileName , DirectoryInfo dir)
         {
-            
+            _dir = dir.Exists ? dir : throw new DirectoryNotFoundException(nameof(dir));
+            _files = new();
+            _files.Add(new(Path.Combine(dir.FullName , fileName)));
+
+            if (_files.Any(x => !x.Exists))
+                throw new FileNotFoundException();
+        }
+        public ReadFile(string[] files , DirectoryInfo dir)
+        {
+            _dir = dir.Exists ? dir : throw new DirectoryNotFoundException(nameof(dir));
+            _files = files.Count() > 0 ? files
+                .ToList()
+                .Select(s => new FileInfo(Path.Combine(dir.FullName , s)))
+                .ToList() : throw new FileNotFoundException(nameof(files));
         }
         public IEnumerable<T> Start<T>() where T : class
-        {
-            throw new NotImplementedException();
+        {   
+            IEnumerable<FileStream> fsArray = _files.Select(s => File.Open(s.FullName, FileMode.Open)).ToArray();
+            return (IEnumerable<T>)fsArray;
         }
 
     }

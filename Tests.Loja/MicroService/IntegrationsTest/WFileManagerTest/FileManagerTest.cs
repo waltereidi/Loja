@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Npoi.Mapper;
 using WFileManager.Contracts;
 using WFileManager.loja.Interfaces;
+using WFileManager.loja.ReadStrategy;
 using WFileManager.loja.WriteStrategy;
 
 namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
@@ -40,10 +41,17 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
             var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy );
             result.ForEach(f => f.CommitFile());
             result.ForEach(f => f.Dispose());
+
+            IFileStrategy readStrategy = new ReadFile(result.First().FileName, result.First().GetDirectory());
+            var files = _fileManager.Start<FileStream>(readStrategy);
+            var bytes = files.First().ReadByte();
+
             //The uploaded file is in mentioned directory 
             Assert.IsTrue(result.Any(x => x.GetFileInfo().Exists ));
             //The temporary file is deleted 
             Assert.IsFalse(result.Any(x => File.Exists(x.FullName)));
+            //
+            Assert.IsNotNull(bytes);
 
         }
     }

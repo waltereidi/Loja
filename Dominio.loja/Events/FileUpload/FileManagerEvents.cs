@@ -10,9 +10,8 @@ namespace Dominio.loja.Events.FileUpload
 {
     public class FileManagerEvents
     {
-        public record class CreateFiles(List<Files> fi, FileDirectory fd);
-        public record class SaveUploadedFile( IEnumerable<FileManagerEvents.Files> files);
+        public record class CreateFiles(List<Files> files , FileDirectory fd);
         public record class Files(FileInfo file , string fileName );
-        public record class CreateFile(FileInfo fi, FileDirectory fd , string OriginalName );
+        public record class CreateFile(Files fi, FileDirectory fd );
     }
 }

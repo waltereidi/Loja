@@ -32,12 +32,12 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
                         FileDirectoryId = e.fd.Id ?? throw new ArgumentNullException(nameof(e.fd));
                         Directory = e.fd;
                         Created_at = DateTime.Now;
-                        CreationTime = e.fi.CreationTime;
-                        CreationTimeUtc = e.fi.CreationTimeUtc;
-                        Length = e.fi.Length;
-                        Extension = e.fi.Extension;
-                        FileName = e.fi.Name;
-                        OriginalName = e.OriginalName;
+                        CreationTime = e.fi.file.CreationTime;
+                        CreationTimeUtc = e.fi.file.CreationTimeUtc;
+                        Length = e.fi.file.Length;
+                        Extension = e.fi.file.Extension;
+                        FileName = e.fi.file.Name;
+                        OriginalName = e.fi.fileName;
                     ; break;
                 default: throw new InvalidOperationException();
             }
