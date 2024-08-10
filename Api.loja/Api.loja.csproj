@@ -6,11 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <SpaRoot>..\Admin.loja</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
-    <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
+    <SpaProxyServerUrl>https://localhost:5174</SpaProxyServerUrl>
 
-	<SpaRoot>..\Loja.loja</SpaRoot>
-	<SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
-	<SpaProxyServerUrl>https://localhost:5174</SpaProxyServerUrl> 
+    <!-- <SpaRoot>..\Loja.loja</SpaRoot>
+    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>https://localhost:5174</SpaProxyServerUrl>  -->
   </PropertyGroup>
 
   <ItemGroup>

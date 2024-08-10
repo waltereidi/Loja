@@ -43,7 +43,7 @@ namespace Dominio.loja.Events.FileUpload
             }
         }
         public List<FileStorage> GetCreatedFiles() => _storage;
-
+        
 
     }
 }

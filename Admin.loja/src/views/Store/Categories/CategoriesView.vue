@@ -11,7 +11,7 @@ const editingRows = ref([]);
 
 const expandSubCategories = ref({});
 const expandSubSubCategories = ref({});
-request.getAsync("/api/Admin/Store/Categories/GetCategories")
+request.getAsync("/api/Admin/Categories/GetAllCategories")
     .then((result) => { dataSource.value = result })
     .catch((error) => console.log(error));
 

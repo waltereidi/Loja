@@ -5,10 +5,9 @@ using WFileManager.loja.Interfaces;
 using Dominio.loja.Entity.Integrations.WFileManager;
 using Api.loja.Data;
 using Dominio.loja.Events.FileUpload;
-
 using static Api.loja.Contracts.UploadContract.V1;
 using Npoi.Mapper;
-using System.Collections.Frozen;
+
 namespace Api.loja.Service
 {
     public class UploadApplicationService : IApplicationService

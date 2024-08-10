@@ -73,7 +73,7 @@ namespace WFileManager.loja.WriteStrategy
             string path = Path.Combine(_dir.TempDir.FullName,  guid.ToString() + _utils.GetFileExtension(_formFile.FileName) );
             using (Stream fileStream = new FileStream( path , FileMode.Create))
             {
-                _formFile.CopyToAsync(fileStream );
+                _formFile.CopyTo(fileStream );
                 
                 var result = new UploadContracts.UploadResponse(new FileInfo(path), _formFile.FileName , _dir.Dir);
                 file.Add(result);
@@ -83,14 +83,15 @@ namespace WFileManager.loja.WriteStrategy
         private IEnumerable<UploadContracts.UploadResponse> UploadFormFileArray<T>()
         {
             List<UploadContracts.UploadResponse> files = new();
-            var guid = Guid.NewGuid();
+            
             foreach (var item in _formFiles)
             {
+                var guid = Guid.NewGuid();
                 string path = Path.Combine(_dir.TempDir.FullName, guid.ToString() + _utils.GetFileExtension(item.FileName) );
 
                 using (Stream fileStream = new FileStream(path, FileMode.Create))
                 {
-                    item.CopyToAsync(fileStream);
+                    item.CopyTo(fileStream);
 
                     var result = new UploadContracts.UploadResponse(new FileInfo(path), item.FileName , _dir.Dir);
                     files.Add(result);

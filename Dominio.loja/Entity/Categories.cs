@@ -1,4 +1,5 @@
-﻿using Dominio.loja.Events.Praedicamenta;
+﻿using Dominio.loja.Entity.Integrations.WFileManager;
+using Dominio.loja.Events.Praedicamenta;
 using Framework.loja;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,6 +15,8 @@ namespace Dominio.loja.Entity
         public string Name { get; set; }
         [StringLength(2048)]
         public string? Description { get; set; }
+        public int ? FileStorageId { get; set; }
+        public virtual FileStorage? Image { get; set; }
         public Categories(Action<object> applier) :base(applier)
         {
         }
