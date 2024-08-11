@@ -19,6 +19,7 @@ namespace Tests.loja.Infra
         public void TestCategoriesORM()
         {
             //Validates if ORM is returning the nested classes from initial migration
+
             var categories =_context.categories.First();
             var subCategories = _context.subCategories.First();
             var subSubCategories = _context.subSubCategories.First();
@@ -27,6 +28,7 @@ namespace Tests.loja.Infra
             Assert.IsNotNull(subCategories.Categories);
             Assert.IsNotNull(subSubCategories.SubCategories);
         }
+       
 
     }
 }

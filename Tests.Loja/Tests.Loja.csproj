@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <Folder Include="MicroService\IntegrationsTest\RabbitMQTest\" />
-    <Folder Include="TestFiles\CreatedFiles\" />
+    <Folder Include="TestFiles\" />
   </ItemGroup>
 
   <ItemGroup>

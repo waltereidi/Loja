@@ -39,7 +39,6 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
 
             //Act
             var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy );
-            throw new Exception();
             result.ForEach(f => f.CommitFile());
 
             IFileStrategy readStrategy = new ReadFile(result.First().FileName, result.First().GetDirectory());

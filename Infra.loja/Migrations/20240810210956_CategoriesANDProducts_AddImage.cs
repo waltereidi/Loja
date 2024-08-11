@@ -46,7 +46,8 @@ namespace Infra.loja.Migrations
                 principalTable: "FileStorage",
                 principalColumn: "Id");
 
-
+            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, ValidExtensions,created_at) values( 'Store_Categories' ,'/Store/Categories' ,'jpg;png;svg;webp;avif' , current_timestamp)");
+            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, ValidExtensions,created_at) values( 'Store_Products' ,'/Store/Products' ,'jpg;png;svg;webp;avif' , current_timestamp)");
         }
 
         /// <inheritdoc />

@@ -1,8 +1,10 @@
 ﻿using Api.loja.Contracts;
 using Api.loja.Data;
 using Api.loja.Service;
+using Dominio.loja.Entity;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static Api.loja.Contracts.PraedicamentaContract;
 
 namespace Tests.loja.Api.PraedicamentaService
 {
@@ -12,7 +14,7 @@ namespace Tests.loja.Api.PraedicamentaService
         private readonly PraedicamentaApplicationService _service;
         private readonly StoreContext _context = new();
         private IDbContextTransaction _transaction;
-        public PraedicamentaApplicationServiceTest() 
+        public PraedicamentaApplicationServiceTest()
         {
             _service = new(_context);
             _transaction = _context.Database.BeginTransaction();
@@ -24,30 +26,30 @@ namespace Tests.loja.Api.PraedicamentaService
         public void createCategoriesRegisterNewEvent()
         {
             //setup 
-            PraedicamentaContract.V1.AddCategories createCategory = new("Unit Test Category", "Category created by test unit");
+            PraedicamentaContract.V1.Requests.AddCategories createCategory = new("Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(createCategory);
             var changes = _service._praedicamenta.GetChanges();
             //Assert
 
-            Assert.IsTrue(changes.Count()>0);
+            Assert.IsTrue(changes.Count() > 0);
         }
         [TestMethod]
         public void createSubCategoriesRegisterNewEvent()
         {
             //setup 
-            PraedicamentaContract.V1.AddSubCategories createSubCategory = new(1,"Unit Test Category", "Category created by test unit");
+            PraedicamentaContract.V1.Requests.AddCategories createSubCategory = new("Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(createSubCategory);
             //Assert
             Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
-            
+
         }
         [TestMethod]
         public void createSubSubCategoriesRegisterNewEvent()
         {
             //setup 
-            PraedicamentaContract.V1.AddSubSubCategories createSubSubCategory = new(1,"Unit Test Category", "Category created by test unit");
+            PraedicamentaContract.V1.Requests.AddSubSubCategories createSubSubCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(createSubSubCategory);
             //Assert
@@ -57,7 +59,7 @@ namespace Tests.loja.Api.PraedicamentaService
         [TestMethod]
         public void updateCategoriesWork()
         {
-            PraedicamentaContract.V1.updateCategory updateCategory = new(1, "Unit Test Category", "Category created by test unit");
+            PraedicamentaContract.V1.Requests.UpdateCategory updateCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(updateCategory);
             //Assert
@@ -66,7 +68,7 @@ namespace Tests.loja.Api.PraedicamentaService
         [TestMethod]
         public void updateSubCategoriesWork()
         {
-            PraedicamentaContract.V1.updateSubCategory updateSubCategory = new(1, "Unit Test Category", "Category created by test unit");
+            PraedicamentaContract.V1.Requests.UpdateSubCategory updateSubCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(updateSubCategory);
             //Assert
@@ -76,11 +78,19 @@ namespace Tests.loja.Api.PraedicamentaService
         public void updateSubSubCategoriesWork()
         {
             //setup 
-            PraedicamentaContract.V1.updateSubSubCategory updateSubSubCategory = new(1, "Unit Test Category", "Category created by test unit");
+            PraedicamentaContract.V1.Requests.UpdateSubSubCategory updateSubSubCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(updateSubSubCategory);
             //Assert
             Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
+        }
+        [TestMethod]
+        public void GetAllSubSubCategories()
+        {
+            //This ilustruous test assures that a Task<object?> can return IEnumerables<T>
+            var result = _service.Handle(new V1.Requests.GetAllSubSubCategories()).Result;
+            Assert.IsInstanceOfType( result ,typeof(IEnumerable<SubSubCategories>));
+
         }
     }
 }

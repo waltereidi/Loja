@@ -27,16 +27,18 @@ namespace Tests.loja
         public void CreateNewJob()
         {
             var jobs = _scheduler._scheduler.GetJobGroupNames().Result;
-            Thread.Sleep(20000);
+            //Uncomment and verify logger to assert its running console log from test
+            //Thread.Sleep(20000);
             Assert.IsTrue(jobs.Count() > 0);
         }
 
         [TestMethod]
         public void GetCurrentRunningJobs()
         {
-            Thread.Sleep(20000);
+            //Uncomment and verify logger to assert its running console log from test
+            //Thread.Sleep(20000);
             var jobs = _scheduler._scheduler.GetCurrentlyExecutingJobs().Result;
-            Thread.Sleep(20000);
+            //Thread.Sleep(20000);
             Assert.IsTrue(jobs.Count() > 0);
         }
 
