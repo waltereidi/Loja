@@ -1,7 +1,5 @@
-﻿using Api.loja.Contracts;
-using Api.loja.Data;
+﻿using Api.loja.Data;
 using Api.loja.Service;
-using Dominio.loja.Entity;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Api.loja.Contracts.PraedicamentaContract;
@@ -26,7 +24,7 @@ namespace Tests.loja.Api.PraedicamentaService
         public void createCategoriesRegisterNewEvent()
         {
             //setup 
-            PraedicamentaContract.V1.Requests.AddCategories createCategory = new("Unit Test Category", "Category created by test unit");
+            V1.Requests.AddCategories createCategory = new("Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(createCategory);
             var changes = _service._praedicamenta.GetChanges();
@@ -38,7 +36,7 @@ namespace Tests.loja.Api.PraedicamentaService
         public void createSubCategoriesRegisterNewEvent()
         {
             //setup 
-            PraedicamentaContract.V1.Requests.AddCategories createSubCategory = new("Unit Test Category", "Category created by test unit");
+            V1.Requests.AddCategories createSubCategory = new("Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(createSubCategory);
             //Assert
@@ -49,7 +47,7 @@ namespace Tests.loja.Api.PraedicamentaService
         public void createSubSubCategoriesRegisterNewEvent()
         {
             //setup 
-            PraedicamentaContract.V1.Requests.AddSubSubCategories createSubSubCategory = new(1, "Unit Test Category", "Category created by test unit");
+            V1.Requests.AddSubSubCategories createSubSubCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(createSubSubCategory);
             //Assert
@@ -59,7 +57,7 @@ namespace Tests.loja.Api.PraedicamentaService
         [TestMethod]
         public void updateCategoriesWork()
         {
-            PraedicamentaContract.V1.Requests.UpdateCategory updateCategory = new(1, "Unit Test Category", "Category created by test unit");
+            V1.Requests.UpdateCategory updateCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(updateCategory);
             //Assert
@@ -68,7 +66,7 @@ namespace Tests.loja.Api.PraedicamentaService
         [TestMethod]
         public void updateSubCategoriesWork()
         {
-            PraedicamentaContract.V1.Requests.UpdateSubCategory updateSubCategory = new(1, "Unit Test Category", "Category created by test unit");
+            V1.Requests.UpdateSubCategory updateSubCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(updateSubCategory);
             //Assert
@@ -78,7 +76,7 @@ namespace Tests.loja.Api.PraedicamentaService
         public void updateSubSubCategoriesWork()
         {
             //setup 
-            PraedicamentaContract.V1.Requests.UpdateSubSubCategory updateSubSubCategory = new(1, "Unit Test Category", "Category created by test unit");
+            V1.Requests.UpdateSubSubCategory updateSubSubCategory = new(1, "Unit Test Category", "Category created by test unit");
             //action
             _service.Handle(updateSubSubCategory);
             //Assert
@@ -89,8 +87,16 @@ namespace Tests.loja.Api.PraedicamentaService
         {
             //This ilustruous test assures that a Task<object?> can return IEnumerables<T>
             var result = _service.Handle(new V1.Requests.GetAllSubSubCategories()).Result;
-            Assert.IsInstanceOfType( result ,typeof(IEnumerable<SubSubCategories>));
+            Assert.IsInstanceOfType( result ,typeof(IEnumerable<V1.GetSubSubCategory>));
 
+        }
+        [TestMethod]
+        public void GetAllCategories()
+        {
+            //shows how this endpoint would execute
+            var result = _service.Handle(new V1.Requests.GetAllCategories()).Result;
+            
+            Assert.IsInstanceOfType(result, typeof(IEnumerable<V1.GetAll>));
         }
     }
 }

@@ -21,12 +21,11 @@ namespace Api.loja.Contracts
                 public record class GetAllSubSubCategories();
             }
             //Responses
-            public record class GetCategories(int? id , string Name , string? Description , DateTime Created_at , DateTime? Updated_at );
-            public record class GetSubCategories(int? id, string Name, string Description,int CategoriesId ,DateTime Created_at, DateTime? Updated_at);
-            public record class GetSubSubCategories(int? id, string Name, string Description,int SubCategoriesId, DateTime Created_at, DateTime? Updated_at);
+            public record class GetCategory(int? id , string Name , string? Description , DateTime Created_at , DateTime? Updated_at );
+            public record class GetSubCategory(int? id, string Name, string Description,int CategoriesId ,DateTime Created_at, DateTime? Updated_at);
+            public record class GetSubSubCategory(int? id, string Name, string Description,int SubCategoriesId, DateTime Created_at, DateTime? Updated_at);
             public record class GetAll(int Id ,string Name , string Description , DateTime created_at , DateTime? updated_at ,FileStorage Image , IEnumerable<GetAllSubCategory?> getSubCategories);
-            public record class GetAllSubCategory(int Id , string Name , string Description , DateTime created_at, DateTime? updated_at,int category_id, IEnumerable<GetAllSubSubCategory?> getSubSubCategories );
-            public record class GetAllSubSubCategory(int Id , string Name , string Description , DateTime created_at, DateTime? updated_at , int subCategory_id);
+            public record class GetAllSubCategory(int Id , string Name , string Description , DateTime created_at, DateTime? updated_at,int category_id, IEnumerable<GetSubSubCategory?> getSubSubCategories );
             
         }
     }

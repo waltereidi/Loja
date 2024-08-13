@@ -34,8 +34,9 @@ export const useDi = defineStore('di', {
         async setLogin(login: any)
         {
             sessionStorage.clear();
-            Object.keys(login)
+            Object.keys(login.result??login)
                 .forEach((f) => {
+                    console.log(f);
                     login[f] = sessionStorage.setItem(f, login[f]);
             });
         },

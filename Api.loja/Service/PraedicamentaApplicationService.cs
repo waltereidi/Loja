@@ -2,6 +2,7 @@
 using Dominio.loja.Entity;
 using Dominio.loja.Events.Praedicamenta;
 using Framework.loja.Interfaces;
+using Npoi.Mapper;
 using System.Drawing.Text;
 using System.Linq;
 using static Api.loja.Contracts.PraedicamentaContract;
@@ -72,29 +73,53 @@ namespace Api.loja.Service
             _context.categories.Add(_praedicamenta.category);
         }
 
-        private V1.GetCategories GetCategoryById(int id) => _context.categories
-            .Select(s => new V1.GetCategories(s.Id, s.Name, s.Description, s.Created_at, s.Updated_at))
+        private V1.GetCategory GetCategoryById(int id) => _context.categories
+            .Select(s => new V1.GetCategory(s.Id, s.Name, s.Description, s.Created_at, s.Updated_at))
             .First(x => x.id == id);
             
-        private V1.GetSubCategories GetSubCategoryById(int id) => _context.subCategories
-            .Select(s=> new V1.GetSubCategories(s.Id , s.Name , s.Description ,s.CategoriesId, s.Created_at , s.Updated_at ))
+        private V1.GetSubCategory GetSubCategoryById(int id) => _context.subCategories
+            .Select(s=> new V1.GetSubCategory(s.Id , s.Name , s.Description ,s.CategoriesId, s.Created_at , s.Updated_at ))
             .First(x=>x.id == id);
 
-        private V1.GetSubSubCategories GetSubSubCategoryById(int id) => _context.subSubCategories
-            .Select(s => new V1.GetSubSubCategories(s.Id, s.Name, s.Description, s.SubCategoriesId, s.Created_at, s.Updated_at))
+        private V1.GetSubSubCategory GetSubSubCategoryById(int id) => _context.subSubCategories
+            .Select(s => new V1.GetSubSubCategory(s.Id, s.Name, s.Description, s.SubCategoriesId, s.Created_at, s.Updated_at))
             .First(x => x.id == id);
-        
-        private async Task<IEnumerable<V1.GetAll?>> GetAll() => _context.categories
-                .OrderByDescending(x => x.Created_at)
-                .Select(s => new V1.GetAll(s.Id ?? 0, s.Name, s.Description, s.Created_at, s.Updated_at, s.Image, // Below SubCategorySelect
-                    _context.subCategories
-                    .Where(x => x.Id == s.Id)
-                    .Select(sc => new V1.GetAllSubCategory(sc.Id ?? 0, sc.Name, sc.Description, sc.Created_at, sc.Updated_at, sc.CategoriesId, //Below SubSubCategorySelect 
-                        _context.subSubCategories.Where(xsc => xsc.Id == sc.Id)
-                        .Select(ssc => new V1.GetAllSubSubCategory(ssc.Id ?? 0, ssc.Name, ssc.Description, ssc.Created_at, ssc.Updated_at, ssc.SubCategoriesId))))
-                    ));
 
-        private async Task<IEnumerable<SubSubCategories>> GetAllSubSubCategories() => _context.subSubCategories.ToList();
+        private async Task<IEnumerable<V1.GetAll?>> GetAll()
+        {
+            var allSubSubCategories = _context.subSubCategories
+                       .Select(ssc => new V1.GetSubSubCategory(ssc.Id ?? 0, ssc.Name, ssc.Description, ssc.SubCategoriesId, ssc.Created_at, ssc.Updated_at))
+                       .ToList();
 
+            //Below SubSubCategorySelect 
+            List<V1.GetAllSubCategory> allSubCategories = new();
+
+            _context.subCategories
+                .ForEach(sc =>
+                {
+                    var ssc = allSubSubCategories
+                        .Where(x => x.SubCategoriesId == sc.Id)
+                        .ToList();
+                    var i = new V1.GetAllSubCategory(sc.Id ?? 0, sc.Name, sc.Description, sc.Created_at, sc.Updated_at, sc.CategoriesId, ssc);
+                    allSubCategories.Add(i);
+                });
+
+            List<V1.GetAll> result = new();
+            _context.categories
+                .ForEach(c =>
+                {
+                    var sc = allSubCategories
+                        .Where(x => x.category_id == c.Id)
+                        .ToList();
+                    var i = new V1.GetAll(c.Id ?? 0, c.Name, c.Description, c.Created_at, c.Updated_at, c.Image, sc);
+                    result.Add(i);
+                });
+                
+            return result;
+        }
+
+        private async Task<IEnumerable<V1.GetSubSubCategory>> GetAllSubSubCategories() => _context.subSubCategories
+            .Select(s => new V1.GetSubSubCategory(s.Id, s.Name, s.Description, s.SubCategoriesId, s.Created_at, s.Updated_at))
+            .ToList();
     }
 }
