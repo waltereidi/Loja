@@ -32,7 +32,7 @@ export default {
                 Password: this.formLogin.txtPassword,
             }
 
-            this.request.postAsync("api/Admin/Authentication/Login", body)
+            this.request.send('postAsync' ,"api/Admin/Authentication/Login", body)
                 .then((result) => {
                     this.di.setLogin(result);
                     this.di.showNavbar(true);

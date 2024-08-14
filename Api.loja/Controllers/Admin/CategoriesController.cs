@@ -22,22 +22,22 @@ namespace Api.loja.Controllers.Admin
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public Task<IActionResult> AddCategories(V1.Requests.AddCategories category) => HandleRequest(category, _service.Handle);
+        public async Task<IActionResult> AddCategories(V1.Requests.AddCategories category) => await HandleRequest(category, _service.Handle);
 
         [HttpGet]
         [ProducesResponseType<Categories>(StatusCodes.Status200OK)]
-        public  Task<IActionResult> GetCategoryById(int id) => HandleRequest(new V1.Requests.GetCategoriyById(id), _service.Handle);
+        public async Task<IActionResult> GetCategoryById(int id) =>await HandleRequest(new V1.Requests.GetCategoriyById(id), _service.Handle);
 
         [HttpGet]
         [ProducesResponseType<SubCategories>(StatusCodes.Status200OK)]
-        public  Task<IActionResult> GetSubCategoryById(int id) => HandleRequest(new V1.Requests.GetSubCategoryById(id), _service.Handle);
+        public async Task<IActionResult> GetSubCategoryById(int id) => await HandleRequest(new V1.Requests.GetSubCategoryById(id), _service.Handle);
 
         [HttpGet]
         [ProducesResponseType<SubSubCategories>(StatusCodes.Status200OK)]
-        public  Task<IActionResult> GetSubSubCategoryById(int id) => HandleRequest(new V1.Requests.GetSubSubCategoryById(id), _service.Handle);
+        public async Task<IActionResult> GetSubSubCategoryById(int id) => await HandleRequest(new V1.Requests.GetSubSubCategoryById(id), _service.Handle);
         [HttpGet]
         [ProducesResponseType<IEnumerable<Categories>>(StatusCodes.Status200OK)]
-        public  Task<IActionResult> GetAllCategories() => HandleRequest(new V1.Requests.GetAllCategories() ,  _service.Handle);
+        public async Task<IActionResult> GetAllCategories() => await HandleRequest(new V1.Requests.GetAllCategories() ,  _service.Handle);
 
         
     }

@@ -53,6 +53,24 @@ export class RequestController {
 
         this.useToast.add({ severity: severity, summary: summary, detail: message, life: life })
     }
+    public async send( request:string , url:string , data?:any ) 
+    {
+        var result = null;
+        switch(request.toLocaleLowerCase())
+        {
+            case 'post' : result = await this.post(url , data);break;
+            case 'postasync' : result =  await this.postAsync(url , data);break;
+            case 'get' : result =  await this.get(url);break;
+            case 'getasync' : result =  await this.getAsync(url);break;
+            case 'put' : result =  await this.put(url,data);break;
+            case 'putasync' : result =  await this.putAsync(url , data);break;
+            case 'delete' : result =  await this.delete(url );break;
+            case 'deleteasync' : result =  await this.deleteAsync(url );break;
+            default:throw new Error("InvalidOperationException");
+        } 
+        // returning order (result.value.result)??result.value -> 
+        return result.result ?? result;
+    }
     private unauthorizedRedirect():void
     {
         if ( document.querySelector("div[data-pc-section='message'] > div"))
@@ -62,7 +80,7 @@ export class RequestController {
         this.redirectUnauthorized = false;
     }
  
-    async post(url: string, body: any) :Promise<any>
+    private async post(url: string, body: any) :Promise<any>
     {
         try
         {
@@ -80,7 +98,7 @@ export class RequestController {
              return error;
         }
     }
-     async get(url: string ):Promise<any>
+     private async get(url: string ):Promise<any>
      {
          try
          {
@@ -93,7 +111,7 @@ export class RequestController {
              return error;
          }         
     }
-    async delete(url: string):Promise<any>
+    private async delete(url: string):Promise<any>
     {
         try
         {
@@ -106,7 +124,7 @@ export class RequestController {
             return error;
         }
     }
-    async put(url: string, body: any):Promise<any>
+    private async put(url: string, body: any):Promise<any>
     {
         try
         {
@@ -124,7 +142,7 @@ export class RequestController {
             return error;
         }
     }
-    async postAsync(url: string, body: any):Promise<any>
+    private async postAsync(url: string, body: any):Promise<any>
     {
         const header = {
                 headers: {
@@ -141,7 +159,7 @@ export class RequestController {
                 }); 
         });
     }
-    async getAsync(url: string ):Promise<any>
+    private async getAsync(url: string ):Promise<any>
     {
         axios.defaults.headers.get['Authorization'] = `Bearer ${window.sessionStorage.getItem('token')}`;
          return new Promise((resolve, reject) => {
@@ -154,7 +172,7 @@ export class RequestController {
                 }); 
         });       
     }
-    async deleteAsync(url: string):Promise<any>
+    private async deleteAsync(url: string):Promise<any>
     {
         return new Promise((resolve, reject) => {
             axios.delete(url)
@@ -166,7 +184,7 @@ export class RequestController {
                 }); 
         });  
     }
-    async putAsync(url: string, body: any):Promise<any>
+    private async putAsync(url: string, body: any):Promise<any>
     {
         const header = {
                 headers: {
