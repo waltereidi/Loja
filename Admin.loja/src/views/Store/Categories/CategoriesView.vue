@@ -3,12 +3,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useDi } from '@/pinia/dependencyInjection';
-
+import { FilterMatchMode } from '@primevue/core/api';
 
 const di = useDi();
 const request = di.getRequestController;
 let dataSource = ref();
-
+let filters = {
+        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      };
+      
 const editingRows = ref([]);
 
 const expandSubCategories = ref({});
@@ -38,11 +41,14 @@ const onRowEditSave = (event) => {
 onMounted(() => {
 
 });
+
 </script>
+
+
 
 <template>
     <div class="card">
-        <DataTable 
+        <DataTable  
         v-model:expandedRows="expandSubCategories" 
         v-model:editingRows="editingRows"
         :value="dataSource" 
@@ -57,6 +63,8 @@ onMounted(() => {
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         :rowsPerPageOptions="[5, 10, 20, 50]"
         filterDisplay="row"
+        v-model:filters="filters"
+        :globalFilterFields="['name']"
         >
             <!-- Table Header Expand and collapse buttons on top-->
             <template #header>
@@ -73,9 +81,18 @@ onMounted(() => {
             <Column field="categoriesId" header="ID"></Column>
             
             <Column  field="name" header="Name" style="min-width: 12rem">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" />
-                </template>
+                            <template #body="{ data }">
+                                {{ data.name }}
+                            </template>
+
+                            <template #filter="{ filterModel, filterCallback }">
+                                <InputText
+                                    v-model="filterModel.value"
+                                    type="text"
+                                    @input="filterCallback()"
+                                    placeholder="Search by name"
+                                />
+                            </template>
             </Column>
 
             <Column field="description" header="Description">
@@ -112,9 +129,6 @@ onMounted(() => {
                         <Column field="subCategoriesId" header="Id" sortable></Column>
 
                         <Column field="name" header="Name" headerStyle="width:4rem">
-                            <template #editor="{ data, field }">
-                                <InputText v-model="data[field]" />
-                            </template>
                         </Column>
 
                         <Column field="description" header="Description">
