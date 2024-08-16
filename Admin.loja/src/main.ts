@@ -20,7 +20,14 @@ import PanelMenu from 'primevue/panelmenu';
 import DataTable from "primevue/datatable";
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';   // optional
-import Row from 'primevue/row';                   // optional
+import Row from 'primevue/row';  
+import Toolbar from 'primevue/toolbar';
+import Avatar from 'primevue/avatar';
+import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
+
+// optional
 const app = createApp(App);
 
 app.use(PrimeVue, { ripple: true });
@@ -41,4 +48,9 @@ app.component('DataTable', DataTable);
 app.component('Column', Column);
 app.component('ColumnGroup', ColumnGroup);
 app.component('Row', Row);
+app.component('Toolbar', Toolbar);
+app.component('Avatar', Avatar);
+app.component('AvatarGroup', AvatarGroup);
+app.component('IconField' , IconField);
+app.component('InputIcon' ,InputIcon);
 app.mount('#app');

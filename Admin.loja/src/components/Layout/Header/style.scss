@@ -1,5 +1,14 @@
 .header{
-  background-color: red;
-  width:  100%;
-  
+  display:flex;
+  flex-wrap: wrap;
+}
+.toolbar{
+  border-radius: 3rem;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+.toolbar-start{
+  display: flex;
+  flex-flow:row wrap;
+  justify-content: end;
 }

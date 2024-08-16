@@ -48,6 +48,7 @@ export default {
 .view-container{
   display:flex; 
   flex-flow:column;
+  flex:1 1 auto;
 }
 .app-container {
   display: flex;
@@ -58,6 +59,6 @@ export default {
 }
 .routerView {
   display: flex;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
 }
 </style>
