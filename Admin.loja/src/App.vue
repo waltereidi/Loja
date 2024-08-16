@@ -2,7 +2,8 @@
 import { useToast } from 'primevue/usetoast';
 import { useDi } from '@/pinia/dependencyInjection'
 import ToastUnauthorized from "./components/Toast/ToastUnauthorized.vue"
-import NavBar from "./components/Layout/NavBar.vue"
+import NavBar from "./components/Layout/NavBar/NavBar.vue"
+import Header from "./components/Layout/Header/Header.vue";
 export default {
   setup() {
     const di = useDi();
@@ -16,7 +17,8 @@ export default {
   },
   components: {
     NavBar,
-    ToastUnauthorized
+    ToastUnauthorized,
+    Header,
   },
   beforeCreate() {
 
@@ -27,30 +29,35 @@ export default {
 <template>
   <Toast />
   <ToastUnauthorized />
-
+  
   <div class="app-container">
     <div class="navBar">
       <NavBar></NavBar>
     </div>
-    <div class="routerView">
-      <router-view />
+    <div class="view-container">
+        <Header></Header>
+        <div class="routerView">
+          <router-view />
+        </div>
     </div>
+    
   </div>
 </template>
 
 <style lang="scss">
+.view-container{
+  display:flex; 
+  flex-flow:column;
+}
 .app-container {
   display: flex;
-  flex-flow: row wrap;
-}
+  flex-flow: row;
+  gap:24px;
+  padding:24px;
 
-.navBar {
-  display: flex;
-  flex: 0 0 auto;
 }
-
 .routerView {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
 }
 </style>

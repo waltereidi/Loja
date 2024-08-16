@@ -8,9 +8,11 @@ import { FilterMatchMode } from '@primevue/core/api';
 const di = useDi();
 const request = di.getRequestController;
 let dataSource = ref();
-let filters = {
-        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-      };
+let filters = ref({
+            name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+            description: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+
+      });
       
 const editingRows = ref([]);
 
@@ -78,26 +80,43 @@ onMounted(() => {
             <!-- Start of table Categories -->
             <Column expander style="width: 5rem" />
             
-            <Column field="categoriesId" header="ID"></Column>
+            <Column field="id" header="ID"></Column>
             
             <Column  field="name" header="Name" style="min-width: 12rem">
-                            <template #body="{ data }">
-                                {{ data.name }}
-                            </template>
-
-                            <template #filter="{ filterModel, filterCallback }">
-                                <InputText
-                                    v-model="filterModel.value"
-                                    type="text"
-                                    @input="filterCallback()"
-                                    placeholder="Search by name"
-                                />
-                            </template>
-            </Column>
+                <!-- Template for image plus name -->
+                <template #body="{ data }">
+                    <div class="flex items-center gap-2">
+                        <img
+                        :alt="data.name"
+                        :src="`https://codeinsider.com.br/wp-content/uploads/2024/05/NET-8-Release_mid-new.png`"
+                        style="width: 32px"
+                        />
+                        <span>{{ data.name }}</span>
+                    </div>
+                </template>
+                <!-- Template for filter -->
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText
+                        v-model="filterModel.value"
+                        type="text"
+                        @input="filterCallback()"
+                        placeholder="Search by name"
+                    />
+                </template>
+            </Column> <!-- End of name column with image -->
 
             <Column field="description" header="Description">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" />
+                <template #body="{ data }">
+                    {{ data.description }}
+                </template>
+                <!-- Tempalte for filter from description -->
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText
+                        v-model="filterModel.value"
+                        type="text"
+                        @input="filterCallback()"
+                        placeholder="Search by description"
+                    />
                 </template>
             </Column>
             
