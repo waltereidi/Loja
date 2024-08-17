@@ -3,7 +3,9 @@ using Framework.loja;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Dominio.loja.Events.Authentication
 {
@@ -15,12 +17,12 @@ namespace Dominio.loja.Events.Authentication
         {
             var client = new LoginAdmin(clients, issuer, jwtKey);
             Apply( new AuthenticationEvents.LoginAdminRequest(client));
+
         }
 
         protected override void EnsureValidState()
         {
             ArgumentNullException.ThrowIfNull(loginAdmin.Token);
-
         }
 
         protected override void When(object @event)
@@ -30,5 +32,6 @@ namespace Dominio.loja.Events.Authentication
                 case AuthenticationEvents.LoginAdminRequest @e: loginAdmin = @e.loginAdmin; break;
             }
         }
+   
     }
 }
