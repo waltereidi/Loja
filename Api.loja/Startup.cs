@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 using Api.loja.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 public class Startup
 {
@@ -22,11 +23,12 @@ public class Startup
 
         service.AddEndpointsApiExplorer();
 
-        service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        service.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
                 options.SlidingExpiration = true;
+                options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Forbidden/";
             })
             .AddJwtBearer(options =>

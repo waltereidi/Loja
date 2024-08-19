@@ -1,7 +1,5 @@
 ﻿using Api.loja.Data;
-using Dominio.loja.Entity.Integrations.WFileManager;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 
 namespace Tests.loja.Infra
 {

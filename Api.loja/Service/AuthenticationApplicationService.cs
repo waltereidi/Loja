@@ -2,6 +2,7 @@
 using Api.loja.Data;
 using Dominio.loja.Entity;
 using Framework.loja.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
@@ -27,20 +28,33 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            AuthenticationContract.V1.Request.LoginRequest cmd => HandleAuthentication(cmd),
+            AuthenticationContract.V1.Request.LoginRequestContext cmd => HandleAuthentication(cmd),
             _ => Task.CompletedTask
         };
-        private V1.Responses.LoginResponse HandleAuthentication(V1.Request.LoginRequest cmd) 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns></returns>
+        /// <exception cref="AuthenticationException"></exception>
+        private V1.Responses.LoginResponse HandleAuthentication(V1.Request.LoginRequestContext cmd) 
         {
-            if (!_context.clients.Any(x => x.Email == cmd.email && x.Password == cmd.password))
+            if (!_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
                 throw new AuthenticationException("User not found");
 
-            Clients client = _context.clients.First(x => x.Email == cmd.email && x.Password == cmd.password);
-            //
+            Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
+            
             List<Claim> claims = CreateListClaims(client);
             V1.JwtToken token = CreateToken( claims, _issuer, _key);
 
             V1.ClientInfo clientInfo = CreateClientInfo( client);
+  
+            var identity = new ClaimsIdentity(claims, "Authentication");
+
+            var principal = new ClaimsPrincipal(identity);
+
+            cmd.context.SignInAsync(principal , null).Wait();
 
             return new(token, clientInfo);
         }

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.loja.Contracts;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
 using System.Data.Entity.Core;
 using System.Security.Authentication;
 
@@ -11,6 +14,14 @@ namespace Api.loja.Controllers
         {
             _logger = logger;
 
+        }
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+
+            //var i = JsonConvert.DeserializeObject<AuthenticationContract.CookiesAuthentication>(User.Claims.FirstOrDefault(c => c.Type == "Authentication").Value);
+            object? auth = null;
+            if(User.Claims.Any(c => c.Type == "Authentication" ) )
+                auth=JsonConvert.DeserializeObject<object>(User.Claims.FirstOrDefault(c => c.Type == "Authentication").Value);
         }
         protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<object?>> handler) where T : class
         {

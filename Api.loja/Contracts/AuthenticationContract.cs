@@ -2,11 +2,14 @@ namespace Api.loja.Contracts
 {
     public static class AuthenticationContract
     {
+        public record CookiesAuthentication();
+
         public static class V1 
         {
             public class Request
             {
                 public record class LoginRequest(string email, string password);
+                public record class LoginRequestContext(LoginRequest login, HttpContext context);
             }
             public class Responses
             {
@@ -16,8 +19,6 @@ namespace Api.loja.Contracts
             public record ClientInfo(string firstName, string lastName, string nameInitials);
             public record JwtToken(string serializedToken , DateTime createdAt , DateTime? expiresAt );
         }
-
-
     }
 
 

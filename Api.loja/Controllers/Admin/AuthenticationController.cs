@@ -1,6 +1,7 @@
 ﻿using Api.loja.Contracts;
 using Api.loja.Service;
 using Microsoft.AspNetCore.Mvc;
+using static Api.loja.Contracts.AuthenticationContract;
 namespace Api.loja.Controllers.Admin
 {
     [Route("api/Admin/Authentication/[action]")]
@@ -16,7 +17,11 @@ namespace Api.loja.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Login(AuthenticationContract.V1.LoginRequest login) =>  await HandleRequest(login, _service.Handle);//arrumar depois 
+        public async Task<IActionResult> Login(V1.Request.LoginRequest login) 
+            => await HandleRequest(new V1.Request.LoginRequestContext(login , HttpContext ), _service.Handle);
+        
+
+
 
 
 
