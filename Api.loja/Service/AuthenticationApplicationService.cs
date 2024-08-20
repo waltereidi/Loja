@@ -3,6 +3,7 @@ using Api.loja.Data;
 using Dominio.loja.Entity;
 using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
@@ -33,7 +34,11 @@ namespace Api.loja.Service
         };
 
         /// <summary>
-        /// 
+        /// 1 - Validate email and password 
+        /// 2 - Create JwtClaims
+        /// 3 - Create JwtToken
+        /// 4 - Create HttpContext Claims
+        /// 5 - Create signIn HttpContext 
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -45,16 +50,12 @@ namespace Api.loja.Service
 
             Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
             
-            List<Claim> claims = CreateListClaims(client);
-            V1.JwtToken token = CreateToken( claims, _issuer, _key);
+            List<Claim> jwtClaims = CreateJwtListClaims(client);
+            V1.JwtToken token = CreateToken(jwtClaims, _issuer, _key);
+            V1.ClientInfo clientInfo = CreateClientInfo( client , token);
 
-            V1.ClientInfo clientInfo = CreateClientInfo( client);
-  
-            var identity = new ClaimsIdentity(claims, "Authentication");
-
-            var principal = new ClaimsPrincipal(identity);
-
-            cmd.context.SignInAsync(principal , null).Wait();
+            List<Claim> contextClaims = CreateContextListClaims(clientInfo);
+            HttpContextSignIn(contextClaims , cmd.context);
 
             return new(token, clientInfo);
         }
@@ -63,12 +64,13 @@ namespace Api.loja.Service
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        private V1.ClientInfo CreateClientInfo(Clients client)
+        private V1.ClientInfo CreateClientInfo(Clients client , V1.JwtToken token)
         {
             return new(
                 client.FirstName,
                 client.LastName,
-                GetNameInitials(client.FirstName, client.LastName)
+                GetNameInitials(client.FirstName, client.LastName),
+                token
                 );
         }
         /// <summary>
@@ -108,14 +110,54 @@ namespace Api.loja.Service
             var serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
             return new(serializedToken ?? throw new ArgumentNullException(nameof(serializedToken)), DateTime.Now, tokenDescriptor.Expires);
         }
-        private List<Claim> CreateListClaims(Clients client)
+        /// <summary>
+        ///  Claim used in JWT token creation , this claims will be used in <br></br>
+        ///  Authentication attributes 
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        private List<Claim> CreateJwtListClaims(Clients client)
+        {
+            List<Claim> listClaim = new();
+            //The role claimtype is the role described in
+            //authorize custom attributes above controllers
+            client.PermissionsGroup.PermissionsRelations.ToList().ForEach(f => listClaim.Add(new Claim(ClaimTypes.Role, f.Permissions.Name)));
+
+            return listClaim;
+        }
+        /// <summary>
+        /// Claim used in SignIn from HttpContext , this content will be used in base controller<br></br>
+        /// Session stored values from user 
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        private List<Claim> CreateContextListClaims(V1.ClientInfo client)
         {
             List<Claim> listClaim = new();
             //Creates claim from client permissions
-            client.PermissionsGroup.PermissionsRelations.ToList().ForEach(f => listClaim.Add(new Claim(ClaimTypes.Role, f.Permissions.Name)));
+            listClaim.Add(new Claim(nameof(V1.ClientInfo.token.serializedToken),client.token.serializedToken ));
+            listClaim.Add(new Claim(nameof(V1.ClientInfo.token.createdAt), client.token.createdAt.ToString()));
+            listClaim.Add(new Claim(nameof(V1.ClientInfo.token.expiresAt), client.token.expiresAt.Value.ToString()));
+            listClaim.Add(new Claim(nameof(V1.ClientInfo.firstName), client.firstName));
+            listClaim.Add(new Claim(nameof(V1.ClientInfo.lastName), client.lastName));
+            listClaim.Add(new Claim(nameof(V1.ClientInfo.nameInitials), client.nameInitials));
+
+
             return listClaim;
         }
+ 
+        private async Task HttpContextSignIn( List<Claim> httpContextClaims , HttpContext context)
+        {
+            var identity = new ClaimsIdentity(httpContextClaims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+            var principal = new ClaimsPrincipal(identity);
+
+            var props = new AuthenticationProperties();
+            props.IsPersistent = true;
+            props.ExpiresUtc = DateTime.UtcNow.AddMinutes(30);
+
+            await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+        }
 
     }
 }

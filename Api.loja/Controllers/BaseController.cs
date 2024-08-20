@@ -15,13 +15,18 @@ namespace Api.loja.Controllers
             _logger = logger;
 
         }
+        /// <summary>
+        /// Add jwtToken in header if existent on httpContext 
+        /// </summary>
+        /// <typeparam name="AuthenticationApplicationService.HttpContextSignIn">Creation method reference.</typeparam>
+        /// <returns></returns>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-
-            //var i = JsonConvert.DeserializeObject<AuthenticationContract.CookiesAuthentication>(User.Claims.FirstOrDefault(c => c.Type == "Authentication").Value);
-            object? auth = null;
-            if(User.Claims.Any(c => c.Type == "Authentication" ) )
-                auth=JsonConvert.DeserializeObject<object>(User.Claims.FirstOrDefault(c => c.Type == "Authentication").Value);
+            //if(User.Claims.Any(c => c.Type == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken)) )
+            //    HttpContext.Request.Headers.Authorization ="Bearer s"+User
+            //        .Claims
+            //        .First(c => c.Type == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken))
+            //        .Value;
         }
         protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<object?>> handler) where T : class
         {

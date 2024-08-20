@@ -16,7 +16,7 @@ namespace Api.loja.Contracts
                 public record LoginResponse(JwtToken token,ClientInfo info );
 
             }
-            public record ClientInfo(string firstName, string lastName, string nameInitials);
+            public record ClientInfo(string firstName, string lastName, string nameInitials , JwtToken token);
             public record JwtToken(string serializedToken , DateTime createdAt , DateTime? expiresAt );
         }
     }

@@ -84,12 +84,7 @@ export class RequestController {
     {
         try
         {
-            const header = {
-                headers: {
-                    Authorization: `Bearer ${window.sessionStorage.getItem('token')}`
-                }
-            };
-            return await axios.post(url , body, header)     
+            return await axios.post(url , body)     
         }
         catch (error)
         {
@@ -128,12 +123,7 @@ export class RequestController {
     {
         try
         {
-            const header = {
-                headers: {
-                    Authorization: `Bearer ${window.sessionStorage.getItem('token')}`
-                }
-            };
-           return await axios.put(url , body , header)     
+           return await axios.put(url , body )     
         }
         catch (error)
         {
@@ -144,13 +134,9 @@ export class RequestController {
     }
     private async postAsync(url: string, body: any):Promise<any>
     {
-        const header = {
-                headers: {
-                    Authorization: `Bearer ${window.sessionStorage.getItem('token')}`
-                }
-            };
+    
         return new Promise((resolve, reject) => {
-            axios.post(url, body , header)
+            axios.post(url, body )
                 .then(result => resolve(result?.data))
                 .catch(error => {
                     console.warn(error);
@@ -161,7 +147,6 @@ export class RequestController {
     }
     private async getAsync(url: string ):Promise<any>
     {
-        axios.defaults.headers.get['Authorization'] = `Bearer ${window.sessionStorage.getItem('token')}`;
          return new Promise((resolve, reject) => {
             axios.get(url)
                 .then(result => resolve(result?.data))
@@ -186,13 +171,9 @@ export class RequestController {
     }
     private async putAsync(url: string, body: any):Promise<any>
     {
-        const header = {
-                headers: {
-                    Authorization: `Bearer ${window.sessionStorage.getItem('token')}`
-                }
-            };
+   
         return new Promise((resolve, reject) => {
-            axios.put(url, body , header)
+            axios.put(url, body)
                 .then(result => resolve(result?.data))
                 .catch(error => {
                     console.warn(error);
