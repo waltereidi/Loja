@@ -9,6 +9,13 @@ using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 using Api.loja.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using static Org.BouncyCastle.Math.EC.ECCurve;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Org.BouncyCastle.Asn1.Cmp;
+using Api.loja.Contracts;
+using static Api.loja.Middleware.AuthenticationMiddleware;
+using Api.loja.Middleware;
 
 public class Startup
 {
@@ -23,13 +30,14 @@ public class Startup
 
         service.AddEndpointsApiExplorer();
 
-        service.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
                 options.SlidingExpiration = true;
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Forbidden/";
+                
             })
             .AddJwtBearer(options =>
             {
@@ -42,9 +50,11 @@ public class Startup
                     ValidIssuer = Configuration.GetSection("Jwt:Issuer").Get<string>(),
                     ValidAudience = Configuration.GetSection("Jwt:Key").Get<string>(),
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Get<string>())),
+                    
                 };
-
+                
             });
+
             //.AddGoogle(googleOptions =>
             //{
             //     googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
@@ -118,7 +128,7 @@ public class Startup
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Loja Api");
             c.DocumentTitle = "Loja BackEnd";
         });
-
+        app.UseMiddleware<AuthenticationMiddleware>();
         app.UseRateLimiter();
         app.UseEndpoints(endpoints =>
         {

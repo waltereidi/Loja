@@ -10,7 +10,6 @@ using static Api.loja.Contracts.PraedicamentaContract;
 namespace Api.loja.Controllers.Admin
 {
     [Route("api/Admin/Categories/[action]")]
-    [Authorize]
     [ApiController]
     public class CategoriesController : BaseController
     {
@@ -36,6 +35,7 @@ namespace Api.loja.Controllers.Admin
         [ProducesResponseType<SubSubCategories>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSubSubCategoryById(int id) => await HandleRequest(new V1.Requests.GetSubSubCategoryById(id), _service.Handle);
         [HttpGet]
+        [Authorize]
         [ProducesResponseType<IEnumerable<Categories>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllCategories() => await HandleRequest(new V1.Requests.GetAllCategories() ,  _service.Handle);
 

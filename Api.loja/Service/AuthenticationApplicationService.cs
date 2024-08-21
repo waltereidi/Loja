@@ -154,7 +154,7 @@ namespace Api.loja.Service
 
             var props = new AuthenticationProperties();
             props.IsPersistent = true;
-            props.ExpiresUtc = DateTime.UtcNow.AddMinutes(30);
+            props.ExpiresUtc = DateTime.UtcNow.AddMinutes(120);
 
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
         }
