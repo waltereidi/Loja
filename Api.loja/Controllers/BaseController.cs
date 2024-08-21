@@ -16,23 +16,7 @@ namespace Api.loja.Controllers
             _logger = logger;
 
         }
-        
-        public override ChallengeResult Challenge(AuthenticationProperties properties)
-        {
-            return base.Challenge(properties);
-        }
-        public override ChallengeResult Challenge()
-        {
-            return base.Challenge();
-        }
-        public override ChallengeResult Challenge(AuthenticationProperties properties, params string[] authenticationSchemes)
-        {
-            return base.Challenge(properties, authenticationSchemes);
-        }
-        public override ChallengeResult Challenge(params string[] authenticationSchemes)
-        {
-            return base.Challenge(authenticationSchemes);
-        }
+      
         /// <summary>
         /// Add jwtToken in header if existent on httpContext 
         /// </summary>
@@ -47,14 +31,7 @@ namespace Api.loja.Controllers
                     .Value;
         }
        
-        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        {
-            bool valid = true;
-            if (valid)
-                await next();
-            else
-                context.Result = new BadRequestObjectResult("Invalid!");
-        }
+     
         protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<object?>> handler) where T : class
         {
             try

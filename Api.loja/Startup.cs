@@ -16,6 +16,7 @@ using Org.BouncyCastle.Asn1.Cmp;
 using Api.loja.Contracts;
 using static Api.loja.Middleware.AuthenticationMiddleware;
 using Api.loja.Middleware;
+using Microsoft.AspNetCore.Authorization;
 
 public class Startup
 {
@@ -30,16 +31,8 @@ public class Startup
 
         service.AddEndpointsApiExplorer();
 
-        service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(120);
-                options.SlidingExpiration = true;
-                options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = "/Forbidden/";
-                
-            })
-            .AddJwtBearer(options =>
+        service.AddAuthentication()
+            .AddJwtBearer( options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -52,19 +45,28 @@ public class Startup
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Get<string>())),
                     
                 };
-                
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (context.HttpContext.Request.Cookies.Any(x => x.Key == "Authentication"))
+                            context.Token = context.HttpContext.Request.Cookies["Authentication"];
+                        return Task.CompletedTask;
+                    }
+                };
+
             });
 
-            //.AddGoogle(googleOptions =>
-            //{
-            //     googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-            //     googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            // })
-            // .AddFacebook(facebookOptions =>
-            // {
-            //     facebookOptions.AppId= Configuration["Authentication:Facebook:ClientId"];
-            //     facebookOptions.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
-            // });
+        //.AddGoogle(googleOptions =>
+        //{
+        //     googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+        //     googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+        // })
+        // .AddFacebook(facebookOptions =>
+        // {
+        //     facebookOptions.AppId= Configuration["Authentication:Facebook:ClientId"];
+        //     facebookOptions.AppSecret = Configuration["Authentication:Facebook:ClientSecret"];
+        // });
 
         service.AddCors(options =>
         {
@@ -128,7 +130,7 @@ public class Startup
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Loja Api");
             c.DocumentTitle = "Loja BackEnd";
         });
-        app.UseMiddleware<AuthenticationMiddleware>();
+        //app.UseMiddleware<AuthenticationMiddleware>();
         app.UseRateLimiter();
         app.UseEndpoints(endpoints =>
         {

@@ -5,6 +5,7 @@ using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
@@ -49,13 +50,17 @@ namespace Api.loja.Service
                 throw new AuthenticationException("User not found");
 
             Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
-            
+            cmd.context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
             List<Claim> jwtClaims = CreateJwtListClaims(client);
             V1.JwtToken token = CreateToken(jwtClaims, _issuer, _key);
             V1.ClientInfo clientInfo = CreateClientInfo( client , token);
 
             List<Claim> contextClaims = CreateContextListClaims(clientInfo);
-            HttpContextSignIn(contextClaims , cmd.context);
+
+            var resp = new HttpResponseMessage();
+            
+            cmd.context.Response.Cookies.Append("Authentication", token.serializedToken);
 
             return new(token, clientInfo);
         }
@@ -145,7 +150,12 @@ namespace Api.loja.Service
 
             return listClaim;
         }
- 
+ /// <summary>
+ /// Deprecated
+ /// </summary>
+ /// <param name="httpContextClaims"></param>
+ /// <param name="context"></param>
+ /// <returns></returns>
         private async Task HttpContextSignIn( List<Claim> httpContextClaims , HttpContext context)
         {
             var identity = new ClaimsIdentity(httpContextClaims, CookieAuthenticationDefaults.AuthenticationScheme);
