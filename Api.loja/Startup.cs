@@ -49,8 +49,8 @@ public class Startup
                 {
                     OnMessageReceived = context =>
                     {
-                        if (context.HttpContext.Request.Cookies.Any(x => x.Key == "Authentication"))
-                            context.Token = context.HttpContext.Request.Cookies["Authentication"];
+                        if (context.HttpContext.Request.Cookies.Any(x => x.Key == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken)))
+                            context.Token = context.HttpContext.Request.Cookies[nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken)];
                         return Task.CompletedTask;
                     }
                 };
@@ -136,7 +136,10 @@ public class Startup
         {
             endpoints.MapControllers();
         });
-        app.UseCors(option=>option.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => new Uri(origin).Host =="localhost"));
+        app.UseCors(option=>option.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .SetIsOriginAllowed(origin => new Uri(origin).Host =="localhost"));
     }
 }
    

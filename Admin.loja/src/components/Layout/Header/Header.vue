@@ -11,16 +11,23 @@
                   </IconField>            
                 </div>
             </template>
-
+            {{ userInfo}}
             <template #end>
-               <Avatar label="P" class="mr-2" size="xlarge" shape="circle" />
-
+               <Avatar :label="userInfo" class="mr-2" size="xlarge" shape="circle" />
+                    
             </template>
         </Toolbar>
     </div>
 </template>
 
 <script setup>
+import { useDi } from '@/pinia/dependencyInjection'
+import { ref } from 'vue'
+
+let userInfo = ref()
+const request = useDi().getRequestController
+request.send("getAsync" , "api/Admin/Authentication/getUserInfo").then((result)=>userInfo=ref(result))
+
 
 </script>
 

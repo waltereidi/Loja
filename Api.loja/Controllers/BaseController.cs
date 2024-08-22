@@ -1,8 +1,4 @@
-﻿using Api.loja.Contracts;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Core;
 using System.Security.Authentication;
 
@@ -22,14 +18,14 @@ namespace Api.loja.Controllers
         /// </summary>
         /// <typeparam name="AuthenticationApplicationService.HttpContextSignIn">Creation method reference.</typeparam>
         /// <returns></returns>
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            if (User.Claims.Any(c => c.Type == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken)))
-                HttpContext.Request.Headers.Authorization = "Bearer " + User
-                    .Claims
-                    .First(c => c.Type == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken))
-                    .Value;
-        }
+        //public override void OnActionExecuting(ActionExecutingContext context)
+        //{
+        //    if (User.Claims.Any(c => c.Type == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken)))
+        //        HttpContext.Request.Headers.Authorization = "Bearer " + User
+        //            .Claims
+        //            .First(c => c.Type == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken))
+        //            .Value;
+        //}
        
      
         protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<object?>> handler) where T : class
@@ -41,8 +37,11 @@ namespace Api.loja.Controllers
             }
             catch (AuthenticationException ex)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
+                return Unauthorized(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ex.Message);
             }
             catch (ObjectNotFoundException ex)
             {

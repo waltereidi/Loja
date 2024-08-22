@@ -8,8 +8,10 @@ namespace Api.loja.Contracts
         {
             public class Request
             {
-                public record class LoginRequest(string email, string password);
-                public record class LoginRequestContext(LoginRequest login, HttpContext context);
+                public record GetUserInfo(HttpContext context);
+                
+                public record LoginRequest(string email, string password);
+                public record LoginRequestContext(LoginRequest login, HttpContext context);
             }
             public class Responses
             {

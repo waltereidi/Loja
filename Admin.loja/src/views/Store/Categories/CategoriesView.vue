@@ -49,7 +49,11 @@ onMounted(() => {
 
 
 <template>
-    <div class="card">
+        <div class="card h-full w-full my-4" >
+    
+<Card style="width: 100%; height:100%">
+    <template #title>Categories</template>
+    <template #content>
         <DataTable  
         v-model:expandedRows="expandSubCategories" 
         v-model:editingRows="editingRows"
@@ -59,7 +63,6 @@ onMounted(() => {
         @rowCollapse="onRowCollapse"
         editMode="row" 
         dataKey="categoriesId" 
-        tableStyle="min-width: 60rem"
         paginator 
         :rows="5" 
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -67,6 +70,7 @@ onMounted(() => {
         filterDisplay="row"
         v-model:filters="filters"
         :globalFilterFields="['name']"
+
         >
             <!-- Table Header Expand and collapse buttons on top-->
             <template #header>
@@ -204,5 +208,9 @@ onMounted(() => {
             </template>
             <!-- End of SubCategories Table -->
         </DataTable>
-    </div>
+    </template>
+</Card>
+</div>
+
+   
 </template>

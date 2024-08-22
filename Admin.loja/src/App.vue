@@ -59,6 +59,7 @@ export default {
 }
 .routerView {
   display: flex;
+  height: 100%;
   flex: 1 1 auto;
 }
 </style>

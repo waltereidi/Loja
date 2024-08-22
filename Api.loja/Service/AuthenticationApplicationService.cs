@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
@@ -31,15 +33,24 @@ namespace Api.loja.Service
         public async Task<object?> Handle(object command) => command switch
         {
             AuthenticationContract.V1.Request.LoginRequestContext cmd => HandleAuthentication(cmd),
+            AuthenticationContract.V1.Request.GetUserInfo cmd => GetUserInfo(cmd),
             _ => Task.CompletedTask
         };
+
+        private V1.ClientInfo GetUserInfo(V1.Request.GetUserInfo cmd)
+        {
+            var firtName =cmd.context.Request.Cookies[nameof(V1.ClientInfo.firstName)] ?? throw new UnauthorizedAccessException();
+            var lastName =cmd.context.Request.Cookies[nameof(V1.ClientInfo.lastName)] ?? throw new UnauthorizedAccessException(); ;
+            var nameInitials = cmd.context.Request.Cookies[nameof(V1.ClientInfo.nameInitials)] ?? throw new UnauthorizedAccessException(); ;
+            return new V1.ClientInfo(firtName,lastName,nameInitials ,null );
+        }
 
         /// <summary>
         /// 1 - Validate email and password 
         /// 2 - Create JwtClaims
         /// 3 - Create JwtToken
         /// 4 - Create HttpContext Claims
-        /// 5 - Create signIn HttpContext 
+        /// 5 - Set token into cookies to be retrieved on startup jwt configuration
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -56,13 +67,19 @@ namespace Api.loja.Service
             V1.JwtToken token = CreateToken(jwtClaims, _issuer, _key);
             V1.ClientInfo clientInfo = CreateClientInfo( client , token);
 
-            List<Claim> contextClaims = CreateContextListClaims(clientInfo);
-
-            var resp = new HttpResponseMessage();
+            SetAuthenticationCookies(clientInfo , cmd.context);            
             
-            cmd.context.Response.Cookies.Append("Authentication", token.serializedToken);
 
             return new(token, clientInfo);
+        }
+        private void SetAuthenticationCookies(V1.ClientInfo ci  , HttpContext context)
+        {
+            context.Response.Cookies.Append(nameof(ci.token.serializedToken), ci.token.serializedToken);
+            context.Response.Cookies.Append(nameof(ci.token.createdAt), ci.token.createdAt.ToString());
+            context.Response.Cookies.Append(nameof(ci.token.expiresAt), ci.token.expiresAt.ToString()??"");
+            context.Response.Cookies.Append(nameof(ci.firstName), ci.firstName);
+            context.Response.Cookies.Append(nameof(ci.lastName), ci.lastName);
+            context.Response.Cookies.Append(nameof(ci.nameInitials), ci.nameInitials);
         }
         /// <summary>
         /// Translates client information to be stored in session 
