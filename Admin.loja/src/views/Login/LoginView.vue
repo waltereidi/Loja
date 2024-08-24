@@ -4,11 +4,13 @@
 <template>
     <Card class="center">
         <template #header>
-            <img class="login-img" alt="user header"
+            <img class="login-img py-4" alt="user header"
                 src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*xIbfycrM6NsYkicgvMX7ag.jpeg" />
         </template>
 
-        <template #title>Login</template>
+        <template #title>
+            <p  class="text-center">Login</p>
+        </template>
 
         <template #content>
             <div class="flex flex-column gap-2">
@@ -25,7 +27,7 @@
 
         <template #footer>
             <div class="flex gap-3 mt-1">
-                <Button label="Submit" @click="submit" :disabled="this.v$.formLogin.$invalid">Submit</Button>
+                <Button @click="submit" :disabled="this.v$.formLogin.$invalid">Submit</Button>
             </div>
         </template>
 

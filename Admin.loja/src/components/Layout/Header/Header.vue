@@ -3,7 +3,7 @@
     <div class="header card">
         <Toolbar class="toolbar">
             <template #start>
-                <div class="toolbar-start flex items-center gap-2 ">
+                <div class="toolbar-start flex  items-center gap-2 ">
                           
                   <IconField>
                      <InputIcon class="pi pi-search" />
@@ -13,7 +13,7 @@
             </template>
             {{ userInfo}}
             <template #end>
-               <Avatar :label="userInfo" class="mr-2" size="xlarge" shape="circle" />
+               <Avatar :label="nameInitials" class="mr-2" size="xlarge" shape="circle" />
                     
             </template>
         </Toolbar>
@@ -22,11 +22,19 @@
 
 <script setup>
 import { useDi } from '@/pinia/dependencyInjection'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 let userInfo = ref()
+let nameInitials = ref(null)
 const request = useDi().getRequestController
-request.send("getAsync" , "api/Admin/Authentication/getUserInfo").then((result)=>userInfo=ref(result))
+onMounted(()=>{
+    request.send("getAsync" , "api/Admin/Authentication/getUserInfo").then((result)=>{
+    nameInitials.value=result.nameInitials
+});
+
+})
+
+
 
 
 </script>

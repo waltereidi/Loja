@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using System.Data.Entity.Core;
 using System.Security.Authentication;
 
@@ -35,19 +36,23 @@ namespace Api.loja.Controllers
                 var result = await handler(request);
                 return Ok(result);
             }
+            //Throw this exception when authentication attempt fails
             catch (AuthenticationException ex)
             {
-                return Unauthorized(ex.Message);
+                return BadRequest(ex.Message);
             }
+            //Throw this exception when is required to logoff from application
             catch (UnauthorizedAccessException ex)
             {
                 return Unauthorized(ex.Message);
             }
+            //Throw this exception when an unexpected empty respoonse is required
             catch (ObjectNotFoundException ex)
             {
                 _logger.LogError(ex.Message);
                 return NotFound(ex.Message);
             }
+            //Unhandled exceptions
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);

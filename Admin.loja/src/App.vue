@@ -6,13 +6,11 @@ import NavBar from "./components/Layout/NavBar/NavBar.vue"
 import Header from "./components/Layout/Header/Header.vue";
 export default {
   setup() {
-    const di = useDi();
-    di.init(useToast());
 
   },
   data() {
     return {
-      di: null
+      di: useDi()
     }
   },
   components: {
@@ -20,9 +18,21 @@ export default {
     ToastUnauthorized,
     Header,
   },
-  beforeCreate() {
+  beforeMount() {
+    this.di.init(useToast());
 
-  }
+  },
+  computed : {
+        computedGetShowNavBar : function() {
+             if(this.di.getShowNavbar) {
+               // perform some logic on preference
+               // logic results true or false
+               return true
+             }
+             
+             return false
+        }
+    }
 }
 </script>
 
@@ -32,10 +42,10 @@ export default {
   
   <div class="app-container">
     <div class="navBar">
-      <NavBar></NavBar>
+      <NavBar  v-if="computedGetShowNavBar" ></NavBar>
     </div>
     <div class="view-container">
-        <Header></Header>
+        <Header  v-if="computedGetShowNavBar"  ></Header>
         <div class="routerView">
           <router-view />
         </div>
@@ -48,14 +58,18 @@ export default {
 .view-container{
   display:flex; 
   flex-flow:column;
-  flex:1 1 auto;
+  justify-items: center;
+  align-items: center;
+  padding: 20px;
+  flex:0 0 100%;
 }
 .app-container {
   display: flex;
   flex-flow: row;
   gap:24px;
   padding:24px;
-
+  height: 100%;
+  width: 100%;
 }
 .routerView {
   display: flex;

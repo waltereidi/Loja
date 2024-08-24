@@ -58,7 +58,7 @@ namespace Api.loja.Service
         private V1.Responses.LoginResponse HandleAuthentication(V1.Request.LoginRequestContext cmd) 
         {
             if (!_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
-                throw new AuthenticationException("User not found");
+                throw new AuthenticationException("Invalid credentials");
 
             Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
             cmd.context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
