@@ -4,9 +4,9 @@ import { useDi } from '@/pinia/dependencyInjection'
 import ToastUnauthorized from "./components/Toast/ToastUnauthorized.vue"
 import NavBar from "./components/Layout/NavBar/NavBar.vue"
 import Header from "./components/Layout/Header/Header.vue";
+
 export default {
   setup() {
-
   },
   data() {
     return {
@@ -19,18 +19,18 @@ export default {
     Header,
   },
   beforeMount() {
-    this.di.init(useToast());
 
+    this.di.init(useToast());
+    
+    console.log("sdsd")
+
+    this.di.showNavbar(false);
+
+    console.log(this.di.getShowNavbar);
   },
   computed : {
-        computedGetShowNavBar : function() {
-             if(this.di.getShowNavbar) {
-               // perform some logic on preference
-               // logic results true or false
-               return true
-             }
-             
-             return false
+        computedGetShowNavBar(){
+             return useDi().getShowNavbar ? [1] : null;
         }
     }
 }
@@ -42,10 +42,14 @@ export default {
   
   <div class="app-container">
     <div class="navBar">
-      <NavBar  v-if="computedGetShowNavBar" ></NavBar>
+      <div v-for="nav in this.computedGetShowNavBar" ><NavBar ></NavBar></div>
+      <router-view  name="navbar" />
+      
     </div>
     <div class="view-container">
-        <Header  v-if="computedGetShowNavBar"  ></Header>
+      <router-view name="header" />
+      <div v-for="nav in this.computedGetShowNavBar" ><Header ></Header></div>
+        
         <div class="routerView">
           <router-view />
         </div>
