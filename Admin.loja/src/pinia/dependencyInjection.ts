@@ -1,7 +1,7 @@
 import { ref , computed } from "vue";
 import { defineStore } from 'pinia';
 import { RequestController } from './Controllers/requestController'
-
+import { parse, stringify } from 'zipson';
 
 export const useDi = defineStore('di', {
     
@@ -29,13 +29,30 @@ export const useDi = defineStore('di', {
         },
         async showNavbar(isVisible:boolean)
         {
+
+            var storage = sessionStorage.getItem("di");
+
             this.showNavBar = isVisible;
         },
         async setLogin(login: any)
         {
-            this.showNavBar = true;
+            
         },
-    }
+    },
+    persist: {
+        storage: sessionStorage,
+        paths: ['showNavBar'],
+        afterRestore: (ctx) => {
+            console.log(ctx)
+            
+            console.log(`just restored '${ctx.store.$id}'`)
+            },
+        beforeRestore: (ctx) => {
+            
+            console.log(`about to restore '${ctx.store.$id}'`)
+        }
+
+    },
 
 
 

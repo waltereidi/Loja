@@ -3,7 +3,9 @@ import { useToast } from 'primevue/usetoast';
 import { useDi } from '@/pinia/dependencyInjection'
 import ToastUnauthorized from "./components/Toast/ToastUnauthorized.vue"
 import NavBar from "./components/Layout/NavBar/NavBar.vue"
-import Header from "./components/Layout/Header/Header.vue";
+import Header from "./components/Layout/Header/Header.vue"
+import { storeToRefs } from 'pinia'
+
 
 export default {
   setup() {
@@ -18,15 +20,11 @@ export default {
     ToastUnauthorized,
     Header,
   },
-  beforeMount() {
+  beforeCreate() {
 
-    this.di.init(useToast());
-    
-    console.log("sdsd")
+    useDi().init(useToast());
+    console.log(useDi().getShowNavbar)
 
-    this.di.showNavbar(false);
-
-    console.log(this.di.getShowNavbar);
   },
   computed : {
         computedGetShowNavBar(){
