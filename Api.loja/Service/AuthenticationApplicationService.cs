@@ -33,9 +33,9 @@ namespace Api.loja.Service
         public async Task<object?> Handle(object command) => command switch
         {
             AuthenticationContract.V1.Request.LoginRequestContext cmd => HandleAuthentication(cmd),
-            AuthenticationContract.V1.Request.GetUserInfo cmd => GetUserInfo(cmd),
-            _ => Task.CompletedTask
-        };
+            //AuthenticationContract.V1.Request.GetUserInfo cmd => GetUserInfo(cmd),
+            _ => throw new InvalidOperationException()
+        };  
 
         private V1.ClientInfo GetUserInfo(V1.Request.GetUserInfo cmd)
         {

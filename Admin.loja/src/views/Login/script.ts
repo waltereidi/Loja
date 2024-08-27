@@ -34,14 +34,9 @@ export default {
 
             this.request.send('postAsync' ,"api/Admin/Authentication/Login", body)
                 .then((result) => {
-                    this.di.showNavbar(true);
+                    useDi().setLogin(result);
                     this.$router.push('/Home');
                 });
         }
-    },
-    beforeCreate() {
-        console.log("sdsd")
-        useDi().showNavbar(true);
-        console.log(useDi().getShowNavbar)
-      },
+    }
 }

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { useDi } from '@/pinia/dependencyInjection'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -26,7 +27,13 @@ const router = createRouter({
     ],
     scrollBehavior(to, from, savedPosition) {
         return { top: 0 }
-    }
+    },
+    
 })
-
+router.beforeEach((to, from) => {
+    // ...
+    // explicitly return false to cancel the navigation
+    useDi().setShowNavbar(to.fullPath);
+    return true
+  })
 export default router

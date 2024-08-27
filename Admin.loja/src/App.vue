@@ -4,7 +4,6 @@ import { useDi } from '@/pinia/dependencyInjection'
 import ToastUnauthorized from "./components/Toast/ToastUnauthorized.vue"
 import NavBar from "./components/Layout/NavBar/NavBar.vue"
 import Header from "./components/Layout/Header/Header.vue"
-import { storeToRefs } from 'pinia'
 
 
 export default {

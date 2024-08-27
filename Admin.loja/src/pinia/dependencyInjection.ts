@@ -1,14 +1,15 @@
-import { ref , computed } from "vue";
 import { defineStore } from 'pinia';
 import { RequestController } from './Controllers/requestController'
-import { parse, stringify } from 'zipson';
+import { UserInfo , JwtToken } from './Entity/dependencyInjection'
+
 
 export const useDi = defineStore('di', {
     
     state: () => {
         return {
-            showNavBar:Boolean,
+            showNavBar:null,
             useToast: null,
+            UserInfo:null 
         }
     },
     getters: {
@@ -27,12 +28,13 @@ export const useDi = defineStore('di', {
         {
             this.useToast = useToast;
         },
-        async showNavbar(isVisible:boolean)
+        async setShowNavbar(path:String)
         {
-
-            var storage = sessionStorage.getItem("di");
-
-            this.showNavBar = isVisible;
+            switch(path)
+            {
+                case '/': this.showNavBar = false;break;
+                default : this.showNavBar = true;break;
+            }
         },
         async setLogin(login: any)
         {
@@ -42,15 +44,10 @@ export const useDi = defineStore('di', {
     persist: {
         storage: sessionStorage,
         paths: ['showNavBar'],
-        afterRestore: (ctx) => {
-            console.log(ctx)
-            
-            console.log(`just restored '${ctx.store.$id}'`)
-            },
-        beforeRestore: (ctx) => {
-            
-            console.log(`about to restore '${ctx.store.$id}'`)
-        }
+        serializer: {
+            serialize: JSON.stringify,
+            deserialize: JSON.parse,
+          }
 
     },
 
