@@ -1,4 +1,3 @@
-
 export interface UserInfo
 {
     nameInitials:String,
@@ -12,3 +11,15 @@ export interface JwtToken
     createdAt:String , 
     expiresAt:String, 
 }
+export interface PiniaState
+{
+    useToast:any , 
+    userInfo:UserInfo ,
+    userInterface:UserInterface ,
+    jwtToken:JwtToken ,
+}
+export interface UserInterface 
+{
+    showNavBar:boolean , 
+}
+
