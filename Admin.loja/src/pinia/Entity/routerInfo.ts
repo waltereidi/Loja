@@ -1,3 +1,5 @@
+import { UserInfo,UserInterface } from "./dependencyInjection";
+
 export interface RouterInfo
 {
     to:string , 
@@ -6,6 +8,14 @@ export interface RouterInfo
 export enum RouteCondition
 {
     HiddenNavBar , 
-    showNavBar
-
+    ShowNavBar , 
+    RedirectToHome , 
+    RedirectToLogin , 
+    Contiue,
+}
+export interface ConfiguredRouteChange
+{
+    user:UserInfo,  
+    ui:UserInterface, 
+    route:RouterInfo
 }

@@ -1,15 +1,15 @@
 export interface UserInfo
 {
-    nameInitials:String,
-    firstName:String,
-    lastName:String,
+    nameInitials:string,
+    firstName:string,
+    lastName:string,
     token:JwtToken
 }
 export interface JwtToken
 {
-    serializedToken:String , 
-    createdAt:String , 
-    expiresAt:String, 
+    serializedToken:string , 
+    createdAt:string , 
+    expiresAt:string, 
 }
 export interface PiniaState
 {
