@@ -22,6 +22,6 @@ namespace Api.loja.Contracts
             public record JwtToken(string serializedToken , DateTime createdAt , DateTime? expiresAt );
         }
     }
-
+    
 
 }

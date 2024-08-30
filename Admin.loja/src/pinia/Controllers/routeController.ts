@@ -1,5 +1,5 @@
 import {UserInterface , UserInfo } from '@/pinia/Entity/dependencyInjection'
-import {RouterInfo , RouteCondition} from '@/pinia/Entity/routerInfo'
+import {RouterInfo , RouteCondition, ConfiguredRouteChange} from '@/pinia/Entity/routerInfo'
 import {isFuture } from 'date-fns'
 
 export class RouteController{
@@ -19,23 +19,28 @@ export class RouteController{
     {
         this.route = route;
         this.ui = ui;
-        this.user = user      
+        this.user = user;    
     }
 
-    public routeChanged() : ConfiguredRouteChange
+    public async routeChanged() : Promise<ConfiguredRouteChange>
     {
-        this.response()
-            .then((result)=>this.configureReturn(result))
-            .then()
-        
+        const response =await this.response()
+        console.log(this.configureReturn(response))
+        return this.configureReturn(response)
     }
     
-
     private configureReturn(condition:RouteCondition) : ConfiguredRouteChange
     {
         this.configureUserInterface(condition);
         this.configureUserInfo(condition);
+        
         this.configureRoute(condition);
+        const result:ConfiguredRouteChange = {
+            route : this.route , 
+            ui : this.ui , 
+            user : this.user
+        } 
+        return result;
     }
     private configureUserInterface(condition:RouteCondition) : void
     {
@@ -68,24 +73,26 @@ export class RouteController{
 
     private response() : Promise<RouteCondition>
     {
+
+        
         return new Promise((resolve , reject )=>{
             if(!this.userToken())
             {
                 /**
                  * ! Token is expired or inexistent , the user should only access the login
                  */
-                return RouteCondition.RedirectToLogin
+                return resolve(RouteCondition.RedirectToLogin)
             }
             else if(this.userToken() && this.route.to == '/Login')
             {
                 /**
                  * ! Token is still valid and accessed login screen
                  */
-                return RouteCondition.RedirectToHome
+                return resolve(RouteCondition.RedirectToHome)
             }
             else
             {
-                return RouteCondition.Contiue
+                return resolve(RouteCondition.Contiue)
             }
         })
         

@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { useDi } from '@/pinia/dependencyInjection'
-
+import { RouterInfo } from '@/pinia/Entity/routerInfo'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/',
+            path: '/Login',
             name: 'login',
             component: () => import('../views/Login/LoginView.vue')
         },
@@ -33,7 +33,13 @@ const router = createRouter({
 router.beforeEach((to, from) => {
     // ...
     // explicitly return false to cancel the navigation
-    useDi().setShowNavbar(to.fullPath);
+    console.log(to)
+    console.log(from)
+    const routeInfo:RouterInfo = {
+        to : to.name!=null? to.name.toString():"" ,
+        from : from.name!=null?from.name.toString():"" ,
+    }
+    useDi().routeChanged(routeInfo);
     return true
   })
 export default router

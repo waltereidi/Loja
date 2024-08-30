@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import { RouteController } from "@/pinia/Controllers/routeController";
 import { UserInterface } from '@/pinia/Entity/dependencyInjection';
-import { RouterInfo } from '@/pinia/Entity/routerInfo';
+import { RouterInfo , ConfiguredRouteChange} from '@/pinia/Entity/routerInfo';
 
 
 
@@ -10,7 +10,7 @@ import { RouterInfo } from '@/pinia/Entity/routerInfo';
  * @param UserInterface datasource must contain all user interface related variables 
  */
 
-test('navBarHiddenOnLoginView',()=>{
+test('navBarHiddenOnLoginView',async ()=>{
     const ui:UserInterface = {
         showNavBar:null,  
     }
@@ -23,8 +23,8 @@ test('navBarHiddenOnLoginView',()=>{
      * ? when application starts to the main screen navbar should be hidden
      */
     const controller = new RouteController( route , ui);
-    const retorno :UserInterface = controller.routeChanged();
+    const retorno:ConfiguredRouteChange =await controller.routeChanged();
 
-    expect(retorno.showNavBar)
+    expect(retorno.ui.showNavBar)
         .toBe( false );
 })

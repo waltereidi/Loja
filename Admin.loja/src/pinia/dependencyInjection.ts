@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia';
 import { RequestController } from './Controllers/requestController'
-import { UserInfo , JwtToken , PiniaState } from './Entity/dependencyInjection'
-
+import { UserInfo , JwtToken , PiniaState } from '@/pinia/Entity/dependencyInjection'
+import { RouterInfo , ConfiguredRouteChange, RouteCondition } from '@/pinia/Entity/routerInfo';
+import { RouteController } from '@/pinia/Controllers/routeController';
+import { isProxy, toRaw } from 'vue';
 
 export const useDi = defineStore('di', {
     
@@ -10,7 +12,7 @@ export const useDi = defineStore('di', {
             useToast: null,
             userInfo:null ,
             userInterface:{
-                showNavBar:false,
+                showNavBar:null,
             } ,
             jwtToken:{
                 serializedToken : null , 
@@ -34,13 +36,20 @@ export const useDi = defineStore('di', {
         {
             this.useToast = useToast;
         },
-        async routeChanged(to:string , from:string)
+        async routeChanged(routeInfo:RouterInfo)
         {
-            switch(to)
-            {
-                case '/': this.showNavBar = false;break;
-                default : this.showNavBar = true;break;
-            }
+            //Instances a new routeController
+            const routeController = new RouteController(routeInfo , 
+                isProxy(this.userInterface)?toRaw(this.userInterface):this.userInterface , 
+                isProxy(this.userInfo)?toRaw(this.userInfo):this.userInfo );
+
+            //Computes the values based on route , user interface and user info from login
+            const routeConfig:ConfiguredRouteChange =await routeController.routeChanged();
+            //Receives modified values
+            this.userInterface =  routeConfig.ui;
+            this.user = routeConfig.user;
+
+            return this.route;//return route
         },
         async setLogin(login: any)
         {
