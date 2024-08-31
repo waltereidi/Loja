@@ -65,8 +65,11 @@ export class RouteController{
     {
         switch(condition)
         {
-            case RouteCondition.RedirectToHome :this.route.from ='';this.route.to='/Home';break; 
-            case RouteCondition.RedirectToLogin :this.route.from ='';this.route.to='/Login'; break; 
+            case RouteCondition.RedirectToHome :
+                this.route.to.name='home';this.route.to.fullPath='/Home';break; 
+
+            case RouteCondition.RedirectToLogin :
+                this.route.to.name ='login';this.route.to.fullPath='/Login';this.route.to.path='/Login';  break; 
             default : RouteCondition.Contiue; break;
         }
     }

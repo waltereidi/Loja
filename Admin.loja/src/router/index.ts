@@ -14,32 +14,23 @@ const router = createRouter({
             name: 'store/categories',
             component: () => import('../views/Store/Categories/CategoriesView.vue')
         },
-        {
-            path: '/',
-            name: 'navbar',
-            component: () => import('../components/Layout/NavBar/NavBar.vue')
-        },
-        {
-            path: '/',
-            name: 'header',
-            component: () => import('../components/Layout/Header/Header.vue')
-        },
+       
     ],
     scrollBehavior(to, from, savedPosition) {
         return { top: 0 }
     },
     
 })
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
     // ...
     // explicitly return false to cancel the navigation
-    console.log(to)
-    console.log(from)
     const routeInfo:RouterInfo = {
-        to : to.name!=null? to.name.toString():"" ,
-        from : from.name!=null?from.name.toString():"" ,
+        to : to ,
+        from : from
     }
-    useDi().routeChanged(routeInfo);
+    const response:RouterInfo = await useDi().routeChanged(routeInfo);
+    to = response.to;
+    from = response.from;
     return true
   })
 export default router

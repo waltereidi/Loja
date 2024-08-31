@@ -36,7 +36,7 @@ export const useDi = defineStore('di', {
         {
             this.useToast = useToast;
         },
-        async routeChanged(routeInfo:RouterInfo)
+        async routeChanged(routeInfo:RouterInfo) : Promise<RouterInfo>
         {
             //Instances a new routeController
             const routeController = new RouteController(routeInfo , 
@@ -49,7 +49,7 @@ export const useDi = defineStore('di', {
             this.userInterface =  routeConfig.ui;
             this.user = routeConfig.user;
 
-            return this.route;//return route
+            return routeConfig.route;//return route
         },
         async setLogin(login: any)
         {

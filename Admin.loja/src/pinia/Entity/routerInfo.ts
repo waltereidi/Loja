@@ -2,8 +2,8 @@ import { UserInfo,UserInterface } from "./dependencyInjection";
 
 export interface RouterInfo
 {
-    to:string , 
-    from:string ,
+    to:any , 
+    from:any ,
 }
 export enum RouteCondition
 {

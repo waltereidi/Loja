@@ -26,7 +26,8 @@ export default {
 
   },
   computed : {
-        computedGetShowNavBar(){
+        computedGetShowNavBar():Array<number>{
+          console.log(useDi().getShowNavbar ? [1] : null)
              return useDi().getShowNavbar ? [1] : null;
         }
     }
@@ -39,14 +40,15 @@ export default {
   
   <div class="app-container">
     <div class="navBar">
-      <div v-for="nav in this.computedGetShowNavBar" ><NavBar ></NavBar></div>
-      <router-view  name="navbar" />
+      <div v-for="nav in computedGetShowNavBar" >
+        <NavBar ></NavBar>
+      </div>
       
     </div>
     <div class="view-container">
-      <router-view name="header" />
-      <div v-for="nav in this.computedGetShowNavBar" ><Header ></Header></div>
-        
+      <div v-for="nav in computedGetShowNavBar" >
+        <Header ></Header>
+      </div>
         <div class="routerView">
           <router-view />
         </div>
