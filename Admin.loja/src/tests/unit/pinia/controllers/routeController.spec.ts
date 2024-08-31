@@ -1,7 +1,8 @@
 import { expect, test } from 'vitest';
 import { RouteController } from "@/pinia/Controllers/routeController";
-import { UserInterface } from '@/pinia/Entity/dependencyInjection';
+import { UserInterface , UserInfo } from '@/pinia/Entity/dependencyInjection';
 import { RouterInfo , ConfiguredRouteChange} from '@/pinia/Entity/routerInfo';
+import { addDays } from 'date-fns';
 
 
 
@@ -27,4 +28,33 @@ test('navBarHiddenOnLoginView',async ()=>{
 
     expect(retorno.ui.showNavBar)
         .toBe( false );
+})
+
+test('navBarHiddenOnLoginView',async ()=>{
+    const ui:UserInterface = {
+        showNavBar:null,  
+    }
+    
+    const route:RouterInfo = {
+        to:"Login",
+        from:""
+    }
+    const user:UserInfo = {
+        firstName :'user',
+        lastName : '' ,
+        nameInitials : 'T',
+        token : {
+            createdAt : new Date().toString() , 
+            expiresAt : addDays( new Date() , 10).toString(), 
+            serializedToken :"sdsd"
+        }
+    }
+    /**
+     * ? when application starts to the main screen navbar should be hidden
+     */
+    const controller = new RouteController( route , ui,user);
+    const retorno:ConfiguredRouteChange =await controller.routeChanged();
+
+    expect(retorno.ui.showNavBar)
+        .toBe( true );
 })

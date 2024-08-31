@@ -22,12 +22,10 @@ export default {
   beforeCreate() {
 
     useDi().init(useToast());
-    console.log(useDi().getShowNavbar)
 
   },
   computed : {
         computedGetShowNavBar():Array<number>{
-          console.log(useDi().getShowNavbar ? [1] : null)
              return useDi().getShowNavbar ? [1] : null;
         }
     }

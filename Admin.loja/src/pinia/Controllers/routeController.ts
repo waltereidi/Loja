@@ -25,7 +25,6 @@ export class RouteController{
     public async routeChanged() : Promise<ConfiguredRouteChange>
     {
         const response =await this.response()
-        console.log(this.configureReturn(response))
         return this.configureReturn(response)
     }
     
@@ -40,6 +39,7 @@ export class RouteController{
             ui : this.ui , 
             user : this.user
         } 
+        console.log(this.ui)
         return result;
     }
     private configureUserInterface(condition:RouteCondition) : void
@@ -66,10 +66,11 @@ export class RouteController{
         switch(condition)
         {
             case RouteCondition.RedirectToHome :
-                this.route.to.name='home';this.route.to.fullPath='/Home';break; 
+                this.route.to ='Home';break; 
 
             case RouteCondition.RedirectToLogin :
-                this.route.to.name ='login';this.route.to.fullPath='/Login';this.route.to.path='/Login';  break; 
+                this.route.to  ='Login';break; 
+
             default : RouteCondition.Contiue; break;
         }
     }
@@ -86,7 +87,7 @@ export class RouteController{
                  */
                 return resolve(RouteCondition.RedirectToLogin)
             }
-            else if(this.userToken() && this.route.to == '/Login')
+            else if(this.userToken() && this.route.to == 'Login')
             {
                 /**
                  * ! Token is still valid and accessed login screen

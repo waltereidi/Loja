@@ -5,8 +5,8 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/Login',
-            name: 'login',
+            path: '/',
+            name: 'Login',
             component: () => import('../views/Login/LoginView.vue')
         },
         {
@@ -23,14 +23,20 @@ const router = createRouter({
 })
 router.beforeEach(async (to, from) => {
     // ...
-    // explicitly return false to cancel the navigation
+    // explicitly return false to cancel the navigation  
+    console.log(to)
+    console.log(from)
     const routeInfo:RouterInfo = {
-        to : to ,
-        from : from
+        to : to.name ,
+        from : from.name
     }
     const response:RouterInfo = await useDi().routeChanged(routeInfo);
-    to = response.to;
-    from = response.from;
-    return true
+
+    if(to.name === response.to)
+        return true;
+    else {
+        return { name: 'Login' }
+    }
+        
   })
 export default router

@@ -24,6 +24,7 @@ export const useDi = defineStore('di', {
     getters: {
         getShowNavbar(state)
         {
+            console.log(state.userInterface.showNavBar)
             return state.userInterface.showNavBar;
         }, 
         getRequestController(state)
@@ -47,6 +48,9 @@ export const useDi = defineStore('di', {
             const routeConfig:ConfiguredRouteChange =await routeController.routeChanged();
             //Receives modified values
             this.userInterface =  routeConfig.ui;
+            console.log(this.userInterface)
+            console.log(routeConfig.ui)
+            
             this.user = routeConfig.user;
 
             return routeConfig.route;//return route
