@@ -74,7 +74,7 @@ namespace Api.loja.Service
         }
         private void SetAuthenticationCookies(V1.ClientInfo ci  , HttpContext context)
         {
-            context.Response.Cookies.Append(nameof(ci.token.serializedToken), ci.token.serializedToken);
+            
             context.Response.Cookies.Append(nameof(ci.token.createdAt), ci.token.createdAt.ToString());
             context.Response.Cookies.Append(nameof(ci.token.expiresAt), ci.token.expiresAt.ToString()??"");
             context.Response.Cookies.Append(nameof(ci.firstName), ci.firstName);

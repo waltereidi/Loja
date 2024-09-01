@@ -1,21 +1,21 @@
 import {UserInterface , UserInfo } from '@/pinia/Entity/dependencyInjection'
-import {RouterInfo , RouteCondition, ConfiguredRouteChange} from '@/pinia/Entity/routerInfo'
+import {RouterInfo , RouteCondition, ConfiguredRouteChange, RouteConditionResponse} from '@/pinia/Entity/routerInfo'
 import {isFuture } from 'date-fns'
 
 export class RouteController{
     private route:RouterInfo
     private ui:UserInterface
-    private user:UserInfo
+    private user:UserInfo|null
     /**
      * @returns verify if user is logged in with a valid token or not
      */
     private userToken =():Boolean =>
         this.user != null 
-        && this.user.token != null 
-        && isFuture(new Date(this.user.token.expiresAt));
+        && this.user.jwtToken != null 
+        && isFuture(new Date(this.user.jwtToken.expiresAt));
     
         
-    constructor(route:RouterInfo , ui:UserInterface ,user:UserInfo = null)
+    constructor(route:RouterInfo , ui:UserInterface ,user:UserInfo|null = null)
     {
         this.route = route;
         this.ui = ui;
@@ -28,18 +28,19 @@ export class RouteController{
         return this.configureReturn(response)
     }
     
-    private configureReturn(condition:RouteCondition) : ConfiguredRouteChange
+    private configureReturn(condition:RouteConditionResponse) : ConfiguredRouteChange
     {
-        this.configureUserInterface(condition);
-        this.configureUserInfo(condition);
+        this.configureUserInterface(condition.ui);
+        this.configureUserInfo(condition.user);
         
-        this.configureRoute(condition);
+        this.configureRoute(condition.route);
         const result:ConfiguredRouteChange = {
             route : this.route , 
             ui : this.ui , 
             user : this.user
         } 
-        console.log(this.ui)
+        console.log(condition)
+        console.log(result)
         return result;
     }
     private configureUserInterface(condition:RouteCondition) : void
@@ -75,7 +76,7 @@ export class RouteController{
         }
     }
 
-    private response() : Promise<RouteCondition>
+    private response() : Promise<RouteConditionResponse>
     {
 
         
@@ -85,18 +86,30 @@ export class RouteController{
                 /**
                  * ! Token is expired or inexistent , the user should only access the login
                  */
-                return resolve(RouteCondition.RedirectToLogin)
+                return resolve({
+                    route:RouteCondition.RedirectToLogin,
+                    user:RouteCondition.Contiue, 
+                    ui:RouteCondition.HiddenNavBar,
+                })
             }
             else if(this.userToken() && this.route.to == 'Login')
             {
                 /**
                  * ! Token is still valid and accessed login screen
                  */
-                return resolve(RouteCondition.RedirectToHome)
+                return resolve({
+                    route: RouteCondition.RedirectToHome, 
+                    ui : RouteCondition.ShowNavBar, 
+                    user : RouteCondition.Contiue ,
+                })
             }
             else
             {
-                return resolve(RouteCondition.Contiue)
+                return resolve({
+                    route: RouteCondition.Contiue , 
+                    ui : RouteCondition.Contiue ,
+                    user : RouteCondition.Contiue ,
+                })
             }
         })
         

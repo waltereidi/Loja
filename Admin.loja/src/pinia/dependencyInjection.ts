@@ -48,10 +48,8 @@ export const useDi = defineStore('di', {
             const routeConfig:ConfiguredRouteChange =await routeController.routeChanged();
             //Receives modified values
             this.userInterface =  routeConfig.ui;
-            console.log(this.userInterface)
-            console.log(routeConfig.ui)
             
-            this.user = routeConfig.user;
+            this.userInfo = routeConfig.user;
 
             return routeConfig.route;//return route
         },

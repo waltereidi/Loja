@@ -1,25 +1,25 @@
 export interface UserInfo
 {
-    nameInitials:string,
-    firstName:string,
-    lastName:string,
-    token:JwtToken
+    nameInitials:string|null,
+    firstName:string|null,
+    lastName:string|null,
+    jwtToken:JwtToken|null
 }
 export interface JwtToken
 {
-    serializedToken:string , 
-    createdAt:string , 
-    expiresAt:string, 
+    serializedToken:string|null , 
+    createdAt:string|null , 
+    expiresAt:string|null, 
 }
 export interface PiniaState
 {
-    useToast:any , 
-    userInfo:UserInfo ,
+    useToast:any|null , 
+    userInfo:UserInfo|null ,
     userInterface:UserInterface ,
-    jwtToken:JwtToken ,
+    jwtToken:JwtToken|null ,
 }
 export interface UserInterface 
 {
-    showNavBar:boolean , 
+    showNavBar:boolean|null , 
 }
 

@@ -13,9 +13,15 @@ export enum RouteCondition
     RedirectToLogin , 
     Contiue,
 }
+export interface RouteConditionResponse
+{
+    route:RouteCondition , 
+    ui:RouteCondition , 
+    user:RouteCondition,
+}
 export interface ConfiguredRouteChange
 {
-    user:UserInfo,  
+    user:UserInfo|null,  
     ui:UserInterface, 
     route:RouterInfo
 }
