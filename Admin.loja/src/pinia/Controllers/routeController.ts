@@ -39,7 +39,6 @@ export class RouteController{
             ui : this.ui , 
             user : this.user
         } 
-        console.log(condition)
         console.log(result)
         return result;
     }
@@ -92,13 +91,20 @@ export class RouteController{
                     ui:RouteCondition.HiddenNavBar,
                 })
             }
-            else if(this.userToken() && this.route.to == 'Login')
+            else if(this.userToken())
             {
                 /**
                  * ! Token is still valid and accessed login screen
                  */
+                let rc:RouteCondition;
+                if(this.route.to == 'Login')
+                    rc = RouteCondition.RedirectToHome
+                else 
+                    rc= RouteCondition.Contiue
+                
+
                 return resolve({
-                    route: RouteCondition.RedirectToHome, 
+                    route: rc, 
                     ui : RouteCondition.ShowNavBar, 
                     user : RouteCondition.Contiue ,
                 })

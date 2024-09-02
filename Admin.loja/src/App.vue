@@ -25,7 +25,7 @@ export default {
 
   },
   computed : {
-        computedGetShowNavBar():Array<number>{
+        computedGetShowNavBar():Array<number>|null{
              return useDi().getShowNavbar ? [1] : null;
         }
     }

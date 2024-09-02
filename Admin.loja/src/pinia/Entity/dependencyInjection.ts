@@ -8,15 +8,14 @@ export interface UserInfo
 export interface JwtToken
 {
     serializedToken:string|null , 
-    createdAt:string|null , 
-    expiresAt:string|null, 
+    createdAt:number|null , 
+    expiresAt:number|null, 
 }
 export interface PiniaState
 {
     useToast:any|null , 
     userInfo:UserInfo|null ,
     userInterface:UserInterface ,
-    jwtToken:JwtToken|null ,
 }
 export interface UserInterface 
 {

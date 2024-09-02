@@ -1,9 +1,10 @@
-import { defineStore } from 'pinia';
+import { defineStore, Pinia } from 'pinia';
 import { RequestController } from './Controllers/requestController'
-import { UserInfo , JwtToken , PiniaState } from '@/pinia/Entity/dependencyInjection'
+import { PiniaState } from '@/pinia/Entity/dependencyInjection'
 import { RouterInfo , ConfiguredRouteChange, RouteCondition } from '@/pinia/Entity/routerInfo';
 import { RouteController } from '@/pinia/Controllers/routeController';
 import { isProxy, toRaw } from 'vue';
+import { SessionController } from './Controllers/sessionController';
 
 export const useDi = defineStore('di', {
     
@@ -13,18 +14,12 @@ export const useDi = defineStore('di', {
             userInfo:null ,
             userInterface:{
                 showNavBar:null,
-            } ,
-            jwtToken:{
-                serializedToken : null , 
-                createdAt : null , 
-                expiresAt: null , 
             }
-        }as PiniaState )
+        } as PiniaState )
     },
     getters: {
         getShowNavbar(state)
         {
-            console.log(state.userInterface.showNavBar)
             return state.userInterface.showNavBar;
         }, 
         getRequestController(state)
@@ -39,6 +34,10 @@ export const useDi = defineStore('di', {
         },
         async routeChanged(routeInfo:RouterInfo) : Promise<RouterInfo>
         {
+            if(this.userInfo == null){
+                const sessionController = new SessionController();
+                this.userInfo= sessionController.getUserInfoFromCookies();
+            }
             //Instances a new routeController
             const routeController = new RouteController(routeInfo , 
                 isProxy(this.userInterface)?toRaw(this.userInterface):this.userInterface , 
@@ -55,18 +54,13 @@ export const useDi = defineStore('di', {
         },
         async setLogin(login: any)
         {
-            
+            const sessionController = new SessionController();
+
+            this.userInfo= sessionController.getUserInfoFromCookies();
         },
-    },
-    persist: {
-        storage: sessionStorage,
-        paths: ['showNavBar'],
-        serializer: {
-            serialize: JSON.stringify,
-            deserialize: JSON.parse,
-          }
 
     },
+   
 
 
 

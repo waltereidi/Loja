@@ -4,8 +4,6 @@ import { UserInterface , UserInfo } from '@/pinia/Entity/dependencyInjection';
 import { RouterInfo , ConfiguredRouteChange} from '@/pinia/Entity/routerInfo';
 import { addDays } from 'date-fns';
 
-
-
 /**
  * @param RouterInfo is sent from @/router/index.ts every time route changes
  * @param UserInterface datasource must contain all user interface related variables 
@@ -43,7 +41,7 @@ test('navBarHiddenOnLoginView',async ()=>{
         firstName :'user',
         lastName : '' ,
         nameInitials : 'T',
-        token : {
+        jwtToken : {
             createdAt : new Date().toString() , 
             expiresAt : addDays( new Date() , 10).toString(), 
             serializedToken :"sdsd"

@@ -26,12 +26,10 @@ import Avatar from 'primevue/avatar';
 import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 // optional
 const app = createApp(App);
 const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate)
 
 
 app.use(PrimeVue, { ripple: true });
