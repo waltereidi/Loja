@@ -1,4 +1,4 @@
-import { defineStore, Pinia } from 'pinia';
+import { defineStore } from 'pinia';
 import { RequestController } from './Controllers/requestController'
 import { PiniaState } from '@/pinia/Entity/dependencyInjection'
 import { RouterInfo , ConfiguredRouteChange, RouteCondition } from '@/pinia/Entity/routerInfo';
@@ -13,14 +13,14 @@ export const useDi = defineStore('di', {
             useToast: null,
             userInfo:null ,
             userInterface:{
-                showNavBar:null,
+                showNavBar:false,
             }
         } as PiniaState )
     },
     getters: {
-        getShowNavbar(state)
+        getShowNavbar({ userInterface})
         {
-            return state.userInterface.showNavBar;
+            return userInterface.showNavBar;
         }, 
         getRequestController(state)
         {
@@ -28,6 +28,9 @@ export const useDi = defineStore('di', {
         },
     },
     actions: {
+        async test(){
+            this.userInterface.showNavBar = false;
+        },
         async init(useToast: any )
         {
             this.useToast = useToast;

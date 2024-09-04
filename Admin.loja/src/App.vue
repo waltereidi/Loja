@@ -1,37 +1,27 @@
-<script lang="ts">
+
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useDi } from '@/pinia/dependencyInjection'
 import { useToast } from 'primevue/usetoast';
 import { useDi } from '@/pinia/dependencyInjection'
 import ToastUnauthorized from "./components/Toast/ToastUnauthorized.vue"
 import NavBar from "./components/Layout/NavBar/NavBar.vue"
 import Header from "./components/Layout/Header/Header.vue"
+const di = useDi()
+const { userInterface,getShowNavbar } = storeToRefs(di)
+  di.$subscribe((mutation , state ) =>{
+    console.log(state.userInterface.showNavBar)
+    console.log("mutation , state")
+  })
+
+setTimeout(()=>{useDi().test()},3000)
 
 
-export default {
-  setup() {
-  },
-  data() {
-    return {
-      di: useDi()
-    }
-  },
-  components: {
-    NavBar,
-    ToastUnauthorized,
-    Header,
-  },
-  beforeCreate() {
 
-    useDi().init(useToast());
 
-  },
-  computed : {
-        computedGetShowNavBar():Array<number>|null{
-             return useDi().getShowNavbar ? [1] : null;
-        }
-    }
-}
+
+
 </script>
-
 <template>
   <Toast />
   <ToastUnauthorized />
