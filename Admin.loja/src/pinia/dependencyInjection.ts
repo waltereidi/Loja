@@ -18,9 +18,10 @@ export const useDi = defineStore('di', {
         } as PiniaState )
     },
     getters: {
-        getShowNavbar({ userInterface})
+        getShowNavbar({ userInterface}) : Array<number> | null
         {
-            return userInterface.showNavBar;
+            const ui = toRaw(this.userInterface);
+            return ui.showNavBar?[1]:null;
         }, 
         getRequestController(state)
         {
@@ -28,8 +29,8 @@ export const useDi = defineStore('di', {
         },
     },
     actions: {
-        async test(){
-            this.userInterface.showNavBar = false;
+        async update(){
+            
         },
         async init(useToast: any )
         {

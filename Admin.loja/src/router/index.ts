@@ -24,14 +24,13 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
     // ...
     // explicitly return false to cancel the navigation  
-    console.log(to)
-    console.log(from)
+   
     const routeInfo:RouterInfo = {
         to : to.name ,
         from : from.name
     }
     const response:RouterInfo = await useDi().routeChanged(routeInfo);
-
+    useDi().update();
     if(to.name === response.to)
         return true;
     else {

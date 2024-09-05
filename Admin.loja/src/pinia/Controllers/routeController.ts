@@ -12,6 +12,7 @@ export class RouteController{
     private userToken =():Boolean =>
         this.user != null 
         && this.user.jwtToken != null 
+        && this.user.jwtToken.expiresAt != null
         && isFuture(new Date(this.user.jwtToken.expiresAt));
     
         
@@ -39,7 +40,6 @@ export class RouteController{
             ui : this.ui , 
             user : this.user
         } 
-        console.log(result)
         return result;
     }
     private configureUserInterface(condition:RouteCondition) : void
