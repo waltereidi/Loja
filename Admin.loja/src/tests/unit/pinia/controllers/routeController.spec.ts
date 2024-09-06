@@ -11,7 +11,7 @@ import { addDays } from 'date-fns';
 
 test('navBarHiddenOnLoginView',async ()=>{
     const ui:UserInterface = {
-        showNavBar:null,  
+        showNavBar:false,  
     }
     
     const route:RouterInfo = {
@@ -30,7 +30,7 @@ test('navBarHiddenOnLoginView',async ()=>{
 
 test('navBarHiddenOnLoginView',async ()=>{
     const ui:UserInterface = {
-        showNavBar:null,  
+        showNavBar:false,  
     }
     
     const route:RouterInfo = {
@@ -42,8 +42,8 @@ test('navBarHiddenOnLoginView',async ()=>{
         lastName : '' ,
         nameInitials : 'T',
         jwtToken : {
-            createdAt : new Date().toString() , 
-            expiresAt : addDays( new Date() , 10).toString(), 
+            createdAt : new Date().valueOf() , 
+            expiresAt : new Date().valueOf(), 
             serializedToken :"sdsd"
         }
     }

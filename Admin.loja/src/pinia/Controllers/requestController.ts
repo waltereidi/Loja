@@ -35,16 +35,12 @@ export class RequestController {
             life = 5000;
             summary = 'Multiple Choices';
             severity = 'info'
-        }
-            
-        if (status >= 400 && status <= 499)
+        }else if(status >= 400 && status <= 499)
         {
             life = 5000;
             summary = 'Invalid input'
             severity = 'warn'
-        }
-            
-        if (status >= 500 && status <= 599 || status == 0 )
+        }else(status >= 500 && status <= 599 || status == 0 )
         {
             life = 4000; 
             summary = 'Server error';
@@ -55,7 +51,7 @@ export class RequestController {
     }
     public async send( request:string , url:string , data?:any ) 
     {
-        var result = null;
+        let result = null;
         switch(request.toLocaleLowerCase())
         {
             case 'post' : result = await this.post(url , data);break;

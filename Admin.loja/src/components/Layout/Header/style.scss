@@ -5,10 +5,12 @@
 .toolbar{
   border-radius: 3rem;
   flex: 1 1 auto;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 .toolbar-start{
   display: flex;
   flex-flow:row wrap;
   justify-content: end;
+}
+.toolbar-end{
 }

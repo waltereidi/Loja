@@ -7,16 +7,12 @@ import NavBar from "./components/Layout/NavBar/NavBar.vue"
 import Header from "./components/Layout/Header/Header.vue"
 import {ref} from 'vue';
 
-
 const di = useDi()
-
 let showNavBar = ref(false);
 di.init(useToast) 
-
 di.$subscribe(( mutation , state ) =>
 {
   showNavBar.value = state.showNavBar;
-
 })
 
 </script>
@@ -25,16 +21,16 @@ di.$subscribe(( mutation , state ) =>
   <ToastUnauthorized />
   
   <div class="app-container">
-    <div class="navBar">
-      <div v-if="showNavBar">
+    
+    <div v-if="showNavBar" class="navBar">
         <NavBar ></NavBar>
-      </div>
-      
     </div>
+    
     <div class="view-container">
-      <div v-if="showNavBar" >
-        <Header ></Header>
-      </div>
+        <div v-if="showNavBar" class="header">
+          <Header></Header>
+        </div>
+        
         <div class="routerView">
           <router-view />
         </div>
@@ -44,25 +40,31 @@ di.$subscribe(( mutation , state ) =>
 </template>
 
 <style lang="scss">
+.navBar {
+  flex:0 0 auto;
+  
+}
+.header{
+  width: 100%;
+}
 .view-container{
   display:flex; 
   flex-flow:column;
   justify-items: center;
   align-items: center;
-  padding: 20px;
-  flex:0 0 100%;
+  flex:1 1 auto;
 }
 .app-container {
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
   gap:24px;
   padding:24px;
-  height: 100%;
-  width: 100%;
+
 }
 .routerView {
   display: flex;
   height: 100%;
-  flex: 1 1 auto;
+  flex:1 1 auto;
+  width: 100%;
 }
 </style>
