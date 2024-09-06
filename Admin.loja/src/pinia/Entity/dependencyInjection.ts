@@ -15,10 +15,10 @@ export interface PiniaState
 {
     useToast:any|null , 
     userInfo:UserInfo|null ,
-    userInterface:UserInterface ,
+    showNavBar:boolean
 }
 export interface UserInterface 
 {
-    showNavBar:boolean|null , 
+    showNavBar:boolean , 
 }
 

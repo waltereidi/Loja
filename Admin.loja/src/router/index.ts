@@ -30,7 +30,7 @@ router.beforeEach(async (to, from) => {
         from : from.name
     }
     const response:RouterInfo = await useDi().routeChanged(routeInfo);
-    useDi().update();
+
     if(to.name === response.to)
         return true;
     else {

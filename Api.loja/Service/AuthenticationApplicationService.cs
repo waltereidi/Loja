@@ -42,6 +42,7 @@ namespace Api.loja.Service
             var firtName =cmd.context.Request.Cookies[nameof(V1.ClientInfo.firstName)] ?? throw new UnauthorizedAccessException();
             var lastName =cmd.context.Request.Cookies[nameof(V1.ClientInfo.lastName)] ?? throw new UnauthorizedAccessException(); ;
             var nameInitials = cmd.context.Request.Cookies[nameof(V1.ClientInfo.nameInitials)] ?? throw new UnauthorizedAccessException(); ;
+            
             return new V1.ClientInfo(firtName,lastName,nameInitials ,null );
         }
 
@@ -87,6 +88,7 @@ namespace Api.loja.Service
             context.Response.Cookies.Append(nameof(ci.firstName), ci.firstName);
             context.Response.Cookies.Append(nameof(ci.lastName), ci.lastName);
             context.Response.Cookies.Append(nameof(ci.nameInitials), ci.nameInitials);
+            context.Response.Cookies.Append(nameof(ci.token.serializedToken), ci.token.serializedToken);
         }
         /// <summary>
         /// Translates client information to be stored in session 

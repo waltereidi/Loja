@@ -26,13 +26,12 @@ import { onMounted, ref } from 'vue'
 
 let userInfo = ref()
 let nameInitials = ref(null)
-const request = useDi().getRequestController
 onMounted(()=>{
-    request.send("getAsync" , "api/Admin/Authentication/getUserInfo").then((result)=>{
-    nameInitials.value=result.nameInitials
+    const ui = useDi().getUserInfo;
+    console.log(ui)
+    nameInitials.value = ui.nameInitials     
 });
 
-})
 
 
 
