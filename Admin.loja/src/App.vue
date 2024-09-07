@@ -65,6 +65,7 @@ di.$subscribe(( mutation , state ) =>
   display: flex;
   height: 100%;
   flex:1 1 auto;
+  justify-content: center;
   width: 100%;
 }
 </style>

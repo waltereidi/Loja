@@ -4,10 +4,7 @@
         <Toolbar class="toolbar">
             <template #start>
                 <div class="toolbar-start flex items-center gap-2">
-                    <div class="card flex justify-start">
-                        <Breadcrumb :home="home" :model="items" />
-                    </div>
-                    
+                   
                     
                 </div>
             </template>
@@ -24,7 +21,6 @@
 </template>
 
 <script setup>
-import Breadcrumb from 'primevue/breadcrumb';
 import { useDi } from '@/pinia/dependencyInjection'
 import { onMounted, ref } from 'vue'
 
@@ -36,21 +32,10 @@ onMounted(()=>{
     nameInitials.value = ui.nameInitials     
 });
 
-const home = ref({
-    icon: 'pi pi-home'
-});
-const items = ref([
-    { label: 'Electronics' }, 
-    { label: 'Computer' }, 
-    { label: 'Accessories' }, 
-    { label: 'Keyboard' }, 
-    { label: 'Wireless' }
-]);
-
-
 
 </script>
 
 <style lang="scss">
 @import './style';
+@import '../../../globals/utility.scss';
 </style>

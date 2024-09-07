@@ -1,3 +1,5 @@
+@import '@/globals/utility.scss';
+
 .header{
   display:flex;
   flex-wrap: wrap;
@@ -13,4 +15,10 @@
   justify-content: end;
 }
 .toolbar-end{
+}
+@media (min-width:$sm) {
+  .header{
+    display:none;
+    flex-wrap: wrap;
+  } 
 }
