@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { RequestController } from './Controllers/requestController'
 import { PiniaState ,UserInfo } from '@/pinia/Entity/dependencyInjection'
-import { RouterInfo , ConfiguredRouteChange, RouteCondition } from '@/pinia/Entity/routerInfo';
+import { RouterInfo , ConfiguredRouteChange } from '@/pinia/Entity/routerInfo';
 import { RouteController } from '@/pinia/Controllers/routeController';
 import { isProxy, toRaw } from 'vue';
 import { SessionController } from './Controllers/sessionController';
@@ -12,7 +12,8 @@ export const useDi = defineStore('di', {
         return ({
             useToast: null,
             userInfo:null ,
-            showNavBar:false
+            showNavBar:false,
+            mobileNavBar:false,
         } as PiniaState )
     },
     getters: {
@@ -56,7 +57,18 @@ export const useDi = defineStore('di', {
 
             this.userInfo= sessionController.getUserInfoFromCookies();
         },
-
+        /**
+         * ! Change state from mobileNavBar and lock screen overflow
+         * used in App and header component
+         */
+        async openMobileNavBar(openMenu:boolean)
+        {
+            this.mobileNavBar = openMenu;
+            if(openMenu)
+                document.body.style.overflow ='hidden'
+            else
+                document.body.style.overflow ='auto'
+        }
     },
    
 

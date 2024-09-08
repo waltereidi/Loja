@@ -4,16 +4,16 @@
         <Toolbar class="toolbar">
             <template #start>
                 <div class="toolbar-start flex items-center gap-2">
-                   
+                    <i style="font-size: 2rem" @click="useDi().openMobileNavBar(true)" class="headerNavbar ml-4 pi pi-align-justify"></i>
                     
                 </div>
             </template>
             {{ userInfo }}
             <template #end>
-                <IconField class="mr-3" >
+                <!-- <IconField class="mr-3" >
                     <InputIcon class="pi pi-search" />
                     <InputText v-model="value1" placeholder="Search" />
-                </IconField>            
+                </IconField>             -->
                 <Avatar :label="nameInitials" class="mr-2" size="xlarge" shape="circle" />
             </template>
         </Toolbar>
@@ -28,7 +28,6 @@ let userInfo = ref()
 let nameInitials = ref(null)
 onMounted(()=>{
     const ui = useDi().getUserInfo;
-    console.log(ui)
     nameInitials.value = ui.nameInitials     
 });
 
@@ -37,5 +36,4 @@ onMounted(()=>{
 
 <style lang="scss">
 @import './style';
-@import '../../../globals/utility.scss';
 </style>

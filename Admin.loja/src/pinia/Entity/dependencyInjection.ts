@@ -15,7 +15,8 @@ export interface PiniaState
 {
     useToast:any|null , 
     userInfo:UserInfo|null ,
-    showNavBar:boolean
+    showNavBar:boolean,
+    mobileNavBar:boolean,
 }
 export interface UserInterface 
 {

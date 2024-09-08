@@ -1,11 +1,47 @@
-.navMenu {
+@import '@/globals/utility.scss';
 
+
+.navBar-close{
+  min-width: 100%;
+  display:flex;
+  justify-content: end;
+  padding:20px;
 }
-
 .hide {
   display: none;
 }
 .navBar {
   align-self:  start;
   flex: 0 0 auto;
+}
+@media (max-width:$md) {
+  .navBar{
+    display:none;
+    flex-wrap: wrap;
+  } 
+  .navBarMobile{
+    display:flex;
+    position: fixed;
+    
+    z-index: 1;
+    
+  }
+  .mobileNavBar-container{
+    min-height: 100vh;
+    min-width: 90vw;
+    position: fixed;
+    background-color:white;
+    opacity: 1;
+  }
+
+}
+@media(min-width:$md){
+  .navBar{
+    display:flex;
+    flex-wrap: wrap;
+  }
+  .navBarMobile{
+    display:none;
+    flex-wrap: wrap;
+  }
 }

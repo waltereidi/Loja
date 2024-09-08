@@ -1,7 +1,12 @@
 <template>
-    <div >
-        <div class="card flex justify-content-center">
+    <div class="mobileNavBar-container">
+        <div class="card flex justify-content-center flex-column">
+            <div class="navBar-close">
+                    <i @click="useDi().openMobileNavBar(false)" class="pi pi-times" style="font-size:1.5rem;color: green"></i>            
+                </div>
             <PanelMenu :model="items" class="w-full md:w-20rem">
+                
+              
                 <template #item="{ item }">
                     <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                         <a v-ripple class="flex align-items-center cursor-pointer text-color px-3 py-2" :href="href"
@@ -34,6 +39,7 @@ const items = ref([
         icon: 'pi-chart-line',
         command: () => {
             router.push('/Home');
+            useDi().openMobileNavBar(false);
         }
     },
     {
@@ -45,6 +51,7 @@ const items = ref([
                 icon: 'pi pi-list',
                 command: () => {
                     router.push('/Store/Categories');
+                    useDi().openMobileNavBar(false);
                 }
             },
             {
@@ -52,6 +59,7 @@ const items = ref([
                 icon: 'pi pi-user',
                 command: () => {
                     router.push('/Store/Users');
+                    useDi().openMobileNavBar(false);
                 }
             }
         ]
