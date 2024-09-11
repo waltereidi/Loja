@@ -2,6 +2,7 @@ using Api.loja.Data;
 using Dominio.loja.Events.FileUpload;
 using Framework.loja.Interfaces;
 using Integrations;
+using System.Data.Entity.Core;
 using static Api.loja.Contracts.UsersContract;
 
 
@@ -19,13 +20,24 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            V1.Requests.GetUsuarios cmd => GetUsers(cmd),
+            V1.Requests.GetUsuariosById cmd => GetUsers(cmd),
             _ => throw new InvalidOperationException("")
         };
 
-        private object? GetUsers(V1.Requests.GetUsuarios cmd)
+        private V1.Responses.Clients GetUsers(V1.Requests.GetUsuariosById cmd)
         {
-            throw new NotImplementedException();
+            if (!_context.clients.Any())
+                throw new ObjectNotFoundException();
+
+            var client = _context.clients.First(x => x.Id == cmd.id);
+            V1.Responses.Clients result = new(client.Id
+                , client.FirstName
+                , client.LastName
+                , client.Email
+                , client.Address
+                , client.Updated_at
+                , client.Created_at );
+            return result;
         }
     }
 }

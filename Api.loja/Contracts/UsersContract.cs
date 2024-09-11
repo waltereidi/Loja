@@ -1,4 +1,5 @@
-﻿namespace Api.loja.Contracts
+﻿
+namespace Api.loja.Contracts
 {
     public class UsersContract
     {
@@ -6,7 +7,9 @@
         {
             public class Requests
             {
-                public record GetUsuarios(int? id);
+                public record GetUsuariosById(int id);
+
+                public record GetUsuarios(int pagination , int amount);
                 public record AddUsuario();
                 public record DeleteUsuario(int id, string reason);
                 public record UpdateUsuario(int id
@@ -23,10 +26,15 @@
                     );
             }
             public class Responses
-            { 
-            
-            
-            
+            {
+                public record class Clients(int? id
+                    , string firstName
+                    , string lastName
+                    , string email
+                    , string address
+                    , DateTime? updated_at
+                    , DateTime created_at);
+                
             }
 
 
