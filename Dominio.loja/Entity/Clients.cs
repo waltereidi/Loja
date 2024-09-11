@@ -33,7 +33,10 @@ namespace Dominio.loja.Entity
     
         protected override void When(object @event)
         {
-            throw new NotImplementedException();
+            switch(@event)
+            {
+                case 
+            }
         }
     }
 }

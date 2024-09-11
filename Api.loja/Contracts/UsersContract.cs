@@ -10,7 +10,7 @@ namespace Api.loja.Contracts
                 public record GetUsuariosById(int id);
 
                 public record GetUsuarios(int pagination , int amount);
-                public record AddUsuario();
+                public record AddUsuario(int? id);
                 public record DeleteUsuario(int id, string reason);
                 public record UpdateUsuario(int id
                     , string email
