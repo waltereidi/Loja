@@ -4,6 +4,7 @@
 import { ref, onMounted } from 'vue';
 import { useDi } from '@/pinia/dependencyInjection';
 import { FilterMatchMode } from '@primevue/core/api';
+import UploadPicture from '@/components/Utility/Modals/UploadPicture.vue'
 
 const di = useDi();
 const request = di.getRequestController;
@@ -90,11 +91,13 @@ onMounted(() => {
                 <!-- Template for image plus name -->
                 <template #body="{ data }">
                     <div class="flex items-center gap-2">
+                        <UploadPicture>
                         <img
                         :alt="data.name"
                         :src="`https://codeinsider.com.br/wp-content/uploads/2024/05/NET-8-Release_mid-new.png`"
                         style="width: 32px"
                         />
+                        </UploadPicture>
                         <span>{{ data.name }}</span>
                     </div>
                 </template>

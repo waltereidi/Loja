@@ -56,7 +56,7 @@ di.$subscribe(( mutation , state ) =>
 .app-container {
   
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row;
   gap:24px;
   padding:24px;
   min-width: 100vw;

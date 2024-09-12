@@ -26,6 +26,7 @@ import Avatar from 'primevue/avatar';
 import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
+import Dialog from 'primevue/dialog';
 
 // optional
 const app = createApp(App);
@@ -56,4 +57,5 @@ app.component('Avatar', Avatar);
 app.component('AvatarGroup', AvatarGroup);
 app.component('IconField' , IconField);
 app.component('InputIcon' ,InputIcon);
+app.component('Dialog' ,Dialog);
 app.mount('#app');
