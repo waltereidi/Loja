@@ -1,7 +1,7 @@
 <template>
      
-     <div label="sdsd"  @click="visible=true">
-        <slot></slot> 
+     <div @click="visible=true">
+        <slot name="open"></slot> 
      </div>
     <Dialog  v-model:visible="visible" modal header="Edit Profile" :style="{ width: '25rem' }">
     <template #header>
@@ -10,15 +10,7 @@
             <span class="font-bold whitespace-nowrap">Amy Elsner</span>
         </div>
     </template>
-    <span class="text-surface-500 dark:text-surface-400 block mb-8">Update your information.</span>
-    <div class="flex items-center gap-4 mb-4">
-        <label for="username" class="font-semibold w-24">Username</label>
-        <InputText id="username" class="flex-auto" autocomplete="off" />
-    </div>
-    <div class="flex items-center gap-4 mb-2">
-        <label for="email" class="font-semibold w-24">Email</label>
-        <InputText id="email" class="flex-auto" autocomplete="off" />
-    </div>
+    <slot name="upload"></slot>
     <template #footer>
         <Button label="Cancel" text severity="secondary" @click="visible = false" autofocus />
         <Button label="Save" outlined severity="secondary" @click="visible = false" autofocus />
