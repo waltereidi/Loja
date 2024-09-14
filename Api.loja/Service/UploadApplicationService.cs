@@ -47,6 +47,9 @@ namespace Api.loja.Service
 
         private IEnumerable<FileStorage> HandleUploadMultipleFiles(UploadMultipleFiles cmd)
         {
+            if (!cmd.files.Any())
+                throw new ArgumentNullException();
+
             FileDirectory directory = GetDirectoryFromReferer(cmd.request, cmd.files);
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.files, directory.DirectoryName);
 

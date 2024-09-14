@@ -5,6 +5,7 @@ import { ref, onMounted } from 'vue';
 import { useDi } from '@/pinia/dependencyInjection';
 import { FilterMatchMode } from '@primevue/core/api';
 import UploadPicture from '@/components/Utility/Modals/UploadPicture.vue'
+import UploadComposite from '@/components/Utility/FileUpload/UploadComposite.vue'
 
 const di = useDi();
 const request = di.getRequestController;
@@ -51,7 +52,6 @@ onMounted(() => {
 
 <template>
         <div class="card h-full w-full my-4" >
-    
 <Card style="width: 100%; height:100%">
     <template #title>Categories</template>
     <template #content>
@@ -92,11 +92,17 @@ onMounted(() => {
                 <template #body="{ data }">
                     <div class="flex items-center gap-2">
                         <UploadPicture>
-                        <img
-                        :alt="data.name"
-                        :src="`https://codeinsider.com.br/wp-content/uploads/2024/05/NET-8-Release_mid-new.png`"
-                        style="width: 32px"
-                        />
+                            <template #open>
+                                <img 
+                                :alt="data.name"
+                                :src="`https://codeinsider.com.br/wp-content/uploads/2024/05/NET-8-Release_mid-new.png`"
+                                style="width: 32px"
+                                name="open"
+                                />
+                            </template>
+                            <template #upload>
+                            <UploadComposite></UploadComposite>
+                            </template>
                         </UploadPicture>
                         <span>{{ data.name }}</span>
                     </div>

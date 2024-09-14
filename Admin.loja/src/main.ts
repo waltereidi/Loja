@@ -27,7 +27,8 @@ import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import Dialog from 'primevue/dialog';
-
+import FileUpload from 'primevue/fileupload';
+import ProgressBar from 'primevue/progressbar';
 // optional
 const app = createApp(App);
 const pinia = createPinia();
@@ -58,4 +59,6 @@ app.component('AvatarGroup', AvatarGroup);
 app.component('IconField' , IconField);
 app.component('InputIcon' ,InputIcon);
 app.component('Dialog' ,Dialog);
+app.component('FileUpload' ,FileUpload);
+app.component('ProgressBar' ,ProgressBar);
 app.mount('#app');
