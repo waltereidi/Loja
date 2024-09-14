@@ -1,10 +1,5 @@
 using Api.loja.Data;
-using Dominio.loja.Entity;
-using Dominio.loja.Events.FileUpload;
 using Framework.loja.Interfaces;
-using Integrations;
-using Org.BouncyCastle.Asn1.X509;
-using System.Data.Entity.Core;
 using static Api.loja.Contracts.UsersContract;
 
 
@@ -29,7 +24,7 @@ namespace Api.loja.Service
         private V1.Responses.Clients GetUsers(V1.Requests.GetUsuariosById cmd)
         {
             if (!_context.clients.Any())
-                throw new ObjectNotFoundException();
+                throw new Exception();
 
             var client = _context.clients.First(x => x.Id == cmd.id);
             V1.Responses.Clients result = new(client.Id
@@ -41,22 +36,6 @@ namespace Api.loja.Service
                 , client.Created_at );
             return result;
         }
-        private void HandleAddUser(V1.Requests.AddUsuario cmd)
-        {
-            if(cmd.Id == null)
-            {
-
-            }    
-
-
-        }
-        private Clients UpdateClient(V1.Requests.AddUsuario cmd)
-        {
-
-        }
-        private Clients AddClient(V1.Requests.AddUsuario cmd)
-        {
-            var result = new Clients(cmd);
-        }
+ 
     }
 }

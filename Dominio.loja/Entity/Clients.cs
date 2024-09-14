@@ -30,13 +30,9 @@ namespace Dominio.loja.Entity
         public string PhoneNumber { get; set; }
 
         public virtual PermissionsGroup? PermissionsGroup { get; set; }
-    
         protected override void When(object @event)
         {
-            switch(@event)
-            {
-                case 
-            }
+            throw new NotImplementedException();
         }
     }
 }

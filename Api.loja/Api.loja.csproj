@@ -14,10 +14,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\Store\Service\**" />
-    <Content Remove="Controllers\Store\Service\**" />
-    <EmbeddedResource Remove="Controllers\Store\Service\**" />
-    <None Remove="Controllers\Store\Service\**" />
+    <Compile Remove="Controllers\MobileAdmin\**" />
+    <Compile Remove="Controllers\Store\**" />
+    <Content Remove="Controllers\MobileAdmin\**" />
+    <Content Remove="Controllers\Store\**" />
+    <EmbeddedResource Remove="Controllers\MobileAdmin\**" />
+    <EmbeddedResource Remove="Controllers\Store\**" />
+    <None Remove="Controllers\MobileAdmin\**" />
+    <None Remove="Controllers\Store\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,10 +47,6 @@
 	    </ProjectReference>
 	    <ProjectReference Include="..\MicroServices\Integrations\WFileUploader\WFileManager.csproj" />
 	    <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Controllers\MobileAdmin\" />
-      <Folder Include="Controllers\Store\" />
     </ItemGroup>
 
 </Project>

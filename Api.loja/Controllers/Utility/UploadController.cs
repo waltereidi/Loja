@@ -7,7 +7,7 @@ namespace Api.loja.Controllers.Utility
 {
     [Route("api/Utility/[action]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class UploadController : BaseController
     {
         private readonly UploadApplicationService _service; 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio.loja.Events.Clients
+namespace Dominio.loja.Events.ClientsPermission
 {
     public class ClientPermission : AggregateRoot<int>
     {
