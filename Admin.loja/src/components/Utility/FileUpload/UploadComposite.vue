@@ -40,8 +40,7 @@ const uploadEvent = (callback) => {
 
     totalSizePercent.value = totalSize.value / 10;
     callback();
-    const request = useDi().getRequestController();
-    request.send("post" , url , {id:Id});
+
 };
 
 const onTemplatedUpload = () => {
@@ -68,7 +67,7 @@ const formatSize = (bytes) => {
 <template>
     <div class="card">
     <Toast />
-    <FileUpload name="demo[]" url="/api/utility/UploadMultipleFiles" @upload="onTemplatedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="10000000" @select="onSelectedFiles">
+    <FileUpload name="files[]" url="/api/utility/UploadMultipleFiles" @upload="onTemplatedUpload($event)" :multiple="true" :maxFileSize="10000000" @select="onSelectedFiles">
         <template #header="{ chooseCallback, uploadCallback, clearCallback, files }">
             <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
                 <div class="flex gap-2">

@@ -17,18 +17,18 @@ namespace WFileManager.loja.WriteStrategy
     public class UploadFile : IFileStrategy
     {
 
-        private readonly IFormCollection? _formCollection;
+        private readonly IFormFileCollection? _formCollection;
         private readonly IFormFile? _formFile;
         private readonly IFormFile?[] _formFiles;
         private readonly UploadOptions _options;
         private readonly FileManagerUtility _utils = new ();
         private readonly UploadContracts.UploadDirectory _dir; 
 
-        public UploadFile(IFormCollection file , string dir) 
+        public UploadFile(IFormFileCollection file , string dir) 
         {
             _dir = new(dir);
             _formCollection = file;
-            _options = UploadOptions.FormColletion;
+            _options = UploadOptions.FormFileColletion;
         }
         public UploadFile(IFormFile file , string dir)
         {
@@ -46,7 +46,7 @@ namespace WFileManager.loja.WriteStrategy
         {
             switch (_options)
             {
-                case UploadOptions.FormColletion: return (IEnumerable<T>)UploadCollection<FileInfo>();
+                case UploadOptions.FormFileColletion: return (IEnumerable<T>)UploadCollection<FileInfo>();
                 case UploadOptions.FormFile: return (IEnumerable<T>)UploadFormFile<FileInfo>();
                 case UploadOptions.FormFileArray: return (IEnumerable<T>)UploadFormFileArray<FileInfo>();
                 default:throw new InvalidOperationException();
@@ -54,7 +54,7 @@ namespace WFileManager.loja.WriteStrategy
         }
         private IEnumerable<UploadContracts.UploadResponse> UploadCollection<T>()
         {
-            foreach (var file in _formCollection.Files)
+            foreach (var file in _formCollection)
             {
                 Guid guid = Guid.NewGuid();
                 string path = Path.Combine(_dir.TempDir.FullName , guid.ToString() + _utils.GetFileExtension(file.FileName));

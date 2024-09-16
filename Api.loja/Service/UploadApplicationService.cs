@@ -7,6 +7,7 @@ using Api.loja.Data;
 using Dominio.loja.Events.FileUpload;
 using static Api.loja.Contracts.UploadContract.V1;
 using Npoi.Mapper;
+using System.IO;
 
 namespace Api.loja.Service
 {
@@ -49,7 +50,7 @@ namespace Api.loja.Service
         {
             if (!cmd.files.Any())
                 throw new ArgumentNullException();
-
+            
             FileDirectory directory = GetDirectoryFromReferer(cmd.request, cmd.files);
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.files, directory.DirectoryName);
 
@@ -74,23 +75,26 @@ namespace Api.loja.Service
         private FileDirectory GetDirectoryFromReferer(HttpRequest request, string content)
         {
             Uri referer = new Uri(request.Headers.Referer);
+            
 
-            if (!_context.fileDirectory.Any(x => x.Referer == referer.LocalPath && x.ValidExtensions.Contains(content)))
+            if (!_context.fileDirectory.Any(x => x.Referer == referer.LocalPath && ValidateExtension(x.ValidExtensions, content) ) )
                 throw new InvalidDataException("File type not allowed");
 
             return _context.fileDirectory.First(x => x.Referer == referer.LocalPath && x.ValidExtensions.Contains(content));
         }
-        private FileDirectory GetDirectoryFromReferer(HttpRequest request, IFormFile[] files)
+        private FileDirectory GetDirectoryFromReferer(HttpRequest request, IFormFileCollection files)
         {
             Uri referer = new Uri(request.Headers.Referer);
             FileDirectory directory =_context.fileDirectory.First(x => x.Referer == referer.LocalPath);
             foreach (var file in files) 
             {
-                if (!directory.ValidExtensions.Contains(file.ContentType))
+                if ( ValidateExtension(directory.ValidExtensions , file.ContentType))
                     throw new InvalidDataException("File type not allowed");
             }
 
             return directory;
         }
+        
+        private bool ValidateExtension(string allowedExtensions , string type) => allowedExtensions.Split(';').Any(x=> type.Contains(x));
     }
 }

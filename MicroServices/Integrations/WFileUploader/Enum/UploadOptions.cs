@@ -8,7 +8,7 @@ namespace WFileManager.Enum
 {
     public enum UploadOptions
     {
-        FormColletion = 0,
+        FormFileColletion = 0,
         FormFile = 1 , 
         Stream = 2,
         FormFileArray = 3,
