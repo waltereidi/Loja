@@ -14,6 +14,7 @@ namespace Api.loja.Controllers.Admin
     public class CategoriesController : BaseController
     {
         private readonly PraedicamentaApplicationService _service;
+        private readonly UploadApplicationService _uploadService;
         public CategoriesController(ILogger<CategoriesController> logger , PraedicamentaApplicationService service) : base(logger)
         {
             _service = service;

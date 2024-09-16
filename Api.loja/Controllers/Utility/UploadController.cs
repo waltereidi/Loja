@@ -18,7 +18,7 @@ namespace Api.loja.Controllers.Utility
         [HttpPost]
         public Task<IActionResult> UploadFile(IFormFile file ) =>  HandleRequest(new UploadFile(file , HttpContext.Request), _service.Handle);
         [HttpPost]
-        public Task<IActionResult> UploadMultipleFiles() => HandleRequest(new UploadMultipleFiles(HttpContext.Request.Form.Files, HttpContext.Request), _service.Handle);
+        public Task<IActionResult> UploadMultipleFiles(IFormFileCollection files) => HandleRequest(new UploadMultipleFiles(HttpContext.Request.Form.Files, HttpContext.Request), _service.Handle);
         
     }
 

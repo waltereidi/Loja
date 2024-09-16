@@ -19,10 +19,16 @@ namespace Dominio.loja.Events.FileUpload
 
         protected override void EnsureValidState()
         {
+            if (_storage.Any(x => !ValidateExtension(x.Directory.ValidExtensions, x.Extension)))
+                throw new InvalidDataException("Data extension is not allowed!");
+
+
             if (_storage.Any(x => x.Length > 10000000))
                 throw new InvalidOperationException("Data size too Big");
             _storage.RemoveAll(x => x.OriginalName == null);
         }
+
+        private bool ValidateExtension(string allowedExtensions, string type) => allowedExtensions.Split(';').Any(x => type.Contains(x));
 
         protected override void When(object @event)
         {

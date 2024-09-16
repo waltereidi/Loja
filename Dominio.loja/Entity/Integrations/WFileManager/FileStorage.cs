@@ -42,6 +42,6 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
                 default: throw new InvalidOperationException();
             }
         }
-
+        
     }
 }

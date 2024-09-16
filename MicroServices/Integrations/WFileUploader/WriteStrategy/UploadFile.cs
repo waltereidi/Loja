@@ -27,8 +27,8 @@ namespace WFileManager.loja.WriteStrategy
         public UploadFile(IFormFileCollection file , string dir) 
         {
             _dir = new(dir);
-            _formCollection = file;
-            _options = UploadOptions.FormFileColletion;
+            _formFiles = file.ToArray();
+            _options = UploadOptions.FormFileArray;
         }
         public UploadFile(IFormFile file , string dir)
         {
@@ -46,7 +46,6 @@ namespace WFileManager.loja.WriteStrategy
         {
             switch (_options)
             {
-                case UploadOptions.FormFileColletion: return (IEnumerable<T>)UploadCollection<FileInfo>();
                 case UploadOptions.FormFile: return (IEnumerable<T>)UploadFormFile<FileInfo>();
                 case UploadOptions.FormFileArray: return (IEnumerable<T>)UploadFormFileArray<FileInfo>();
                 default:throw new InvalidOperationException();

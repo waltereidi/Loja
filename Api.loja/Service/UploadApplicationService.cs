@@ -16,7 +16,7 @@ namespace Api.loja.Service
         private readonly FileManagerMS _fileUploadService;
         private FileManager _fileManager;
         private readonly StoreContext _context;
-        public UploadApplicationService(IConfiguration configuration, StoreContext context)
+        public UploadApplicationService(StoreContext context)
         {
             _fileUploadService = new FileManagerMS();
             _fileManager = new FileManager();
@@ -31,7 +31,10 @@ namespace Api.loja.Service
         };
         private IEnumerable<FileStorage> HandleUploadFile(UploadFile cmd)
         {
-            FileDirectory directory = GetDirectoryFromReferer(cmd.request , cmd.file.ContentType );
+            if (cmd.file == null)
+                throw new ArgumentNullException();
+
+            FileDirectory directory = GetDirectoryFromReferer(cmd.request );
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile( cmd.file ,directory.DirectoryName);
             //Create File Physically
             var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy).First();
@@ -51,7 +54,7 @@ namespace Api.loja.Service
             if (!cmd.files.Any())
                 throw new ArgumentNullException();
             
-            FileDirectory directory = GetDirectoryFromReferer(cmd.request, cmd.files);
+            FileDirectory directory = GetDirectoryFromReferer(cmd.request);
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.files, directory.DirectoryName);
 
             var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy);
@@ -72,29 +75,14 @@ namespace Api.loja.Service
             return createdFiles;
        
         }
-        private FileDirectory GetDirectoryFromReferer(HttpRequest request, string content)
-        {
-            Uri referer = new Uri(request.Headers.Referer);
-            
-
-            if (!_context.fileDirectory.Any(x => x.Referer == referer.LocalPath && ValidateExtension(x.ValidExtensions, content) ) )
-                throw new InvalidDataException("File type not allowed");
-
-            return _context.fileDirectory.First(x => x.Referer == referer.LocalPath && x.ValidExtensions.Contains(content));
-        }
-        private FileDirectory GetDirectoryFromReferer(HttpRequest request, IFormFileCollection files)
+     
+        private FileDirectory GetDirectoryFromReferer(HttpRequest request)
         {
             Uri referer = new Uri(request.Headers.Referer);
             FileDirectory directory =_context.fileDirectory.First(x => x.Referer == referer.LocalPath);
-            foreach (var file in files) 
-            {
-                if ( ValidateExtension(directory.ValidExtensions , file.ContentType))
-                    throw new InvalidDataException("File type not allowed");
-            }
 
             return directory;
         }
         
-        private bool ValidateExtension(string allowedExtensions , string type) => allowedExtensions.Split(';').Any(x=> type.Contains(x));
     }
 }
