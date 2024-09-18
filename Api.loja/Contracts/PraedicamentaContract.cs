@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Entity.Integrations.WFileManager;
+using System.Text.Json.Serialization;
 
 namespace Api.loja.Contracts
 {
@@ -8,17 +9,18 @@ namespace Api.loja.Contracts
         {
             public class Requests
             {
-                public record class GetAllCategories();
-                public record class GetCategoriyById(int id);
-                public record class GetSubCategoryById(int id);
-                public record class GetSubSubCategoryById(int id);
-                public record class AddCategories(string Name, string Description);
-                public record class AddSubCategories(int CategoriesId, string Name, string Description);
-                public record class AddSubSubCategories(int SubCategoriesId, string Name, string Description);
-                public record class UpdateCategory(int Id, string Name, string Description);
-                public record class UpdateSubCategory(int Id, string Name, string Description);
-                public record class UpdateSubSubCategory(int Id, string Name, string Description);
-                public record class GetAllSubSubCategories();
+                public record GetAllCategories();
+                public record GetCategoriyById(int id);
+                public record GetSubCategoryById(int id);
+                public record GetSubSubCategoryById(int id);
+                public record AddCategories(string Name, string Description);
+                public record AddSubCategories(int CategoriesId, string Name, string Description);
+                public record AddSubSubCategories(int SubCategoriesId, string Name, string Description);
+                public record UpdateCategory(int Id, string Name, string Description);
+                public record UpdateSubCategory(int Id, string Name, string Description);
+                public record UpdateSubSubCategory(int Id, string Name, string Description);
+                public record GetAllSubSubCategories();
+                public record ChangePicture(IFormFile file, int id, string referer  );
             }
             //Responses
             public record class GetCategory(int? id , string Name , string? Description , DateTime Created_at , DateTime? Updated_at );

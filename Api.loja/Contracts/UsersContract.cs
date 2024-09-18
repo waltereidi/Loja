@@ -27,7 +27,7 @@ namespace Api.loja.Contracts
             }
             public class Responses
             {
-                public record class Clients(int? id
+                public record  Clients(int? id
                     , string firstName
                     , string lastName
                     , string email

@@ -1,10 +1,16 @@
 ﻿using Api.loja.Data;
 using Dominio.loja.Entity;
+using Dominio.loja.Entity.Integrations.WFileManager;
+using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Events.Praedicamenta;
 using Framework.loja.Interfaces;
+using Integrations;
+using Microsoft.AspNetCore.Components.RenderTree;
 using Npoi.Mapper;
 using System.Drawing.Text;
 using System.Linq;
+using WFileManager.Contracts;
+using WFileManager.loja.Interfaces;
 using static Api.loja.Contracts.PraedicamentaContract;
 
 namespace Api.loja.Service
@@ -32,8 +38,30 @@ namespace Api.loja.Service
             V1.Requests.GetSubSubCategoryById g => GetSubSubCategoryById(g.id),
             V1.Requests.GetAllCategories g => await GetAll(),
             V1.Requests.GetAllSubSubCategories g => await GetAllSubSubCategories(),
+            V1.Requests.ChangePicture g => await ChangePicture(g).ContinueWith(_ => _context.SaveChangesAsync()),
             _ => throw new InvalidOperationException(nameof(command))
         };
+        private async Task ChangePicture(V1.Requests.ChangePicture cmd)
+        {
+            Categories category = _context.categories.First(x => x.Id == cmd.id);
+
+            FileManagerMS fs = new FileManagerMS();
+
+            FileDirectory directory = _context.fileDirectory.First(x => x.Referer == cmd.referer);
+
+            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.file, directory.DirectoryName);
+            //Create File Physically
+            var result = fs.Start<UploadContracts.UploadResponse>(strategy).First();
+
+            FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(new(new(result.FullName), result.OriginalFileName), directory , category));
+
+            var createdFiles = fm.GetCreatedFiles();
+            _context.fileStorage.AddRange(createdFiles);
+            _context.SaveChanges();
+
+            return createdFiles.First();
+
+        }
 
         private async Task HandleUpdateSubSubCategories(V1.Requests.UpdateSubSubCategory c)
         {

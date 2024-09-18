@@ -29,7 +29,7 @@ namespace Api.loja.Service
             UploadMultipleFiles cmd => HandleUploadMultipleFiles(cmd),
             _ => Task.CompletedTask
         };
-        private IEnumerable<FileStorage> HandleUploadFile(UploadFile cmd)
+        private FileStorage HandleUploadFile(UploadFile cmd)
         {
             if (cmd.file == null)
                 throw new ArgumentNullException();
@@ -44,36 +44,24 @@ namespace Api.loja.Service
             var createdFiles = _fileManager.GetCreatedFiles();
             _context.fileStorage.AddRange(createdFiles);
             _context.SaveChanges();
-            result.CommitFile();
 
-            return createdFiles;
+            return createdFiles.First();
+        }
+        private void HandleUploadMultipleFilesAndCommit(IEnumerable<UploadContracts.UploadResponse> files)
+        {
+            files.ForEach(f => f.CommitFile());
+            _context.SaveChangesAsync();
+            
         }
 
         private IEnumerable<FileStorage> HandleUploadMultipleFiles(UploadMultipleFiles cmd)
         {
-            if (!cmd.files.Any())
-                throw new ArgumentNullException();
-            
-            FileDirectory directory = GetDirectoryFromReferer(cmd.request);
-            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.files, directory.DirectoryName);
-
-            var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy);
-            //Create File Physically
-
-            //Save created files in DataBase
-            List<FileManagerEvents.Files> files = result
-                .Select(s => new FileManagerEvents.Files( new(s.FullName ) ,  s.OriginalFileName))
-                .ToList();
-
-            _fileManager = new(new FileManagerEvents.CreateFiles(  files, directory ));
-
-            var createdFiles = _fileManager.GetCreatedFiles();
-
-            _context.fileStorage.AddRangeAsync(createdFiles);
-            result.ForEach(f => f.CommitFile());
-            _context.SaveChangesAsync();
-            return createdFiles;
-       
+            List<FileStorage> files = new();
+            foreach(var file in cmd.files )
+            {
+                files.Add(HandleUploadFile(new UploadFile(file, cmd.request)));
+            }
+            return files;
         }
      
         private FileDirectory GetDirectoryFromReferer(HttpRequest request)
