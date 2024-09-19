@@ -12,7 +12,7 @@ namespace Dominio.loja.Events.FileUpload
 {
     public class FileManagerEvents
     {
-        public record CategoryChangedPicture(Files value, FileDirectory directory, Categories category);
+        public record CategoryChangedPicture(Files value, FileDirectory directory);
         public record class CreateFiles(List<Files> files , FileDirectory fd);
         public record class Files(FileInfo file , string fileName );
         public record class CreateFile(Files fi, FileDirectory fd );

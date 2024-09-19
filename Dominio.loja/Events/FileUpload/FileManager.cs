@@ -2,13 +2,14 @@
 using Dominio.loja.Entity.Integrations.WFileManager;
 using Framework.loja;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Dominio.loja.Events.FileUpload
 {
     public class FileManager : AggregateRoot<int>
     {
-        List<FileStorage> _storage = new();
+        FileStorage _storage = new();
         public FileManager()
         {
         }
@@ -19,13 +20,12 @@ namespace Dominio.loja.Events.FileUpload
 
         protected override void EnsureValidState()
         {
-            if (_storage.Any(x => !ValidateExtension(x.Directory.ValidExtensions, x.Extension)))
+            if (!ValidateExtension(_storage.Directory.ValidExtensions, _storage.Extension))
                 throw new InvalidDataException("Data extension is not allowed!");
 
 
-            if (_storage.Any(x => x.Length > 10000000))
+            if (_storage.Length > 10000000)
                 throw new InvalidOperationException("Data size too Big");
-            _storage.RemoveAll(x => x.OriginalName == null);
         }
 
         private bool ValidateExtension(string allowedExtensions, string type) => allowedExtensions.Split(';').Any(x => type.Contains(x));
@@ -34,21 +34,20 @@ namespace Dominio.loja.Events.FileUpload
         {
             switch (@event)
             {
-                case CreateFile c: 
+                case CategoryChangedPicture c: 
                     var file = new FileStorage(Apply);
                     ApplyToEntity(file, c);
-                    _storage.Add(file); break;
+                    _storage = file; break;
                     
-                case CreateFiles c:
-                    c.files.ForEach(f =>  {
-                        Apply(new CreateFile(f, c.fd) );
-                        var file = new FileStorage(Apply);
-                        _storage.Add(file); 
-                    }); break;
+                
                 default: throw new NotImplementedException(nameof(@event));
             }
         }
-        public List<FileStorage> GetCreatedFiles() => _storage;
+        private void CreteFileForCategory( CategoryChangedPicture cmd )
+        {
+            
+        }
+        public FileStorage GetCreatedFile() => _storage;
         
 
     }

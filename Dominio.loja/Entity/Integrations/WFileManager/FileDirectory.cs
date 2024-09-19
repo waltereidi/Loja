@@ -1,4 +1,6 @@
-﻿using Framework.loja;
+﻿using Dominio.loja.Enums;
+using Dominio.loja.Events.FileUpload;
+using Framework.loja;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
@@ -10,10 +12,16 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
     {
         [Required]
         public string DirectoryName { get; set; }
+        /// <summary>
+        /// Upload EndPoint Reference 
+        /// </summary>
         [Required]
         public string Referer { get; set; }
         [Required]
         public string ValidExtensions { get; set; }
+        [Required]
+        public DirectoryRestriction Restriction { get; set; }
+
         public FileDirectory(Action<object> applier) : base(applier)
         {
         }

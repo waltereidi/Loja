@@ -53,13 +53,14 @@ namespace Api.loja.Service
             //Create File Physically
             var result = fs.Start<UploadContracts.UploadResponse>(strategy).First();
 
-            FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(new(new(result.FullName), result.OriginalFileName), directory , category));
 
-            var createdFiles = fm.GetCreatedFiles();
+            FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(new(new(result.FullName), result.OriginalFileName), directory ));
+
+            var createdFiles = fm.GetCreatedFile();
+            
             _context.fileStorage.AddRange(createdFiles);
+            
             _context.SaveChanges();
-
-            return createdFiles.First();
 
         }
 
