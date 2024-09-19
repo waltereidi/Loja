@@ -41,11 +41,11 @@ namespace Api.loja.Service
      
                 //Put created files response into list
             _fileManager = new (new FileManagerEvents.CreateFile(new(new(result.FullName), result.OriginalFileName) , directory));
-            var createdFiles = _fileManager.GetCreatedFiles();
+             var createdFiles = _fileManager.GetCreatedFile();
             _context.fileStorage.AddRange(createdFiles);
             _context.SaveChanges();
 
-            return createdFiles.First();
+            return createdFiles;
         }
         private void HandleUploadMultipleFilesAndCommit(IEnumerable<UploadContracts.UploadResponse> files)
         {

@@ -18,9 +18,9 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         [Required]
         public string Referer { get; set; }
         [Required]
-        public string ValidExtensions { get; set; }
+        public virtual DirectoryValidExtensions ValidExtensions { get; set; }
         [Required]
-        public DirectoryRestriction Restriction { get; set; }
+        public virtual DirectoryRestriction Restriction { get; set; }
 
         public FileDirectory(Action<object> applier) : base(applier)
         {
@@ -34,10 +34,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         //}
         protected override void When(object @event)
         {
-            switch (@event)
-            {
-
-            }
+     
         }
 
     }

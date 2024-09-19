@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Entity.Integrations.WFileManager;
+using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Events.Praedicamenta;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,24 @@ namespace Api.loja.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             CreateCategoriesORM(modelBuilder);
+            CreateFilesORM(modelBuilder);
+        }
+
+        private void CreateFilesORM(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<FileDirectory>()
+                .Property<DirectoryRestriction>(e => e.Restriction)
+                .HasConversion(
+                    v => (string)v,
+                    v => new DirectoryRestriction(v)
+                );
+            
+            modelBuilder.Entity<FileDirectory>()
+                .Property<DirectoryValidExtensions>(e => e.ValidExtensions)
+                .HasConversion(
+                    v => (string)v,
+                    v => new DirectoryValidExtensions(v)
+                );
         }
 
         void CreateCategoriesORM(ModelBuilder modelBuilder)

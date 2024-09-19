@@ -8,12 +8,19 @@ namespace Dominio.loja.Events.FileUpload
 {
     public class DirectoryRestriction
     {
+        private string Value { get; set; }
 
+        public DirectoryRestriction() { }
+        
+        public DirectoryRestriction(string value)
+        {
+            Value = value;
+        }
 
-        //public static implicit operator string(FileDirectory fd)
-        //{
+        public static implicit operator string(DirectoryRestriction dr)
+        {
+            return dr.Value;
+        }
 
-        //    return fd.DirectoryName;
-        //}
     }
 }
