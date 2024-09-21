@@ -27,6 +27,8 @@ namespace Infra.loja.Migrations
                 column: "FileStorageId",
                 unique: true,
                 filter: "[FileStorageId] IS NOT NULL");
+
+            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, ValidExtensions,restriction,created_at) values( 'Store_Categories' ,'/Store/Categories/ChangePicture' ,'jpg;png;svg;webp;avif' , '{\"max\":2000000 , \"images\":{\"height\":200} }' , current_timestamp)");
         }
 
         /// <inheritdoc />

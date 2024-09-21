@@ -1,9 +1,7 @@
-﻿using Dominio.loja.Enums;
-using Dominio.loja.Events.FileUpload;
+﻿using Dominio.loja.Events.FileUpload;
 using Framework.loja;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
