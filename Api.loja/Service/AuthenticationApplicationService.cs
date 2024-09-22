@@ -5,10 +5,7 @@ using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
@@ -32,7 +29,7 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            AuthenticationContract.V1.Request.LoginRequestContext cmd => HandleAuthentication(cmd),
+            V1.Request.LoginRequestContext cmd => HandleAuthentication(cmd),
             //AuthenticationContract.V1.Request.GetUserInfo cmd => GetUserInfo(cmd),
             _ => throw new InvalidOperationException()
         };  
