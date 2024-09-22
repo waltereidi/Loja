@@ -27,6 +27,9 @@ namespace Dominio.loja.Events.FileUpload
         {
             return dr.Value;
         }
-
+public vida Validate(Fileinfo file)
+{
+     throw New Exception("Invalid file");
+}
     }
 }
