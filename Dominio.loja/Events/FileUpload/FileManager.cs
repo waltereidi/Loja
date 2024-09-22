@@ -26,6 +26,10 @@ namespace Dominio.loja.Events.FileUpload
 
             if (_storage.Length > 10000000)
                 throw new InvalidOperationException("Data size too Big");
+if(!_storage.Directory.Validate(null))
+{
+   throw new Exception("Invalid file"); 
+}
         }
 
         private bool ValidateExtension(string allowedExtensions, string type) => allowedExtensions.Split(';').Any(x => type.Contains(x));
