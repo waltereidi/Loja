@@ -22,6 +22,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
 
         public FileDirectory(Action<object> applier) : base(applier)
         {
+
         }
         public FileDirectory() { }
 

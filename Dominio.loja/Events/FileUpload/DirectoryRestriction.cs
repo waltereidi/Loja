@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 
 
 namespace Dominio.loja.Events.FileUpload
@@ -27,9 +28,25 @@ namespace Dominio.loja.Events.FileUpload
         {
             return dr.Value;
         }
-public vida Validate(Fileinfo file)
-{
-     throw New Exception("Invalid file");
-}
+        public void Validate(FileInfo file)
+        {
+            
+             throw new Exception("Invalid file");
+        }
+        private void ValidateGeneralRestrictions(FileInfo file)
+        {
+            if(SerializedValue.all.min < file.Length )
+            {
+                throw new InvalidDataException($"File length smaller than ");
+            }
+
+            if (SerializedValue.all.max > file.Length)
+            {
+                throw new InvalidDataException($"File length bigger than ");
+            }
+        }
+        
+
+
     }
 }
