@@ -15,8 +15,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         /// </summary>
         [Required]
         public string Referer { get; set; }
-        [Required]
-        public virtual DirectoryValidExtensions ValidExtensions { get; set; }
+
         [Required]
         public virtual DirectoryRestriction Restriction { get; set; }
 

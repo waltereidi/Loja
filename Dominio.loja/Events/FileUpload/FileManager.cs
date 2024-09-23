@@ -2,8 +2,6 @@
 using Dominio.loja.Entity.Integrations.WFileManager;
 using Framework.loja;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents;
-using static System.Net.Mime.MediaTypeNames;
-
 
 namespace Dominio.loja.Events.FileUpload
 {
@@ -20,12 +18,7 @@ namespace Dominio.loja.Events.FileUpload
 
         protected override void EnsureValidState()
         {
-            if (!ValidateExtension(_storage.Directory.ValidExtensions, _storage.Extension))
-                throw new InvalidDataException("Data extension is not allowed!");
-
-
-            if (_storage.Length > 10000000)
-                throw new InvalidOperationException("Data size too Big");
+            _storage.Directory.Restriction.Validate(new FileInfo(""));
             
             //if(!_storage.Directory.Restriction.Validate(new FileInfo()))
             //{
@@ -33,7 +26,6 @@ namespace Dominio.loja.Events.FileUpload
             //}
         }
 
-        private bool ValidateExtension(string allowedExtensions, string type) => allowedExtensions.Split(';').Any(x => type.Contains(x));
 
         protected override void When(object @event)
         {

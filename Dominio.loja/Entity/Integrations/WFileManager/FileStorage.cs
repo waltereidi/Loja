@@ -16,7 +16,12 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public int FileDirectoryId { get; set; }
         public string FileName { get; set; }
         public string OriginalName { get; set; }
+        /// <summary>
+        /// FileProperties is used from inherited classes
+        /// </summary>
+        public string FileProperties { get; set; }
         public virtual FileDirectory Directory {get;set;}
+
         public FileStorage()
         {
 

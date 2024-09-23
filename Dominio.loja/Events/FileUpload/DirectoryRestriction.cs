@@ -8,7 +8,7 @@ namespace Dominio.loja.Events.FileUpload
     {
         private string Value { get; set; }
         private SerializedRestrictions SerializedValue { get; set; }
-        private record SerializedRestrictions(Image[] image , Video[] video , Pdf[] pdf, Doc[] doc, Excel[] excel , All all );
+        private record SerializedRestrictions(Image[] image , Video[] video , Pdf[] pdf, Doc[] doc, Excel[] excel , All all ,DirectoryValidExtensions extensions);
         private record All(long max , long min );
         private record Image(int heigth , int width );
         private record Video(int heigth, int width , int length);
