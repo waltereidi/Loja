@@ -7,7 +7,7 @@ using Api.loja.Data;
 using Dominio.loja.Events.FileUpload;
 using static Api.loja.Contracts.UploadContract.V1;
 using Npoi.Mapper;
-using System.IO;
+using WFileManager.Enum;
 
 namespace Api.loja.Service
 {
@@ -35,12 +35,13 @@ namespace Api.loja.Service
                 throw new ArgumentNullException();
 
             FileDirectory directory = GetDirectoryFromReferer(cmd.request );
-            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile( cmd.file ,directory.DirectoryName);
+            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile( cmd.file ,directory.DirectoryName , UploadOptions.Image );
             //Create File Physically
-            var result = _fileUploadService.Start<UploadContracts.UploadResponse>(strategy).First();
-     
-                //Put created files response into list
-            _fileManager = new (new FileManagerEvents.CreateFile(new(new(result.FullName), result.OriginalFileName) , directory));
+            var result = _fileUploadService.Start<Images.UploadResponse>(strategy).First();
+
+            //Put created files response into list
+            var i = new FileManagerEvents.CreateFile(result.FullName, result.OriginalFileName , directory);
+            _fileManager = ;
              var createdFiles = _fileManager.GetCreatedFile();
             _context.fileStorage.AddRange(createdFiles);
             _context.SaveChanges();
@@ -51,7 +52,6 @@ namespace Api.loja.Service
         {
             files.ForEach(f => f.CommitFile());
             _context.SaveChangesAsync();
-            
         }
 
         private IEnumerable<FileStorage> HandleUploadMultipleFiles(UploadMultipleFiles cmd)

@@ -1,20 +1,32 @@
-﻿using Dominio.loja.Entity;
-using Dominio.loja.Entity.Integrations.WFileManager;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.IdentityModel.Tokens;
 
 namespace Dominio.loja.Events.FileUpload
 {
     public class FileManagerEvents
     {
-        public record CategoryChangedPicture(Files value, FileDirectory directory);
-        public record class CreateFiles(List<Files> files , FileDirectory fd);
-        public record class Files(FileInfo file , string fileName );
-        public record class CreateFile(Files fi, FileDirectory fd );
+        public class CategoryChangedPicture : CreateFile
+        {
+            public CategoryChangedPicture(string fullName, string originalName, string directory) : base(fullName, originalName, directory)
+            {
+            }
+
+        }
+        
+        public class CreateFile
+        {
+            public FileInfo FileInfo { get; set; }
+            public string OriginalName { get; set; }
+            public CreateFile(string fullName ,string originalName , string directory )
+            {
+                if (originalName.IsNullOrEmpty())
+                    throw new ArgumentNullException($"original name cannot be null or empty {nameof(originalName)}");
+
+                if (originalName.IsNullOrEmpty())
+                    throw new ArgumentNullException($"original name cannot be null or empty {nameof(originalName)}");
+
+                FileInfo = new FileInfo(fullName);
+                OriginalName = originalName; 
+            }
+        }
     }
 }

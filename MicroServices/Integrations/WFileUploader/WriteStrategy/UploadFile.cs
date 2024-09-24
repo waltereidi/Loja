@@ -1,12 +1,5 @@
 ﻿
-using Dominio.loja.Entity.Integrations.WFileManager;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Security;
-using System.Text;
-using System.Threading.Tasks;
 using WFileManager.Contracts;
 using WFileManager.Enum;
 using WFileManager.loja.Interfaces;
@@ -14,62 +7,56 @@ using WFileManager.loja.Utility;
 
 namespace WFileManager.loja.WriteStrategy
 {
+   
     public class UploadFile : IFileStrategy
     {
-
-        private readonly IFormFileCollection? _formCollection;
         private readonly IFormFile? _formFile;
-        private readonly IFormFile?[] _formFiles;
         private readonly UploadOptions _options;
         private readonly FileManagerUtility _utils = new ();
-        private readonly UploadContracts.UploadDirectory _dir; 
+        private readonly UploadContracts.UploadDirectory _dir;
 
-        public UploadFile(IFormFileCollection file , string dir) 
+        /// <exception cref="ArgumentNullException">
+        /// File is not provided
+        /// </exception>
+        /// <exception cref="IOException">
+        /// Error during file save
+        /// </exception>
+        public UploadFile(IFormFile file , string dir , UploadOptions? option)
         {
             _dir = new(dir);
-            _formFiles = file.ToArray();
-            _options = UploadOptions.FormFileArray;
+            _formFile = file ?? throw new ArgumentNullException("File is not provided");
+            _options = option??UploadOptions.FormFile;
         }
-        public UploadFile(IFormFile file , string dir)
-        {
-            _dir = new(dir);
-            _formFile = file;
-            _options = UploadOptions.FormFile;
-        }
-        public UploadFile(IFormFile[] file, string dir)
-        {
-            _dir = new(dir);
-            _formFiles = file;
-            _options = UploadOptions.FormFileArray;
-        }
+        
         public IEnumerable<T> Start<T>() where T : class
         {
             switch (_options)
             {
                 case UploadOptions.FormFile: return (IEnumerable<T>)UploadFormFile<FileInfo>();
-                case UploadOptions.FormFileArray: return (IEnumerable<T>)UploadFormFileArray<FileInfo>();
+                case UploadOptions.Image: return (IEnumerable<T>)UploadImage<FileInfo>();
                 default:throw new InvalidOperationException();
             }
         }
-        private IEnumerable<UploadContracts.UploadResponse> UploadCollection<T>()
+        private IEnumerable<Images.Upload> UploadImage<T>()
         {
-            foreach (var file in _formCollection)
+            List<Images.Upload> file = new();
+            var guid = Guid.NewGuid();
+            string path = Path.Combine(_dir.TempDir.FullName, guid.ToString() + _utils.GetFileExtension( _formFile.FileName));
+            using (Stream fileStream = new FileStream(path, FileMode.Create))
             {
-                Guid guid = Guid.NewGuid();
-                string path = Path.Combine(_dir.TempDir.FullName , guid.ToString() + _utils.GetFileExtension(file.FileName));
-                using (Stream fileStream = new FileStream(path, FileMode.Create))
-                {
-                    file.CopyToAsync(fileStream);
-                    var result = new UploadContracts.UploadResponse(new FileInfo(path), file.FileName , _dir.Dir);
-                    yield return result;
-                };
-            }
+                _formFile.CopyTo(fileStream);
+
+                var result = new Images.Upload(new FileInfo(path), _formFile.FileName, _dir.Dir);
+                file.Add( result );
+                return file;
+            };
         }
+        
         private IEnumerable<UploadContracts.UploadResponse> UploadFormFile<T>()
         {
             List<UploadContracts.UploadResponse> file = new();
             var guid = Guid.NewGuid();
-            string path = Path.Combine(_dir.TempDir.FullName,  guid.ToString() + _utils.GetFileExtension(_formFile.FileName) );
+            string path = Path.Combine(_dir.TempDir.FullName,  guid.ToString() + _utils.GetFileExtension( _formFile.FileName) );
             using (Stream fileStream = new FileStream( path , FileMode.Create))
             {
                 _formFile.CopyTo(fileStream );
@@ -79,25 +66,6 @@ namespace WFileManager.loja.WriteStrategy
                 return file;
             };
         }
-        private IEnumerable<UploadContracts.UploadResponse> UploadFormFileArray<T>()
-        {
-            List<UploadContracts.UploadResponse> files = new();
-            
-            foreach (var item in _formFiles)
-            {
-                var guid = Guid.NewGuid();
-                string path = Path.Combine(_dir.TempDir.FullName, guid.ToString() + _utils.GetFileExtension(item.FileName) );
-
-                using (Stream fileStream = new FileStream(path, FileMode.Create))
-                {
-                    item.CopyTo(fileStream);
-
-                    var result = new UploadContracts.UploadResponse(new FileInfo(path), item.FileName , _dir.Dir);
-                    files.Add(result);
-                };
-            }
-            return files;
-        }
-        
+    
     }
 }
