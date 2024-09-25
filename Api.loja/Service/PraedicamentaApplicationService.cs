@@ -49,12 +49,11 @@ namespace Api.loja.Service
 
             FileDirectory directory = _context.fileDirectory.First(x => x.Referer == cmd.referer);
 
-            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.file, directory.DirectoryName);
+            IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.file, directory.DirectoryName, WFileManager.Enum.UploadOptions.Image);
             //Create File Physically
             var result = fs.Start<UploadContracts.UploadResponse>(strategy).First();
 
-
-            FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(new(new(result.FullName), result.OriginalFileName), directory ));
+            FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(result.FullName , result.OriginalFileName, directory ,category));
 
             var createdFiles = fm.GetCreatedFile();
             

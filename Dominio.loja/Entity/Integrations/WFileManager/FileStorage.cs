@@ -1,7 +1,6 @@
 ﻿using Dominio.loja.Events.FileUpload;
 using Framework.loja;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO.Enumeration;
 
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
@@ -34,16 +33,17 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
             switch (@event)
             {
                 case FileManagerEvents.CreateFile e:
-                        FileDirectoryId = e.fd.Id ?? throw new ArgumentNullException(nameof(e.fd));
-                        Directory = e.fd;
+                        FileDirectoryId = e.Fd.Id ?? throw new ArgumentNullException(nameof(e.Fd));
+                        Directory = e.Fd;
                         Created_at = DateTime.Now;
-                        CreationTime = e.fi.file.CreationTime;
-                        CreationTimeUtc = e.fi.file.CreationTimeUtc;
-                        Length = e.fi.file.Length;
-                        Extension = e.fi.file.Extension;
-                        FileName = e.fi.file.Name;
-                        OriginalName = e.fi.fileName;
+                        CreationTime = e.Fi.CreationTime;
+                        CreationTimeUtc = e.Fi.CreationTimeUtc;
+                        Length = e.Fi.Length;
+                        Extension = e.Fi.Extension;
+                        FileName = e.Fi.Name;
+                        OriginalName = e.OriginalName;
                      break;
+
                 default: throw new InvalidOperationException();
             }
         }

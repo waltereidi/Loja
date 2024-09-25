@@ -1,5 +1,5 @@
-﻿using Dominio.loja.Entity;
-using Dominio.loja.Entity.Integrations.WFileManager;
+﻿using Dominio.loja.Entity.Integrations.WFileManager;
+using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Framework.loja;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents;
 
@@ -7,7 +7,8 @@ namespace Dominio.loja.Events.FileUpload
 {
     public class FileManager : AggregateRoot<int>
     {
-        FileStorage _storage = new();
+        private FileStorage _storage = new();
+        private FileRelation? _file { get; set; } 
         public FileManager()
         {
         }
@@ -34,7 +35,9 @@ namespace Dominio.loja.Events.FileUpload
                 case CategoryChangedPicture c: 
                     var file = new FileStorage(Apply);
                     ApplyToEntity(file, c);
-                    _storage = file; break;
+                    _storage = file;
+                    _file = new FileCategories();
+                    break;
                     
                 
                 default: throw new NotImplementedException(nameof(@event));

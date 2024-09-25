@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Dominio.loja.Entity;
+using Dominio.loja.Entity.Integrations.WFileManager;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Dominio.loja.Events.FileUpload
 {
@@ -6,17 +8,19 @@ namespace Dominio.loja.Events.FileUpload
     {
         public class CategoryChangedPicture : CreateFile
         {
-            public CategoryChangedPicture(string fullName, string originalName, string directory) : base(fullName, originalName, directory)
+            public Categories Category { get; set; }
+            public CategoryChangedPicture(string fullName, string originalName, FileDirectory directory , Categories category) : base(fullName, originalName, directory)
             {
+                Category = category;
             }
-
         }
         
         public class CreateFile
         {
-            public FileInfo FileInfo { get; set; }
+            public FileInfo Fi { get; set; }
             public string OriginalName { get; set; }
-            public CreateFile(string fullName ,string originalName , string directory )
+            public FileDirectory Fd { get; set; }    
+            public CreateFile(string fullName ,string originalName , FileDirectory directory )
             {
                 if (originalName.IsNullOrEmpty())
                     throw new ArgumentNullException($"original name cannot be null or empty {nameof(originalName)}");
@@ -24,8 +28,9 @@ namespace Dominio.loja.Events.FileUpload
                 if (originalName.IsNullOrEmpty())
                     throw new ArgumentNullException($"original name cannot be null or empty {nameof(originalName)}");
 
-                FileInfo = new FileInfo(fullName);
+                Fi = new FileInfo(fullName);
                 OriginalName = originalName; 
+                Fd = directory;
             }
         }
     }

@@ -56,12 +56,7 @@ namespace Api.loja.Data
                     v => new DirectoryRestriction(v)
                 );
             
-            modelBuilder.Entity<FileDirectory>()
-                .Property<DirectoryValidExtensions>(e => e.ValidExtensions)
-                .HasConversion(
-                    v => (string)v,
-                    v => new DirectoryValidExtensions(v)
-                );
+            
         }
 
         void CreateCategoriesORM(ModelBuilder modelBuilder)
