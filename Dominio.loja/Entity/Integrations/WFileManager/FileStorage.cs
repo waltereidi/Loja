@@ -15,10 +15,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public int FileDirectoryId { get; set; }
         public string FileName { get; set; }
         public string OriginalName { get; set; }
-        /// <summary>
-        /// FileProperties is translated into objets from FileProperties class heirs
-        /// </summary>
-        public string FileProperties { get; set; }
+        public FileProperties FileProperties { get; set; }
         public virtual FileDirectory Directory {get;set;}
 
         public FileStorage()
@@ -27,6 +24,12 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         }
         public FileStorage(Action<object> applier) : base(applier)
         {
+            Apply(applier);
+            EnsureValidState();
+        }
+        protected void EnsureValidState()
+        {
+
         }
         protected override void When(object @event)
         {

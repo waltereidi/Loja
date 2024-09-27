@@ -7,8 +7,8 @@ namespace Dominio.loja.Events.FileUpload
     public class DirectoryRestriction
     {
         private string Value { get; set; }
-        private SerializedRestrictions SerializedValue { get; set; }
-        private record SerializedRestrictions(Image[] image , Video[] video , Pdf[] pdf, Doc[] doc, Excel[] excel , All all ,DirectoryValidExtensions extensions);
+        private Restrictions Restriction { get; set; }
+        private record Restrictions(Image[] image , Video[] video , Pdf[] pdf, Doc[] doc, Excel[] excel , All all ,DirectoryValidExtensions extensions);
         private record All(long max , long min );
         private record Image(int heigth , int width );
         private record Video(int heigth, int width , int length);
@@ -19,7 +19,7 @@ namespace Dominio.loja.Events.FileUpload
         
         public DirectoryRestriction(string value)
         {
-            SerializedValue = JsonSerializer.Deserialize<SerializedRestrictions>(value) ?? throw new ArgumentNullException();
+            Restriction = JsonSerializer.Deserialize<Restrictions>(value) ?? throw new ArgumentNullException();
 
             Value = value;
         }
@@ -41,12 +41,12 @@ namespace Dominio.loja.Events.FileUpload
         }
         private void ValidateGeneralRestrictions(FileInfo file)
         {
-            if(SerializedValue.all.min >0 && SerializedValue.all.min < file.Length )
+            if(Restriction.all.min >0 && Restriction.all.min < file.Length )
             {
                 throw new InvalidDataException($"File length smaller than {(string)new ReadableFileLength(file.Length)}");
             }
 
-            if (SerializedValue.all.max > 0 && SerializedValue.all.max > file.Length)
+            if (Restriction.all.max > 0 && Restriction.all.max > file.Length)
             {
                 throw new InvalidDataException($"File length bigger than {(string)new ReadableFileLength(file.Length)}");
             }
