@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Entity.Integrations.WFileManager;
+using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Events.Praedicamenta;
 using Dominio.loja.Interfaces.Context;
@@ -45,6 +46,7 @@ namespace Api.loja.Data
         {
             CreateCategoriesORM(modelBuilder);
             CreateFilesORM(modelBuilder);
+            CreateFilesCategoriesORM(modelBuilder);
         }
 
         private void CreateFilesORM(ModelBuilder modelBuilder)
@@ -55,11 +57,34 @@ namespace Api.loja.Data
                     v => (string)v,
                     v => new DirectoryRestriction(v)
                 );
-            
-            
+            modelBuilder.Entity<FileStorage>()
+               .Property<Guid?>(e => e.Id)
+               .HasConversion(
+                   v => v.ToString(),
+                   v => new Guid(v)
+               );
+
+        }
+        private void CreateFilesCategoriesORM(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<FileCategories>(entity =>
+            {
+                entity.HasOne(e => e.FileStorage)
+                .WithOne()
+                .HasForeignKey<FileCategories>(e => e.FileStorageId);
+            });
+
+            modelBuilder.Entity<FileCategories>(entity =>
+            {
+                entity
+                .HasOne(e => e.Category)
+                .WithOne()
+                .HasForeignKey<FileCategories>(e => e.CategoriesId);
+            });
+
         }
 
-        void CreateCategoriesORM(ModelBuilder modelBuilder)
+        private void CreateCategoriesORM(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SubCategories>(entity =>
             {

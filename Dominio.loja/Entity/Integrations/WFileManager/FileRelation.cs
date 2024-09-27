@@ -4,15 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [NotMapped]
-    public class FileRelation : Entity<Guid> 
+    public class FileRelation : Entity<int?> 
     {
-        public int FileStorageId { get; set; }
+        [ForeignKey("FileStorageId")]
+        public Guid FileStorageId { get; set; }
         public virtual FileStorage FileStorage { get; set; }
         public FileRelation() { }
-        public FileRelation( int fileStorageId) 
+
+        public FileRelation(FileStorage file)
         {
-            FileStorageId = fileStorageId;
+            FileStorage = file;
+            FileStorageId = file.Id;
         }
+
         protected override void When(object @event)
         {
             throw new NotImplementedException();

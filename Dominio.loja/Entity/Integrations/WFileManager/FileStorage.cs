@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [Table("FileStorage")]
-    public class FileStorage : Entity<int?>
+    public class FileStorage : Entity<Guid>
     {
         public DateTime CreationTime { get; set; }
         public DateTime CreationTimeUtc { get; set; }
@@ -16,7 +16,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public string FileName { get; set; }
         public string OriginalName { get; set; }
         /// <summary>
-        /// FileProperties is used from inherited classes
+        /// FileProperties is translated into objets from FileProperties class heirs
         /// </summary>
         public string FileProperties { get; set; }
         public virtual FileDirectory Directory {get;set;}
@@ -33,17 +33,17 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
             switch (@event)
             {
                 case FileManagerEvents.CreateFile e:
-                        FileDirectoryId = e.Fd.Id ?? throw new ArgumentNullException(nameof(e.Fd));
-                        Directory = e.Fd;
-                        Created_at = DateTime.Now;
-                        CreationTime = e.Fi.CreationTime;
-                        CreationTimeUtc = e.Fi.CreationTimeUtc;
-                        Length = e.Fi.Length;
-                        Extension = e.Fi.Extension;
-                        FileName = e.Fi.Name;
-                        OriginalName = e.OriginalName;
-                     break;
-
+                    Id = new Guid();
+                    FileDirectoryId = e.Fd.Id ?? throw new ArgumentNullException(nameof(e.Fd));
+                    Directory = e.Fd;
+                    Created_at = DateTime.Now;
+                    CreationTime = e.Fi.CreationTime;
+                    CreationTimeUtc = e.Fi.CreationTimeUtc;
+                    Length = e.Fi.Length;
+                    Extension = e.Fi.Extension;
+                    FileName = e.Fi.Name;
+                    OriginalName = e.OriginalName;
+                    break;
                 default: throw new InvalidOperationException();
             }
         }
