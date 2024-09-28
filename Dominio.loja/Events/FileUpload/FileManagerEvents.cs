@@ -6,16 +6,7 @@ namespace Dominio.loja.Events.FileUpload
 {
     public class FileManagerEvents
     {
-        public class CategoryChangedPicture : CreateFile
-        {
-            public Categories Category { get; set; }
-            public CategoryChangedPicture(string fullName, string originalName, FileDirectory directory , Categories category) : base(fullName, originalName, directory)
-            {
-                Category = category;
-            }
-        }
-        
-        public class CreateFile
+        public abstract class CreateFile
         {
             public FileInfo Fi { get; set; }
             public string OriginalName { get; set; }
@@ -31,6 +22,14 @@ namespace Dominio.loja.Events.FileUpload
                 Fi = new FileInfo(fullName);
                 OriginalName = originalName; 
                 Fd = directory;
+            }
+        }
+        public class CategoryChangedPicture : CreateFile
+        {
+            public Categories Category { get; private set; }
+            public CategoryChangedPicture(string fullName, string originalName, FileDirectory directory, Categories category) : base(fullName, originalName, directory)
+            {
+                Category = category;
             }
         }
     }

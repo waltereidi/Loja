@@ -1,6 +1,7 @@
 ﻿using Dominio.loja.Entity.Integrations.WFileManager;
 using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Framework.loja;
+using Framwork.loja.Utility.Files;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents;
 
 namespace Dominio.loja.Events.FileUpload
@@ -19,15 +20,10 @@ namespace Dominio.loja.Events.FileUpload
 
         protected override void EnsureValidState()
         {
-            _file.FileStorage.Directory.Restriction.Validate(_fi);
-            
-            //if(!_storage.Directory.Restriction.Validate(new FileInfo()))
-            //{
-            //   throw new Exception("Invalid file"); 
-            //}
+            ValidateExtension();
+            ValidateRestrictionsTypeAll();
+               
         }
-
-
         protected override void When(object @event)
         {
             switch (@event)
@@ -44,6 +40,24 @@ namespace Dominio.loja.Events.FileUpload
         {
             _file = rel;
             _fi = fi;
+        }
+        private void ValidateExtension()
+        {
+
+        }
+        private void ValidateRestrictionsTypeAll()
+        {
+            var all =_file.FileStorage.Directory.Restriction.Restriction.all;
+
+            if (all.min > 0 && all.min < _fi.Length)
+            {
+                throw new InvalidDataException($"File length smaller than {(string)new ReadableFileLength(_fi.Length)}");
+            }
+
+            if (all.max > 0 && all.max > _fi.Length)
+            {
+                throw new InvalidDataException($"File length bigger than {(string)new ReadableFileLength(_fi.Length)}");
+            }
         }
 
     }

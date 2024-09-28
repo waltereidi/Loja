@@ -15,9 +15,9 @@
         { 
             return dve.Value;
         }
-        public void Validate(FileInfo file)
+        public void Validate(string extension)
         {
-            if (Extensions.Any(x => file.Extension.Contains(x)))
+            if (Extensions.Any(x => extension.Contains(x)))
                 throw new InvalidDataException("File extensions does not match");
         }
 

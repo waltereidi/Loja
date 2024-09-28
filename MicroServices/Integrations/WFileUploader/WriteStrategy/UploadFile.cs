@@ -37,16 +37,16 @@ namespace WFileManager.loja.WriteStrategy
                 default:throw new InvalidOperationException();
             }
         }
-        private IEnumerable<Images.Upload> UploadImage<T>()
+        private IEnumerable<Images.UploadResponse> UploadImage<T>()
         {
-            List<Images.Upload> file = new();
+            List<Images.UploadResponse> file = new();
             var guid = Guid.NewGuid();
             string path = Path.Combine(_dir.TempDir.FullName, guid.ToString() + _utils.GetFileExtension( _formFile.FileName));
             using (Stream fileStream = new FileStream(path, FileMode.Create))
             {
                 _formFile.CopyTo(fileStream);
 
-                var result = new Images.Upload(new FileInfo(path), _formFile.FileName, _dir.Dir);
+                var result = new Images.UploadResponse(new FileInfo(path), _formFile.FileName, _dir.Dir);
                 file.Add( result );
                 return file;
             };

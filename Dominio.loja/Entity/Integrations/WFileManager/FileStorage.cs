@@ -25,12 +25,8 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public FileStorage(Action<object> applier) : base(applier)
         {
             Apply(applier);
-            EnsureValidState();
         }
-        protected void EnsureValidState()
-        {
 
-        }
         protected override void When(object @event)
         {
             switch (@event)
