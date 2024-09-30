@@ -25,10 +25,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         }
         public FileDirectory() { }
 
-        public bool IsValidExtension()
-        {
 
-        }
         protected override void When(object @event)
         {
      

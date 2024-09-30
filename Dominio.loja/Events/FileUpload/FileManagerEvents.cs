@@ -6,6 +6,12 @@ namespace Dominio.loja.Events.FileUpload
 {
     public class FileManagerEvents
     {
+        public class FileProperties
+        {
+            public record All(long max, long min);
+            public record Dimensions(int height, int width);
+        }
+
         public abstract class CreateFile
         {
             public FileInfo Fi { get; set; }

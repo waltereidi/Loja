@@ -1,18 +1,24 @@
-﻿namespace Dominio.loja.Events.FileUpload
+﻿
+using Dominio.loja.Enums;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
+
+namespace Dominio.loja.Events.FileUpload
 {
     public class DirectoryValidExtensions
     {
         private string Value { get; set; }
         private string[] Extensions { get; set; }
         public DirectoryValidExtensions() { }
-        public DirectoryValidExtensions(string value) 
+        public DirectoryValidExtensions(string value)
         {
             Extensions = value.Split(';');
             Value = value;
         }
 
-        public static implicit operator string(DirectoryValidExtensions dve) 
-        { 
+        public static implicit operator string(DirectoryValidExtensions dve)
+        {
             return dve.Value;
         }
         public void Validate(string extension)
@@ -23,5 +29,6 @@
 
         
 
-    }
+
+}
 }
