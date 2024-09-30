@@ -41,24 +41,8 @@ namespace Dominio.loja.Events.FileUpload
             _file = rel;
             _fi = fi;
         }
-        private void ValidateExtension()
-        {
-
-        }
-        private void ValidateRestrictionsTypeAll()
-        {
-            var all =_file.FileStorage.Directory.Restriction.Restriction.all;
-
-            if (all.min > 0 && all.min < _fi.Length)
-            {
-                throw new InvalidDataException($"File length smaller than {(string)new ReadableFileLength(_fi.Length)}");
-            }
-
-            if (all.max > 0 && all.max > _fi.Length)
-            {
-                throw new InvalidDataException($"File length bigger than {(string)new ReadableFileLength(_fi.Length)}");
-            }
-        }
+   
+        
 
     }
 }

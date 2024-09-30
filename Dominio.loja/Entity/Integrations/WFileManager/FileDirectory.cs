@@ -25,11 +25,10 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         }
         public FileDirectory() { }
 
-        //public static implicit operator string(FileDirectory fd)
-        //{
+        public bool IsValidExtension()
+        {
 
-        //    return fd.DirectoryName;
-        //}
+        }
         protected override void When(object @event)
         {
      

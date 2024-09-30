@@ -1,6 +1,6 @@
 ﻿using Framwork.loja.Utility.Files;
 using System.Text.Json;
-using static Dominio.loja.Events.FileUpload.FileType;
+using static Dominio.loja.Events.FileUpload.FileType.Restrictions;
 
 namespace Dominio.loja.Events.FileUpload
 {
@@ -22,6 +22,24 @@ namespace Dominio.loja.Events.FileUpload
         {
             return dr.Value;
         }
+        public void ValidateExtension(string extension)
+        {
+            Restriction.extensions.Validate(extension);
 
+        }
+        
+        private void ValidateRestrictionsTypeAll(int length)
+        {
+            var all = Restriction.all;
+
+            if (all.min > 0 && all.min < length)
+            {
+                throw new InvalidDataException($"File length smaller than {(string)new ReadableFileLength(length)}");
+            }
+
+            {
+                throw new InvalidDataException($"File length bigger than {(string)new ReadableFileLength(length)}");
+            }
+        }
     }
 }
