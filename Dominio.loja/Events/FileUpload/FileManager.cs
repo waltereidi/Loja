@@ -20,9 +20,7 @@ namespace Dominio.loja.Events.FileUpload
 
         protected override void EnsureValidState()
         {
-            ValidateExtension();
-            ValidateRestrictionsTypeAll();
-               
+
         }
         protected override void When(object @event)
         {
@@ -36,6 +34,11 @@ namespace Dominio.loja.Events.FileUpload
                 default: throw new NotImplementedException(nameof(@event));
             }
         }
+        private FileType? GetFileProperties()
+        {
+
+        }
+
         protected void BindRelation(FileRelation rel , FileInfo fi)
         {
             _file = rel;

@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.Events.FileUpload;
 using Framework.loja;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dominio.loja.Entity.Integrations.WFileManager
@@ -42,6 +43,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
                     Extension = e.Fi.Extension;
                     FileName = e.Fi.Name;
                     OriginalName = e.OriginalName;
+                    FileProperties = SetFileProperties(e.Fi.Extension, e.FileProperties);
                     break;
                 default: throw new InvalidOperationException();
             }
