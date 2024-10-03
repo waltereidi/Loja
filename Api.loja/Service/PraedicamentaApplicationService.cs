@@ -1,6 +1,7 @@
 ﻿using Api.loja.Data;
 using Dominio.loja.Entity;
 using Dominio.loja.Entity.Integrations.WFileManager;
+using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Events.Praedicamenta;
 using Framework.loja.Interfaces;
@@ -51,13 +52,17 @@ namespace Api.loja.Service
 
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.file, directory.DirectoryName, WFileManager.Enum.UploadOptions.Image);
             //Create File Physically
-            var result = fs.Start<UploadContracts.UploadResponse>(strategy).First();
+            var result = fs.Start <Images.UploadResponse>(strategy).First();
+            Image properties = new Image(result.Height , result.Width);
 
-            FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(result.FullName , result.OriginalFileName, directory ,category));
+            FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(result.FullName , result.OriginalFileName, directory ,category , properties));
 
-            var createdFiles = fm.GetCreatedFile();
+
+            var createdFiles = fm.GetFile();
             
-            _context.fileStorage.AddRange(createdFiles);
+            _context.fileStorage.Add(createdFiles.FileStorage);
+            FileCategories
+            _context.fileCategories.Entry();
             
             _context.SaveChanges();
 

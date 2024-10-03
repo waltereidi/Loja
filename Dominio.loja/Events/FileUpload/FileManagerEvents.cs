@@ -37,7 +37,7 @@ namespace Dominio.loja.Events.FileUpload
         public class CategoryChangedPicture : CreateFile
         {
             public Categories Category { get; private set; }
-            public CategoryChangedPicture(string fullName, string originalName, FileDirectory directory, Categories category) : base(fullName, originalName, directory)
+            public CategoryChangedPicture(string fullName, string originalName, FileDirectory directory, Categories category , FileType? properties) : base(fullName, originalName, directory , properties)
             {
                 Category = category;
             }

@@ -39,8 +39,11 @@ namespace Api.loja.Data
 		public virtual DbSet<ProductsStorage> productsStorage { get; set; } = null!;
 		public virtual DbSet<RequestOrders> requestOrders { get; set; } = null!;
 		public virtual DbSet<RequestOrdersProducts> requestOrdersProducts { get; set; }
-		public virtual DbSet<FileDirectory> fileDirectory { get; set; }
-		public virtual DbSet<FileStorage> fileStorage { get; set; } 
+
+        //Files 
+        public virtual DbSet<FileDirectory> fileDirectory { get; set; }
+        public virtual DbSet<FileStorage> fileStorage { get; set; }
+        public virtual DbSet<FileCategories> fileCategories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             CreateCategoriesORM(modelBuilder);

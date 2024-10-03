@@ -1,7 +1,6 @@
 ﻿using Dominio.loja.Entity.Integrations.WFileManager;
 using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Framework.loja;
-using Framwork.loja.Utility.Files;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents;
 
 namespace Dominio.loja.Events.FileUpload
@@ -20,7 +19,20 @@ namespace Dominio.loja.Events.FileUpload
 
         protected override void EnsureValidState()
         {
+            var directoryRestrictions = _file.FileStorage.Directory.Restriction;
 
+            directoryRestrictions.ValidateExtension(_file.FileStorage.Extension);
+
+            
+            if (_file.FileStorage.FileProperties != null)
+                directoryRestrictions.ValidateExtensionProperties(_file.FileStorage.FileProperties);
+
+
+        }
+        public FileRelation GetFile()
+        {
+            var result = _file ?? throw new ArgumentNullException(nameof(_file));
+            return result; 
         }
         protected override void When(object @event)
         {
@@ -33,10 +45,6 @@ namespace Dominio.loja.Events.FileUpload
                     break;
                 default: throw new NotImplementedException(nameof(@event));
             }
-        }
-        private FileType? GetFileProperties()
-        {
-
         }
 
         protected void BindRelation(FileRelation rel , FileInfo fi)
