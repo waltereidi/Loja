@@ -61,8 +61,8 @@ namespace Api.loja.Service
             var createdFiles = fm.GetFile();
             
             _context.fileStorage.Add(createdFiles.FileStorage);
-            FileCategories
-            _context.fileCategories.Entry();
+            
+            _context.fileCategories.Any(x=>x.CategoriesId == createdFiles.FileStorage);
             
             _context.SaveChanges();
 

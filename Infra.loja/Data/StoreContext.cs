@@ -4,6 +4,7 @@ using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using WConnectionKeyVault;
 
 namespace Api.loja.Data
@@ -50,7 +51,6 @@ namespace Api.loja.Data
             CreateFilesORM(modelBuilder);
             CreateFilesCategoriesORM(modelBuilder);
         }
-
         private void CreateFilesORM(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<FileDirectory>()
@@ -65,12 +65,12 @@ namespace Api.loja.Data
                    v => v.ToString(),
                    v => new Guid(v)
                );
-            modelBuilder.Entity<FileStorage>()
-               .Property(e => e.FileProperties)
-               .HasConversion(
-                   v => (string)v,
-                   v => new FileProperties(v)
-               );
+            //modelBuilder.Entity<FileStorage>()
+            //   .Property(e => e.FileProperties)
+            //   .HasConversion(
+            //       v => (string)v,
+            //       v => new FileType(v)
+            //   );
 
         }
         private void CreateFilesCategoriesORM(ModelBuilder modelBuilder)
