@@ -44,7 +44,7 @@ namespace Api.loja.Data
         //Files 
         public virtual DbSet<FileDirectory> fileDirectory { get; set; }
         public virtual DbSet<FileStorage> fileStorage { get; set; }
-        public virtual DbSet<FileCategories> fileCategories { get; set; }
+        public virtual DbSet<Dominio.loja.Entity.Integrations.WFileManager.Relation.FileCategories> fileCategories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             CreateCategoriesORM(modelBuilder);
@@ -65,12 +65,12 @@ namespace Api.loja.Data
                    v => v.ToString(),
                    v => new Guid(v)
                );
-            //modelBuilder.Entity<FileStorage>()
-            //   .Property(e => e.FileProperties)
-            //   .HasConversion(
-            //       v => (string)v,
-            //       v => new FileType(v)
-            //   );
+            modelBuilder.Entity<FileStorage>()
+               .Property(e => e.FileProperties)
+               .HasConversion(
+                   v => (string)v,
+                   v => new FileType(v)
+               );
 
         }
         private void CreateFilesCategoriesORM(ModelBuilder modelBuilder)
@@ -110,12 +110,7 @@ namespace Api.loja.Data
                 .HasForeignKey<SubSubCategories>(e => e.SubCategoriesId);
             });
 
-            modelBuilder.Entity<Categories>(entity =>
-            {
-                entity.HasOne(e => e.Image)
-                .WithOne()
-                .HasForeignKey<Categories>(e => e.FileStorageId);
-            });
+  
         }
 
       

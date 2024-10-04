@@ -16,7 +16,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         public int FileDirectoryId { get; set; }
         public string FileName { get; set; }
         public string OriginalName { get; set; }
-        public FileType? FileProperties { get; set; }
+        public virtual FileType? FileProperties { get; set; }
         public virtual FileDirectory Directory { get; set; }
 
         public FileStorage()

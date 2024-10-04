@@ -35,7 +35,7 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
 
             //create FormFile with desired data
             IFormFile file = new FormFile(stream, 0, stream.Length, "id_from_form", fileName);
-            IFileStrategy strategy = new UploadFile(file, "testCase");
+            IFileStrategy strategy = new UploadFile(file, "testCase", null);
 
             //Act
             var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy );

@@ -1,5 +1,6 @@
 ﻿using Api.loja.Data;
 using Api.loja.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Api.loja.Contracts.PraedicamentaContract;
@@ -97,6 +98,27 @@ namespace Tests.loja.Api.PraedicamentaService
             var result = _service.Handle(new V1.Requests.GetAllCategories()).Result;
             
             Assert.IsInstanceOfType(result, typeof(IEnumerable<V1.GetAll>));
+        }
+        [TestMethod]
+        public void ChangeImageExecution()
+        {
+            //Setup mock file using a memory stream
+            var content = "Hello World from a Fake File";
+            var fileName = "test.pdf";
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(content);
+            writer.Flush();
+            stream.Position = 0;
+
+            //create FormFile with desired data
+
+            IFormFile file = new FormFile(stream, 0, stream.Length, "id_from_form", fileName);
+            V1.Requests.ChangePicture updateSubSubCategory = new(file , 1 , "/Store/Categories/ChangePicture");
+            //action
+            _service.Handle(updateSubSubCategory);
+            //Assert
+            Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
         }
     }
 }

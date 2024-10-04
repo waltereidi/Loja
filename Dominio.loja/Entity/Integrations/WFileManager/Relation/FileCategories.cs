@@ -1,4 +1,5 @@
 ﻿
+using Dominio.loja.Events.FileUpload;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dominio.loja.Entity.Integrations.WFileManager.Relation
@@ -15,5 +16,6 @@ namespace Dominio.loja.Entity.Integrations.WFileManager.Relation
         {
             CategoriesId = categoryId;
         }
+
     }
 }

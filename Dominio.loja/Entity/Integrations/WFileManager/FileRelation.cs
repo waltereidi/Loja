@@ -1,10 +1,11 @@
-﻿using Framework.loja;
+﻿using Dominio.loja.Events.FileUpload;
+using Framework.loja;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dominio.loja.Entity.Integrations.WFileManager
 {
     [NotMapped]
-    public class FileRelation : Entity<int?> 
+    public abstract class FileRelation : Entity<int?> 
     {
         [ForeignKey("FileStorageId")]
         public Guid FileStorageId { get; set; }

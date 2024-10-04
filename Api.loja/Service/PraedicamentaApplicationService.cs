@@ -61,11 +61,11 @@ namespace Api.loja.Service
             var createdFiles = fm.GetFile();
             
             _context.fileStorage.Add(createdFiles.FileStorage);
-            
-            _context.fileCategories.Any(x=>x.CategoriesId == createdFiles.FileStorage);
-            
-            _context.SaveChanges();
 
+            if (_context.fileCategories.Any(x => x.CategoriesId == category.Id))
+                _context.fileCategories.Remove(_context.fileCategories.First(x => x.CategoriesId == category.Id));
+
+            _context.fileCategories.Add(new FileCategories(createdFiles.FileStorage , category.Id ?? 0));
         }
 
         private async Task HandleUpdateSubSubCategories(V1.Requests.UpdateSubSubCategory c)

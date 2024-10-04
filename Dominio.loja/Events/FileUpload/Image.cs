@@ -9,9 +9,9 @@ namespace Dominio.loja.Events.FileUpload
         {
             Dimensions.Add(new Dimensions(height, width));
         }
-        public Image(List<Dimensions> dimensions)
+        public Image(string dimensions)
         { 
-            Dimensions = dimensions;
+            
         }
 
 
