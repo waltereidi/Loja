@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.loja.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240919235552_FileDirectory_AddDirectoryRestriction")]
-    partial class FileDirectory_AddDirectoryRestriction
+    [Migration("20241005215930_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,9 +43,6 @@ namespace Infra.loja.Migrations
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
-                    b.Property<int?>("FileStorageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(120)
@@ -55,10 +52,6 @@ namespace Infra.loja.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FileStorageId")
-                        .IsUnique()
-                        .HasFilter("[FileStorageId] IS NOT NULL");
 
                     b.ToTable("categories");
                 });
@@ -200,15 +193,10 @@ namespace Infra.loja.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Restriction")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ValidExtensions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -217,11 +205,9 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("datetime2");
@@ -243,6 +229,9 @@ namespace Infra.loja.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FileProperties")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("Length")
                         .HasColumnType("bigint");
 
@@ -258,6 +247,38 @@ namespace Infra.loja.Migrations
                     b.HasIndex("FileDirectoryId");
 
                     b.ToTable("FileStorage");
+                });
+
+            modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.Relation.FileCategories", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileStorageId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriesId")
+                        .IsUnique();
+
+                    b.HasIndex("FileStorageId")
+                        .IsUnique();
+
+                    b.ToTable("FileCategories");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Permissions", b =>
@@ -382,9 +403,6 @@ namespace Infra.loja.Migrations
                     b.Property<long?>("Ean")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("FileStorageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -398,8 +416,6 @@ namespace Infra.loja.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FileStorageId");
 
                     b.ToTable("products");
                 });
@@ -679,15 +695,6 @@ namespace Infra.loja.Migrations
                     b.ToTable("subSubCategories");
                 });
 
-            modelBuilder.Entity("Dominio.loja.Entity.Categories", b =>
-                {
-                    b.HasOne("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", "Image")
-                        .WithOne()
-                        .HasForeignKey("Dominio.loja.Entity.Categories", "FileStorageId");
-
-                    b.Navigation("Image");
-                });
-
             modelBuilder.Entity("Dominio.loja.Entity.CategoriesPromotion", b =>
                 {
                     b.HasOne("Dominio.loja.Entity.Categories", "Categories")
@@ -732,6 +739,25 @@ namespace Infra.loja.Migrations
                     b.Navigation("Directory");
                 });
 
+            modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.Relation.FileCategories", b =>
+                {
+                    b.HasOne("Dominio.loja.Entity.Categories", "Category")
+                        .WithOne()
+                        .HasForeignKey("Dominio.loja.Entity.Integrations.WFileManager.Relation.FileCategories", "CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", "FileStorage")
+                        .WithOne()
+                        .HasForeignKey("Dominio.loja.Entity.Integrations.WFileManager.Relation.FileCategories", "FileStorageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("FileStorage");
+                });
+
             modelBuilder.Entity("Dominio.loja.Entity.PermissionsRelation", b =>
                 {
                     b.HasOne("Dominio.loja.Entity.PermissionsGroup", null)
@@ -747,15 +773,6 @@ namespace Infra.loja.Migrations
                         .IsRequired();
 
                     b.Navigation("Permissions");
-                });
-
-            modelBuilder.Entity("Dominio.loja.Entity.Products", b =>
-                {
-                    b.HasOne("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", "Image")
-                        .WithMany()
-                        .HasForeignKey("FileStorageId");
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsCategories", b =>

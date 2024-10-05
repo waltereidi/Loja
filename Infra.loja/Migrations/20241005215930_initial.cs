@@ -12,12 +12,30 @@ namespace Infra.loja.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FileDirectory",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DirectoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Referer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Restriction = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -107,33 +125,64 @@ namespace Infra.loja.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "subSubCategories",
+                name: "categoriesPromotion",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SubCategoriesId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoriesId = table.Column<int>(type: "int", nullable: false),
+                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
                     Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_subSubCategories", x => x.Id);
+                    table.PrimaryKey("PK_categoriesPromotion", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_categoriesPromotion_categories_CategoriesId",
+                        column: x => x.CategoriesId,
+                        principalTable: "categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoriesId = table.Column<int>(type: "int", nullable: false),
+                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubCategories_categories_CategoriesId",
+                        column: x => x.CategoriesId,
+                        principalTable: "categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "FileStorage",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreationTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Length = table.Column<long>(type: "bigint", nullable: false),
                     Extension = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FileDirectoryId = table.Column<int>(type: "int", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OriginalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -145,7 +194,7 @@ namespace Infra.loja.Migrations
                         column: x => x.FileDirectoryId,
                         principalTable: "FileDirectory",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,7 +221,7 @@ namespace Infra.loja.Migrations
                         column: x => x.PermissionsGroupId,
                         principalTable: "permissionsGroup",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,13 +243,13 @@ namespace Infra.loja.Migrations
                         column: x => x.PermissionsGroupId,
                         principalTable: "permissionsGroup",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_permissionsRelation_permissions_PermissionsId",
                         column: x => x.PermissionsId,
                         principalTable: "permissions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,7 +273,7 @@ namespace Infra.loja.Migrations
                         column: x => x.ProductsId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,7 +295,7 @@ namespace Infra.loja.Migrations
                         column: x => x.ProductsId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -269,7 +318,7 @@ namespace Infra.loja.Migrations
                         column: x => x.ProductsId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -291,7 +340,7 @@ namespace Infra.loja.Migrations
                         column: x => x.ProductsId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,7 +362,7 @@ namespace Infra.loja.Migrations
                         column: x => x.ProductsId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -336,75 +385,13 @@ namespace Infra.loja.Migrations
                         column: x => x.ProductsId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RequestOrdersProducts_requestOrders_RequestOrdersId",
                         column: x => x.RequestOrdersId,
                         principalTable: "requestOrders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-          
-
-            migrationBuilder.CreateTable(
-                name: "categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false).Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
-                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-              name: "SubCategories",
-              columns: table => new
-              {
-                  Id = table.Column<int>(type: "int", nullable: false).Annotation("SqlServer:Identity", "1, 1"),
-                  Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                  Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                  CategoriesId = table.Column<int>(type: "int", nullable: false),
-                  Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
-                  Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
-              },
-              constraints: table =>
-              {
-                  table.PrimaryKey("PK_SubCategories", x => x.Id);
-                  table.ForeignKey(
-                      name: "FK_SubCategories_Categories_Id",
-                      column: x => x.CategoriesId,
-                      principalTable: "Categories",
-                      principalColumn: "Id",
-                      onDelete: ReferentialAction.Restrict);
-              });
-
-            migrationBuilder.CreateTable(
-                name: "categoriesPromotion",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoriesId = table.Column<int>(type: "int", nullable: false),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
-                    isActive = table.Column<bool>(type: "bit", nullable: false),
-                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_categoriesPromotion", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_categoriesPromotion_categories_CategoriesId",
-                        column: x => x.CategoriesId,
-                        principalTable: "categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -432,15 +419,59 @@ namespace Infra.loja.Migrations
                         column: x => x.ProductsId,
                         principalTable: "products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-            migrationBuilder.Sql("insert into permissions( name , created_at) values( 'testCase' , current_timestamp)");
-            migrationBuilder.Sql("insert into permissionsgroup( name , created_at) values( 'testCase' , current_timestamp)");
-            migrationBuilder.Sql("insert into permissionsRelation(permissionsGroupId,permissionsId, created_at) values( 1 , 1 , current_timestamp)");
-            migrationBuilder.Sql("insert into clients( email , password , permissionsGroupId , firstName , lastName ,created_at ,address , phonenumber) values('testCase@email.com' , '123' , 1 ,'Test' , 'Case' ,current_timestamp , 'test address' , '010101')");
-            migrationBuilder.Sql("insert into categories( name , description ,created_at) values( 'testCase' , 'description' , current_timestamp)");
-            migrationBuilder.Sql("insert into subcategories( name , description ,created_at , categoriesId) values( 'testCase subCategories' , 'description' , current_timestamp , 1)");
-            migrationBuilder.Sql("insert into subsubcategories( name , description ,created_at , subcategoriesId) values( 'testCase subSubCategories' , 'description' , current_timestamp , 1)");
+
+            migrationBuilder.CreateTable(
+                name: "subSubCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubCategoriesId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_subSubCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_subSubCategories_SubCategories_SubCategoriesId",
+                        column: x => x.SubCategoriesId,
+                        principalTable: "SubCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FileCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoriesId = table.Column<int>(type: "int", nullable: false),
+                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FileStorageId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FileCategories_FileStorage_FileStorageId",
+                        column: x => x.FileStorageId,
+                        principalTable: "FileStorage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FileCategories_categories_CategoriesId",
+                        column: x => x.CategoriesId,
+                        principalTable: "categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_categoriesPromotion_CategoriesId",
@@ -456,6 +487,18 @@ namespace Infra.loja.Migrations
                 name: "IX_clientsProductsCart_ProductsId",
                 table: "clientsProductsCart",
                 column: "ProductsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FileCategories_CategoriesId",
+                table: "FileCategories",
+                column: "CategoriesId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FileCategories_FileStorageId",
+                table: "FileCategories",
+                column: "FileStorageId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_FileStorage_FileDirectoryId",
@@ -515,6 +558,29 @@ namespace Infra.loja.Migrations
                 name: "IX_RequestOrdersProducts_RequestOrdersId",
                 table: "RequestOrdersProducts",
                 column: "RequestOrdersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubCategories_CategoriesId",
+                table: "SubCategories",
+                column: "CategoriesId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_subSubCategories_SubCategoriesId",
+                table: "subSubCategories",
+                column: "SubCategoriesId",
+                unique: true);
+
+            migrationBuilder.Sql("insert into permissions( name , created_at) values( 'testCase' , current_timestamp)");
+            migrationBuilder.Sql("insert into permissionsgroup( name , created_at) values( 'testCase' , current_timestamp)");
+            migrationBuilder.Sql("insert into permissionsRelation(permissionsGroupId,permissionsId, created_at) values( 1 , 1 , current_timestamp)");
+            migrationBuilder.Sql("insert into clients( email , password , permissionsGroupId , firstName , lastName ,created_at ,address , phonenumber) values('testCase@email.com' , '123' , 1 ,'Test' , 'Case' ,current_timestamp , 'test address' , '010101')");
+            migrationBuilder.Sql("insert into categories( name , description ,created_at) values( 'testCase' , 'description' , current_timestamp)");
+            migrationBuilder.Sql("insert into subcategories( name , description ,created_at , categoriesId) values( 'testCase subCategories' , 'description' , current_timestamp , 1)");
+            migrationBuilder.Sql("insert into subsubcategories( name , description ,created_at , subcategoriesId) values( 'testCase subSubCategories' , 'description' , current_timestamp , 1)");
+            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, created_at) values( 'testCase' ,'/swagger/index.html' , current_timestamp)");
+            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, created_at) values( 'Store_Categories' ,'/Store/Categories/ChangePicture' , current_timestamp)");
+
         }
 
         /// <inheritdoc />
@@ -527,7 +593,7 @@ namespace Infra.loja.Migrations
                 name: "clientsProductsCart");
 
             migrationBuilder.DropTable(
-                name: "FileStorage");
+                name: "FileCategories");
 
             migrationBuilder.DropTable(
                 name: "permissionsRelation");
@@ -554,7 +620,10 @@ namespace Infra.loja.Migrations
                 name: "RequestOrdersProducts");
 
             migrationBuilder.DropTable(
-                name: "FileDirectory");
+                name: "subSubCategories");
+
+            migrationBuilder.DropTable(
+                name: "FileStorage");
 
             migrationBuilder.DropTable(
                 name: "permissionsGroup");
@@ -572,13 +641,13 @@ namespace Infra.loja.Migrations
                 name: "requestOrders");
 
             migrationBuilder.DropTable(
-                name: "categories");
-
-            migrationBuilder.DropTable(
                 name: "SubCategories");
 
             migrationBuilder.DropTable(
-                name: "subSubCategories");
+                name: "FileDirectory");
+
+            migrationBuilder.DropTable(
+                name: "categories");
         }
     }
 }

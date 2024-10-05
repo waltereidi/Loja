@@ -11,7 +11,7 @@ namespace WFileManager.Contracts
 
             public UploadResponse(FileInfo file, string originalFileName, DirectoryInfo nonTemporaryDirectory) : base(file, originalFileName, nonTemporaryDirectory)
             {
-                var bitmap = new Bitmap(base.NonTemporaryFile.Exists ? base.NonTemporaryFile.FullName : base.FullName);
+                var bitmap = new Bitmap( base.FullName);
                 Height = bitmap.Height;
                 Width = bitmap.Width;
             }

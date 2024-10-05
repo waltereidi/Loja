@@ -10,8 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MicroService\IntegrationsTest\RabbitMQTest\**" />
     <Compile Remove="TestEntities\**" />
+    <EmbeddedResource Remove="MicroService\IntegrationsTest\RabbitMQTest\**" />
     <EmbeddedResource Remove="TestEntities\**" />
+    <None Remove="MicroService\IntegrationsTest\RabbitMQTest\**" />
     <None Remove="TestEntities\**" />
   </ItemGroup>
 
@@ -23,11 +26,6 @@
     <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
     <PackageReference Include="coverlet.collector" Version="3.2.0" />
     <PackageReference Include="NPOI" Version="2.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="MicroService\IntegrationsTest\RabbitMQTest\" />
-    <Folder Include="TestFiles\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -27,8 +27,6 @@ namespace Dominio.loja.Entity
         public virtual ProductsCategories ProductsCategories { get; set; }
         public virtual ProductsSubCategories ProductsSubCategories { get; set; }
         public virtual ProductsSubSubCategories ProductsSubSubCategories { get; set; }
-        public int? FileStorageId { get; set; }
-        public virtual FileStorage? Image { get; set; }
 
         protected override void When(object @event)
         {

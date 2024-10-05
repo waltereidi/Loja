@@ -144,7 +144,7 @@ namespace Api.loja.Service
                     var sc = allSubCategories
                         .Where(x => x.category_id == c.Id)
                         .ToList();
-                    var i = new V1.GetAll(c.Id ?? 0, c.Name, c.Description, c.Created_at, c.Updated_at, c.Image, sc);
+                    var i = new V1.GetAll(c.Id ?? 0, c.Name, c.Description, c.Created_at, c.Updated_at, null, sc);
                     result.Add(i);
                 });
                 

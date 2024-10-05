@@ -190,7 +190,6 @@ namespace Infra.loja.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Restriction")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Updated_at")
@@ -401,12 +400,6 @@ namespace Infra.loja.Migrations
                     b.Property<long?>("Ean")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("FileStorageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -420,8 +413,6 @@ namespace Infra.loja.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.ToTable("products");
                 });
@@ -779,15 +770,6 @@ namespace Infra.loja.Migrations
                         .IsRequired();
 
                     b.Navigation("Permissions");
-                });
-
-            modelBuilder.Entity("Dominio.loja.Entity.Products", b =>
-                {
-                    b.HasOne("Dominio.loja.Entity.Integrations.WFileManager.FileStorage", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.ProductsCategories", b =>

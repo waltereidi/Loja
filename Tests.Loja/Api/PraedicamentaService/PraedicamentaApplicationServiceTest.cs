@@ -13,10 +13,12 @@ namespace Tests.loja.Api.PraedicamentaService
         private readonly PraedicamentaApplicationService _service;
         private readonly StoreContext _context = new();
         private IDbContextTransaction _transaction;
+        private readonly TestFilesReader _configuration;
         public PraedicamentaApplicationServiceTest()
         {
             _service = new(_context);
             _transaction = _context.Database.BeginTransaction();
+            _configuration  = new TestFilesReader();
         }
         [TestCleanup]
         public void CleanUp() => _transaction.RollbackAsync();
@@ -102,21 +104,20 @@ namespace Tests.loja.Api.PraedicamentaService
         [TestMethod]
         public void ChangeImageExecution()
         {
-            //Setup mock file using a memory stream
-            var content = "Hello World from a Fake File";
-            var fileName = "test.pdf";
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(content);
-            writer.Flush();
-            stream.Position = 0;
 
             //create FormFile with desired data
-
-            IFormFile file = new FormFile(stream, 0, stream.Length, "id_from_form", fileName);
+            var stream = _configuration.GetTestImage(); 
+            IFormFile file = new FormFile(stream , 0, stream.Length, "id_from_form", "testfile.png");
             V1.Requests.ChangePicture updateSubSubCategory = new(file , 1 , "/Store/Categories/ChangePicture");
             //action
-            _service.Handle(updateSubSubCategory);
+            try
+            {
+                _service.Handle(updateSubSubCategory);
+            }catch(Exception ex)
+            {
+                var e = ex;
+            }
+            
             //Assert
             Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
         }

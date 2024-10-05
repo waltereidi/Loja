@@ -1,4 +1,5 @@
 ﻿using Api.loja.Data;
+using Dominio.loja.Entity.Integrations.WFileManager;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.loja.Infra
@@ -26,7 +27,17 @@ namespace Tests.loja.Infra
             Assert.IsNotNull(subCategories.Categories);
             Assert.IsNotNull(subSubCategories.SubCategories);
         }
-       
+        [TestMethod]
+        public void TestCategoriesFileDirectory()
+        {
+            //Validates if ORM is returning the nested classes from initial migration
+
+            FileDirectory dir = _context.fileDirectory.First();
+
+            
+            Assert.IsNotNull(dir.DirectoryName);
+        }
+
 
     }
 }
