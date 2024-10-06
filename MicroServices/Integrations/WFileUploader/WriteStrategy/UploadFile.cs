@@ -28,7 +28,7 @@ namespace WFileManager.loja.WriteStrategy
             _options = option??UploadOptions.FormFile;
         }
         
-        public IEnumerable<T> Start<T>() where T : class
+        public async Task<IEnumerable<T>> Start<T>() where T : class
         {
             switch (_options)
             {
@@ -37,22 +37,21 @@ namespace WFileManager.loja.WriteStrategy
                 default:throw new InvalidOperationException();
             }
         }
-        private IEnumerable<Images.UploadResponse> UploadImage<T>()
+        private async Task<IEnumerable<Images.UploadResponse>> UploadImage<T>()
         {
             List<Images.UploadResponse> file = new();
             var guid = Guid.NewGuid();
             string path = Path.Combine(_dir.TempDir.FullName, guid.ToString() + _utils.GetFileExtension( _formFile.FileName));
             using (Stream fileStream = new FileStream(path, FileMode.Create))
             {
-                _formFile.CopyTo(fileStream);
-
-                var result = new Images.UploadResponse(new FileInfo(path), _formFile.FileName, _dir.Dir);
-                file.Add( result );
-                return file;
+                await _formFile.CopyToAsync(fileStream);
             };
+            var result = new Images.UploadResponse(new FileInfo(path), _formFile.FileName, _dir.Dir);
+            file.Add(result);
+            return file;
         }
         
-        private IEnumerable<UploadContracts.UploadResponse> UploadFormFile<T>()
+        private async Task<IEnumerable<UploadContracts.UploadResponse>> UploadFormFile<T>()
         {
             List<UploadContracts.UploadResponse> file = new();
             var guid = Guid.NewGuid();

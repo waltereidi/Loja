@@ -9,15 +9,11 @@ public class FileManagerMS
         
     }
     
-    public IEnumerable<T>Start<T>(IFileStrategy fileStrategy) where T : class
+    public Task<IEnumerable<T>> Start<T>(IFileStrategy fileStrategy) where T : class
     {
         return fileStrategy.Start<T>();
     }
-    public async Task<IEnumerable<T>> StartAsync<T>(IFileStrategy fileStrategy) where T : class
-    {
-        return fileStrategy.Start<T>();
-    }
-
+    
     public async void LogFile(IEnumerable<FileInfo> files)
     {
 

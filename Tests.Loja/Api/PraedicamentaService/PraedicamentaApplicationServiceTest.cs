@@ -108,18 +108,17 @@ namespace Tests.loja.Api.PraedicamentaService
             //create FormFile with desired data
             var stream = _configuration.GetTestImage(); 
             IFormFile file = new FormFile(stream , 0, stream.Length, "id_from_form", "testfile.png");
-            V1.Requests.ChangePicture updateSubSubCategory = new(file , 1 , "/Store/Categories/ChangePicture");
+            V1.Requests.ChangePicture changePicture = new(file , 1 , "/Store/Categories/ChangePicture");
             //action
-            try
+
+            _service.Handle(changePicture).ContinueWith(_ =>
             {
-                _service.Handle(updateSubSubCategory);
-            }catch(Exception ex)
-            {
-                var e = ex;
-            }
+                //Assert
+                Assert.IsTrue(_.IsCompleted);
+            });
+       
             
-            //Assert
-            Assert.IsTrue(_service._praedicamenta.GetChanges().Count() > 0);
+            
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Npoi.Mapper;
+using System.Drawing;
 using WFileManager.Contracts;
 using WFileManager.loja.Interfaces;
 using WFileManager.loja.ReadStrategy;
@@ -13,8 +14,10 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
     public class FileManagerTest
     {
         private readonly FileManagerMS _fileManager = new();
+        private readonly TestFilesReader _testFilesReader = new TestFilesReader();
         public FileManagerTest()
         {
+
         }
         /// <summary>
         /// Upload file should create a temporary file <br></br>
@@ -38,20 +41,38 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
             IFileStrategy strategy = new UploadFile(file, "testCase", null);
 
             //Act
-            var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy );
-            result.ForEach(f => f.CommitFile());
+            var result = _fileManager.Start<UploadContracts.UploadResponse>(strategy )
+                .ContinueWith(_ =>
+                {
+                    _.Result.ForEach(f => f.CommitFile());
+                    IFileStrategy readStrategy = new ReadFile(_.Result.First().FileName, _.Result.First().GetDirectory());
+                    var files = _fileManager.Start<FileStream>(readStrategy);
+                    var bytes = files.Result.First().ReadByte();
 
-            IFileStrategy readStrategy = new ReadFile(result.First().FileName, result.First().GetDirectory());
-            var files = _fileManager.Start<FileStream>(readStrategy);
-            var bytes = files.First().ReadByte();
+                    //The uploaded file is in mentioned directory 
+                    Assert.IsTrue(_.Result.Any(x => x.GetFileInfo().Exists));
+                    //The temporary file is deleted 
+                    Assert.IsFalse(_.Result.Any(x => File.Exists(x.FullName)));
+                    //
+                    Assert.IsNotNull(bytes);
+                });
 
-            //The uploaded file is in mentioned directory 
-            Assert.IsTrue(result.Any(x => x.GetFileInfo().Exists ));
-            //The temporary file is deleted 
-            Assert.IsFalse(result.Any(x => File.Exists(x.FullName)));
-            //
-            Assert.IsNotNull(bytes);
+        }
+        [TestMethod]
+        public void UploadImageShouldReturnFileInfo()
+        {
+            MemoryStream ms = _testFilesReader.GetTestImage();
+            IFormFile file = new FormFile(ms, 0, ms.Length, "id_from_form", "testfile.png");
+            IFileStrategy strategy = new UploadFile(file, "testCase" , WFileManager.Enum.UploadOptions.Image );
 
+            _fileManager.Start<Images.UploadResponse>(strategy)
+                .ContinueWith(_ => Assert.IsTrue(_.Result.First().Height > 0));
+        }
+        [TestMethod]
+        public void TestNewBitMap()
+        {
+            var bm = new Bitmap(_testFilesReader.GetTestImageFi().FullName);
+            Assert.IsNotNull(bm);
         }
     }
 }

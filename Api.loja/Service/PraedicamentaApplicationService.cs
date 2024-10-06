@@ -52,7 +52,8 @@ namespace Api.loja.Service
 
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.file, directory.DirectoryName, WFileManager.Enum.UploadOptions.Image);
             //Create File Physically
-            var result = fs.Start <Images.UploadResponse>(strategy).First();
+            var uploadResult = await fs.Start<Images.UploadResponse>(strategy);
+            var result = uploadResult.First();
             Image properties = new Image(result.Height , result.Width);
 
             FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(result.FullName , result.OriginalFileName, directory ,category , properties));
@@ -66,6 +67,7 @@ namespace Api.loja.Service
                 _context.fileCategories.Remove(_context.fileCategories.First(x => x.CategoriesId == category.Id));
 
             _context.fileCategories.Add(new FileCategories(createdFiles.FileStorage , category.Id ?? 0));
+            
         }
 
         private async Task HandleUpdateSubSubCategories(V1.Requests.UpdateSubSubCategory c)

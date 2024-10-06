@@ -8,6 +8,6 @@ namespace WFileManager.loja.Interfaces
 {
     public interface IFileStrategy
     {
-        IEnumerable<T> Start<T>() where T : class;
+        Task<IEnumerable<T>> Start<T>() where T : class;
     }
 }

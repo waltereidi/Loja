@@ -24,11 +24,11 @@ namespace WFileManager.loja.ReadStrategy
                 .Select(s => new FileInfo(Path.Combine(dir.FullName , s)))
                 .ToList() : throw new FileNotFoundException(nameof(files));
         }
-        public IEnumerable<T> Start<T>() where T : class
-        {   
+        
+        async Task<IEnumerable<T>> IFileStrategy.Start<T>() 
+        {
             IEnumerable<FileStream> fsArray = _files.Select(s => File.Open(s.FullName, FileMode.Open)).ToArray();
             return (IEnumerable<T>)fsArray;
         }
-
     }
 }

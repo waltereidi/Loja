@@ -26,5 +26,11 @@ namespace Tests.loja
             fs.CopyTo(ms);
             return ms;
         }
+        public FileInfo GetTestImageFi()
+        {
+            var file = TestImagesDir.GetFiles().First();
+            var fi =  new FileInfo(file.FullName);
+            return fi;
+        }
     }
 }
