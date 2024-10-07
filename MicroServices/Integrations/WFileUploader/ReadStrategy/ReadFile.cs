@@ -1,4 +1,5 @@
-﻿using WFileManager.loja.Interfaces;
+﻿using WFileManager.Contracts;
+using WFileManager.loja.Interfaces;
 
 namespace WFileManager.loja.ReadStrategy
 {
@@ -24,7 +25,12 @@ namespace WFileManager.loja.ReadStrategy
                 .Select(s => new FileInfo(Path.Combine(dir.FullName , s)))
                 .ToList() : throw new FileNotFoundException(nameof(files));
         }
-        
+
+        public FileManagerLog GetLog()
+        {
+            throw new NotImplementedException();
+        }
+
         async Task<IEnumerable<T>> IFileStrategy.Start<T>() 
         {
             IEnumerable<FileStream> fsArray = _files.Select(s => File.Open(s.FullName, FileMode.Open)).ToArray();

@@ -14,6 +14,7 @@ namespace WFileManager.loja.WriteStrategy
         private readonly UploadOptions _options;
         private readonly FileManagerUtility _utils = new ();
         private readonly UploadContracts.UploadDirectory _dir;
+        private FileManagerLog _log { get; set; }
 
         /// <exception cref="ArgumentNullException">
         /// File is not provided
@@ -65,6 +66,8 @@ namespace WFileManager.loja.WriteStrategy
                 return file;
             };
         }
-    
+
+        public FileManagerLog GetLog() => _log; 
+        
     }
 }
