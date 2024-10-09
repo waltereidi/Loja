@@ -66,7 +66,7 @@ namespace Tests.loja.MicroServices.IntegrationsTest.WFileManagerTest
             IFileStrategy strategy = new UploadFile(file, "testCase" , WFileManager.Enum.UploadOptions.Image );
 
             _fileManager.Start<Images.UploadResponse>(strategy)
-                .ContinueWith(_ => Assert.IsTrue(_.Result.First().Height > 0));
+                .ContinueWith(_ => Assert.IsTrue(_.Result.First().Height > 0)).Wait();
         }
         [TestMethod]
         public void TestNewBitMap()

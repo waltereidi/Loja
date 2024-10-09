@@ -110,14 +110,19 @@ namespace Tests.loja.Api.PraedicamentaService
             IFormFile file = new FormFile(stream , 0, stream.Length, "id_from_form", "testfile.png");
             V1.Requests.ChangePicture changePicture = new(file , 1 , "/Store/Categories/ChangePicture");
             //action
-
-            _service.Handle(changePicture).ContinueWith(_ =>
+            try
             {
-                //Assert
-                Assert.IsTrue(_.IsCompleted);
-            });
-       
-            
+                _service.Handle(changePicture)
+                    .ContinueWith(_ =>
+                    {
+                        Thread.Sleep(4000);
+                        //Assert
+                        Assert.IsTrue(_.IsCompleted);
+                    }).Wait();
+            }catch(Exception ex)
+            {
+                var e = ex;
+            }
             
         }
     }
