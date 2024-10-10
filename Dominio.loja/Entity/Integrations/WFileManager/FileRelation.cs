@@ -16,6 +16,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         {
             FileStorage = file;
             FileStorageId = file.Id;
+            Created_at = DateTime.Now;
         }
 
         protected override void When(object @event)

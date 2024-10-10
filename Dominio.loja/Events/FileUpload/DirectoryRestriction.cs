@@ -1,4 +1,5 @@
 ﻿using Framwork.loja.Utility.Files;
+using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
@@ -13,7 +14,7 @@ namespace Dominio.loja.Events.FileUpload
         
         public DirectoryRestriction(string value)
         {
-            Restriction = JsonSerializer.Deserialize<Restrictions>(value) ?? throw new ArgumentNullException();
+            Restriction =!value.IsNullOrEmpty() ? JsonSerializer.Deserialize<Restrictions>(value) : null ;
 
             Value = value;
         }

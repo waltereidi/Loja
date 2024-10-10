@@ -115,7 +115,6 @@ namespace Tests.loja.Api.PraedicamentaService
                 _service.Handle(changePicture)
                     .ContinueWith(_ =>
                     {
-                        Thread.Sleep(4000);
                         //Assert
                         Assert.IsTrue(_.IsCompleted);
                     }).Wait();

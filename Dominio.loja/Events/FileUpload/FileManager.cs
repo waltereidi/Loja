@@ -21,11 +21,11 @@ namespace Dominio.loja.Events.FileUpload
         {
             var directoryRestrictions = _file.FileStorage.Directory.Restriction;
 
-            directoryRestrictions.ValidateExtension(_file.FileStorage.Extension);
+            directoryRestrictions?.ValidateExtension(_file.FileStorage.Extension);
 
             
             if (_file.FileStorage.FileProperties != null)
-                directoryRestrictions.ValidateExtensionProperties(_file.FileStorage.FileProperties);
+                directoryRestrictions?.ValidateExtensionProperties(_file.FileStorage.FileProperties);
 
 
         }
@@ -39,7 +39,7 @@ namespace Dominio.loja.Events.FileUpload
             switch (@event)
             {
                 case CategoryChangedPicture c: 
-                    var file = new FileStorage(Apply);
+                    var file = new FileStorage();
                     ApplyToEntity(file, c);
                     BindRelation(new FileCategories(file , c.Category.Id.Value ), c.Fi );
                     break;

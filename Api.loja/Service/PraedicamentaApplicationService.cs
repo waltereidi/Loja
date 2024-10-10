@@ -48,7 +48,7 @@ namespace Api.loja.Service
 
             FileManagerMS fs = new FileManagerMS();
 
-            FileDirectory directory = _context.fileDirectory.First(x => x.Referer == cmd.referer);
+            FileDirectory directory = _context.fileDirectory.First(x => x.Referer == cmd.referer.AbsolutePath);
 
             IFileStrategy strategy = new WFileManager.loja.WriteStrategy.UploadFile(cmd.file, directory.DirectoryName, WFileManager.Enum.UploadOptions.Image);
             //Create File Physically
@@ -70,7 +70,6 @@ namespace Api.loja.Service
                 _context.fileCategories.Remove(_context.fileCategories.First(x => x.CategoriesId == category.Id));
 
             _context.fileCategories.Add(new FileCategories(createdFiles.FileStorage , category.Id ?? 0));
-            
         }
 
         private async Task HandleUpdateSubSubCategories(V1.Requests.UpdateSubSubCategory c)

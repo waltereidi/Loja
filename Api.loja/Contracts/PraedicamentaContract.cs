@@ -20,7 +20,7 @@ namespace Api.loja.Contracts
                 public record UpdateSubCategory(int Id, string Name, string Description);
                 public record UpdateSubSubCategory(int Id, string Name, string Description);
                 public record GetAllSubSubCategories();
-                public record ChangePicture(IFormFile file, int id, string referer  );
+                public record ChangePicture(IFormFile file, int id, Uri referer  );
             }
             //Responses
             public record class GetCategory(int? id , string Name , string? Description , DateTime Created_at , DateTime? Updated_at );

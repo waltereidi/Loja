@@ -39,7 +39,9 @@ namespace Api.loja.Controllers.Admin
         [Authorize]
         [ProducesResponseType<IEnumerable<Categories>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllCategories() => await HandleRequest(new V1.Requests.GetAllCategories() ,  _service.Handle);
+        [HttpPost]
+        [ProducesResponseType<IEnumerable<Categories>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ChangePicture(IFormFile file , int id) => await HandleRequest(new V1.Requests.ChangePicture(file , id , new Uri(HttpContext.Request.Headers.Referer) ), _service.Handle);
 
-        
     }
 }

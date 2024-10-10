@@ -33,7 +33,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
             switch (@event)
             {
                 case FileManagerEvents.CreateFile e:
-                    Id = new Guid();
+                    Id = Guid.NewGuid();
                     FileDirectoryId = e.Fd.Id ?? throw new ArgumentNullException(nameof(e.Fd));
                     Directory = e.Fd;
                     Created_at = DateTime.Now;
