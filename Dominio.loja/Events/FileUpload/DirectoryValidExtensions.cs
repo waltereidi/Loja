@@ -1,9 +1,5 @@
 ﻿
-using Dominio.loja.Enums;
 using Microsoft.IdentityModel.Tokens;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Runtime.InteropServices.Marshalling;
 using System.Text.Json.Serialization;
 
 namespace Dominio.loja.Events.FileUpload

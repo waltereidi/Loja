@@ -10,7 +10,6 @@ namespace Dominio.loja.Events.FileUpload
     {
         private string Value { get; set; }
         public Restrictions Restriction { get; private set; }
-        public record Restrictions(Image? image , Video? video , Pdf? pdf, Doc? doc, Excel? excel , All? all ,DirectoryValidExtensions? extensions);
         public DirectoryRestriction() { }
         
         public DirectoryRestriction(string value)
@@ -20,45 +19,12 @@ namespace Dominio.loja.Events.FileUpload
             Value = value;
         }
 
-        public Restrictions GenerateEmptyRestrictions()
-        {
-            var res = new Restrictions(
-                new(),
-                new(),
-                new(),
-                new(),
-                new(),
-                new(0 , 0 ),
-                new("")
-                );
-            res.image.GenerateEmptyRestriction();
-            res.video.GenerateEmptyRestriction();
-            res.pdf.GenerateEmptyRestriction();
-            res.doc.GenerateEmptyRestriction();
-            res.excel.GenerateEmptyRestriction();
-            return res;
-        }
 
         public static implicit operator string(DirectoryRestriction dr)=> dr.Value;
 
         public void ValidateExtension(string extension) => Restriction.extensions?.Validate(extension);
 
-        /// <summary>
-        /// Non existent validations should be allowed to pass
-        /// </summary>
-        /// <param name="properties"></param>
-        public void ValidateExtensionProperties(object properties) 
-        {
-            switch (properties)
-            {
-                case Pdf cmd: Restriction.pdf?.IsValid(cmd);break;
-                case Excel cmd: Restriction.excel?.IsValid(cmd); break;
-                case Doc cmd: Restriction.doc?.IsValid(cmd); break;
-                case Image cmd: Restriction.image?.IsValid(cmd); break;
-                case Video cmd: Restriction.video?.IsValid(cmd); break;
-            }
-        }
-        
+
         private void ValidateRestrictionsTypeAll(int length)
         {
             var all = Restriction.all;

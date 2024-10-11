@@ -1,10 +1,14 @@
-﻿using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
+﻿using Dominio.loja.Interfaces.Files;
+using System.Runtime.CompilerServices;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Image : FileType
+    public class Image : FileType , IFileTypeRestriction
     {
         public List<Dimensions> Dimensions { get; set; }
+        public string Type { get => typeof(Image).ToString(); }
+
         public Image(int height , int width) 
         {
             Dimensions= new();
@@ -14,13 +18,10 @@ namespace Dominio.loja.Events.FileUpload
         { 
             
         }
+        
         public Image() { }
-        public override void GenerateEmptyRestriction()
-        {
-            Dimensions = new();
-        }
-
-        public override void IsValid(object ft)
+  
+        public void IsValid(object ft)
         {
             Image image = (Image)ft;
             if (!Dimensions.Any())
@@ -30,6 +31,14 @@ namespace Dominio.loja.Events.FileUpload
                 throw new BadImageFormatException("Image format is not valid");
         }
 
+        public void SerializeFileProperties()
+        {
+            throw new NotImplementedException();
+        }
 
+        public void DeserializeFileProperties()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

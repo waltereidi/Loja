@@ -24,7 +24,6 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
         }
         public FileDirectory() { }
 
-
         protected override void When(object @event)
         {
      

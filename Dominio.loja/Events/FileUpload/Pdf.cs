@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Dominio.loja.Interfaces.Files;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,20 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Pdf : FileType 
+    public class Pdf : FileType, IFileTypeRestriction
     { 
         private int Min { get; set; }
         private int Max { get; set; }
-        [JsonIgnore]
-        public int Pages { get; set; }
+        public string Type =>typeof(Pdf).ToString();
+        
+        private record FileProperty(int pages);
+
         public Pdf() { }
         public Pdf(int pages) 
         {
-            Pages = pages; 
+            base.Value = Json
         }
-        public override void IsValid(object ft) 
+        public void IsValid(object ft) 
         {
             Pdf pdf = (Pdf)ft;
             if (Min < pdf.Pages)
@@ -28,12 +31,16 @@ namespace Dominio.loja.Events.FileUpload
             if (Max > 0 && pdf.Pages > Max)
                 throw new ArgumentOutOfRangeException($"The document should have a maximum of ({Max}) pages , but have {pdf.Pages}");
         }
-        public override void GenerateEmptyRestriction()
+
+        public void SerializeFileProperties()
         {
-            Min = 0; 
-            Max = 0;
+            throw new NotImplementedException();
         }
 
+        public void DeserializeFileProperties()
+        {
+            throw new NotImplementedException();
+        }
     };
 
 }
