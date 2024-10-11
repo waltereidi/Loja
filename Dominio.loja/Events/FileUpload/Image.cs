@@ -14,7 +14,11 @@ namespace Dominio.loja.Events.FileUpload
         { 
             
         }
-
+        public Image() { }
+        public override void GenerateEmptyRestriction()
+        {
+            Dimensions = new();
+        }
 
         public override void IsValid(object ft)
         {

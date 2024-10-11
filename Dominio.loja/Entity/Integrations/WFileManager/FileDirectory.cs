@@ -1,4 +1,4 @@
-﻿using Dominio.loja.Events.FileUpload;
+﻿  using Dominio.loja.Events.FileUpload;
 using Framework.loja;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -40,4 +40,8 @@
     <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Domain\" />
+  </ItemGroup>
+
 </Project>

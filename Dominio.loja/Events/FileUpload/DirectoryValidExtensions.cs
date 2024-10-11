@@ -4,12 +4,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices.Marshalling;
+using System.Text.Json.Serialization;
 
 namespace Dominio.loja.Events.FileUpload
 {
     public class DirectoryValidExtensions
     {
         private string Value { get; set; }
+        [JsonIgnore]
         private string[] Extensions { get; set; }
         public DirectoryValidExtensions() { }
         public DirectoryValidExtensions(string value)

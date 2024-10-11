@@ -1,6 +1,7 @@
 ﻿using Framwork.loja.Utility.Files;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 namespace Dominio.loja.Events.FileUpload
@@ -14,9 +15,28 @@ namespace Dominio.loja.Events.FileUpload
         
         public DirectoryRestriction(string value)
         {
-            Restriction =!value.IsNullOrEmpty() ? JsonSerializer.Deserialize<Restrictions>(value) : null ;
+            Restriction =!value.IsNullOrEmpty() ? JsonSerializer.Deserialize<Restrictions>(value) : GenerateEmptyRestrictions() ;
 
             Value = value;
+        }
+
+        public Restrictions GenerateEmptyRestrictions()
+        {
+            var res = new Restrictions(
+                new(),
+                new(),
+                new(),
+                new(),
+                new(),
+                new(0 , 0 ),
+                new("")
+                );
+            res.image.GenerateEmptyRestriction();
+            res.video.GenerateEmptyRestriction();
+            res.pdf.GenerateEmptyRestriction();
+            res.doc.GenerateEmptyRestriction();
+            res.excel.GenerateEmptyRestriction();
+            return res;
         }
 
         public static implicit operator string(DirectoryRestriction dr)=> dr.Value;
