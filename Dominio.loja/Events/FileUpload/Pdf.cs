@@ -14,13 +14,12 @@ namespace Dominio.loja.Events.FileUpload
         private int Min { get; set; }
         private int Max { get; set; }
         public string Type =>typeof(Pdf).ToString();
-        
+        public int Pages { get; set; }
         private record FileProperty(int pages);
 
         public Pdf() { }
         public Pdf(int pages) 
         {
-            base.Value = Json
         }
         public void IsValid(object ft) 
         {

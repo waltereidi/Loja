@@ -1,42 +1,44 @@
-﻿using Framwork.loja.Utility.Files;
+﻿using Dominio.loja.Interfaces.Files;
+using Framwork.loja.Utility.Files;
 using Microsoft.IdentityModel.Tokens;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
-
+using ExtensionMethods;
 namespace Dominio.loja.Events.FileUpload
 {
     public class DirectoryRestriction
     {
-        private string Value { get; set; }
-        public Restrictions Restriction { get; private set; }
+        private string Value 
+        { 
+            get => SerializeRestrictions(); 
+            set => SetValue(this.Value); 
+        }
+        private void SetValue(string value)
+        {
+            this.Value= value;
+        }
+        private string SerializeRestrictions()
+        {
+            throw new NotImplementedException();
+        }
+        public List<IFileTypeRestriction> Restriction { get; set; }
+        //public Restrictions? Restriction { get; private set; }
         public DirectoryRestriction() { }
-        
         public DirectoryRestriction(string value)
         {
-            Restriction =!value.IsNullOrEmpty() ? JsonSerializer.Deserialize<Restrictions>(value) : GenerateEmptyRestrictions() ;
-
-            Value = value;
+            List<object> res = JsonSerializer.Deserialize<List<object>>(value) ?? new();
+            
+                
         }
 
+        public static void GobbleGobble(this string s)
+        {
+            Console.Out.WriteLine("Gobble Gobble, " + s);
+        }
 
         public static implicit operator string(DirectoryRestriction dr)=> dr.Value;
-
-        public void ValidateExtension(string extension) => Restriction.extensions?.Validate(extension);
-
-
-        private void ValidateRestrictionsTypeAll(int length)
-        {
-            var all = Restriction.all;
-
-            if (all.min > 0 && all.min < length)
-            {
-                throw new InvalidDataException($"File length smaller than {(string)new ReadableFileLength(length)}");
-            }
-
-            {
-                throw new InvalidDataException($"File length bigger than {(string)new ReadableFileLength(length)}");
-            }
-        }
+      
     }
 }

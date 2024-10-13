@@ -1,9 +1,10 @@
 ﻿
+using Dominio.loja.Interfaces.Files;
 using System.Text.Json.Serialization;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Excel : FileType 
+    public class Excel : FileType , IFileTypeRestriction
     {
         [JsonIgnore]
         public int Rows { get; set; }
@@ -13,14 +14,16 @@ namespace Dominio.loja.Events.FileUpload
         public int MinRows { get; set; }
         public int MaxSheets { get; set; }    
         public int MinSheets { get; set; }
-        
+
+        public string Type => throw new NotImplementedException();
+
         public Excel() { }
         public Excel(int rows , int sheets)
         {
             Rows = rows; 
             Sheets = sheets;
         }
-        public override void IsValid(object ft) 
+        public void IsValid(object ft) 
         {
             if (Rows < MinRows )
                 throw new ArgumentOutOfRangeException($"Minimun amount of rows allowed is {MinRows} and was sent {Rows}");
@@ -34,12 +37,22 @@ namespace Dominio.loja.Events.FileUpload
             if (MaxSheets > 0 && MaxSheets > Sheets)
                 throw new ArgumentOutOfRangeException($"Maximum amount of sheets allowed is {MaxSheets} and was sent {Sheets}");
         }
-        public override void GenerateEmptyRestriction()
+        public void GenerateEmptyRestriction()
         {
             MaxRows = 0;
             MinRows = 0;
             MaxSheets = 0;
             MinSheets = 0;
+        }
+
+        public void SerializeFileProperties()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeserializeFileProperties()
+        {
+            throw new NotImplementedException();
         }
     }
 }

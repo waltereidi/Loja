@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.loja.Interfaces.Files;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,15 @@ namespace Dominio.loja.Events.FileUpload
 {
     public class Restrictions
     {
-        public record Restrictions(Image? image, Video? video, Pdf? pdf, Doc? doc, Excel? excel, All? all, DirectoryValidExtensions? extensions);
+        //public record Restrictions(Image? image, Video? video, Pdf? pdf, Doc? doc, Excel? excel, All? all, DirectoryValidExtensions? extensions);
+       
+        public Restrictions(List<FileType> res) 
+        {
+            res.ForEach(f =>
+            {
 
+            });
+        
+        }
     }
 }

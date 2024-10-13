@@ -21,11 +21,11 @@ namespace Dominio.loja.Events.FileUpload
         {
             var directoryRestrictions = _file.FileStorage.Directory.Restriction;
 
-            directoryRestrictions?.ValidateExtension(_file.FileStorage.Extension);
+            //directoryRestrictions?.ValidateExtension(_file.FileStorage.Extension);
 
             
-            if (_file.FileStorage.FileProperties != null)
-                directoryRestrictions?.ValidateExtensionProperties(_file.FileStorage.FileProperties);
+            //if (_file.FileStorage.FileProperties != null)
+            //    directoryRestrictions?.ValidateExtensionProperties(_file.FileStorage.FileProperties);
 
 
         }
