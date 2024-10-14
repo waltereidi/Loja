@@ -20,6 +20,7 @@ namespace Tests.loja.MicroService.IntegrationsTest.WFileManagerTest
         [TestMethod]
         public void DirectoryRestriction()
         {
+            var i = typeof(Type).Name; 
             string json = "[";
             json += "{ \"Type\" : \"Image\" },";
             json += "{ \"Type\" : \"Pdf\" },";

@@ -1,11 +1,22 @@
-﻿namespace ExtensionMethods
+﻿using System;
+using System.Net.Mime;
+
+namespace Framework.loja.ExtensionMethods
 {
     public static class MyExtensions
     {
-        public static int WordCount(this string str)
+        public static bool PropertyValueExists<T>(this object obj, string typeName, T typeValue) where T : class 
         {
-            return str.Split(new char[] { ' ', '.', '?' },
-                             StringSplitOptions.RemoveEmptyEntries).Length;
+            var p = obj.GetType().GetProperties();
+            p.First().GetValue("Type");
+            var prop = obj.GetType().GetProperty(typeName)?.GetValue(obj);
+            
+            if( prop.GetType() == typeValue.GetType())
+            {
+                return prop.Equals(typeValue);
+            }
+            return false;
         }
+        
     }
 }

@@ -1,11 +1,9 @@
 ﻿using Dominio.loja.Interfaces.Files;
-using Framwork.loja.Utility.Files;
-using Microsoft.IdentityModel.Tokens;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
-using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
-using ExtensionMethods;
+using Framework.loja.ExtensionMethods;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 namespace Dominio.loja.Events.FileUpload
 {
     public class DirectoryRestriction
@@ -28,14 +26,12 @@ namespace Dominio.loja.Events.FileUpload
         public DirectoryRestriction() { }
         public DirectoryRestriction(string value)
         {
-            List<object> res = JsonSerializer.Deserialize<List<object>>(value) ?? new();
+            List<object> res = JsonSerializer.Deserialize<List<object>>(value ) ?? new();
             
+            Pdf i = (Pdf)res.Find(x => x.PropertyValueExists(typeof(Type).Name, typeof(Pdf).Name));
+           
                 
-        }
-
-        public static void GobbleGobble(this string s)
-        {
-            Console.Out.WriteLine("Gobble Gobble, " + s);
+            
         }
 
         public static implicit operator string(DirectoryRestriction dr)=> dr.Value;
