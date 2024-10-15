@@ -1,9 +1,8 @@
 ﻿using Dominio.loja.Interfaces.Files;
 using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
 using Framework.loja.ExtensionMethods;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 namespace Dominio.loja.Events.FileUpload
 {
     public class DirectoryRestriction
@@ -26,12 +25,33 @@ namespace Dominio.loja.Events.FileUpload
         public DirectoryRestriction() { }
         public DirectoryRestriction(string value)
         {
-            List<object> res = JsonSerializer.Deserialize<List<object>>(value ) ?? new();
+            var jsonArray = JsonObject.Parse(value).AsArray().Any() ?
+                JsonObject.Parse(value).AsArray().ToList() 
+                : null ;
             
-            Pdf i = (Pdf)res.Find(x => x.PropertyValueExists(typeof(Type).Name, typeof(Pdf).Name));
-           
+            if (jsonArray == null)
+                return;
+
+            
+            jsonArray.ForEach(f => ChooseFileTypeRestriction(f.PropertyValueExists<string>) );
                 
             
+        }
+
+        private void ChooseFileTypeRestriction(Func<string, string, bool> propertyValueExists)
+        {
+            switch (true)
+            {
+                //case propertyValueExists("Type", "Pdf"): break;
+
+
+            }
+        }
+
+
+        private void AddRestrictionFromJsonObject(Task d)
+        {
+
         }
 
         public static implicit operator string(DirectoryRestriction dr)=> dr.Value;
