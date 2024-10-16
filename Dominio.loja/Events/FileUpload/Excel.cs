@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Excel : FileType , IFileTypeRestriction
+    public sealed class Excel : FileType , IFileTypeRestriction
     {
         [JsonIgnore]
         public int Rows { get; set; }
@@ -15,7 +15,7 @@ namespace Dominio.loja.Events.FileUpload
         public int MaxSheets { get; set; }    
         public int MinSheets { get; set; }
 
-        public override string Type => throw new NotImplementedException();
+        public override string Type => typeof(Excel).Name;
         
         public Excel() { }
         public Excel(int rows , int sheets)
@@ -23,6 +23,11 @@ namespace Dominio.loja.Events.FileUpload
             Rows = rows; 
             Sheets = sheets;
         }
+
+        public Excel(string value) : base(value)
+        {
+        }
+
         public void IsValid(object ft) 
         {
             if (Rows < MinRows )

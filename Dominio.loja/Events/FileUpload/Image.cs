@@ -1,13 +1,14 @@
 ﻿using Dominio.loja.Interfaces.Files;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Image : FileType , IFileTypeRestriction , IFileTypeProperty
+    public sealed class Image : FileType , IFileTypeRestriction , IFileTypeProperty
     {
         public List<Dimensions> Dimensions { get; set; }
-        public override string Type { get => typeof(Image).ToString(); }
+        public override string Type { get => typeof(Image).Name;  }
 
         public Image(FileType ft) : base((string)ft)
         {
@@ -43,7 +44,8 @@ namespace Dominio.loja.Events.FileUpload
 
         public void DeserializeFileProperties()
         {
-            throw new NotImplementedException();
+            Image image= JsonSerializer.Deserialize<Image>(base.Value);
+            Dimensions = image?.Dimensions ?? new();
         }
     }
 }

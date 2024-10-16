@@ -4,15 +4,14 @@ using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Video : FileType , IFileTypeRestriction
+    public sealed class Video : FileType , IFileTypeRestriction
     {
+        public override string Type => typeof(Video).Name;
         public List<Dimensions> Dimensions { get; set; }
         public int MaxDurationInSeconds { get; set; }
         public int MinDurationInSeconds { get; set; }
         [JsonIgnore]
         public int DurationInSeconds { get; set; }
-
-        public override string Type => throw new NotImplementedException();
         public Video(FileType ft) : base((string)ft)
         {
             DeserializeFileProperties();

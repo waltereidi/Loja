@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Doc : FileType , IFileTypeRestriction
+    public sealed class Doc : FileType , IFileTypeRestriction
     {
         public int MaxPages { get; set; }
         public int MinPages {  get; set; }
         [JsonIgnore]
         public int Pages { get; set; }
 
-        public override string Type => throw new NotImplementedException();
+        public override string Type => typeof(Doc).Name;
 
         public void GenerateEmptyRestriction()
         {
             MinPages = 0;
             MaxPages = 0;
         }
-        public Doc() { }
+        public Doc(FileType ft) { }
         public void IsValid(object ft) 
         {
             Doc doc = (Doc)ft;

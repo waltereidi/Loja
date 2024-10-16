@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Pdf : FileType, IFileTypeRestriction
+    public sealed class Pdf : FileType, IFileTypeRestriction
     { 
         private int Min { get; set; }
         private int Max { get; set; }
-        public override string Type =>typeof(Pdf).ToString();
+        public override string Type =>typeof(Pdf).Name;
         public int Pages { get; set; }
         private record FileProperty(int pages);
 

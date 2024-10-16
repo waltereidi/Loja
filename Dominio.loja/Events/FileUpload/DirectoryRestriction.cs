@@ -17,8 +17,9 @@ namespace Dominio.loja.Events.FileUpload
         {
             throw new NotImplementedException();
         }
-        public List<IFileTypeRestriction> Restriction { get; set; }
-        //public Restrictions? Restriction { get; private set; }
+        public List<IFileTypeRestriction> Restriction { get; set; } = new();
+        
+        public static implicit operator string(DirectoryRestriction dr) => dr.Value;
         public DirectoryRestriction() { }
         public DirectoryRestriction(string value)
         {
@@ -31,30 +32,24 @@ namespace Dominio.loja.Events.FileUpload
 
             jsonArray.ForEach(f => {
                 FileType ft = new(f.ToJsonString());
-                
+                ChooseFileTypeRestriction(ft);
             });
-                
-            
         }
 
-        private void ChooseFileTypeRestriction(string type)
+        private void ChooseFileTypeRestriction(FileType ft)
         {
-            switch (type)
+            switch (ft.Type)
             {
-                case "Pdf": break;
-                case "Image": break;
-
-
+                case "Pdf": Restriction.Add(new Pdf(ft)); break;
+                case "Image": Restriction.Add(new Image(ft)); break;
+                case "Excel": Restriction.Add(new Excel(ft)); break;
+                case "Doc": Restriction.Add(new Doc(ft)); break;
+                case "Video": Restriction.Add(new Video(ft)); break;
+                case "ValidExtensions": Restriction.Add(new ValidExtensions(ft)); break;
+                case "All": Restriction.Add(new All(ft)); break;
+                default: throw new NotImplementedException();
             }
         }
 
-
-        private void AddRestrictionFromJsonObject(Task d)
-        {
-
-        }
-
-        public static implicit operator string(DirectoryRestriction dr)=> dr.Value;
-      
     }
 }

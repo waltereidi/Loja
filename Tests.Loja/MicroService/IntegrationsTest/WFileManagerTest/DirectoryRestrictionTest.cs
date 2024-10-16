@@ -26,7 +26,9 @@ namespace Tests.loja.MicroService.IntegrationsTest.WFileManagerTest
             json += "{ \"Type\" : \"Pdf\" },";
             json += "{ \"Type\" : \"Excel\" },";
             json += "{ \"Type\" : \"Doc\" },";
-            json += "{ \"Type\" : \"Video\" }";
+            json += "{ \"Type\" : \"Video\" },";
+            json += "{ \"Type\" : \"All\" },";
+            json += "{ \"Type\" : \"ValidExtensions\" }";
             json += "]";
 
             var dr = new DirectoryRestriction(json);
