@@ -4,16 +4,21 @@ using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public class Image : FileType , IFileTypeRestriction
+    public class Image : FileType , IFileTypeRestriction , IFileTypeProperty
     {
         public List<Dimensions> Dimensions { get; set; }
-        public string Type { get => typeof(Image).ToString(); }
+        public override string Type { get => typeof(Image).ToString(); }
 
+        public Image(FileType ft) : base((string)ft)
+        {
+            DeserializeFileProperties();
+        }
         public Image(int height , int width) 
         {
             Dimensions= new();
             Dimensions.Add(new Dimensions(height, width));
         }
+
         public Image(string dimensions)
         { 
             

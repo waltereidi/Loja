@@ -12,8 +12,11 @@ namespace Dominio.loja.Events.FileUpload
         [JsonIgnore]
         public int DurationInSeconds { get; set; }
 
-        public string Type => throw new NotImplementedException();
-
+        public override string Type => throw new NotImplementedException();
+        public Video(FileType ft) : base((string)ft)
+        {
+            DeserializeFileProperties();
+        }
         public Video() { }
         public void IsValid(object ft)
         {

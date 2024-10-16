@@ -1,9 +1,11 @@
 ﻿using Dominio.loja.Interfaces.Files;
+using Framework.loja.ExtensionMethods;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -13,11 +15,15 @@ namespace Dominio.loja.Events.FileUpload
     { 
         private int Min { get; set; }
         private int Max { get; set; }
-        public string Type =>typeof(Pdf).ToString();
+        public override string Type =>typeof(Pdf).ToString();
         public int Pages { get; set; }
         private record FileProperty(int pages);
 
         public Pdf() { }
+        public Pdf(FileType ft) :base((string)ft) 
+        {
+            DeserializeFileProperties();
+        }
         public Pdf(int pages) 
         {
         }
@@ -38,7 +44,10 @@ namespace Dominio.loja.Events.FileUpload
 
         public void DeserializeFileProperties()
         {
-            throw new NotImplementedException();
+            Pdf pdf = JsonSerializer.Deserialize<Pdf>(base.Value);
+            this.Min = pdf.Min;
+            this.Max = pdf.Max;
+            this.Pages = pdf.Pages;
         }
     };
 

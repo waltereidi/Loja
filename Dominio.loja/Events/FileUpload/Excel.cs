@@ -15,8 +15,8 @@ namespace Dominio.loja.Events.FileUpload
         public int MaxSheets { get; set; }    
         public int MinSheets { get; set; }
 
-        public string Type => throw new NotImplementedException();
-
+        public override string Type => throw new NotImplementedException();
+        
         public Excel() { }
         public Excel(int rows , int sheets)
         {

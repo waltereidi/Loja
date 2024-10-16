@@ -9,13 +9,17 @@ namespace Dominio.loja.Events.FileUpload
     {
         [JsonIgnore]
         protected string Value { get; set; }
+        public virtual string Type { get; set; }    
         public FileType() {}
 
         public FileType(string value)
         {
             Value = value;
+            var json = JsonSerializer.Deserialize<FileType>(value);
+            Type = json.Type;
         }
         public static implicit operator string(FileType ft) => ft.Value;
+         
     }
 
 

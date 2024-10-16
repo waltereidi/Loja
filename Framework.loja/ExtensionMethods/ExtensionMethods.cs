@@ -15,6 +15,8 @@ namespace Framework.loja.ExtensionMethods
             }
             return false;
         }
-        
+        public static object? GetPropertyValue(this object obj, string attributeName)
+            => obj.GetType().GetProperty(attributeName)?.GetValue(obj);
+
     }
 }

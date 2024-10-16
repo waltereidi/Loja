@@ -1,8 +1,5 @@
 ﻿using Dominio.loja.Interfaces.Files;
-using System.Text.Json;
-using Framework.loja.ExtensionMethods;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization.Metadata;
 namespace Dominio.loja.Events.FileUpload
 {
     public class DirectoryRestriction
@@ -32,17 +29,20 @@ namespace Dominio.loja.Events.FileUpload
             if (jsonArray == null)
                 return;
 
-            
-            jsonArray.ForEach(f => ChooseFileTypeRestriction(f.PropertyValueExists<string>) );
+            jsonArray.ForEach(f => {
+                FileType ft = new(f.ToJsonString());
+                
+            });
                 
             
         }
 
-        private void ChooseFileTypeRestriction(Func<string, string, bool> propertyValueExists)
+        private void ChooseFileTypeRestriction(string type)
         {
-            switch (true)
+            switch (type)
             {
-                //case propertyValueExists("Type", "Pdf"): break;
+                case "Pdf": break;
+                case "Image": break;
 
 
             }

@@ -15,7 +15,7 @@ namespace Dominio.loja.Events.FileUpload
         [JsonIgnore]
         public int Pages { get; set; }
 
-        public string Type => throw new NotImplementedException();
+        public override string Type => throw new NotImplementedException();
 
         public void GenerateEmptyRestriction()
         {
