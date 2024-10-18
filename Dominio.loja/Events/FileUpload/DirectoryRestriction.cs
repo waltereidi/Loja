@@ -1,4 +1,7 @@
 ﻿using Dominio.loja.Interfaces.Files;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 namespace Dominio.loja.Events.FileUpload
 {
@@ -40,16 +43,20 @@ namespace Dominio.loja.Events.FileUpload
         {
             switch (ft.Type)
             {
-                case "Pdf": Restriction.Add(new Pdf(ft)); break;
-                case "Image": Restriction.Add(new Image(ft)); break;
-                case "Excel": Restriction.Add(new Excel(ft)); break;
-                case "Doc": Restriction.Add(new Doc(ft)); break;
-                case "Video": Restriction.Add(new Video(ft)); break;
-                case "ValidExtensions": Restriction.Add(new ValidExtensions(ft)); break;
-                case "All": Restriction.Add(new All(ft)); break;
+                case "Pdf": Restriction.Add(DeserializeFileTypeRestriction<Pdf>(ft)); break;
+                case "Image": Restriction.Add(DeserializeFileTypeRestriction<Image>(ft)); break;
+                case "Excel": Restriction.Add(DeserializeFileTypeRestriction<Excel>(ft)); break;
+                case "Doc": Restriction.Add(DeserializeFileTypeRestriction<Doc>(ft)); break;
+                case "Video": Restriction.Add(DeserializeFileTypeRestriction<Video>(ft)); break;
+                case "ValidExtensions": Restriction.Add(DeserializeFileTypeRestriction<ValidExtensions>(ft)); break;
+                case "All": Restriction.Add(DeserializeFileTypeRestriction<All>(ft)); break;
                 default: throw new NotImplementedException();
             }
         }
-
+        private T DeserializeFileTypeRestriction<T>(FileType ft) where T : FileType
+        {
+            T deserializedFileType = JsonSerializer.Deserialize<T>((string)ft);
+            return deserializedFileType;
+        }
     }
 }

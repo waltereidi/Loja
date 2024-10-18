@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Interfaces.Files;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
@@ -12,11 +13,12 @@ namespace Dominio.loja.Events.FileUpload
         public int MinDurationInSeconds { get; set; }
         [JsonIgnore]
         public int DurationInSeconds { get; set; }
-        public Video(FileType ft) : base((string)ft)
-        {
-            DeserializeFileProperties();
-        }
+
         public Video() { }
+        public Video(string value) : base(value)
+        {
+
+        }
         public void IsValid(object ft)
         {
             Video video = (Video)ft;
@@ -26,21 +28,6 @@ namespace Dominio.loja.Events.FileUpload
             if (MaxDurationInSeconds > 0 && MaxDurationInSeconds < DurationInSeconds)
                 throw new ArgumentOutOfRangeException($"Maximun allowed duration of video is {TimeSpan.FromSeconds(MaxDurationInSeconds).TotalMinutes} and the video have {TimeSpan.FromSeconds(DurationInSeconds).TotalMinutes} minutes");
         }
-        public void GenerateEmptyRestriction()
-        {
-            Dimensions = new ();
-            MaxDurationInSeconds = 0; 
-            MinDurationInSeconds = 0;
-        }
 
-        public void SerializeFileProperties()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeserializeFileProperties()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

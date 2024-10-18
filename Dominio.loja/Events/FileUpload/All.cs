@@ -14,31 +14,26 @@ namespace Dominio.loja.Events.FileUpload
         public override string Type => typeof(All).Name;
         public long MaxLength { get; set; }
         public long MinLength { get; set; }
-        public long Length { get; set; }
+        
         public All(string value) : base(value)
         {
-            DeserializeFileProperties();
+            
         }
+        public All() { }
 
-        public void DeserializeFileProperties()
-        {
-            All all = JsonSerializer.Deserialize<All>(base.Value);
-            MaxLength = all.MaxLength;
-            MinLength = all.MinLength;
-        }
-
+        /// <summary>
+        /// Must be validated with <see cref="FileInfo"/>
+        /// </summary>
+        /// <param name="ft" ></param>
+        /// <exception cref="InvalidDataException"></exception>
         public void IsValid(object ft)
         {
-            All all = (All)ft;
-            if (MaxLength != 0 && Length > MaxLength)
-                throw new ArgumentOutOfRangeException($"Max file length allowed is {MaxLength} bytes , file sent has {Length}");
-            if (Length < MinLength)
-                throw new ArgumentOutOfRangeException($"Min file length allowed is {MinLength} bytes , file sent has {Length}");
+            FileInfo fi = (FileInfo)ft;
+            if (MaxLength != 0 && fi.Length > MaxLength)
+                throw new ArgumentOutOfRangeException($"Max file length allowed is {MaxLength} bytes , file sent has {fi.Length}");
+            if (fi.Length < MinLength)
+                throw new ArgumentOutOfRangeException($"Min file length allowed is {MinLength} bytes , file sent has {fi.Length}");
         }
 
-        public void SerializeFileProperties()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

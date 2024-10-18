@@ -10,10 +10,6 @@ namespace Dominio.loja.Events.FileUpload
         public List<Dimensions> Dimensions { get; set; }
         public override string Type { get => typeof(Image).Name;  }
 
-        public Image(FileType ft) : base((string)ft)
-        {
-            DeserializeFileProperties();
-        }
         public Image(int height , int width) 
         {
             Dimensions= new();
@@ -37,15 +33,5 @@ namespace Dominio.loja.Events.FileUpload
                 throw new BadImageFormatException("Image format is not valid");
         }
 
-        public void SerializeFileProperties()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeserializeFileProperties()
-        {
-            Image image= JsonSerializer.Deserialize<Image>(base.Value);
-            Dimensions = image?.Dimensions ?? new();
-        }
     }
 }

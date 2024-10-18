@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -12,17 +13,19 @@ namespace Dominio.loja.Events.FileUpload
     {
         public int MaxPages { get; set; }
         public int MinPages {  get; set; }
-        [JsonIgnore]
         public int Pages { get; set; }
 
         public override string Type => typeof(Doc).Name;
-
-        public void GenerateEmptyRestriction()
+        public Doc() { }
+        public Doc(int pages )
         {
-            MinPages = 0;
-            MaxPages = 0;
+            Pages = pages;
         }
-        public Doc(FileType ft) { }
+
+        public Doc(string value) : base(value)
+        {
+        }
+
         public void IsValid(object ft) 
         {
             Doc doc = (Doc)ft;
@@ -33,15 +36,6 @@ namespace Dominio.loja.Events.FileUpload
                 throw new ArgumentOutOfRangeException($"Maximun allowed pages is ${MaxPages} and was sent ${Pages}");
         }
 
-        public void SerializeFileProperties()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeserializeFileProperties()
-        {
-            throw new NotImplementedException();
-        }
     };
 
 }

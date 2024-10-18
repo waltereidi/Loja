@@ -19,7 +19,10 @@ namespace Dominio.loja.Events.FileUpload
             Type = json.Type;
         }
         public static implicit operator string(FileType ft) => ft.Value;
-         
+        public virtual void SerializeFileProperties()
+        {
+            Value = JsonSerializer.Serialize(this);
+        }
     }
 
 

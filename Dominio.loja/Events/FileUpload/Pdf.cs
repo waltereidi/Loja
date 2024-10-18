@@ -20,10 +20,7 @@ namespace Dominio.loja.Events.FileUpload
         private record FileProperty(int pages);
 
         public Pdf() { }
-        public Pdf(FileType ft) :base((string)ft) 
-        {
-            DeserializeFileProperties();
-        }
+
         public Pdf(int pages) 
         {
         }
@@ -37,18 +34,6 @@ namespace Dominio.loja.Events.FileUpload
                 throw new ArgumentOutOfRangeException($"The document should have a maximum of ({Max}) pages , but have {pdf.Pages}");
         }
 
-        public void SerializeFileProperties()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeserializeFileProperties()
-        {
-            Pdf pdf = JsonSerializer.Deserialize<Pdf>(base.Value);
-            this.Min = pdf.Min;
-            this.Max = pdf.Max;
-            this.Pages = pdf.Pages;
-        }
     };
 
 }

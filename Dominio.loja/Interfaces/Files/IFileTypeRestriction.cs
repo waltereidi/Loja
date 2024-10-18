@@ -7,6 +7,6 @@ namespace Dominio.loja.Interfaces.Files
         public void IsValid(object ft);
         public string Type { get; set; }
         public void SerializeFileProperties();
-        public void DeserializeFileProperties();
+        //public void DeserializeFileProperties();
     }
 }

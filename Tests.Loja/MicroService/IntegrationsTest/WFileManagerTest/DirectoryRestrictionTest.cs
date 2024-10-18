@@ -16,6 +16,12 @@ namespace Tests.loja.MicroService.IntegrationsTest.WFileManagerTest
         {
 
         }
+        [TestMethod]
+        public void GenerateSerializedProperties_All()
+        {
+            All all = new All();
+        }
+
 
         [TestMethod]
         public void DirectoryRestriction()
@@ -28,11 +34,16 @@ namespace Tests.loja.MicroService.IntegrationsTest.WFileManagerTest
             json += "{ \"Type\" : \"Doc\" },";
             json += "{ \"Type\" : \"Video\" },";
             json += "{ \"Type\" : \"All\" },";
-            json += "{ \"Type\" : \"ValidExtensions\" }";
+            json += "{\"Type\":\"ValidExtensions\",\"Extensions\":[\"pdf\",\"jpg\"]}";
             json += "]";
 
-            var dr = new DirectoryRestriction(json);
+            ValidExtensions ext = new ValidExtensions();
+            ext.Extensions.Add("pdf");
+            ext.Extensions.Add("jpg");
+            ext.SerializeFileProperties();
+            
 
+            var dr = new DirectoryRestriction(json);
         }
     }
 }
