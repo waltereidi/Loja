@@ -20,10 +20,8 @@ namespace Dominio.loja.Events.FileUpload
         /// </summary>
         /// <param name="ft" ></param>
         /// <exception cref="InvalidDataException"></exception>
-        public void IsValid(object ft)
+        public void IsValid(object ft , FileInfo fi)
         {
-            FileInfo fi = (FileInfo)ft;
-
             if (Extensions.Count() > 0 && !Extensions.Any(x => fi.Extension.ToLower().Contains(x.ToLower())))
                 throw new InvalidDataException("File extensions does not match");
         }

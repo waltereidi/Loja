@@ -19,7 +19,7 @@ namespace Dominio.loja.Events.FileUpload
         {
 
         }
-        public void IsValid(object ft)
+        public void IsValid(object ft, FileInfo fi)
         {
             Video video = (Video)ft;
             if (MinDurationInSeconds < DurationInSeconds)

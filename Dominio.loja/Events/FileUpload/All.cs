@@ -26,9 +26,8 @@ namespace Dominio.loja.Events.FileUpload
         /// </summary>
         /// <param name="ft" ></param>
         /// <exception cref="InvalidDataException"></exception>
-        public void IsValid(object ft)
+        public void IsValid(object ft , FileInfo fi)
         {
-            FileInfo fi = (FileInfo)ft;
             if (MaxLength != 0 && fi.Length > MaxLength)
                 throw new ArgumentOutOfRangeException($"Max file length allowed is {MaxLength} bytes , file sent has {fi.Length}");
             if (fi.Length < MinLength)

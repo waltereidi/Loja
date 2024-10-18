@@ -23,7 +23,7 @@ namespace Dominio.loja.Events.FileUpload
         
         public Image() { }
   
-        public void IsValid(object ft)
+        public void IsValid(object ft , FileInfo fi)
         {
             Image image = (Image)ft;
             if (!Dimensions.Any())

@@ -24,7 +24,7 @@ namespace Dominio.loja.Events.FileUpload
         public Pdf(int pages) 
         {
         }
-        public void IsValid(object ft) 
+        public void IsValid(object ft , FileInfo fi) 
         {
             Pdf pdf = (Pdf)ft;
             if (Min < pdf.Pages)

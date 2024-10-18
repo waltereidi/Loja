@@ -35,28 +35,34 @@ namespace Dominio.loja.Events.FileUpload
 
             jsonArray.ForEach(f => {
                 FileType ft = new(f.ToJsonString());
-                ChooseFileTypeRestriction(ft);
+                Restriction.Add(ChooseFileTypeRestriction(ft));
             });
         }
+        public void ValidateRestrictions(FileType ft , FileInfo fi)
+        {
+            List<IFileTypeRestriction> validations = Restriction.FindAll(x=> x.Type == ft.Type 
+                || x.Type == typeof(All).Name 
+                || x.Type == typeof(ValidExtensions).Name );
+            
+            validations.ForEach(f => f.IsValid(ft , fi));
+        }
 
-        private void ChooseFileTypeRestriction(FileType ft)
+        private IFileTypeRestriction ChooseFileTypeRestriction(FileType ft)
         {
             switch (ft.Type)
             {
-                case "Pdf": Restriction.Add(DeserializeFileTypeRestriction<Pdf>(ft)); break;
-                case "Image": Restriction.Add(DeserializeFileTypeRestriction<Image>(ft)); break;
-                case "Excel": Restriction.Add(DeserializeFileTypeRestriction<Excel>(ft)); break;
-                case "Doc": Restriction.Add(DeserializeFileTypeRestriction<Doc>(ft)); break;
-                case "Video": Restriction.Add(DeserializeFileTypeRestriction<Video>(ft)); break;
-                case "ValidExtensions": Restriction.Add(DeserializeFileTypeRestriction<ValidExtensions>(ft)); break;
-                case "All": Restriction.Add(DeserializeFileTypeRestriction<All>(ft)); break;
+                case "Pdf": return DeserializeFileTypeRestriction<Pdf>(ft);
+                case "Image": return DeserializeFileTypeRestriction<Image>(ft);
+                case "Excel": return DeserializeFileTypeRestriction<Excel>(ft);
+                case "Doc": return DeserializeFileTypeRestriction<Doc>(ft);
+                case "Video": return DeserializeFileTypeRestriction<Video>(ft);
+                case "ValidExtensions":return  DeserializeFileTypeRestriction<ValidExtensions>(ft);
+                case "All": return DeserializeFileTypeRestriction<All>(ft);
                 default: throw new NotImplementedException();
             }
         }
-        private T DeserializeFileTypeRestriction<T>(FileType ft) where T : FileType
-        {
-            T deserializedFileType = JsonSerializer.Deserialize<T>((string)ft);
-            return deserializedFileType;
-        }
+
+        T DeserializeFileTypeRestriction<T>(FileType ft) where T : FileType
+            => JsonSerializer.Deserialize<T>((string)ft);
     }
 }

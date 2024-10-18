@@ -26,7 +26,7 @@ namespace Dominio.loja.Events.FileUpload
         {
         }
 
-        public void IsValid(object ft) 
+        public void IsValid(object ft , FileInfo fi) 
         {
             Doc doc = (Doc)ft;
             if(Pages < MinPages)

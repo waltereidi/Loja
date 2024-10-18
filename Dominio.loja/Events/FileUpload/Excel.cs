@@ -28,7 +28,7 @@ namespace Dominio.loja.Events.FileUpload
         }
 
 
-        public void IsValid(object ft) 
+        public void IsValid(object ft, FileInfo fi) 
         {
             if (Rows < MinRows )
                 throw new ArgumentOutOfRangeException($"Minimun amount of rows allowed is {MinRows} and was sent {Rows}");

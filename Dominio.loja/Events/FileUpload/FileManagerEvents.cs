@@ -11,6 +11,12 @@ namespace Dominio.loja.Events.FileUpload
             public record All(long max, long min);
             public record Dimensions(int height, int width);
         }
+        public class FileTypeValidationResult
+        {
+            private bool IsValid { get; set; }
+            
+
+        }
 
         public abstract class CreateFile
         {
