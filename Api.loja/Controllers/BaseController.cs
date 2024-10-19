@@ -13,22 +13,7 @@ namespace Api.loja.Controllers
             _logger = logger;
 
         }
-      
-        /// <summary>
-        /// Add jwtToken in header if existent on httpContext 
-        /// </summary>
-        /// <typeparam name="AuthenticationApplicationService.HttpContextSignIn">Creation method reference.</typeparam>
-        /// <returns></returns>
-        //public override void OnActionExecuting(ActionExecutingContext context)
-        //{
-        //    if (User.Claims.Any(c => c.Type == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken)))
-        //        HttpContext.Request.Headers.Authorization = "Bearer " + User
-        //            .Claims
-        //            .First(c => c.Type == nameof(AuthenticationContract.V1.ClientInfo.token.serializedToken))
-        //            .Value;
-        //}
-       
-     
+           
         protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<object?>> handler) where T : class
         {
             try
@@ -36,21 +21,21 @@ namespace Api.loja.Controllers
                 var result = await handler(request);
                 return Ok(result);
             }
-            //Throw this exception when authentication attempt fails
-            catch (AuthenticationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             //Throw this exception when is required to logoff from application
-            catch (UnauthorizedAccessException ex)
+            catch (Exception e) when (e.Source.Contains("Unauthorized"))
             {
-                return Unauthorized(ex.Message);
+                return Unauthorized(e.Message);
             }
             //Throw this exception when an unexpected empty respoonse is required
-            catch (ObjectNotFoundException ex)
+            catch (Exception e) when (e.Source.Contains("NotFound"))
             {
-                _logger.LogError(ex.Message);
-                return NotFound(ex.Message);
+                _logger.LogError(e.Message);
+                return NotFound(e.Message);
+            }
+            //Throw this exception when authentication attempt fails
+            catch (Exception e) when (e.Source.Contains("Invalid"))
+            {
+                return BadRequest(e.Message);
             }
             //Unhandled exceptions
             catch (Exception ex)

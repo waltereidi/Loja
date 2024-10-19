@@ -1,20 +1,23 @@
 ﻿using Dominio.loja.Events.FileUpload;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tests.loja.MicroService.IntegrationsTest.WFileManagerTest
 {
     [TestClass]
     public class DirectoryRestrictionTest
     {
-
+        private string RestrictionJson { get; set; }
         public DirectoryRestrictionTest()
         {
-
+            RestrictionJson = "[";
+            RestrictionJson += "{ \"Type\" : \"Image\" },";
+            RestrictionJson += "{ \"Type\" : \"Pdf\" },";
+            RestrictionJson += "{ \"Type\" : \"Excel\" },";
+            RestrictionJson += "{ \"Type\" : \"Doc\" },";
+            RestrictionJson += "{ \"Type\" : \"Video\" },";
+            RestrictionJson += "{ \"Type\" : \"All\" },";
+            RestrictionJson += "{\"Type\":\"ValidExtensions\",\"Extensions\":[\"pdf\",\"jpg\"]}";
+            RestrictionJson += "]";
         }
         [TestMethod]
         public void GenerateSerializedProperties_All()
@@ -27,15 +30,7 @@ namespace Tests.loja.MicroService.IntegrationsTest.WFileManagerTest
         public void DirectoryRestriction()
         {
             var i = typeof(Type).Name; 
-            string json = "[";
-            json += "{ \"Type\" : \"Image\" },";
-            json += "{ \"Type\" : \"Pdf\" },";
-            json += "{ \"Type\" : \"Excel\" },";
-            json += "{ \"Type\" : \"Doc\" },";
-            json += "{ \"Type\" : \"Video\" },";
-            json += "{ \"Type\" : \"All\" },";
-            json += "{\"Type\":\"ValidExtensions\",\"Extensions\":[\"pdf\",\"jpg\"]}";
-            json += "]";
+            
 
             ValidExtensions ext = new ValidExtensions();
             ext.Extensions.Add("pdf");
@@ -43,7 +38,7 @@ namespace Tests.loja.MicroService.IntegrationsTest.WFileManagerTest
             ext.SerializeFileProperties();
             
 
-            var dr = new DirectoryRestriction(json);
+            var dr = new DirectoryRestriction(RestrictionJson);
         }
     }
 }
