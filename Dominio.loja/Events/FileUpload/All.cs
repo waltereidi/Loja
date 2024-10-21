@@ -1,11 +1,6 @@
 ﻿using Dominio.loja.Interfaces.Files;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
+
 
 namespace Dominio.loja.Events.FileUpload
 {
@@ -15,7 +10,7 @@ namespace Dominio.loja.Events.FileUpload
         public long MaxLength { get; set; }
         public long MinLength { get; set; }
         
-        public All(string value) : base(value)
+        public All(FileType ft) : base(ft)
         {
             
         }

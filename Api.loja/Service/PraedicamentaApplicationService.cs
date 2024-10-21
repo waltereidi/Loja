@@ -56,7 +56,7 @@ namespace Api.loja.Service
             
             
             var result = uploadResult.First();
-            Image properties = new Image(result.Height , result.Width);
+            Image properties = null;
 
 
             FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(result.FullName , result.OriginalFileName, directory ,category , properties));

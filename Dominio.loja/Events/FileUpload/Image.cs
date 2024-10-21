@@ -1,6 +1,4 @@
 ﻿using Dominio.loja.Interfaces.Files;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 namespace Dominio.loja.Events.FileUpload
@@ -9,12 +7,6 @@ namespace Dominio.loja.Events.FileUpload
     {
         public List<Dimensions> Dimensions { get; set; }
         public override string Type { get => typeof(Image).Name;  }
-
-        public Image(int height , int width) 
-        {
-            Dimensions= new();
-            Dimensions.Add(new Dimensions(height, width));
-        }
 
         public Image(string dimensions)
         { 
@@ -33,5 +25,12 @@ namespace Dominio.loja.Events.FileUpload
                 throw new BadImageFormatException("Image format is not valid");
         }
 
+        public void SetFileProperty(object fp )
+        {
+            Dimensions = new();
+            var dim = (Dimensions)fp;
+
+            Dimensions.Add(dim);
+        }
     }
 }

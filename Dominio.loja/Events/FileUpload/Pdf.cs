@@ -1,13 +1,5 @@
 ﻿using Dominio.loja.Interfaces.Files;
-using Framework.loja.ExtensionMethods;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 namespace Dominio.loja.Events.FileUpload
 {
@@ -21,9 +13,8 @@ namespace Dominio.loja.Events.FileUpload
 
         public Pdf() { }
 
-        public Pdf(int pages) 
-        {
-        }
+        public Pdf(FileType ft) : base(ft) { }
+
         public void IsValid(object ft , FileInfo fi) 
         {
             Pdf pdf = (Pdf)ft;

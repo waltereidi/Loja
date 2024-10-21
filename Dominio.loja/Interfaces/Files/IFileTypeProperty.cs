@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.loja.Events.FileUpload;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Dominio.loja.Interfaces.Files
 {
     public interface IFileTypeProperty
     {
+        void SetFileProperty(object fp);
     }
 }

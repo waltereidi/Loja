@@ -1,6 +1,8 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Entity.Integrations.WFileManager;
 using Microsoft.IdentityModel.Tokens;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileTypeValidationResult;
+
 
 namespace Dominio.loja.Events.FileUpload
 {
@@ -10,12 +12,13 @@ namespace Dominio.loja.Events.FileUpload
         {
             public record All(long max, long min);
             public record Dimensions(int height, int width);
+            public record Pages(int pages);
+            public record Sheet(int sheets , int rows );
+            public record Video(Dimensions dimensions , int durationInSeconds );
         }
         public class FileTypeValidationResult
         {
             private bool IsValid { get; set; }
-            
-
         }
 
         public abstract class CreateFile

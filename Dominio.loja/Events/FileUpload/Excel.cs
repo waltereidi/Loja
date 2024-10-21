@@ -1,11 +1,10 @@
-﻿
-using Dominio.loja.Interfaces.Files;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using Dominio.loja.Interfaces.Files;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents;
+
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public sealed class Excel : FileType , IFileTypeRestriction
+    public sealed class Excel : FileType , IFileTypeRestriction ,IFileTypeProperty
     {
         public int Rows { get; set; }
         public int Sheets { get; set; }
@@ -17,13 +16,7 @@ namespace Dominio.loja.Events.FileUpload
         public override string Type => typeof(Excel).Name;
         
         public Excel() { }
-        public Excel(int rows , int sheets)
-        {
-            Rows = rows; 
-            Sheets = sheets;
-        }
-
-        public Excel(string value) : base(value)
+        public Excel(FileType ft) : base(ft)
         {
         }
 
@@ -43,5 +36,11 @@ namespace Dominio.loja.Events.FileUpload
                 throw new ArgumentOutOfRangeException($"Maximum amount of sheets allowed is {MaxSheets} and was sent {Sheets}");
         }
 
+        public void SetFileProperty(object fp)
+        {
+            var sheet = (FileProperties.Sheet)fp;
+            Rows = sheet.rows;
+            Sheets = sheet.sheets;
+        }
     }
 }

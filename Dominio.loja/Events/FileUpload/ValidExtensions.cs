@@ -1,8 +1,6 @@
 ﻿
 using Dominio.loja.Interfaces.Files;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 namespace Dominio.loja.Events.FileUpload
 {

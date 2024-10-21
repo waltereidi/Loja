@@ -1,15 +1,11 @@
 ﻿using Dominio.loja.Interfaces.Files;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Framework.loja.ExtensionMethods;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents;
+
 
 namespace Dominio.loja.Events.FileUpload
 {
-    public sealed class Doc : FileType , IFileTypeRestriction
+    public sealed class Doc : FileType , IFileTypeRestriction, IFileTypeProperty
     {
         public int MaxPages { get; set; }
         public int MinPages {  get; set; }
@@ -17,15 +13,10 @@ namespace Dominio.loja.Events.FileUpload
 
         public override string Type => typeof(Doc).Name;
         public Doc() { }
-        public Doc(int pages )
-        {
-            Pages = pages;
-        }
 
-        public Doc(string value) : base(value)
+        public Doc(FileType ft) : base(ft)
         {
         }
-
         public void IsValid(object ft , FileInfo fi) 
         {
             Doc doc = (Doc)ft;
@@ -36,6 +27,11 @@ namespace Dominio.loja.Events.FileUpload
                 throw new ArgumentOutOfRangeException($"Maximun allowed pages is ${MaxPages} and was sent ${Pages}");
         }
 
-    };
+        public void SetFileProperty(object fp)
+        {
+            var pages = (FileProperties.Pages)fp;
+            Pages = pages.pages;
+        }
+    }
 
 }

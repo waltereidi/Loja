@@ -1,6 +1,4 @@
 ﻿using Dominio.loja.Interfaces.Files;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 namespace Dominio.loja.Events.FileUpload
@@ -13,8 +11,10 @@ namespace Dominio.loja.Events.FileUpload
 
         public static implicit operator string(DirectoryRestriction dr) => dr.Value;
         public DirectoryRestriction() { }
+
         public DirectoryRestriction(string value)
         {
+            Value = value;
             var jsonArray = JsonObject.Parse(value).AsArray().Any() ?
                 JsonObject.Parse(value).AsArray().ToList()
                 : null;
