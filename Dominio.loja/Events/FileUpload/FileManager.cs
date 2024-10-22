@@ -21,13 +21,7 @@ namespace Dominio.loja.Events.FileUpload
         {
             var directoryRestrictions = _file.FileStorage.Directory.Restriction;
 
-            //directoryRestrictions?.ValidateExtension(_file.FileStorage.Extension);
-
-            
-            //if (_file.FileStorage.FileProperties != null)
-            //    directoryRestrictions?.ValidateExtensionProperties(_file.FileStorage.FileProperties);
-
-
+            directoryRestrictions?.ValidateRestrictions(_file.FileStorage.FileProperties ,_fi );
         }
         public FileRelation GetFile()
         {

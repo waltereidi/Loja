@@ -21,7 +21,7 @@ namespace Dominio.loja.Events.FileUpload
             if (!Dimensions.Any())
                 return;
 
-            if (image.Dimensions.Any(x => Dimensions.Any(t => t.height == x.height && t.width == x.width)))
+            if (!image.Dimensions.Any(x => Dimensions.Any(t => t.height == x.height && t.width == x.width)))
                 throw new BadImageFormatException("Image format is not valid");
         }
 

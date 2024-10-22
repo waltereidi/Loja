@@ -37,16 +37,20 @@ namespace Dominio.loja.Events.FileUpload
         /// <exception cref="InvalidDataException"></exception>
         public void ValidateRestrictions(FileType ft, FileInfo fi)
         {
+            if (!Restriction.Any())
+                return;
+
             List<IFileTypeRestriction> validations = Restriction.FindAll(x => x.Type == ft.Type
                 || x.Type == typeof(All).Name
                 || x.Type == typeof(ValidExtensions).Name);
 
-            
             List<string> validationExceptions = new ();
             
             foreach(var res in validations)
             {
-                validationExceptions.Add( TryValidate(res , ft , fi ) );
+                var result = GetValidationResult(res, ft, fi);
+                if (!String.IsNullOrEmpty(result))
+                    validationExceptions.Add(result);
             }
             if (validationExceptions.Any())
             {
@@ -55,7 +59,7 @@ namespace Dominio.loja.Events.FileUpload
             }
                 
         }
-        private string? TryValidate(IFileTypeRestriction res , FileType ft , FileInfo fi)
+        private string? GetValidationResult(IFileTypeRestriction res , FileType ft , FileInfo fi)
         {
             try
             {

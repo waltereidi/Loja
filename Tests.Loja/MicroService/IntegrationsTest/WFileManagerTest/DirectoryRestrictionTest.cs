@@ -31,7 +31,9 @@ namespace Tests.loja.MicroService.IntegrationsTest.WFileManagerTest
             RestrictionJson += "]";
 
         }
-
+        /// <summary>
+        /// Is a valid execution while exceptions are not thrown
+        /// </summary>
         [TestMethod]
         public void DirectoryRestriction()
         {

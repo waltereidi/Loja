@@ -39,7 +39,7 @@ namespace Api.loja.Service
             V1.Requests.GetSubSubCategoryById g => GetSubSubCategoryById(g.id),
             V1.Requests.GetAllCategories g => await GetAll(),
             V1.Requests.GetAllSubSubCategories g => await GetAllSubSubCategories(),
-            V1.Requests.ChangePicture g => await ChangePicture(g).ContinueWith(_ => _context.SaveChangesAsync()),
+            V1.Requests.ChangePicture g => await ChangePicture(g).ContinueWith(_ => _.IsCompletedSuccessfully ? _context.SaveChangesAsync() : throw new Exception(_.Exception.Message)),
             _ => throw new InvalidOperationException(nameof(command))
         };
         private async Task ChangePicture(V1.Requests.ChangePicture cmd)
@@ -60,7 +60,6 @@ namespace Api.loja.Service
 
 
             FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(result.FullName , result.OriginalFileName, directory ,category , properties));
-
 
             var createdFiles = fm.GetFile();
             
