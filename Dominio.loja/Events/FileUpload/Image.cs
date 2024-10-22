@@ -7,8 +7,7 @@ namespace Dominio.loja.Events.FileUpload
     {
         public List<Dimensions> Dimensions { get; set; }
         public override string Type { get => typeof(Image).Name;  }
-
-        public Image(string dimensions)
+        public Image(IFileTypeProperty ft) : base (ft.Value)
         { 
             
         }

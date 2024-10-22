@@ -9,8 +9,8 @@ namespace Dominio.loja.Events.FileUpload
         public override string Type => typeof(All).Name;
         public long MaxLength { get; set; }
         public long MinLength { get; set; }
-        
-        public All(FileType ft) : base(ft)
+
+        public All(IFileTypeProperty ft) : base(ft.Value)
         {
             
         }

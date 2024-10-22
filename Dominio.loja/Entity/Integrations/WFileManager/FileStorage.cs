@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Events.FileUpload;
+using Dominio.loja.Interfaces.Files;
 using Framework.loja;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;

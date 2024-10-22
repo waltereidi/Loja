@@ -14,7 +14,7 @@ namespace Dominio.loja.Events.FileUpload
         public override string Type => typeof(Doc).Name;
         public Doc() { }
 
-        public Doc(FileType ft) : base(ft)
+        public Doc(IFileTypeProperty ft) : base(ft.Value)
         {
         }
         public void IsValid(object ft , FileInfo fi) 

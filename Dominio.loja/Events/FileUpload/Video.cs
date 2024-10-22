@@ -13,7 +13,7 @@ namespace Dominio.loja.Events.FileUpload
         public int DurationInSeconds { get; set; }
 
         public Video() { }
-        public Video(FileType ft) : base(ft)
+        public Video(IFileTypeProperty ft) : base(ft.Value)
         {
             
         }

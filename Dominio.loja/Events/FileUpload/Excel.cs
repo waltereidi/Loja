@@ -16,7 +16,7 @@ namespace Dominio.loja.Events.FileUpload
         public override string Type => typeof(Excel).Name;
         
         public Excel() { }
-        public Excel(FileType ft) : base(ft)
+        public Excel(IFileTypeProperty ft) : base(ft.Value)
         {
         }
 

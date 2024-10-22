@@ -35,7 +35,7 @@ namespace Dominio.loja.Events.FileUpload
         /// <param name="ft"></param>
         /// <param name="fi"></param>
         /// <exception cref="InvalidDataException"></exception>
-        public void ValidateRestrictions(FileType ft, FileInfo fi)
+        public void ValidateRestrictions(IFileTypeProperty ft, FileInfo fi)
         {
             if (!Restriction.Any())
                 return;
@@ -59,7 +59,7 @@ namespace Dominio.loja.Events.FileUpload
             }
                 
         }
-        private string? GetValidationResult(IFileTypeRestriction res , FileType ft , FileInfo fi)
+        private string? GetValidationResult(IFileTypeRestriction res ,  IFileTypeProperty ft , FileInfo fi)
         {
             try
             {
@@ -71,28 +71,7 @@ namespace Dominio.loja.Events.FileUpload
                 return ex.Message;
             }
         }
-        /// <summary>
-        /// Object type selection must remain as SSOT
-        /// </summary>
-        /// <param name="ft"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        private IFileTypeRestriction ChooseFileTypeRestriction(FileType ft)
-        {
-            switch (ft.Type)
-            {
-                case "Pdf": return DeserializeFileTypeRestriction<Pdf>(ft);
-                case "Image": return DeserializeFileTypeRestriction<Image>(ft);
-                case "Excel": return DeserializeFileTypeRestriction<Excel>(ft);
-                case "Doc": return DeserializeFileTypeRestriction<Doc>(ft);
-                case "Video": return DeserializeFileTypeRestriction<Video>(ft);
-                case "ValidExtensions":return  DeserializeFileTypeRestriction<ValidExtensions>(ft);
-                case "All": return DeserializeFileTypeRestriction<All>(ft);
-                default: throw new NotImplementedException();
-            }
-        }
+ 
 
-        T DeserializeFileTypeRestriction<T>(FileType ft) where T : FileType
-            => JsonSerializer.Deserialize<T>((string)ft);
     }
 }

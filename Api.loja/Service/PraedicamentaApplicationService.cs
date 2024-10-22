@@ -4,15 +4,14 @@ using Dominio.loja.Entity.Integrations.WFileManager;
 using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Events.Praedicamenta;
+using Dominio.loja.Interfaces.Files;
 using Framework.loja.Interfaces;
 using Integrations;
-using Microsoft.AspNetCore.Components.RenderTree;
 using Npoi.Mapper;
-using System.Drawing.Text;
-using System.Linq;
 using WFileManager.Contracts;
 using WFileManager.loja.Interfaces;
 using static Api.loja.Contracts.PraedicamentaContract;
+using static Dominio.loja.Events.FileUpload.FileManagerEvents; 
 
 namespace Api.loja.Service
 {
@@ -56,8 +55,8 @@ namespace Api.loja.Service
             
             
             var result = uploadResult.First();
-            Image properties = null;
-
+            IFileTypeProperty properties = new Image();
+            properties.SetFileProperty(new FileProperties.Dimensions(result.Height , result.Width ));
 
             FileManager fm = new(new FileManagerEvents.CategoryChangedPicture(result.FullName , result.OriginalFileName, directory ,category , properties));
 

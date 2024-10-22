@@ -1,8 +1,7 @@
 ﻿using Dominio.loja.Entity;
 using Dominio.loja.Entity.Integrations.WFileManager;
+using Dominio.loja.Interfaces.Files;
 using Microsoft.IdentityModel.Tokens;
-using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileTypeValidationResult;
-
 
 namespace Dominio.loja.Events.FileUpload
 {
@@ -26,9 +25,9 @@ namespace Dominio.loja.Events.FileUpload
             public FileInfo Fi { get; set; }
             public string OriginalName { get; set; }
             public FileDirectory Fd { get; set; }    
-            public FileType? FileProperties { get; set; }
+            public IFileTypeProperty? FileProperties { get; set; }
 
-            public CreateFile(string fullName, string originalName, FileDirectory directory , FileType? properties = null )
+            public CreateFile(string fullName, string originalName, FileDirectory directory , IFileTypeProperty? properties = null )
             {
                 if (originalName.IsNullOrEmpty())
                     throw new ArgumentNullException($"original name cannot be null or empty {nameof(originalName)}");
@@ -46,7 +45,7 @@ namespace Dominio.loja.Events.FileUpload
         public class CategoryChangedPicture : CreateFile
         {
             public Categories Category { get; private set; }
-            public CategoryChangedPicture(string fullName, string originalName, FileDirectory directory, Categories category , FileType? properties) : base(fullName, originalName, directory , properties)
+            public CategoryChangedPicture(string fullName, string originalName, FileDirectory directory, Categories category , IFileTypeProperty? properties) : base(fullName, originalName, directory , properties)
             {
                 Category = category;
             }

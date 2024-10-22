@@ -13,7 +13,7 @@ namespace Dominio.loja.Events.FileUpload
 
         public Pdf() { }
 
-        public Pdf(FileType ft) : base(ft) { }
+        public Pdf(IFileTypeProperty ft) : base(ft.Value) { }
 
         public void IsValid(object ft , FileInfo fi) 
         {

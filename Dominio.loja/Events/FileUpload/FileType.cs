@@ -8,7 +8,7 @@ namespace Dominio.loja.Events.FileUpload
     public class FileType 
     {
         [JsonIgnore]
-        protected string Value { get; set; }
+        public string Value { get;  set; }
         public virtual string Type { get; set; }    
         public FileType() {}
 
