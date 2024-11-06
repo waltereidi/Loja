@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.loja.Interfaces.Files
 {
-    public interface IFileTypeProperty
+    public interface IFileTypeProperty : IFileType
     {
         void SetFileProperty(object fp);
         string Type { get; set; }

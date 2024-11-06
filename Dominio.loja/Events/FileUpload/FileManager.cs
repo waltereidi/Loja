@@ -48,33 +48,8 @@ namespace Dominio.loja.Events.FileUpload
             _file = rel;
             _fi = fi;
         }
-        /// <summary>
-        /// Object type selection must remain as SSOT
-        /// </summary>
-        /// <param name="ft"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        private IFileTypeRestriction ChooseFileTypeRestriction(FileType ft)
-        {
-            switch (ft.Type)
-            {
-                case "Pdf": return DeserializeFileTypeRestriction<Pdf>(ft);
-                case "Image": return DeserializeFileTypeRestriction<Image>(ft);
-                case "Excel": return DeserializeFileTypeRestriction<Excel>(ft);
-                case "Doc": return DeserializeFileTypeRestriction<Doc>(ft);
-                case "Video": return DeserializeFileTypeRestriction<Video>(ft);
-                case "ValidExtensions": return DeserializeFileTypeRestriction<ValidExtensions>(ft);
-                case "All": return DeserializeFileTypeRestriction<All>(ft);
-                default: throw new NotImplementedException();
-            }
-        }
-        private Func<IFileTypeProperty , FileType> get()
-        {
+       
 
-        }
-
-        T DeserializeFileTypeRestriction<T>(FileType ft) where T : FileType
-            => JsonSerializer.Deserialize<T>(ft);
 
     }
 }

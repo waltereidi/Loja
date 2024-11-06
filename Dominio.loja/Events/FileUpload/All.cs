@@ -1,4 +1,5 @@
 ﻿using Dominio.loja.Interfaces.Files;
+using System.Text.Json;
 using static Dominio.loja.Events.FileUpload.FileManagerEvents.FileProperties;
 
 
@@ -29,5 +30,14 @@ namespace Dominio.loja.Events.FileUpload
                 throw new ArgumentOutOfRangeException($"Min file length allowed is {MinLength} bytes , file sent has {fi.Length}");
         }
 
+        public void Deserialize()
+        {
+            All values = null;
+            if (Value != null)
+                values = JsonSerializer.Deserialize<All>(Value);
+
+            MaxLength = values.MaxLength; 
+            MinLength = values.MinLength;
+        }
     }
 }
