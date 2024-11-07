@@ -22,8 +22,9 @@ namespace Dominio.loja.Events.FileUpload
         protected override void EnsureValidState()
         {
             var directoryRestrictions = _file.FileStorage.Directory.Restriction;
-            IFileTypeProperty fp = ChooseFileTypeRestriction(_file.FileStorage.FileProperties)
-            directoryRestrictions?.ValidateRestrictions(_file.FileStorage.FileProperties ,_fi );
+            IFileTypeProperty fp = _file.FileStorage.FileProperties.GetTypeToProperty();
+
+            directoryRestrictions?.ValidateRestrictions( fp ,_fi );
         }
         public FileRelation GetFile()
         {

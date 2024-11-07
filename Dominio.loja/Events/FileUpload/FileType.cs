@@ -31,9 +31,9 @@ namespace Dominio.loja.Events.FileUpload
         /// <param name="ft"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        protected Type ChooseFileTypeRestriction(FileType ft)
+        private Type ChooseFileTypeRestriction()
         {
-            switch (ft.Type)
+            switch (Type)
             {
                 case "Pdf": return typeof(Pdf);
                 case "Image": return typeof(Image);
@@ -46,20 +46,26 @@ namespace Dominio.loja.Events.FileUpload
             }
         }
 
-        private IFileTypeProperty TypeToProperty(Type t , string json)
+        public IFileTypeProperty GetTypeToProperty()
         {
+            Type t = ChooseFileTypeRestriction();
+            
             List<object> objArray = new();
-            objArray.Add(new { Value = json });
+
+            objArray.Add(new { Value = Value });
 
             IFileTypeProperty instance = (IFileTypeProperty)Activator.CreateInstance(t , objArray );
             
             return instance;
         }
 
-        private IFileTypeRestriction TypeRestriction(Type t, string json)
+        public IFileTypeRestriction GetTypeRestriction()
         {
+            Type t = ChooseFileTypeRestriction();
+
             List<object> objArray = new();
-            objArray.Add(new { Value = json });
+
+            objArray.Add(new { Value = Value });
 
             IFileTypeRestriction instance = (IFileTypeRestriction)Activator.CreateInstance(t, objArray);
 

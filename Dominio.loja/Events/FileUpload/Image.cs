@@ -31,5 +31,10 @@ namespace Dominio.loja.Events.FileUpload
 
             Dimensions.Add(dim);
         }
+
+        public void Deserialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -44,7 +44,7 @@ namespace Api.loja.Data
         //Files 
         public virtual DbSet<FileDirectory> fileDirectory { get; set; }
         public virtual DbSet<FileStorage> fileStorage { get; set; }
-        public virtual DbSet<Dominio.loja.Entity.Integrations.WFileManager.Relation.FileCategories> fileCategories { get; set; }
+        public virtual DbSet<FileCategories> fileCategories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             CreateCategoriesORM(modelBuilder);

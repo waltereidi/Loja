@@ -24,5 +24,9 @@ namespace Dominio.loja.Events.FileUpload
                 throw new InvalidDataException("File extensions does not match");
         }
 
+        public void Deserialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

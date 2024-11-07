@@ -25,6 +25,10 @@ namespace Dominio.loja.Events.FileUpload
                 throw new ArgumentOutOfRangeException($"The document should have a maximum of ({Max}) pages , but have {pdf.Pages}");
         }
 
+        public void Deserialize()
+        {
+            throw new NotImplementedException();
+        }
     };
 
 }

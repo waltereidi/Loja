@@ -33,5 +33,10 @@ namespace Dominio.loja.Events.FileUpload
             Dimensions.Add(video.dimensions);
             DurationInSeconds = video.durationInSeconds;
         }
+
+        public void Deserialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

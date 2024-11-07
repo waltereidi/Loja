@@ -1,15 +1,15 @@
-﻿using Api.loja.Contracts;
-using Api.loja.Data;
+﻿using Api.loja.Data;
 using Dominio.loja.Entity;
 using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
-
+using System.Text.Json;
 using static Api.loja.Contracts.AuthenticationContract;
 namespace Api.loja.Service
 {
@@ -19,12 +19,14 @@ namespace Api.loja.Service
         private readonly StoreContext _context;
         private readonly string _issuer;
         private readonly string _key;
+        private readonly string _googleReCaptcha_v3_SiteKey;
         public AuthenticationApplicationService(IConfiguration configuration ,StoreContext context )
         {
             _configuration = configuration;
             _context = context;
             _issuer = _configuration.GetSection("Jwt:Issuer").Value ?? throw new ArgumentNullException("Jwt Not configured");
             _key = _configuration.GetSection("Jwt:Key").Value ?? throw new ArgumentNullException("Jwt Not configured");
+            _googleReCaptcha_v3_SiteKey = _configuration.GetSection("GoogleReCaptcha:Secret_v3").Value ?? throw new ArgumentNullException("Google reCaptcha v3 Secret not configured");
         }
 
         public async Task<object?> Handle(object command) => command switch
@@ -55,6 +57,8 @@ namespace Api.loja.Service
         /// <exception cref="AuthenticationException"></exception>
         private V1.Responses.LoginResponse HandleAuthentication(V1.Request.LoginRequestContext cmd) 
         {
+            GoogleReCaptcha_V3_Verify(cmd.login.reCaptchaToken , cmd.context.Connection.RemoteIpAddress.ToString());
+
             if (!_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
                 throw new AuthenticationException("Invalid credentials");
 
@@ -173,12 +177,12 @@ namespace Api.loja.Service
 
             return listClaim;
         }
- /// <summary>
- /// Deprecated
- /// </summary>
- /// <param name="httpContextClaims"></param>
- /// <param name="context"></param>
- /// <returns></returns>
+         /// <summary>
+         /// Deprecated
+         /// </summary>
+         /// <param name="httpContextClaims"></param>
+         /// <param name="context"></param>
+         /// <returns></returns>
         private async Task HttpContextSignIn( List<Claim> httpContextClaims , HttpContext context)
         {
             var identity = new ClaimsIdentity(httpContextClaims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -190,6 +194,24 @@ namespace Api.loja.Service
             props.ExpiresUtc = DateTime.UtcNow.AddMinutes(120);
 
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+        }
+        private async Task GoogleReCaptcha_V3_Verify(string response , string ip)
+        {
+            HttpClient client = new ();
+            
+            V1.Request.GoogleReCaptcha.v2 content= new("secret" , response , ip);
+            
+            StringContent st = new(JsonSerializer.Serialize(content));
+
+            var result = await client.PostAsync("https://www.google.com/recaptcha/api/siteverify" , st);
+            
+            if (result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.OK)
+            {
+                string responseContent = await result.Content.ReadAsStringAsync();
+                var deserializedContent = JsonSerializer.Deserialize<V1.Responses.GoogleReCaptcha.V3_Verify>(responseContent);
+                if (deserializedContent.success == false)
+                    throw new AuthenticationException($"Unable to authorize Google reCaptcha v3 , score {deserializedContent.score}");
+            }
         }
 
     }

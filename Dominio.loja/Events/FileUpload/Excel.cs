@@ -42,5 +42,10 @@ namespace Dominio.loja.Events.FileUpload
             Rows = sheet.rows;
             Sheets = sheet.sheets;
         }
+
+        public void Deserialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -32,6 +32,11 @@ namespace Dominio.loja.Events.FileUpload
             var pages = (FileProperties.Pages)fp;
             Pages = pages.pages;
         }
+
+        public void Deserialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
