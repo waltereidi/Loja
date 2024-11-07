@@ -44,7 +44,7 @@ namespace Dominio.loja.Entity.Integrations.WFileManager
                     Extension = e.Fi.Extension;
                     FileName = e.Fi.Name;
                     OriginalName = e.OriginalName;
-                    FileProperties = e.FileProperties;
+                    FileProperties = new FileType(e.FileProperties.Value);
                     break;
                 default: throw new InvalidOperationException();
             }

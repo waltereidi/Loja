@@ -12,4 +12,7 @@
     <None Remove=".vscode\**" />
     <TypeScriptConfiguration Remove=".vscode\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
 </Project>

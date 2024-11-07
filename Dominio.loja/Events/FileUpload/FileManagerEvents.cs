@@ -25,7 +25,7 @@ namespace Dominio.loja.Events.FileUpload
             public FileInfo Fi { get; set; }
             public string OriginalName { get; set; }
             public FileDirectory Fd { get; set; }    
-            public FileType? FileProperties { get; set; }
+            public IFileTypeProperty? FileProperties { get; set; }
 
             public CreateFile(string fullName, string originalName, FileDirectory directory , IFileTypeProperty? properties = null )
             {

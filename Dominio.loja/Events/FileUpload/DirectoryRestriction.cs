@@ -24,7 +24,7 @@ namespace Dominio.loja.Events.FileUpload
 
             jsonArray.ForEach(f => {
                 FileType ft = new(f.ToJsonString());
-                Restriction.Add(ChooseFileTypeRestriction(ft));
+                Restriction.Add(ft.GetTypeRestriction());
             });
         }
         /// <summary>

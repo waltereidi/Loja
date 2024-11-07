@@ -27,10 +27,14 @@
 
         <template #footer>
             <div class="flex gap-3 mt-1">
-                <Button @click="submit" :disabled="this.v$.formLogin.$invalid">Submit</Button>
+                <input type="submit"
+                data-sitekey="6Lf9cGApAAAAANTZFOZgMamei1LobSMF85aKfMih"
+                data-callback='onSubmit' 
+                data-action='submit' 
+                class="g-recaptcha" />
             </div>
         </template>
-
+        
     </Card>
 </template>
 
