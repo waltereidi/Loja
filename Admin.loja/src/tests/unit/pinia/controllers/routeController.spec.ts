@@ -1,8 +1,7 @@
 import { expect, test } from 'vitest';
 import { RouteController } from "@/pinia/Controllers/routeController";
-import { UserInterface , UserInfo } from '@/pinia/Entity/dependencyInjection';
-import { RouterInfo , ConfiguredRouteChange} from '@/pinia/Entity/routerInfo';
-import { addDays } from 'date-fns';
+import { UserInterface , UserInfo } from '@/pinia/Dto/mainStore';
+import { RouterInfo , ConfiguredRouteChange} from '@/pinia/Dto/routerInfo';
 
 /**
  * @param RouterInfo is sent from @/router/index.ts every time route changes

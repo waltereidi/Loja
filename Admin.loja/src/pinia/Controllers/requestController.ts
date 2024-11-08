@@ -9,7 +9,6 @@ export class RequestController {
         this.useToast = useToast;
         this.setDefaultHeaders();
     }
-
     private setDefaultHeaders() {
         //axios.defaults.baseURL = appSettings.ApiUrl;
         axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';

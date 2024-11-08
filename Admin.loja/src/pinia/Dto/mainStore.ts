@@ -11,7 +11,7 @@ export interface JwtToken
     createdAt:number|null , 
     expiresAt:number|null, 
 }
-export interface PiniaState
+export interface MainStore
 {
     useToast:any|null , 
     userInfo:UserInfo|null ,

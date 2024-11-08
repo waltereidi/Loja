@@ -1,5 +1,5 @@
-import {UserInterface , UserInfo } from '@/pinia/Entity/dependencyInjection'
-import {RouterInfo , RouteCondition, ConfiguredRouteChange, RouteConditionResponse} from '@/pinia/Entity/routerInfo'
+import {UserInterface , UserInfo } from '@/pinia/Dto/dependencyInjection'
+import {RouterInfo , RouteCondition, ConfiguredRouteChange, RouteConditionResponse} from '@/pinia/Dto/routerInfo'
 import {isFuture } from 'date-fns'
 
 export class RouteController{

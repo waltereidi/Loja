@@ -3,6 +3,8 @@ import { required, email } from '@vuelidate/validators'
 import { useDi } from '@/pinia/dependencyInjection'
 
 export default {
+    
+    
     setup() {
         return { v$: useVuelidate() }
     },

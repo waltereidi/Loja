@@ -33,6 +33,7 @@
                 data-action='submit' 
                 class="g-recaptcha" />
             </div>
+            <div class="g-recaptcha"></div>
         </template>
         
     </Card>

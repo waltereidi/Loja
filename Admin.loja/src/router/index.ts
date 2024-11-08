@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { useDi } from '@/pinia/dependencyInjection'
-import { RouterInfo } from '@/pinia/Entity/routerInfo'
+import { RouterInfo } from '@/pinia/Dto/routerInfo'
 const router = createRouter({
     history: createWebHistory(),
     routes: [

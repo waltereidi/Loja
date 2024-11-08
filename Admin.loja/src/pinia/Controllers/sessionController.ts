@@ -1,4 +1,4 @@
-import { UserInfo } from '@/pinia/Entity/dependencyInjection'
+import { UserInfo } from '@/pinia/Dto/dependencyInjection'
 import cookie from 'cookiejs';
 
 
