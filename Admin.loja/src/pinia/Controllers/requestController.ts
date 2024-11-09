@@ -54,13 +54,9 @@ export class RequestController {
         switch(request.toLocaleLowerCase())
         {
             case 'post' : result = await this.post(url , data);break;
-            case 'postasync' : result =  await this.postAsync(url , data);break;
             case 'get' : result =  await this.get(url);break;
-            case 'getasync' : result =  await this.getAsync(url);break;
             case 'put' : result =  await this.put(url,data);break;
-            case 'putasync' : result =  await this.putAsync(url , data);break;
             case 'delete' : result =  await this.delete(url );break;
-            case 'deleteasync' : result =  await this.deleteAsync(url );break;
             default:throw new Error("InvalidOperationException");
         } 
         // returning order (result.value.result)??result.value -> 
@@ -74,7 +70,13 @@ export class RequestController {
         this.useToast.add({ severity: 'success', summary: 'Session expired, please log in again', group: 'bc' });
         this.redirectUnauthorized = false;
     }
- 
+    private handleRequestErrorMessage(error : any){
+        console.warn(error);
+        if(this.useToast != null )
+            this.addToastErrorMessage(error.request.status, error.message);
+
+        return error 
+    }
     private async post(url: string, body: any) :Promise<any>
     {
         try
@@ -83,9 +85,7 @@ export class RequestController {
         }
         catch (error)
         {
-            console.warn(error);
-             this.addToastErrorMessage(error.request.status, error.message);
-             return error;
+            return this.handleRequestErrorMessage(error)
         }
     }
      private async get(url: string ):Promise<any>
@@ -96,9 +96,7 @@ export class RequestController {
          }
          catch (error)
          {
-             console.warn(error);
-             this.addToastErrorMessage(error.request.status, error.message);
-             return error;
+            return this.handleRequestErrorMessage(error)
          }         
     }
     private async delete(url: string):Promise<any>
@@ -109,9 +107,7 @@ export class RequestController {
         }
         catch (error)
         {
-            console.warn(error);
-            this.addToastErrorMessage(error.request.status, error.message);
-            return error;
+            return this.handleRequestErrorMessage(error)
         }
     }
     private async put(url: string, body: any):Promise<any>
@@ -122,59 +118,8 @@ export class RequestController {
         }
         catch (error)
         {
-            console.warn(error);
-            this.addToastErrorMessage(error.request.status, error.message);
-            return error;
+            return this.handleRequestErrorMessage(error)
         }
     }
-    private async postAsync(url: string, body: any):Promise<any>
-    {
-    
-        return new Promise((resolve, reject) => {
-            axios.post(url, body )
-                .then(result => resolve(result?.data))
-                .catch(error => {
-                    console.warn(error);
-                    this.addToastErrorMessage(error.request.status, error.request.responseText);
-                    reject(error);
-                }); 
-        });
-    }
-    private async getAsync(url: string ):Promise<any>
-    {
-         return new Promise((resolve, reject) => {
-            axios.get(url)
-                .then(result => resolve(result?.data))
-                .catch(error => {
-                    console.warn(error);
-                    this.addToastErrorMessage(error.request.status, error.request.responseText);
-                    reject(error);
-                }); 
-        });       
-    }
-    private async deleteAsync(url: string):Promise<any>
-    {
-        return new Promise((resolve, reject) => {
-            axios.delete(url)
-                .then(result => resolve(result?.data))
-                .catch(error => {
-                    console.warn(error);
-                    this.addToastErrorMessage(error.request.status, error.request.responseText);
-                    reject(error);
-                }); 
-        });  
-    }
-    private async putAsync(url: string, body: any):Promise<any>
-    {
-   
-        return new Promise((resolve, reject) => {
-            axios.put(url, body)
-                .then(result => resolve(result?.data))
-                .catch(error => {
-                    console.warn(error);
-                    this.addToastErrorMessage(error.request.status, error.request.responseText);
-                    reject(error);
-                }); 
-        });
-    }
+ 
 }
