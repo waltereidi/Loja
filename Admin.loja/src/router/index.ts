@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { useDi } from '@/pinia/dependencyInjection'
+import { useMainStore } from '@/pinia/mainStore'
 import { RouterInfo } from '@/pinia/Dto/routerInfo'
 const router = createRouter({
     history: createWebHistory(),
@@ -29,7 +29,7 @@ router.beforeEach(async (to, from) => {
         to : to.name ,
         from : from.name
     }
-    const response:RouterInfo = await useDi().routeChanged(routeInfo);
+    const response:RouterInfo = await useMainStore().routeChanged(routeInfo);
 
     if(to.name === response.to)
         return true;

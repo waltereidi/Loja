@@ -11,12 +11,13 @@ export const useDi = defineStore('di', {
     },
     getters: {
         getRequestController : (state) =>  new RequestController(state.appToast ) , 
-        
     },
-    
+    actions: {
+        async init(useToast: any )
+        {
+            this.appToast = useToast;
+        },
     },
-   
-
-
+}
 
 );

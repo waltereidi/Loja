@@ -22,10 +22,6 @@ export const useMainStore = defineStore('mainStore', {
         },
     },
     actions: {
-        async init(useToast: any )
-        {
-            this.useToast = useToast;
-        },
         async routeChanged(routeInfo:RouterInfo) : Promise<RouterInfo>
         {
             if(this.userInfo == null){
@@ -45,12 +41,6 @@ export const useMainStore = defineStore('mainStore', {
             this.userInfo = routeConfig.user;
 
             return routeConfig.route;//return route
-        },
-        async setLogin(login: any)
-        {
-            const sessionController = new SessionController();
-
-            this.userInfo= sessionController.getUserInfoFromCookies();
         },
         /**
          * ! Change state from mobileNavBar and lock screen overflow
