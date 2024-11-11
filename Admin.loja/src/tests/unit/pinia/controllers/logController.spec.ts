@@ -1,9 +1,9 @@
 import { expect, test } from 'vitest'
-import { LoggerController } from '@/pinia/Controllers/LoggerController'
+import { LogController } from '@/pinia/Controllers/LogController'
 import { LogSeverity } from '@/pinia/Dto/Log';
 
 test('add log returns has error when add success false log', () => {
-    const logger = new LoggerController("TestCase Log");
+    const logger = new LogController("TestCase Log");
 
     logger.addLog('TestPurposes log' ,0  )
     logger.addLog('TestPurposes Log' , LogSeverity.Error )

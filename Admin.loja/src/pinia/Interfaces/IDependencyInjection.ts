@@ -1,7 +1,5 @@
 
+import { LogController  } from "../Controllers/LogController"
 export interface IDependencyInjection{
-    new (LoggerController)
-
-    
-
+    log:LogController
 }

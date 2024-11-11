@@ -15,6 +15,7 @@ export const useDi = defineStore('di', {
     actions: {
         async init(useToast: any )
         {
+            
             this.appToast = useToast;
         },
     },

@@ -1,5 +1,5 @@
 import {Log , LogSeverity} from '@/pinia/Dto/Log'
-export class LoggerController{
+export class LogController{
      
     constructor(serviceDescription:String){
         this.log.push({
@@ -17,11 +17,17 @@ export class LoggerController{
      * @param { string } description 
      * @param { int } severity
      */    
-    addLog = (description:String , severity:LogSeverity ):Number => this.log.push({
-        Description : description ,
-        Severity : severity , 
-        Created_At : new Date()
-    })
+    addLog(description:String , severity:LogSeverity ):Number
+    {
+        if(import.meta.env.mode && severity == LogSeverity.Error)
+            console.log(this.getLog())
+        
+        return this.log.push({
+            Description : description ,
+            Severity : severity , 
+            Created_At : new Date()
+        })
+    } 
 
     /** 
      * Find if theres an error logged 

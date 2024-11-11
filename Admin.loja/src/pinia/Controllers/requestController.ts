@@ -1,10 +1,13 @@
 import axios from 'axios';
+import { IDependencyInjection } from '@/pinia/Interfaces/IDependencyInjection';
+import { LogController } from '@/pinia/Controllers/LogController';
+import { LogSeverity } from '../Dto/Log';
 
-
-export class RequestController {
+export class RequestController implements  IDependencyInjection{
     private useToast: any;
     private redirectUnauthorized: boolean = true;
-    constructor(useToast:any)
+    public log:LogController = new LogController("RequestController")
+    constructor(useToast: any)
     {
         this.useToast = useToast;
         this.setDefaultHeaders();
@@ -21,6 +24,8 @@ export class RequestController {
     }
     private addToastErrorMessage(status:number , message:string )
     { 
+        if(this.useToast == null)
+            return 
         if (status == 401)
             return this.unauthorizedRedirect();
         
@@ -31,16 +36,19 @@ export class RequestController {
         
         if (status >= 300 && status <= 399)
         {
+            this.log.addLog(`status ${status} : ${message}` , LogSeverity.Event);
             life = 5000;
             summary = 'Multiple Choices';
             severity = 'info'
         }else if(status >= 400 && status <= 499)
         {
+            this.log.addLog(`status ${status} : ${message}` , LogSeverity.Event);
             life = 5000;
             summary = 'Invalid input'
             severity = 'warn'
         }else(status >= 500 && status <= 599 || status == 0 )
         {
+            this.log.addLog(`status ${status} : ${message}` , LogSeverity.Error);
             life = 4000; 
             summary = 'Server error';
             severity = 'error';
@@ -50,6 +58,8 @@ export class RequestController {
     }
     public async send( request:string , url:string , data?:any ) 
     {
+        this.log.addLog(`${request} ${url}` , 0);
+
         let result = null;
         switch(request.toLocaleLowerCase())
         {
@@ -64,6 +74,8 @@ export class RequestController {
     }
     private unauthorizedRedirect():void
     {
+        this.log.addLog(`started redirect` , LogSeverity.Event);
+
         if ( document.querySelector("div[data-pc-section='message'] > div"))
             return;
 
@@ -71,6 +83,8 @@ export class RequestController {
         this.redirectUnauthorized = false;
     }
     private handleRequestErrorMessage(error : any){
+        this.log.addLog(`handleRequestErrorMessage` , LogSeverity.Event);
+
         console.warn(error);
         if(this.useToast != null )
             this.addToastErrorMessage(error.request.status, error.message);
@@ -121,5 +135,4 @@ export class RequestController {
             return this.handleRequestErrorMessage(error)
         }
     }
- 
 }
