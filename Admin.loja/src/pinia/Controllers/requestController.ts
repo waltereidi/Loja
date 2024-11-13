@@ -4,15 +4,18 @@ import { LogController } from '@/pinia/Controllers/LogController';
 import { LogSeverity } from '../Dto/Log';
 
 export class RequestController implements  IDependencyInjection{
-    private useToast: any;
-    private redirectUnauthorized: boolean = true;
     public log:LogController = new LogController("RequestController")
-    constructor(useToast: any)
+    constructor()
     {
-        this.useToast = useToast;
+        this.log.addLog( `request constructor` , LogSeverity.Initialization );
         this.setDefaultHeaders();
     }
+    public getConfigurations(){
+        return axios.defaults.headers;
+    }
     private setDefaultHeaders() {
+        this.log.addLog( `started configuration` , LogSeverity.Event );
+
         //axios.defaults.baseURL = appSettings.ApiUrl;
         axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
         axios.defaults.headers.post['Accept'] = '*/*';
@@ -21,118 +24,24 @@ export class RequestController implements  IDependencyInjection{
         axios.defaults.headers.post['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With';
         axios.defaults.headers.put = axios.defaults.headers.post;
         axios.defaults.headers.options = axios.defaults.headers.post;
-    }
-    private addToastErrorMessage(status:number , message:string )
-    { 
-        if(this.useToast == null)
-            return 
-        if (status == 401)
-            return this.unauthorizedRedirect();
         
-        //Severity types : info , success , warn , error 
-        let severity: string;
-        let summary: string;
-        let life: number; 
+        axios.defaults.transformRequest =(data, headers)=>{
+            // Do whatever you want to transform the data
+            return data;
+          };
+
+        axios.defaults.transformResponse = (data) =>{
+            // Do whatever you want to transform the data
         
-        if (status >= 300 && status <= 399)
-        {
-            this.log.addLog(`status ${status} : ${message}` , LogSeverity.Event);
-            life = 5000;
-            summary = 'Multiple Choices';
-            severity = 'info'
-        }else if(status >= 400 && status <= 499)
-        {
-            this.log.addLog(`status ${status} : ${message}` , LogSeverity.Event);
-            life = 5000;
-            summary = 'Invalid input'
-            severity = 'warn'
-        }else(status >= 500 && status <= 599 || status == 0 )
-        {
-            this.log.addLog(`status ${status} : ${message}` , LogSeverity.Error);
-            life = 4000; 
-            summary = 'Server error';
-            severity = 'error';
-        }
+            return data;
+        };
 
-        this.useToast.add({ severity: severity, summary: summary, detail: message, life: life })
-    }
-    public async send( request:string , url:string , data?:any ) 
-    {
-        this.log.addLog(`${request} ${url}` , 0);
 
-        let result = null;
-        switch(request.toLocaleLowerCase())
-        {
-            case 'post' : result = await this.post(url , data);break;
-            case 'get' : result =  await this.get(url);break;
-            case 'put' : result =  await this.put(url,data);break;
-            case 'delete' : result =  await this.delete(url );break;
-            default:throw new Error("InvalidOperationException");
-        } 
-        // returning order (result.value.result)??result.value -> 
-        return result.result ?? result;
+        this.log.addLog( `configured axios ${axios.defaults}` , LogSeverity.Parameter );
     }
-    private unauthorizedRedirect():void
-    {
-        this.log.addLog(`started redirect` , LogSeverity.Event);
+    public post =(url:string , data:any ) => axios.post( url ,data );
+    public get =(url:string ) => axios.post( url );
+    public put =(url:string , data:any ) => axios.put( url ,data );
+    public delete =(url:string ) => axios.delete( url);
 
-        if ( document.querySelector("div[data-pc-section='message'] > div"))
-            return;
-
-        this.useToast.add({ severity: 'success', summary: 'Session expired, please log in again', group: 'bc' });
-        this.redirectUnauthorized = false;
-    }
-    private handleRequestErrorMessage(error : any){
-        this.log.addLog(`handleRequestErrorMessage` , LogSeverity.Event);
-
-        console.warn(error);
-        if(this.useToast != null )
-            this.addToastErrorMessage(error.request.status, error.message);
-
-        return error 
-    }
-    private async post(url: string, body: any) :Promise<any>
-    {
-        try
-        {
-            return await axios.post(url , body)     
-        }
-        catch (error)
-        {
-            return this.handleRequestErrorMessage(error)
-        }
-    }
-     private async get(url: string ):Promise<any>
-     {
-         try
-         {
-             return await axios.get(url);     
-         }
-         catch (error)
-         {
-            return this.handleRequestErrorMessage(error)
-         }         
-    }
-    private async delete(url: string):Promise<any>
-    {
-        try
-        {
-           return await axios.delete(url)     
-        }
-        catch (error)
-        {
-            return this.handleRequestErrorMessage(error)
-        }
-    }
-    private async put(url: string, body: any):Promise<any>
-    {
-        try
-        {
-           return await axios.put(url , body )     
-        }
-        catch (error)
-        {
-            return this.handleRequestErrorMessage(error)
-        }
-    }
 }
