@@ -1,14 +1,21 @@
 import { IDependencyInjection } from '@/pinia/Interfaces/IDependencyInjection';
 import { LogController } from '@/pinia/Controllers/LogController';
 import { LogSeverity } from '../Dto/Log';
+import { h } from 'vue';
 
 export class RequestController implements  IDependencyInjection{
+
     public log:LogController = new LogController("RequestController")
+    /**
+     * Initilize log
+     */
     constructor()
     {
         this.log.addLog( `request constructor` , LogSeverity.Initialization );
     }
-    
+    /**
+     * @returns {Headers}
+     */
     private getDefaultHeader() : Headers
     {
         this.log.addLog("set headers" , LogSeverity.Event)
@@ -23,38 +30,83 @@ export class RequestController implements  IDependencyInjection{
 
         return headers;
     }
+
     /**
-     * Curry
+     * @param {string} method 
+     * @param {string} url 
+     * @param {any} data 
+     * @param {Headers} headers 
      */
-    post = (url:string , data:any , headers:any, request:Request ) =>
+    public send(method:string ,url:string , data:any , headers?:Headers ) : Promise<any>
     {
-        // const request = new Request(url ,{
-        //     method: 'POST', 
-        //     body: data, 
-        //     headers: headers??this.getDefaultHeader()
-        // })
+        this.log.addLog( `Send ${method} ${url}` , LogSeverity.Event );
+        switch(method.toUpperCase()){
+            case 'POST': return this.post(url , data , headers);
+            case 'GET': return this.get( url , headers);
+            case 'DELETE': return this.delete( url , headers);
+            case 'PUT': return this.put( url , data , headers );
+            default:throw new Error('Invalid operation exception');
+        }
+    }
+    /**
+     * @param {url} string 
+     * @param {JSON} data 
+     * @param {Headers} headers 
+     * @returns {Promise<any>}
+     */
+    public post (url:string , data:any , headers?:Headers) : Promise<any>
+    {
+        const request = new Request(url ,{
+            method: 'POST', 
+            body: data, 
+            headers: headers??this.getDefaultHeader()
+        })
+        this.log.addLog( `POST ${url}` , LogSeverity.Event );
         return fetch(request);
     }
-    
-
-    private curry(fn:any){
-        return fn.length === 0 
-        ? fn()
-        : (x:any) => (fn.bind(null , x ));
-    }
-    f1 = this.curry(post)
-    type Curry<P, R> = P extends [infer H]
-    ? (arg: H) => R // only 1 arg
-    : P extends [infer H, ...infer T] // 2 or more args
-    ? (arg: H) => Curry<[...T], R>
-    : never;
-    
-    public get(url:string )
+    /**
+     * @param {url} string 
+     * @param {Headers} headers 
+     * @returns {Promise<any>}
+     */
+    public get(url:string ,headers?:Headers ) : Promise<any>
     {
-
-
+        const request = new Request(url ,{
+            method: 'GET', 
+            headers: headers??this.getDefaultHeader()
+        })
+        this.log.addLog( `GET ${url}` , LogSeverity.Event );
+        return fetch(request);
     }
-    public put =(url:string , data:any ) => axios.put( url ,data );
-    public delete =(url:string ) => axios.delete( url);
+    /**
+     * @param {url} string 
+     * @param {JSON} data 
+     * @param {Headers} headers 
+     * @returns {Promise<any>}
+     */
+    public put(url:string , data:any , headers?:Headers ) : Promise<any>
+    {
+        const request = new Request(url ,{
+            method: 'PUT', 
+            body: data, 
+            headers: headers??this.getDefaultHeader()
+        })
+        this.log.addLog( `PUT ${url}` , LogSeverity.Event );
+        return fetch(request);
+    }
+    /**
+     * @param {url} string 
+     * @param {Headers} headers 
+     * @returns {Promise<any>}
+     */
+    public delete(url:string ,headers?:Headers ) : Promise<any>
+    {
+        const request = new Request(url ,{
+            method: 'DELETE', 
+            headers: headers??this.getDefaultHeader()
+        })
+        this.log.addLog( `DELETE ${url}` , LogSeverity.Event );
+        return fetch(request);
+    }
 
 }
