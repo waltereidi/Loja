@@ -1,5 +1,4 @@
-export  interface RequestModel
-{
+export type RequestModel = {
     method: string
     url: string
     body?: any

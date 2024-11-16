@@ -1,4 +1,4 @@
-import {Log , LogSeverity} from '@/pinia/Dto/Log'
+import {Log , LogSeverity} from '@/pinia/Types/Log'
 export class LogController{
      
     constructor(serviceDescription:String){

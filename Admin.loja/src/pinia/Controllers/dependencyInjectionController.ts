@@ -1,4 +1,4 @@
-import { LogSeverity } from "../Dto/Log";
+import { LogSeverity } from "../Types/Log";
 import { IDependencyInjection } from "../Interfaces/IDependencyInjection";
 import { LogController } from "./LogController";
 import { RequestController } from "./requestController";

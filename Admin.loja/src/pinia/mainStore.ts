@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { MainStore ,UserInfo } from '@/pinia/Dto/mainStore'
-import { RouterInfo , ConfiguredRouteChange } from '@/pinia/Dto/routerInfo';
+import { MainStore ,UserInfo } from '@/pinia/Types/mainStore'
+import { RouterInfo , ConfiguredRouteChange } from '@/pinia/Types/routerInfo';
 import { RouteController } from '@/pinia/Controllers/routeController';
 import { isProxy, toRaw } from 'vue';
 import { SessionController } from './Controllers/sessionController';

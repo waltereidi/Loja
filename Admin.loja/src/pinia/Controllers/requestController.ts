@@ -1,8 +1,8 @@
 import { IDependencyInjection } from '@/pinia/Interfaces/IDependencyInjection';
 import { LogController } from '@/pinia/Controllers/LogController';
-import { LogSeverity } from '../Dto/Log';
+import { LogSeverity } from '../Types/Log';
 
-export class RequestController implements  IDependencyInjection{
+export class RequestController implements IDependencyInjection{
 
     public log:LogController = new LogController("RequestController")
     /**

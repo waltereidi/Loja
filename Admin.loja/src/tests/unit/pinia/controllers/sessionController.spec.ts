@@ -1,14 +1,50 @@
-import { expect, test } from 'vitest';
-import { SessionController } from "@/pinia/Controllers/sessionController";
+import { describe, it, expect, vi ,beforeEach , afterEach} from 'vitest';
+import { SessionController } from '@/pinia/Controllers/sessionController';
 
-/**
- * @param RouterInfo is sent from @/router/index.ts every time route changes
- * @param UserInterface datasource must contain all user interface related variables 
- */
+describe('sessionStorage mock', () => {
+    //SessionStorage mock
+  beforeEach(() => {
 
-test('deserialize Cookies',async ()=>{
-    const session = new SessionController()
-    const userInfo = session.getUserInfoFromCookies();
-    console.log(userInfo);
+    const mockStorage = {};
+    vi.stubGlobal('sessionStorage', {
+      getItem: vi.fn((key) => mockStorage[key] || null),
+      setItem: vi.fn((key, value) => {
+        mockStorage[key] = value;
+      }),
+      removeItem: vi.fn((key) => {
+        delete mockStorage[key];
+      }),
+      clear: vi.fn(() => {
+        for (const key in mockStorage) {
+          delete mockStorage[key];
+        }
+      }),
+    });
+  });
 
-})
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+    it('set session and get Session',async ()=>{
+        // sessionStorage is mocked by 'vitest-localstorage-mock'
+       
+
+        const session = new SessionController()
+        const userInfo:UserInfo = {
+            firstName:"testCase",
+            lastName:"caseTest",
+            nameInitials:"TC",
+            jwtToken:{
+                createdAt: new Date(),
+                expiresAt: new Date()
+            }
+        };
+        session.setUserInfoSession(userInfo);
+        const result = session.getUserInfoSession()
+
+        expect(sessionStorage.getItem).toBeCalledTimes(5);
+
+        expect(userInfo).toMatchObject(result);
+    })
+});

@@ -1,21 +1,41 @@
-import { UserInfo } from '@/pinia/Dto/dependencyInjection'
-import cookie from 'cookiejs';
-
+import { UserInfo } from '@/pinia/Types/session'
 
 export class SessionController { 
 
-    public getUserInfoFromCookies() :UserInfo
+    public setUserInfoSession(userInfo:UserInfo) :void
     {
-        const result:UserInfo = {
-            firstName : cookie.get('firstName').toString() , 
-            lastName :  cookie.get('lastName').toString() , 
-            nameInitials : cookie.get('nameInitials').toString() , 
-            jwtToken : {
-                createdAt :parseFloat(cookie.get('createdAt')?.toString()), 
-                expiresAt :parseFloat(cookie.get('expiresAt')?.toString()),
-                serializedToken :  null ,
+        sessionStorage.setItem('userInfo.fisrtName' , userInfo.firstName)
+        sessionStorage.setItem('userInfo.lastName' , userInfo.lastName)
+        sessionStorage.setItem('userInfo.nameInitials' , userInfo.nameInitials)
+        sessionStorage.setItem('userInfo.jwtToken.createdAt' , userInfo.jwtToken.createdAt.getTime().toString())
+        sessionStorage.setItem('userInfo.jwtToken.expiresAt' , userInfo.jwtToken.expiresAt.getTime().toString())
+    }
+    public getUserInfoSession() :UserInfo
+    {
+        const fname:string = String(sessionStorage.getItem('userInfo.fisrtName'))
+        const lName:string = String(sessionStorage.getItem('userInfo.lastName'))
+        const nInitial:string = String(sessionStorage.getItem('userInfo.nameInitials'))
+        const jwtCreatedAt:number =Number(sessionStorage.getItem('userInfo.jwtToken.createdAt'))
+        const jwtExpiresAt:number = Number(sessionStorage.getItem('userInfo.jwtToken.expiresAt'))
+
+        if(fname == 'null' 
+            || lName == 'null' 
+            || jwtCreatedAt == null 
+            || jwtExpiresAt == null 
+            || jwtCreatedAt == 0 
+            || jwtExpiresAt == 0 )
+            throw new Error("user session not found")
+
+        return {
+            firstName : fname,
+            lastName : lName,
+            nameInitials : nInitial ,
+            jwtToken:{
+                createdAt:new Date(jwtCreatedAt),
+                expiresAt:new Date(jwtExpiresAt)
             }
         }
-        return result ; 
     }
+    
+
 }   

@@ -1,4 +1,4 @@
-export interface ToastMessage{
+export type ToastMessage={
     severity:string;
     summary:string;
     detail:string;
