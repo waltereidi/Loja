@@ -1,7 +1,6 @@
 import { IDependencyInjection } from '@/pinia/Interfaces/IDependencyInjection';
 import { LogController } from '@/pinia/Controllers/LogController';
 import { LogSeverity } from '../Dto/Log';
-import { h } from 'vue';
 
 export class RequestController implements  IDependencyInjection{
 
@@ -29,6 +28,16 @@ export class RequestController implements  IDependencyInjection{
         headers.append('Access-Control-Allow-Headers' , 'Origin, X-Requested-With')
 
         return headers;
+    }
+    private JSONtryParse(object:any) : string | null
+    {
+        try {
+            const result = JSON.parse(object);
+            return result;
+
+        } catch (e) {
+            return null;
+        }
     }
 
     /**
@@ -58,7 +67,7 @@ export class RequestController implements  IDependencyInjection{
     {
         const request = new Request(url ,{
             method: 'POST', 
-            body: data, 
+            body: this.JSONtryParse(data), 
             headers: headers??this.getDefaultHeader()
         })
         this.log.addLog( `POST ${url}` , LogSeverity.Event );
@@ -88,7 +97,7 @@ export class RequestController implements  IDependencyInjection{
     {
         const request = new Request(url ,{
             method: 'PUT', 
-            body: data, 
+            body: this.JSONtryParse(data), 
             headers: headers??this.getDefaultHeader()
         })
         this.log.addLog( `PUT ${url}` , LogSeverity.Event );

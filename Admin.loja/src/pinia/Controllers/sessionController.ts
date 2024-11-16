@@ -18,4 +18,4 @@ export class SessionController {
         }
         return result ; 
     }
-}
+}   

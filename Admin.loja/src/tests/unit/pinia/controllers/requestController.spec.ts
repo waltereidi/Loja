@@ -1,11 +1,28 @@
 import { expect, test } from 'vitest'
 import { RequestController } from '@/pinia/Controllers/requestController'
-import { LogSeverity } from '@/pinia/Dto/Log';
 
 const request = new RequestController();
-test('request get returns a result', () => {
+test('request post returns a result',async () => {
     
-    const result = request.get('http://testCase.com')
-        .then((result)=>console.log(result))
+    const res =await request.post('https://testCase.com' , null )
+    //console.log(res)
+    expect(res.status).to.not.toBeNull()
+})
+test('request get returns a result',async () => {
     
+    const res =await request.get('https://testCase.com' )
+    //console.log(res)
+    expect(res.status).to.not.toBeNull()
+})
+test('request get returns a result',async () => {
+    
+    const res =await request.put('https://testCase.com' ,null)
+    //console.log(res)
+    expect(res.status).to.not.toBeNull()
+})
+test('request get returns a result',async () => {
+    
+    const res =await request.delete('https://testCase.com' )
+    //console.log(res)
+    expect(res.status).to.not.toBeNull()
 })

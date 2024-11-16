@@ -11,8 +11,6 @@ export const useMainStore = defineStore('mainStore', {
         return ({
             useToast: null,
             userInfo:null ,
-            showNavBar:false,
-            mobileNavBar:false,
         } as MainStore )
     },
     getters: {
@@ -42,18 +40,7 @@ export const useMainStore = defineStore('mainStore', {
 
             return routeConfig.route;//return route
         },
-        /**
-         * ! Change state from mobileNavBar and lock screen overflow
-         * used in App and header component
-         */
-        async openMobileNavBar(openMenu:boolean)
-        {
-            this.mobileNavBar = openMenu;
-            if(openMenu)
-                document.body.style.overflow ='hidden'
-            else
-                document.body.style.overflow ='auto'
-        }
+
     },
    
 
