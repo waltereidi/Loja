@@ -1,14 +1,14 @@
 <script setup>
 import { useToast } from "primevue/usetoast";
 import { ref, reactive, computed } from 'vue';
-import { useDi } from "@/pinia/dependencyInjection";
+import { DepencyInjectionController,} from "@/pinia/Controllers/dependencyInjectionController";
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 
 const visible = ref(true);
 const toast = useToast();
-const di = useDi();
-const request = di.getRequestController;
+
+const request = new DepencyInjectionController('request').getService();
 const form = reactive({
     txtEmail: "",
     txtPassword: ""

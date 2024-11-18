@@ -1,20 +1,23 @@
 
 <script setup>
-import { useDi } from '@/pinia/dependencyInjection'
+import { DepencyInjectionController } from '@/pinia/Controllers/dependencyInjectionController'
 import { useToast } from 'primevue/usetoast';
 import ToastUnauthorized from "./components/Toast/ToastUnauthorized.vue"
 import NavBar from "./components/Layout/NavBar/NavBar.vue"
 import Header from "./components/Layout/Header/Header.vue"
-import {ref} from 'vue';
+import {ref , watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-const di = useDi()
 let showNavBar = ref(false);
 let mobileNavBar = ref(false);
-di.init(useToast) 
-di.$subscribe(( mutation , state ) =>
-{
-  showNavBar.value = state.showNavBar;
-  mobileNavBar.value = state.mobileNavBar;
+
+// di.init(useToast) 
+const route = useRoute();
+
+watch( route, async ( to , from ) => {
+
+  if( to.fullPath !== '/' )
+    showNavBar.value = true;
 })
 
 </script>
@@ -29,13 +32,15 @@ di.$subscribe(( mutation , state ) =>
     </div>
     
     <div class="view-container">
-        <div v-if="showNavBar" class="header">
+        
+      <div v-if="showNavBar" class="header">
           <Header></Header>
         </div>
         
-        <div  class="routerView">
+        <div class="routerView">
           <router-view />
         </div>
+
     </div>
     
   </div>

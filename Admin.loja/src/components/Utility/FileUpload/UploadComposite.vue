@@ -1,5 +1,5 @@
 <script setup>
-import { useDi } from '@/pinia/dependencyInjection';
+import { DepencyInjectionController } from '@/pinia/Controllers/dependencyInjectionController';
 import { ref } from 'vue';
 import { usePrimeVue } from 'primevue/config';
 import { useToast } from "primevue/usetoast";

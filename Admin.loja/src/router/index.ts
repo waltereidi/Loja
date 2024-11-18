@@ -21,22 +21,6 @@ const router = createRouter({
     },
     
 })
-router.beforeEach(async (to, from) => {
-    // ...
-    // explicitly return false to cancel the navigation  
-   
-    const routeInfo:RouterInfo = {
-        to : to.name ,
-        from : from.name
-    }
-    const response:RouterInfo = await useMainStore().routeChanged(routeInfo);
 
-    if(to.name === response.to)
-        return true;
-    else {
-        return { name: 'Login' }
-    }
-        
-  })
   
 export default router

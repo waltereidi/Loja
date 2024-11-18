@@ -2,13 +2,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useDi } from '@/pinia/dependencyInjection';
+import { DepencyInjectionController } from '@/pinia/Controllers/dependencyInjectionController';
 import { FilterMatchMode } from '@primevue/core/api';
 import UploadPicture from '@/components/Utility/Modals/UploadPicture.vue'
 import UploadComposite from '@/components/Utility/FileUpload/UploadComposite.vue'
+import { RequestController } from '@/pinia/Controllers/requestController';
 
-const di = useDi();
-const request = di.getRequestController;
+
+const request:RequestController = new DepencyInjectionController('request').getService();
 let dataSource = ref();
 let filters = ref({
             name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -20,7 +21,7 @@ const editingRows = ref([]);
 
 const expandSubCategories = ref({});
 const expandSubSubCategories = ref({});
-request.send( 'getAsync' ,"/api/Admin/Categories/GetAllCategories")
+request.get( "/api/Admin/Categories/GetAllCategories")
     .then((result) => { dataSource.value = result })
     .catch((error) => console.log(error));
 

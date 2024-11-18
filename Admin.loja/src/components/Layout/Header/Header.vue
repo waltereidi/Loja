@@ -21,15 +21,15 @@
 </template>
 
 <script setup>
-import { useDi } from '@/pinia/dependencyInjection'
-import { onMounted, ref } from 'vue'
+// import { useDi } from '@/pinia/dependencyInjection'
+// import { onMounted, ref } from 'vue'
 
-let userInfo = ref()
-let nameInitials = ref(null)
-onMounted(()=>{
-    const ui = useDi().getUserInfo;
-    nameInitials.value = ui.nameInitials     
-});
+// let userInfo = ref()
+// let nameInitials = ref(null)
+// onMounted(()=>{
+//     const ui = useDi().getUserInfo;
+//     nameInitials.value = ui.nameInitials     
+// });
 
 
 </script>

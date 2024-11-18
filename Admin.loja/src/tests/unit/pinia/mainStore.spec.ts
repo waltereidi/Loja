@@ -12,10 +12,4 @@ describe('Dependency injection store', () => {
     setActivePinia(createPinia())
   })
 
-  it('returns instanced request controller', () => {
-    const di = useDi()
-    const request = di.getRequestController
-    expect(request).toBeInstanceOf(RequestController)
-  })
-
 })
