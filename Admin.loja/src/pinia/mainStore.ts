@@ -1,44 +1,34 @@
 import { defineStore } from 'pinia';
-import { MainStore ,UserInfo } from '@/pinia/Types/mainStore'
-import { RouterInfo , ConfiguredRouteChange } from '@/pinia/Types/routerInfo';
-import { RouteController } from '@/pinia/Controllers/routeController';
-import { isProxy, toRaw } from 'vue';
-import { SessionController } from './Controllers/sessionController';
+import { MainStoreServices} from '@/pinia/Types/mainStore'
+import { ToastSeverity ,IConfigureToast } from './Interfaces/IConfigureToast';
 
 export const useMainStore = defineStore('mainStore', {
     
     state: () => {
         return ({
             useToast: null,
-            userInfo:null ,
-        } as MainStore )
-    },
-    getters: {
-        getUserInfo(state) : UserInfo|null
-        {
-            return state.userInfo;
-        },
+        } as MainStoreServices )
     },
     actions: {
-        async routeChanged(routeInfo:RouterInfo) : Promise<RouterInfo>
+        async toast(message:string , severity:ToastSeverity): Promise<void>
         {
-            if(this.userInfo == null){
-                const sessionController = new SessionController();
-                this.userInfo= sessionController.getUserInfoFromCookies();
-            }
-            //Instances a new routeController
-            const routeController = new RouteController(routeInfo , 
-                {showNavBar : this.showNavBar}, 
-                isProxy(this.userInfo)?toRaw(this.userInfo):this.userInfo );
+            this.useToast.add({
+                severity: severity.toString(), 
+                summary: severity.toString() ,
+                detail: message,
+                life: 3000
+            })   
 
-            //Computes the values based on route , user interface and user info from login
-            const routeConfig:ConfiguredRouteChange =await routeController.routeChanged();
-            //Receives modified values
-            this.showNavBar =  routeConfig.ui.showNavBar;
-            
-            this.userInfo = routeConfig.user;
+        },
+        async toastMessage(toast:IConfigureToast ) : Promise<void> 
+        {
+            this.useToast.add({
+                severity: toast.severity.toString(), 
+                summary: toast.summary ,
+                detail: toast.detail, 
+                life: toast.life
+            })   
 
-            return routeConfig.route;//return route
         },
 
     },

@@ -21,8 +21,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from 'vue-router';
-import { useDi } from '@/pinia/dependencyInjection';
 let visible = ref(false);
 
 

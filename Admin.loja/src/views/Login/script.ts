@@ -28,15 +28,15 @@ export default {
         async submit() {
             
             const body = {
-                // Email: this.formLogin.txtEmail,
-                // Password: this.formLogin.txtPassword,
+                 Email: this.formLogin.txtEmail,
+                 Password: this.formLogin.txtPassword,
             }
+            const request = new DepencyInjectionController('request').getService()
 
-            // this.request.send('postAsync' ,"api/Admin/Authentication/Login", body)
-            //     .then((result) => {
-            //         useDi().setLogin(result);
-            //         this.$router.push('/Home');
-            //     });
-        }
+            request.send("api/Admin/Authentication/Login", body)
+                 .then((result) => {
+                     this.$router.push('/');
+                 });
+        },
     }
 }

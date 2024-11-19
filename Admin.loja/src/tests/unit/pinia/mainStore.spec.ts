@@ -1,7 +1,6 @@
 import { expect, test , describe , beforeEach , it } from 'vitest';
-import { DepencyInjectionController } from '@/pinia/Controllers/dependencyInjectionController'
 import { setActivePinia, createPinia } from 'pinia'
-
+import App  from '@/App.vue'
 import { RequestController } from '@/pinia/Controllers/requestController';
 
 describe('Dependency injection store', () => {
@@ -10,6 +9,10 @@ describe('Dependency injection store', () => {
     // so it's automatically picked up by any useStore() call
     // without having to pass it to it: `useStore(pinia)`
     setActivePinia(createPinia())
+
+    const wrapper = mount(Component, {})
+
+    expect(wrapper.html()).toContain('Hello world')
   })
 
 })

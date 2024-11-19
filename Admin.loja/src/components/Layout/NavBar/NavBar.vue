@@ -29,7 +29,6 @@
 
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
-import { DepencyInjectionController } from '@/pinia/Controllers/dependencyInjectionController'
 
 
 const router = useRouter();
