@@ -1,12 +1,14 @@
 import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig } from 'vite';
-import plugin from '@vitejs/plugin-vue';
+
 import fs from 'fs';
 import path from 'path';
 import child_process from 'child_process';
 import { env } from 'process';
 
+import vueJsx from '@vitejs/plugin-vue'
+import plugin from '@vitejs/plugin-vue';
 const baseFolder =
     env.APPDATA !== undefined && env.APPDATA !== ''
         ? `${env.APPDATA}/ASP.NET/https`
@@ -34,11 +36,10 @@ const target = 'https://localhost:7179';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [plugin()],
+    plugins: [plugin(),vueJsx()],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url)),
-            '#': fileURLToPath(new URL('./', import.meta.url))
         }
     },
     server: {

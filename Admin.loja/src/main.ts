@@ -2,9 +2,8 @@ import "primeflex/primeflex.css";
 import "primevue/resources/primevue.min.css"; /* Deprecated */
 import "primeicons/primeicons.css";
 import "primevue/resources/themes/aura-light-green/theme.css";
-
-import { createApp } from 'vue'
 import App from './App.vue'
+import { createApp } from 'vue'
 import router from './router'
 import { createPinia } from 'pinia';
 import ToastService from 'primevue/toastservice';

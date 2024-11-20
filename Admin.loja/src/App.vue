@@ -1,10 +1,8 @@
 
 <script setup>
-import { DepencyInjectionController } from '@/pinia/Controllers/dependencyInjectionController'
-import { useToast } from 'primevue/usetoast';
-import ToastUnauthorized from "./components/Toast/ToastUnauthorized.vue"
-import NavBar from "./components/Layout/NavBar/NavBar.vue"
-import Header from "./components/Layout/Header/Header.vue"
+import ToastUnauthorized from "@/components/Toast/ToastUnauthorized.vue"
+import NavBar from "@/components/Layout/NavBar/NavBar.vue"
+import Header from "@/components/Layout/Header/Header.vue"
 import {ref , watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -15,7 +13,6 @@ let mobileNavBar = ref(false);
 const route = useRoute();
 
 watch( route, async ( to , from ) => {
-
   if( to.fullPath !== '/' )
     showNavBar.value = true;
 })
@@ -47,29 +44,5 @@ watch( route, async ( to , from ) => {
 </template>
 
 <style lang="scss">
-.navBar {
-  flex:0 0 auto;  
-}
-.header{
-  width: 100%;
-}
-.view-container{
-  min-height: 100%;
-  width: 100%;
-}
-
-.app-container {
-  
-  display: flex;
-  flex-flow: row;
-  gap:24px;
-  padding:24px;
-  min-width: 100vw;
-  min-height: 100vh;
-}
-.routerView {
-  display: flex;
-  flex:1 1 auto;
-  justify-content: center;
-}
+@import url('./style.scss');
 </style>

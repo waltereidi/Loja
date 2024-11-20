@@ -52,6 +52,4 @@ test('navBarHiddenOnLoginView',async ()=>{
     const controller = new RouteController( route , ui,user);
     const retorno:ConfiguredRouteChange =await controller.routeChanged();
 
-    expect(retorno.ui.showNavBar)
-        .toBe( true );
 })

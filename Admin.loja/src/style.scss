@@ -1,0 +1,25 @@
+.navBar {
+    flex:0 0 auto;  
+  }
+  .header{
+    width: 100%;
+  }
+  .view-container{
+    min-height: 100%;
+    width: 100%;
+  }
+  
+  .app-container {
+    
+    display: flex ;
+    flex-flow: row;
+    gap:24px;
+    padding:24px;
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+  .routerView {
+    display: flex;
+    flex:1 1 auto;
+    justify-content: center;
+  }
