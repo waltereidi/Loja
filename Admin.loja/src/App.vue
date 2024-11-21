@@ -1,6 +1,5 @@
 
 <script setup>
-import ToastUnauthorized from "@/components/Toast/ToastUnauthorized.vue"
 import NavBar from "@/components/Layout/NavBar/NavBar.vue"
 import Header from "@/components/Layout/Header/Header.vue"
 import {ref , watch } from 'vue';
@@ -19,11 +18,10 @@ watch( route, async ( to , from ) => {
 
 </script>
 <template>
-  <Toast />
-  <ToastUnauthorized />
+    <Toast></Toast>
+  
   
   <div class="app-container">
-    
     <div v-if="showNavBar" :class="{ 'navBarMobile':mobileNavBar, 'navBar': !mobileNavBar }">
         <NavBar ></NavBar>
     </div>

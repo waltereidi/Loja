@@ -10,6 +10,9 @@ export const useMainStore = defineStore('mainStore', {
         } as MainStoreServices )
     },
     actions: {
+        async setToast(useToast:any){
+            this.$state.useToast = useToast;
+        },
         async toast(message:string , severity:ToastSeverity): Promise<void>
         {
             this.useToast.add({
