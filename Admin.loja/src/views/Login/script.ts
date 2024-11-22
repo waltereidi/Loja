@@ -1,42 +1,19 @@
-import { useVuelidate } from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
 import { DepencyInjectionController } from '@/pinia/Controllers/dependencyInjectionController'
-
+import { ToastSeverity } from '@/pinia/Interfaces/IConfigureToast'
+import { useMainStore } from '@/pinia/mainStore'
+import { ref } from 'vue';
 export default {
-    
-    
     setup() {
-        return { v$: useVuelidate() }
-    },
-    data() {
+        const store = useMainStore();
+        store.toast('sdsds' ,ToastSeverity.warn);
+        const txtEmail = ref(null);
+        const txtPassword = ref(null);
         return {
-            formLogin: {
-                txtEmail: '',
-                txtPassword: '',
-            },
-        }
-    },
-    validations() {
-        return {
-            formLogin: {
-                txtEmail: { required, email },
-                txtPassword: { required }
+            formLogin : {
+                txtEmail,
+            txtPassword
             }
-        }
-    },
-    methods: {
-        async submit() {
             
-            const body = {
-                 Email: this.formLogin.txtEmail,
-                 Password: this.formLogin.txtPassword,
-            }
-            const request = new DepencyInjectionController('request').getService()
-
-            request.send("api/Admin/Authentication/Login", body)
-                 .then((result) => {
-                     this.$router.push('/');
-                 });
-        },
-    }
+        }
+    },
 }

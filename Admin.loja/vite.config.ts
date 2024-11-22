@@ -36,7 +36,7 @@ const target = 'https://localhost:7179';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [plugin(),vueJsx()],
+    plugins: [vueJsx()],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url)),

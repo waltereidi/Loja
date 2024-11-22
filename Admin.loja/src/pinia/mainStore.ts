@@ -11,10 +11,11 @@ export const useMainStore = defineStore('mainStore', {
     },
     actions: {
         async setToast(useToast:any){
-            this.$state.useToast = useToast;
+            this.useToast = useToast;
         },
-        async toast(message:string , severity:ToastSeverity): Promise<void>
+        async toast(message:string , severity:ToastSeverity , useToast:any = null): Promise<void>
         {
+            this.useToast = this.useToast ?? useToast;
             this.useToast.add({
                 severity: severity.toString(), 
                 summary: severity.toString() ,

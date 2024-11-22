@@ -15,13 +15,11 @@
         <template #content>
             <div class="flex flex-column gap-2">
                 <label for="username">Email</label>
-                <InputText id="username" v-model="formLogin.txtEmail" aria-describedby="username-help"
-                    :invalid="this.v$.formLogin.txtEmail.$invalid" />
+                <InputText id="username" v-model="formLogin.txtEmail" aria-describedby="username-help"/>
             </div>
             <div class="flex flex-column gap-2">
                 <label for="username">Password</label>
-                <Password id="username" v-model="formLogin.txtPassword" aria-describedby="username-help"
-                    :invalid="this.v$.formLogin.txtPassword.$invalid" :feedback="false" toggleMask />
+                <Password id="username" v-model="formLogin.txtPassword" aria-describedby="username-help"/>
             </div>
         </template>
 

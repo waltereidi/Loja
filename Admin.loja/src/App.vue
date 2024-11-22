@@ -4,18 +4,23 @@ import NavBar from "@/components/Layout/NavBar/NavBar.vue"
 import Header from "@/components/Layout/Header/Header.vue"
 import {ref , watch } from 'vue';
 import { useRoute } from 'vue-router';
-
+import { useMainStore } from "./pinia/mainStore";
+import { useToast } from "primevue/usetoast";
+import { ToastSeverity } from "./pinia/Interfaces/IConfigureToast";
 let showNavBar = ref(false);
 let mobileNavBar = ref(false);
-
+const store = useMainStore();
 // di.init(useToast) 
 const route = useRoute();
+
 
 watch( route, async ( to , from ) => {
   if( to.fullPath !== '/' )
     showNavBar.value = true;
 })
 
+store.setToast(useToast());
+store.toast('sdsd',ToastSeverity.success)
 </script>
 <template>
     <Toast></Toast>

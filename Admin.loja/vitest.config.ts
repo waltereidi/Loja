@@ -26,6 +26,6 @@ export default defineConfig({
         inline: ['vue'] // Sometimes helps with compilation
       },
       include: ['src/tests/**/*.spec.ts'],
-      
+      setupFiles: './src/main.ts'     
   },
 })

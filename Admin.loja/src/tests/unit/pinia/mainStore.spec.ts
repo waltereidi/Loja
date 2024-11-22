@@ -1,10 +1,10 @@
-import { expect, test , describe , beforeEach , it } from 'vitest';
+import { expect, test , describe , beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils'
 import { setActivePinia, createPinia } from 'pinia'
 import { useMainStore } from '@/pinia/mainStore';
+import Toast from 'primevue/toast';
+
 import App from '@/App.vue'
-import { useToast } from 'primevue/usetoast';
-import { ToastSeverity } from '@/pinia/Interfaces/IConfigureToast';
 
 describe('Dependency injection store', () => {
   beforeEach(() => {
@@ -16,14 +16,15 @@ describe('Dependency injection store', () => {
     
   })
 
-  test('test' , () => { 
+  test('test' ,async () => { 
     const store = useMainStore();
-
     const wrapper = mount(App)
-    store.setToast(useToast())
-    
-    store.toast('message' , ToastSeverity.success );
+     
     expect(wrapper.find('.messagecontent').exists()).toBe(true)
+    
   
   })
-})
+    
+  
+  
+  })
