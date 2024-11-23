@@ -1,23 +1,20 @@
 import { defineStore } from 'pinia';
 import { MainStoreServices} from '@/pinia/Types/mainStore'
 import { ToastSeverity ,IConfigureToast } from './Interfaces/IConfigureToast';
-
+import { useToast } from "primevue/usetoast";
 export const useMainStore = defineStore('mainStore', {
     
     state: () => {
         return ({
-            useToast: null,
+            useToast: useToast(),
         } as MainStoreServices )
     },
     actions: {
-        async setToast(useToast:any){
-            this.useToast = useToast;
-        },
         async toast(message:string , severity:ToastSeverity , useToast:any = null): Promise<void>
         {
             this.useToast = this.useToast ?? useToast;
             this.useToast.add({
-                severity: severity.toString(), 
+                severity: ToastSeverity[severity], 
                 summary: severity.toString() ,
                 detail: message,
                 life: 3000
@@ -27,7 +24,7 @@ export const useMainStore = defineStore('mainStore', {
         async toastMessage(toast:IConfigureToast ) : Promise<void> 
         {
             this.useToast.add({
-                severity: toast.severity.toString(), 
+                severity: ToastSeverity[toast.severity], 
                 summary: toast.summary ,
                 detail: toast.detail, 
                 life: toast.life
