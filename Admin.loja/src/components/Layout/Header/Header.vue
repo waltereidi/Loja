@@ -1,19 +1,11 @@
 <template>
    <ThemeSwitcher />
-    <div class="header card">
+    <div v-if="isVisible" class="header card">
         <Toolbar class="toolbar">
             <template #start>
-                <div class="toolbar-start flex items-center gap-2">
-                    <i style="font-size: 2rem" @click="useDi().openMobileNavBar(true)" class="headerNavbar ml-4 pi pi-align-justify"></i>
-                    
-                </div>
             </template>
             {{ userInfo }}
             <template #end>
-                <!-- <IconField class="mr-3" >
-                    <InputIcon class="pi pi-search" />
-                    <InputText v-model="value1" placeholder="Search" />
-                </IconField>             -->
                 <Avatar :label="nameInitials" class="mr-2" size="xlarge" shape="circle" />
             </template>
         </Toolbar>
@@ -21,17 +13,15 @@
 </template>
 
 <script setup>
-// import { useDi } from '@/pinia/dependencyInjection'
-// import { onMounted, ref } from 'vue'
+import {ref , watch  } from 'vue';
+import { useRoute } from 'vue-router';
 
-// let userInfo = ref()
-// let nameInitials = ref(null)
-// onMounted(()=>{
-//     const ui = useDi().getUserInfo;
-//     nameInitials.value = ui.nameInitials     
-// });
+const isVisible = ref(false);
+const route = useRoute();
 
-
+watch( route, async ( to , from ) => {
+    isVisible.value = to.fullPath !== '/' ? true : false;
+})
 </script>
 
 <style lang="scss">

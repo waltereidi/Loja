@@ -1,5 +1,5 @@
 <template>
-    <div class="mobileNavBar-container">
+    <div v-if="isVisible" class="mobileNavBar-container">
         <div class="card flex justify-content-center flex-column">
             <div class="navBar-close">
                     <i  class="pi pi-times" style="font-size:1.5rem;color: green"></i>            
@@ -27,11 +27,17 @@
 
 <script setup>
 
-import { ref } from "vue";
-import { useRouter } from 'vue-router';
+import {ref , watch  } from 'vue';
+import { useRoute } from 'vue-router';
+
+const isVisible = ref(false);
+const route = useRoute();
+
+watch( route, async ( to , from ) => {
+    isVisible.value = to.fullPath !== '/' ? true : false;
+})
 
 
-const router = useRouter();
 const items = ref([
     {
         label: 'Home',

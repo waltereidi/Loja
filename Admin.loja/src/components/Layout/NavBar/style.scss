@@ -1,6 +1,5 @@
 @import '@/globals/utility.scss';
 
-
 .navBar-close{
   i{
     display: none;
@@ -13,6 +12,7 @@
   align-self:  start;
   flex: 0 0 auto;
 }
+
 @media (max-width:$md) {
   .navBar-close{
     min-width: 100%;

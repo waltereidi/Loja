@@ -10,7 +10,7 @@ export class SessionController {
         sessionStorage.setItem('userInfo.jwtToken.createdAt' , userInfo.jwtToken.createdAt.getTime().toString())
         sessionStorage.setItem('userInfo.jwtToken.expiresAt' , userInfo.jwtToken.expiresAt.getTime().toString())
     }
-    public getUserInfoSession() :UserInfo
+    public getUserInfoSession() :UserInfo | null
     {
         const fname:string = String(sessionStorage.getItem('userInfo.fisrtName'))
         const lName:string = String(sessionStorage.getItem('userInfo.lastName'))
@@ -24,7 +24,7 @@ export class SessionController {
             || jwtExpiresAt == null 
             || jwtCreatedAt == 0 
             || jwtExpiresAt == 0 )
-            throw new Error("user session not found")
+            return null;
 
         return {
             firstName : fname,

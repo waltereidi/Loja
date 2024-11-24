@@ -14,17 +14,3 @@
 .toolbar-end{
 }
 
-
-@media (max-width:$md) {
-  .headerNavbar{
-    display:flex;
-    flex-wrap: wrap;
-    
-  } 
-}
-@media(min-width:$md){
-  .headerNavbar{
-    display:none;
-    flex-wrap: wrap;
-  }
-}
