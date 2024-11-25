@@ -1,55 +1,34 @@
 @import '@/globals/utility.scss';
-
-.navBar-close{
-  i{
+//normal display
+@media (min-width:$md) {
+  .mobileOpenNavBar{
+    display: none;
+  }  
+  .navBar-container {
+    display: block;
+  }
+  .navBar-close > i {
     display: none;
   }
 }
-.hide {
-  display: none;
-}
-.navBar {
-  align-self:  start;
-  flex: 0 0 auto;
-}
-
-@media (max-width:$md) {
-  .navBar-close{
-    min-width: 100%;
-    display:flex;
-    justify-content: end;
-    padding:20px;
-    i{
-      display: block;
-    }
-  }
-  .navBar{
+//mobile display
+@media(max-width:$md){
+  .hidden{
     display:none;
-    flex-wrap: wrap;
-  } 
-  .navBarMobile{
-    display:flex;
-    position: fixed;
-    
-    z-index: 1;
-    
   }
-  .mobileNavBar-container{
-    min-height: 100vh;
-    min-width: 90vw;
-    position: fixed;
-    background-color:white;
-    opacity: 1;
+  .visible{
+    display:block;
   }
-
-}
-@media(min-width:$md){
-  .navBar{
-    display:flex;
-    flex-wrap: wrap;
+  .navBar-container{
+    position:fixed;
   }
-  .navBarMobile{
-    display:none;
-    flex-wrap: wrap;
+  .navBar-close > i {
+    display: block;
+  }
+  .mobileOpenNavBar{
+    display: block;
+  }
+  .card{
+    min-width: calc(90vw - 20px) ;
   }
 }

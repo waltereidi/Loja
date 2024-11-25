@@ -1,34 +1,28 @@
 import { expect, test , describe , beforeEach } from 'vitest';
 import { mount} from '@vue/test-utils'
-import NavBar from '@/components/Layout/NavBar.vue'
+import NavBar from '@/components/Layout/NavBar/NavBar.vue'
 import PrimeVue from 'primevue/config';
+import { createRouter, createWebHistory } from 'vue-router'
+import { routes } from "@/router/index.ts"
 
-describe('Header test', () => {
 
-  test('test' ,async () => { 
+describe('navBar test', () => {
 
-    type toastComponent = Record<string, object>;
-    const com:toastComponent = {
-      "Toast": Toast
-    }
+  const router = createRouter({
+    history: createWebHistory(),
+    routes: routes,
+  })
 
-    const wrapper = mount(Header, {
+  test('navBar is visible when route is different than /' ,async () => { 
+    const wrapper = mount(NavBar, {
       global: {
-        plugins: [PrimeVue],
-        
-        components: { com },
-        
-      },
-
-
+        plugins: [PrimeVue, router],
+      }
     })
-    wrapper.
-     
-    expect(wrapper.find('.messagecontent').exists()).toBe(true)
-    
-  
+    router.push('/sdsd')
+    await router.isReady()
+
+    expect(wrapper.find('.navBar-container').exists()).toBe(true)
   })
     
-  
-  
-  })
+})
