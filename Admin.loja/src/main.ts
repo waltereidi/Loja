@@ -41,7 +41,6 @@ app.use(router);
 /* eslint-disable */
 app.component('Toast', Toast);
 app.component('Button', Button);
-app.component('Password', Password);
 app.component('InputText', InputText);
 app.component('FloatLabel', FloatLabel);
 app.component('Password', Password);
@@ -61,3 +60,4 @@ app.component('Dialog' ,Dialog);
 app.component('FileUpload' ,FileUpload);
 app.component('ProgressBar' ,ProgressBar);
 app.mount('#app');
+

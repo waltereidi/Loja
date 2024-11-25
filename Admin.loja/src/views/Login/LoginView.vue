@@ -25,13 +25,9 @@
 
         <template #footer>
             <div class="flex gap-3 mt-1">
-                <input type="submit"
-                data-sitekey="6Lf9cGApAAAAANTZFOZgMamei1LobSMF85aKfMih"
-                data-callback='onSubmit' 
-                data-action='submit' 
-                class="g-recaptcha" />
+                <div class="g-recaptcha" data-sitekey="6LfmZ2oqAAAAAOtf5-DrKGua0PHoJxLv2kx4tq9y"></div>
+                <input type="submit"/>
             </div>
-            <div class="g-recaptcha"></div>
         </template>
         
     </Card>

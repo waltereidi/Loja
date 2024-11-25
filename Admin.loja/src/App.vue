@@ -7,10 +7,11 @@ import Header from "@/components/Layout/Header/Header.vue"
 <template>
   <Toast></Toast>
   
-  <div class="app-container">
-        <NavBar></NavBar>
+  <div class="app-container max-w-full">
+      <NavBar></NavBar>
+        
     
-    <div class="view-container">
+    <div class="view-container p-3 gap-3 w-full">
           <Header></Header>
         
           <router-view class="routerView" />

@@ -1,7 +1,5 @@
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue'
-import plugin from '@vitejs/plugin-vue';
 
 export default defineConfig({
   plugins: [
@@ -10,6 +8,7 @@ export default defineConfig({
       // Try adding these options if you're having compilation issues
       template: {
         compilerOptions: {
+          
           // Add any specific compiler options
         }
       }

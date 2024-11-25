@@ -36,7 +36,15 @@ const target = 'https://localhost:7179';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vueJsx()],
+    plugins: [
+        vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => ['Header', 'ThemeSwitcher' ,'App'].includes(tag)
+          }
+        }
+      })
+    ],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -56,3 +64,5 @@ export default defineConfig({
         }
     }
 })
+import vue from '@vitejs/plugin-vue'
+
