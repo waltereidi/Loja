@@ -21,4 +21,5 @@ import Header from "@/components/Layout/Header/Header.vue"
 
 <style lang="scss">
 @import url('./style.scss');
+@import url('./theme.scss');
 </style>
