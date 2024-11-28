@@ -12,7 +12,7 @@ const submit= async ()=>{
     const form =document.getElementById('frmLogin');
     console.log(form)
 
-    store.toast( 'txtEmail.toString()', ToastSeverity.success)
+    store.toast( $refs.txtEmail, ToastSeverity.success)
 }
 
 </script>
