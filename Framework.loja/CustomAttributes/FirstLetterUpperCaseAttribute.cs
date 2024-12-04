@@ -5,20 +5,18 @@ using System.Text.RegularExpressions;
 
 namespace Framework.loja.CustomAttributes
 {
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter,AllowMultiple = false)]
+
     public class FirstLetterUppercaseAttribute : ValidationAttribute , IStringValidationAttribute
     {
         public string RegexPattern => "^$|^[A-Z]";
-
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-
-            if (!Regex.IsMatch(value.ToString(), RegexPattern))
-            {
-                return new ValidationResult("The first letter of 'name' must be uppercase");
-            }
+        public FirstLetterUppercaseAttribute()
+        { 
+                
             
-            return ValidationResult.Success;
         }
+        public override bool IsValid(object value) => Regex.IsMatch(value.ToString(), RegexPattern);
+
 
     }
 
