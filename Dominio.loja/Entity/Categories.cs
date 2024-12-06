@@ -1,6 +1,7 @@
 ﻿using Dominio.loja.Entity.Integrations.WFileManager;
 using Dominio.loja.Events.Praedicamenta;
 using Framework.loja;
+using Framework.loja.CustomAttributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,8 +11,7 @@ namespace Dominio.loja.Entity
     public class Categories : Entity<int?>
     {
 
-        [StringLength(120)]
-        
+        [FirstLetterUppercase("")]
         public string Name { get; set; }
         [StringLength(2048)]
         public string? Description { get; set; }
