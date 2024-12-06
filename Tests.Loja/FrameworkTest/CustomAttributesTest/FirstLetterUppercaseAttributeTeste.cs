@@ -8,7 +8,7 @@ namespace Tests.loja.FrameworkTest.CustomAttributesTest
 {
     internal class TestEntity : Entity<int>
     {
-        [FirstLetterUppercase]
+        [FirstLetterUppercase("Error")]
         public string Value { get; set; }
 
         protected override void When(object @event)

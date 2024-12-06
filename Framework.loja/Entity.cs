@@ -28,6 +28,9 @@ namespace Framework.loja
         protected void Apply(object @event)
         {
             When(@event);
+            //This applier comes from domain IAggregateRoot
+            //A method from IAggregate root can be triggered to ensure domain constraints from multiple sources after every 
+            //entity event
             _applier(@event);
         }
         void IInternalEventHandler.Handle(object @event) => When(@event);

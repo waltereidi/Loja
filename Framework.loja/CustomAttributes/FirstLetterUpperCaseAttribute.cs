@@ -6,22 +6,20 @@ using System.Text.RegularExpressions;
 namespace Framework.loja.CustomAttributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter,AllowMultiple = false)]
-    public class FirstLetterUppercaseAttribute : Attribute , IStringValidationAttribute
+    public class FirstLetterUppercaseAttribute : ValidationAttribute , IStringValidationAttribute
     {
         public string RegexPattern => "^$|^[A-Z]";
-        public FirstLetterUppercaseAttribute(Func<object> fun)
-        {
-            var i = fun;
-            
-        }
-        public FirstLetterUppercaseAttribute(object i ) : this(()=>i)
+        private string ErrorMessage { get; set; }
+        public FirstLetterUppercaseAttribute(Func<string> error)
         {
             
         }
-        //public override bool IsValid(object value) => Regex.IsMatch(value.ToString(), RegexPattern);
-        
-
-
+        public FirstLetterUppercaseAttribute(string i ) : this(()=>i)
+        {
+            ErrorMessage = i;
+        }
+        public override bool IsValid(object value) => Regex.IsMatch(value.ToString(), RegexPattern);      
+       
     }
 
 }
