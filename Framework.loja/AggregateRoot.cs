@@ -32,6 +32,13 @@ namespace Framework.loja
 
         protected void ApplyToEntity(IInternalEventHandler entity, object @event)
             => entity?.Handle(@event);
+        public void Load(IEnumerable<object> history)
+        {
+            foreach (var e in history)
+            {
+                When(e);
+            }
+        }
 
         void IInternalEventHandler.Handle(object @event) => When(@event);
 

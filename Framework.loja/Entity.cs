@@ -1,16 +1,10 @@
 ﻿using Framework.loja.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Framework.loja
 {
     public abstract class Entity<TId> : IInternalEventHandler
     {
-
         public DateTime Created_at { get; set; }
         public DateTime? Updated_at { get; set; }
         private readonly Action<object> _applier;
@@ -31,8 +25,15 @@ namespace Framework.loja
             //This applier comes from domain IAggregateRoot
             //A method from IAggregate root can be triggered to ensure domain constraints from multiple sources after every 
             //entity event
+
+            ValidateAttributes();
+            
             _applier(@event);
         }
         void IInternalEventHandler.Handle(object @event) => When(@event);
+        protected void ValidateAttributes()
+        {
+            var assembly = Attribute.GetCustomAttributes(Assembly.GetExecutingAssembly());
+        }
     }
 }

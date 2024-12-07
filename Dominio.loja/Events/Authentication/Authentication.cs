@@ -1,17 +1,17 @@
 ﻿using Dominio.loja.Entity;
 using Framework.loja;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+
 
 namespace Dominio.loja.Events.Authentication
 {
-    public class Authentication : AggregateRoot<int>
+    public class Authentication : AggregateRoot<Guid>
     {
         public LoginAdmin loginAdmin { get; set; }
+
+        public Authentication()
+        {
+
+        }
 
         public Authentication(Clients clients , string issuer ,string jwtKey)
         {

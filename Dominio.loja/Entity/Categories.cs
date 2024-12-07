@@ -18,7 +18,6 @@ namespace Dominio.loja.Entity
 
         public Categories(Action<object> applier) :base(applier)
         {
-            Apply(applier);
         }
         public Categories() { }
 

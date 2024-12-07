@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.loja.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,14 @@ namespace Dominio.loja.Events.Authentication
 {
     public static class AuthenticationEvents
     {
-        public record class LoginAdminRequest(LoginAdmin loginAdmin);
+        public class Request()
+        {
+            public record class LoginAdmin(Clients client )
+        }
+        public class Response()
+        {
+            public record class LoginAdmin(LoginAdmin loginAdmin);
+        }
+        
     }
 }

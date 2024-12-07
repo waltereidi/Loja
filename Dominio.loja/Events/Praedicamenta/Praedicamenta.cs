@@ -32,27 +32,27 @@ namespace Dominio.loja.Events.Praedicamenta
             switch(@event)
             {
                 case PraedicamentaEvents.CreateCategory c :
-                     category = new Categories();
+                     category = new Categories(Apply);
                      ApplyToEntity(category , c);
                      break;
                 case PraedicamentaEvents.CreateSubCategory c:
-                     subCategory = new SubCategories();
+                     subCategory = new SubCategories(Apply);
                      ApplyToEntity(subCategory, c);
                      break;
                 case PraedicamentaEvents.CreateSubSubCategory c:
-                    subSubCategory = new SubSubCategories();
+                    subSubCategory = new SubSubCategories(Apply);
                     ApplyToEntity(subSubCategory , c);
                     break;
                 case PraedicamentaEvents.UpdateCategory c:
-                    category = new Categories();
+                    category = new Categories(Apply);
                     ApplyToEntity(category , c);
                     break;
                 case PraedicamentaEvents.UpdateSubCategory c:
-                    subCategory = new SubCategories();
+                    subCategory = new SubCategories(Apply);
                     ApplyToEntity(subCategory, c);
                     break;
                 case PraedicamentaEvents.UpdateSubSubCategory c:
-                    subSubCategory = new SubSubCategories();
+                    subSubCategory = new SubSubCategories(Apply);
                     ApplyToEntity(subSubCategory, c);
                     break;
 
