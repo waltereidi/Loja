@@ -4,7 +4,9 @@ using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Cryptography;
+using System.Text;
 using WConnectionKeyVault;
 
 namespace Api.loja.Data
@@ -50,7 +52,19 @@ namespace Api.loja.Data
             CreateCategoriesORM(modelBuilder);
             CreateFilesORM(modelBuilder);
             CreateFilesCategoriesORM(modelBuilder);
+            CreateAuthenticationORM(modelBuilder);
         }
+
+        private void CreateAuthenticationORM(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<IPScore>()
+                .Property(e => e.Id)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => new IPAddress(Encoding.ASCII.GetBytes(v))
+                );
+        }
+
         private void CreateFilesORM(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<FileDirectory>()

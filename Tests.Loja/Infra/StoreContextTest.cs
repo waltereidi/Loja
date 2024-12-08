@@ -1,6 +1,8 @@
 ﻿using Api.loja.Data;
 using Dominio.loja.Entity.Integrations.WFileManager;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net;
+using System.Text;
 
 namespace Tests.loja.Infra
 {
@@ -36,6 +38,14 @@ namespace Tests.loja.Infra
 
             
             Assert.IsNotNull(dir.DirectoryName);
+        }
+        [TestMethod]
+        public void TestAuthenticationORM()
+        {
+            //Ensures the conversion to IPAddress class from string is lucid 
+            var i = new IPAddress(Encoding.ASCII.GetBytes("::1"));
+            //IS NOT LUCID
+
         }
 
 

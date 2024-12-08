@@ -19,7 +19,6 @@ namespace Tests.loja.Api.ApplicationServiceTest
             _service = new(_configuration , new StoreContext());
         }
 
-      
 
     }
 }

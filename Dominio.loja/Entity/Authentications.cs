@@ -1,22 +1,20 @@
 ﻿using Framework.loja;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
 
 namespace Dominio.loja.Entity
 {
-    public class Authentication : Entity<Guid>
+    public class Authentications : Entity<Guid>
     {
         [ForeignKey("IPScoreId")]
         public int IPScoreId { get; set; }
-        [ForeignKey("UserId")]
-        public int UserId { get; set; }
+        [ForeignKey("ClientId")]
+        public int ClientId { get; set; }
         public virtual Clients Client { get; set; }
 
-
-
-        public int ClientId { get; set; }
-                
-        public Authentication() { }
-        public Authentication(Action<object> @event) : base(@event)
+        public virtual IPAddress IPScore {get;set;}
+        public Authentications() { }
+        public Authentications(Action<object> @event) : base(@event)
         {
 
         }

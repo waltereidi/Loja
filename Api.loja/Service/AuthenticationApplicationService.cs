@@ -31,7 +31,7 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            V1.Request.LoginRequestContext cmd => HandleAuthentication(cmd),
+            V1.Request.LoginRequestContext cmd => HandleAuthenticationAdmin(cmd),
             //AuthenticationContract.V1.Request.GetUserInfo cmd => GetUserInfo(cmd),
             _ => throw new InvalidOperationException()
         };  
@@ -55,7 +55,7 @@ namespace Api.loja.Service
         /// <param name="cmd"></param>
         /// <returns></returns>
         /// <exception cref="AuthenticationException"></exception>
-        private V1.Responses.LoginResponse HandleAuthentication(V1.Request.LoginRequestContext cmd) 
+        private V1.Responses.LoginResponse HandleAuthenticationAdmin(V1.Request.LoginRequestContext cmd) 
         {
             GoogleReCaptcha_V3_Verify(cmd.login.reCaptchaToken , cmd.context.Connection.RemoteIpAddress.ToString());
 

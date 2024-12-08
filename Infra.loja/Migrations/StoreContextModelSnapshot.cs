@@ -42,8 +42,7 @@ namespace Infra.loja.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
@@ -227,6 +226,7 @@ namespace Infra.loja.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileProperties")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("Length")

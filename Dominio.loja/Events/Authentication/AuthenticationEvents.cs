@@ -1,9 +1,5 @@
 ﻿using Dominio.loja.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace Dominio.loja.Events.Authentication
 {
@@ -11,11 +7,20 @@ namespace Dominio.loja.Events.Authentication
     {
         public class Request()
         {
-            public record class LoginAdmin(Clients client )
+            public record class LoginAdmin(Clients client  , IPScore? IPScore , IEnumerable<Authentications>? auth , Context context);
+            public class Context
+            {
+                public IPAddress Ip { get; private set; }
+                public Context(IPAddress ip)
+                {
+                    Ip = ip;
+                }
+            }
+            public record CreateIpScore(IPAddress ipAddress );
         }
         public class Response()
         {
-            public record class LoginAdmin(LoginAdmin loginAdmin);
+            public record  LoginAdmin();
         }
         
     }

@@ -1,37 +1,66 @@
 ﻿using Dominio.loja.Entity;
 using Framework.loja;
 
-
 namespace Dominio.loja.Events.Authentication
 {
     public class Authentication : AggregateRoot<Guid>
     {
-        public LoginAdmin loginAdmin { get; set; }
+        
+        public Clients Client { get; set; }
+        public IPScore IPScore { get; set; }
+        public Authentications Auth { get; set; }
 
         public Authentication()
         {
-
+            base.Id = new Guid();
         }
 
-        public Authentication(Clients clients , string issuer ,string jwtKey)
+        public Authentication(object @event)
         {
-            var client = new LoginAdmin(clients, issuer, jwtKey);
-            Apply( new AuthenticationEvents.LoginAdminRequest(client));
-
+            base.Id = new Guid();
+            Apply( @event);
         }
 
         protected override void EnsureValidState()
         {
-            ArgumentNullException.ThrowIfNull(loginAdmin.Token);
+            if (Client == null || IPScore == null || Auth != null)
+                throw new ArgumentException();
+
+            //if(IPScore.IPAddress.ToString() == Auth.IpAddress.ToString())
+            //{
+
+            //}
         }
 
         protected override void When(object @event)
         {
             switch (@event)
             {
-                case AuthenticationEvents.LoginAdminRequest @e: loginAdmin = @e.loginAdmin; break;
+                case AuthenticationEvents.Request.LoginAdmin @e: HandleAuthenticationAdmin(@e); break;
             }
         }
-   
+        
+        private void HandleAuthenticationAdmin(AuthenticationEvents.Request.LoginAdmin e)
+        {
+
+            if (e.IPScore == null)
+            {
+                IPScore = new IPScore(Apply);
+                ApplyToEntity(IPScore, new AuthenticationEvents.Request.CreateIpScore(e.context.Ip));
+            } else
+                IPScore = e.IPScore;
+
+
+            if (e.auth.Any(x => e.client.Id == x.ClientId ))
+            {
+
+            }
+
+        }
+
+        
+
+
+
     }
 }
