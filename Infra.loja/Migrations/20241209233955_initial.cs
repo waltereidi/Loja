@@ -17,7 +17,7 @@ namespace Infra.loja.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -42,6 +42,22 @@ namespace Infra.loja.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FileDirectory", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ipScore",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Score = table.Column<int>(type: "int", nullable: false),
+                    IpAddress = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ipScore", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -182,7 +198,7 @@ namespace Infra.loja.Migrations
                     FileDirectoryId = table.Column<int>(type: "int", nullable: false),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OriginalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileProperties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -473,6 +489,44 @@ namespace Infra.loja.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "auth",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IPScoreId = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_auth", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_auth_clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_auth_ipScore_IPScoreId",
+                        column: x => x.IPScoreId,
+                        principalTable: "ipScore",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_auth_ClientId",
+                table: "auth",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_auth_IPScoreId",
+                table: "auth",
+                column: "IPScoreId",
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "IX_categoriesPromotion_CategoriesId",
                 table: "categoriesPromotion",
@@ -504,6 +558,12 @@ namespace Infra.loja.Migrations
                 name: "IX_FileStorage_FileDirectoryId",
                 table: "FileStorage",
                 column: "FileDirectoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ipScore_IpAddress",
+                table: "ipScore",
+                column: "IpAddress",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_permissionsRelation_PermissionsGroupId",
@@ -580,14 +640,14 @@ namespace Infra.loja.Migrations
             migrationBuilder.Sql("insert into subsubcategories( name , description ,created_at , subcategoriesId) values( 'testCase subSubCategories' , 'description' , current_timestamp , 1)");
             migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, created_at) values( 'testCase' ,'/swagger/index.html' , current_timestamp)");
             migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, created_at) values( 'Store_Categories' ,'/Store/Categories/ChangePicture' , current_timestamp)");
-
+            migrationBuilder.Sql("insert into ipScore(ipAddress , Score , created_at ) values('::1' , 10 , current_timestamp)");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "clients");
+                name: "auth");
 
             migrationBuilder.DropTable(
                 name: "clientsProductsCart");
@@ -623,10 +683,13 @@ namespace Infra.loja.Migrations
                 name: "subSubCategories");
 
             migrationBuilder.DropTable(
-                name: "FileStorage");
+                name: "clients");
 
             migrationBuilder.DropTable(
-                name: "permissionsGroup");
+                name: "ipScore");
+
+            migrationBuilder.DropTable(
+                name: "FileStorage");
 
             migrationBuilder.DropTable(
                 name: "permissions");
@@ -642,6 +705,9 @@ namespace Infra.loja.Migrations
 
             migrationBuilder.DropTable(
                 name: "SubCategories");
+
+            migrationBuilder.DropTable(
+                name: "permissionsGroup");
 
             migrationBuilder.DropTable(
                 name: "FileDirectory");

@@ -1,5 +1,7 @@
 ﻿using Dominio.loja.Events.Authentication;
 using Framework.loja;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
@@ -9,11 +11,16 @@ namespace Dominio.loja.Entity
     /// <summary>
     /// Id refers to remote IP address
     /// </summary>
-    public class IPScore : Entity<IPAddress?>
+
+    [Index(nameof(IpAddress), IsUnique = true)]
+    public class IPScore : Entity<int?>
     {
 
         [Required]
         public int Score { get; set; }
+        [Required]
+        public IPAddress? IpAddress { get; set; }
+        
         public IPScore()
         {
 
@@ -28,7 +35,7 @@ namespace Dominio.loja.Entity
             {
                 case AuthenticationEvents.Request.CreateIpScore @e:
                     {
-                        Id = e.ipAddress;
+                        IpAddress = e.ipAddress;
                         Score = 100;
                         Created_at = DateTime.Now;
                     }break;

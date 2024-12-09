@@ -24,12 +24,8 @@ namespace Dominio.loja.Events.Authentication
         protected override void EnsureValidState()
         {
             if (Client == null || IPScore == null || Auth != null)
-                throw new ArgumentException();
-
-            //if(IPScore.IPAddress.ToString() == Auth.IpAddress.ToString())
-            //{
-
-            //}
+                throw new ArgumentNullException("Some obligatory objects are null");
+                        
         }
 
         protected override void When(object @event)
@@ -39,21 +35,24 @@ namespace Dominio.loja.Events.Authentication
                 case AuthenticationEvents.Request.LoginAdmin @e: HandleAuthenticationAdmin(@e); break;
             }
         }
-        
-        private void HandleAuthenticationAdmin(AuthenticationEvents.Request.LoginAdmin e)
+        private void SetIpScore(IPScore? iPScore, AuthenticationEvents.Request.Context context)
         {
-
-            if (e.IPScore == null)
+            if (iPScore == null)
             {
                 IPScore = new IPScore(Apply);
-                ApplyToEntity(IPScore, new AuthenticationEvents.Request.CreateIpScore(e.context.Ip));
-            } else
-                IPScore = e.IPScore;
-
-
-            if (e.auth.Any(x => e.client.Id == x.ClientId ))
+                ApplyToEntity(IPScore, new AuthenticationEvents.Request.CreateIpScore(context.Ip));
+            }
+            else
+                IPScore = iPScore;
+        }
+        private void HandleAuthenticationAdmin(AuthenticationEvents.Request.LoginAdmin e)
+        {
+            SetIpScore(e.IPScore , e.context);
+            
+            if ( e.auth.Any(x => e.client.Id == x.ClientId  ) )
             {
-
+                Auth = e.auth.First(x=> x.ClientId == e.client.Id);               
+                
             }
 
         }

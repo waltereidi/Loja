@@ -25,6 +25,34 @@ namespace Infra.loja.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Dominio.loja.Entity.Authentications", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IPScoreId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("IPScoreId")
+                        .IsUnique();
+
+                    b.ToTable("auth");
+                });
+
             modelBuilder.Entity("Dominio.loja.Entity.Categories", b =>
                 {
                     b.Property<int?>("Id")
@@ -167,6 +195,35 @@ namespace Infra.loja.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("clientsProductsCart");
+                });
+
+            modelBuilder.Entity("Dominio.loja.Entity.IPScore", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Updated_at")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IpAddress")
+                        .IsUnique();
+
+                    b.ToTable("ipScore");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.Integrations.WFileManager.FileDirectory", b =>
@@ -690,6 +747,25 @@ namespace Infra.loja.Migrations
                         .IsUnique();
 
                     b.ToTable("subSubCategories");
+                });
+
+            modelBuilder.Entity("Dominio.loja.Entity.Authentications", b =>
+                {
+                    b.HasOne("Dominio.loja.Entity.Clients", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dominio.loja.Entity.IPScore", "IPScore")
+                        .WithOne()
+                        .HasForeignKey("Dominio.loja.Entity.Authentications", "IPScoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("IPScore");
                 });
 
             modelBuilder.Entity("Dominio.loja.Entity.CategoriesPromotion", b =>

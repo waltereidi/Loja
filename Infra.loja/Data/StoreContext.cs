@@ -47,6 +47,10 @@ namespace Api.loja.Data
         public virtual DbSet<FileDirectory> fileDirectory { get; set; }
         public virtual DbSet<FileStorage> fileStorage { get; set; }
         public virtual DbSet<FileCategories> fileCategories { get; set; }
+
+        //Authentication
+        public virtual DbSet<IPScore> ipScore { get; set; }
+        public virtual DbSet<Authentications> auth { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             CreateCategoriesORM(modelBuilder);
@@ -58,11 +62,17 @@ namespace Api.loja.Data
         private void CreateAuthenticationORM(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IPScore>()
-                .Property(e => e.Id)
+                .Property(e => e.IpAddress )
                 .HasConversion(
                     v => v.ToString(),
-                    v => new IPAddress(Encoding.ASCII.GetBytes(v))
+                    v => IPAddress.Parse(v)
                 );
+
+            modelBuilder.Entity<Authentications>()
+                .HasOne(e => e.IPScore)
+                .WithOne()
+                .HasForeignKey<Authentications>(e => e.IPScoreId);
+
         }
 
         private void CreateFilesORM(ModelBuilder modelBuilder)
@@ -73,12 +83,14 @@ namespace Api.loja.Data
                     v => (string)v,
                     v => new DirectoryRestriction(v)
                 );
+
             modelBuilder.Entity<FileStorage>()
                .Property(e => e.Id)
                .HasConversion(
                    v => v.ToString(),
                    v => new Guid(v)
                );
+
             modelBuilder.Entity<FileStorage>()
                .Property(e => e.FileProperties)
                .HasConversion(

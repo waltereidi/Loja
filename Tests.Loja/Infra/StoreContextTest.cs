@@ -43,10 +43,11 @@ namespace Tests.loja.Infra
         public void TestAuthenticationORM()
         {
             //Ensures the conversion to IPAddress class from string is lucid 
-            var i = new IPAddress(Encoding.ASCII.GetBytes("::1"));
-            //IS NOT LUCID
+            var ipScore = _context.ipScore.First();
+            Assert.IsNotNull(ipScore.IpAddress);
 
         }
+        
 
 
     }

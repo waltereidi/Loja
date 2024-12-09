@@ -11,8 +11,8 @@ namespace Dominio.loja.Entity
         [ForeignKey("ClientId")]
         public int ClientId { get; set; }
         public virtual Clients Client { get; set; }
+        public virtual IPScore IPScore { get; set; }
 
-        public virtual IPAddress IPScore {get;set;}
         public Authentications() { }
         public Authentications(Action<object> @event) : base(@event)
         {
