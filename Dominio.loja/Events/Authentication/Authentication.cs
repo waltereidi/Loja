@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.Entity;
 using Framework.loja;
+using System.Security.Authentication;
 
 namespace Dominio.loja.Events.Authentication
 {
@@ -9,6 +10,7 @@ namespace Dominio.loja.Events.Authentication
         public Clients Client { get; set; }
         public IPScore IPScore { get; set; }
         public Authentications Auth { get; set; }
+        private string Referer { get; set; }
 
         public Authentication()
         {
@@ -25,14 +27,18 @@ namespace Dominio.loja.Events.Authentication
         {
             if (Client == null || IPScore == null || Auth != null)
                 throw new ArgumentNullException("Some obligatory objects are null");
-                        
+
+            if( IPScore.Score <= 0 )
+                throw new AuthenticationException(nameof(IPScore.Score));
+
+            
         }
 
         protected override void When(object @event)
         {
             switch (@event)
             {
-                case AuthenticationEvents.Request.LoginAdmin @e: HandleAuthenticationAdmin(@e); break;
+                case AuthenticationEvents.Request.LoginAdmin @e: HandleAuthentication(@e); break;
             }
         }
         private void SetIpScore(IPScore? iPScore, AuthenticationEvents.Request.Context context)
@@ -45,15 +51,30 @@ namespace Dominio.loja.Events.Authentication
             else
                 IPScore = iPScore;
         }
-        private void HandleAuthenticationAdmin(AuthenticationEvents.Request.LoginAdmin e)
+        private void SetUp(AuthenticationEvents.Request.LoginAdmin e)
         {
-            SetIpScore(e.IPScore , e.context);
-            
-            if ( e.auth.Any(x => e.client.Id == x.ClientId  ) )
+
+            SetIpScore(e.IPScore, e.context);
+            Referer = e.context.Referer;
+            SetAuthentications(e);
+
+        }
+
+        private void SetAuthentications(AuthenticationEvents.Request.LoginAdmin e)
+        {
+            if (e.auth.Any(x => e.client.Id == x.ClientId && x.IPScore.Id == x.IPScoreId ))
             {
-                Auth = e.auth.First(x=> x.ClientId == e.client.Id);               
                 
             }
+        }
+
+
+        private void HandleAuthentication(AuthenticationEvents.Request.LoginAdmin e)
+        {
+            SetUp(e);
+
+
+
 
         }
 

@@ -11,9 +11,11 @@ namespace Dominio.loja.Events.Authentication
             public class Context
             {
                 public IPAddress Ip { get; private set; }
-                public Context(IPAddress ip)
+                public string Referer { get; private set; }
+                public Context(IPAddress ip , string referer )
                 {
-                    Ip = ip;
+                    Ip = ip ?? throw new ArgumentNullException(nameof(ip));
+                    Referer = referer ?? throw new ArgumentNullException(nameof(referer));
                 }
             }
             public record CreateIpScore(IPAddress ipAddress );
