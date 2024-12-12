@@ -12,8 +12,6 @@ namespace Dominio.loja.Entity
     [Table("permissionsRelation")]
     public class PermissionsRelation : Entity<int?>
     {
-
-
         [ForeignKey("PermissionsGroupId")]
         public int PermissionsGroupId { get; set; }
         [ForeignKey("PermissionsId")]

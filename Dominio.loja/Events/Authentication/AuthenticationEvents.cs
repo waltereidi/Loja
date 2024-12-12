@@ -5,20 +5,24 @@ namespace Dominio.loja.Events.Authentication
 {
     public static class AuthenticationEvents
     {
+        public class SuccessfullAuthentication()
+        {
+
+        }
         public class Request()
         {
-            public record class LoginAdmin(Clients client  , IPScore? IPScore , IEnumerable<Authentications>? auth , Context context);
+            public record SetClient(Clients client );
+            public record SetAuthentications(IEnumerable<Authentications>? auth);
             public class Context
             {
-                public IPAddress Ip { get; private set; }
                 public string Referer { get; private set; }
-                public Context(IPAddress ip , string referer )
+                public Context(string referer )
                 {
-                    Ip = ip ?? throw new ArgumentNullException(nameof(ip));
                     Referer = referer ?? throw new ArgumentNullException(nameof(referer));
                 }
             }
-            public record CreateIpScore(IPAddress ipAddress );
+            public record CreateIpScore(IPAddress? ipAddress , IPScore iPScore );
+            public record CreateAuthentications(int client_id, int ipScore_id);
         }
         public class Response()
         {
