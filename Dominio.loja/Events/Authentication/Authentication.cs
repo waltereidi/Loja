@@ -1,109 +1,88 @@
 ﻿using Dominio.loja.Entity;
+using Dominio.loja.Interfaces;
 using Framework.loja;
-using System.Linq;
-using System.Reflection;
 using System.Security.Authentication;
 using static Dominio.loja.Events.Authentication.AuthenticationEvents;
-using static Dominio.loja.Events.Authentication.AuthenticationEvents.Request;
 
 namespace Dominio.loja.Events.Authentication
 {
-    public class Authentication : AggregateRoot<SuccessfullAuthentication>
+    public class Authentication : AggregateRoot<IAuthentication> 
     {
         
-        public Clients Client { get;private set; }
-        public IPScore IPScore { get; private set; }
-        public Authentications Auth { get; private set; }
+        public Clients _Client { get;private set; }
+        public IPScore _IPScore { get; private set; }
+        public Authentications _Auth { get; private set; }
         
         
         private string Referer { get; set; }
 
-        public Authentication()
+        public Authentication(IAuthentication auth)
         {
-            base.Id = new SuccessfullAuthentication();
+            base.Id = auth ?? throw new ArgumentNullException();
         }
         /// <summary>
-        /// Defines ipScore , if not existent creates a new
+        /// Defines ipScore, if not existent creates a new
         /// </summary>
-        public void SetIpScore(AuthenticationEvents.Request.CreateIpScore @e) => Apply(@e);
+        public void SetIpScore(Request.CreateIpScore @e) => Apply(@e);
         /// <summary>
         /// Initializes all obligatory objects from this domain
         /// </summary>
         /// <param name="e"></param>
-        public void SetClient(AuthenticationEvents.Request.SetClient @e) => Apply(@e);
-        public void SetAuthentications(AuthenticationEvents.Request.SetAuthentications @e) => Apply(@e);
-        public void SetContext(Context @e) => Apply(@e);
+        public void SetClient(Request.SetClient @e) => Apply(@e);
+        /// <summary>
+        /// Set authentication from all authentications of this IP
+        /// </summary>
+        /// <param name="e"></param>
+        public void SetAuthentications(Request.SetAuthentications @e) => Apply(@e);
+        
 
         protected override void EnsureValidState()
         {
-            if (Client == null || IPScore == null || Auth != null)
-                throw new ArgumentNullException("Some obligatory objects are null");
+            if (_IPScore == null )
+                throw new ArgumentNullException("Authentication source does not have IP");
 
-            if( IPScore.Score <= 0 )
-                throw new AuthenticationException(nameof(IPScore.Score));
+            if(_IPScore.Score <= 0 )
+                throw new AuthenticationException(nameof(_IPScore.Score));
 
-            if( !Client.PermissionsGroup.PermissionsRelations.Any(x=>x.Permissions.Name == Referer))
-                throw new AuthenticationException("Client does not have permission to authenticate");
+
         }
 
         protected override void When(object @event)
         {
             switch (@event)
             {
-                case AuthenticationEvents.Request.SetAuthentications @e:
+                case Request.SetAuthentications @e:
                     {
-
+                        if (@e.auth.Any(x => x.ClientId == _Client.Id && x.IPScoreId == _IPScore.Id))
+                        {
+                            _Auth = e.auth.First(x => x.ClientId == _Client.Id && x.IPScoreId == _IPScore.Id);
+                        }
+                        else
+                        {
+                            _Auth = new Authentications(Apply);
+                            ApplyToEntity(_Auth , new Request.CreateAuthentications( _IPScore, _Client ));
+                        }
                     };break;
-                case AuthenticationEvents.Request.CreateIpScore @e: 
+                case Request.CreateIpScore @e: 
                     {
                         if (e.iPScore == null)
                         {
-                            IPScore = new IPScore(Apply);
-                            ApplyToEntity(IPScore, e);
+                            _IPScore = new IPScore(Apply);
+                            ApplyToEntity(_IPScore, e);
                         }
                         else
-                            IPScore = e.iPScore;
+                            _IPScore = e.iPScore;
                         
                     };break;
-            }
-        }
-        
-        
-        
-        /// <summary>
-        /// Define authentications , if not exists create a new
-        /// </summary>
-        /// <param name="e"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        private void SetAuthentications(AuthenticationEvents.Request.LoginAdmin e)
-        {
-            if (e.auth.Any(x => e.client.Id == x.ClientId && x.IPScore.Id == x.IPScoreId ))
-            {
-                Auth = e.auth.First(x => e.client.Id == x.ClientId && x.IPScore.Id == x.IPScoreId);
-            }
-            else
-            {
-                Auth = new Authentications(Apply);
-                ApplyToEntity(Auth, 
-                    new AuthenticationEvents.Request.CreateAuthentications(
-                        e.client.Id ?? throw new ArgumentNullException(nameof(e.client.Id)), 
-                        IPScore.Id ?? throw new ArgumentNullException(nameof(IPScore.Id)) 
-                    ));
-            }
-        }
+                case Request.SetClient @e:
+                    {
+                        _Client = e.client;
 
-
-        private void HandleAuthentication(AuthenticationEvents.Request.LoginAdmin e)
-        {
-            SetUp(e);
-            IPScoreCalculation();
+                    }; break;
+            }
         }
-        /// <summary>
-        /// Set a new value for IPScore based on authentication
-        /// </summary>
-        private void IPScoreCalculation()
-        {
-            
-        }
+        
+        
+        
     }
 }
