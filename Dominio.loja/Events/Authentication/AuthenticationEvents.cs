@@ -18,6 +18,7 @@ namespace Dominio.loja.Events.Authentication
         {
             public record  LoginAdmin();
         }
-        
+
+
     }
 }

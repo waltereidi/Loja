@@ -44,6 +44,7 @@ namespace Dominio.loja.Events.Authentication
             if(_IPScore.Score <= 0 )
                 throw new AuthenticationException(nameof(_IPScore.Score));
 
+            base.Id.ValidateAuthentication(this);
 
         }
 
