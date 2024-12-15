@@ -1,9 +1,12 @@
 ﻿using Api.loja.Data;
 using Dominio.loja.Entity;
+using Dominio.loja.Events.Authentication;
 using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Any;
+using Org.BouncyCastle.Utilities.Collections;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Authentication;
@@ -11,6 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using static Api.loja.Contracts.AuthenticationContract;
+using static NPOI.SS.Formula.Functions.Countif;
 namespace Api.loja.Service
 {
     public class AuthenticationApplicationService : IApplicationService
@@ -57,12 +61,42 @@ namespace Api.loja.Service
         /// <exception cref="AuthenticationException"></exception>
         private V1.Responses.LoginResponse HandleAuthenticationAdmin(V1.Request.LoginRequestContext cmd) 
         {
-            GoogleReCaptcha_V3_Verify(cmd.login.reCaptchaToken , cmd.context.Connection.RemoteIpAddress.ToString());
+            var auth = new Authentication();
+            
+            if (_context.ipScore.Any(x => x.IpAddress.ToString() == cmd.ip.ToString() ))
+            {
+                IPScore ipScore = _context.ipScore.First(x => x.IpAddress.ToString() == cmd.ip.ToString());
+                auth.SetIpScore( new AuthenticationEvents.Request.CreateIpScore( ipScore));
+            }
+            else
+                auth.SetIpScore(new AuthenticationEvents.Request.CreateIpScore(cmd.ip));
+
+            if(_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
+            {
+                Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
+                auth.SetClient( client );
+            }
+            
+
+            if (_context.auth.Any(x=> 
+                x.IPScore.Id == auth._IPScore.Id
+                || x.Client.Id == auth._Client.Id
+            ))
+            {
+                IEnumerable<Authentications> authentications = _context.auth.Where(x =>
+                x.IPScore.Id == auth._IPScore.Id
+                || x.Client.Id == auth._Client.Id);
+
+                auth.SetAuthentications(authentications);
+            }
 
             if (!_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
                 throw new AuthenticationException("Invalid credentials");
 
-            Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
+            if( !_context.auth.Any(x=>x.))            
+
+
+            
             cmd.context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             List<Claim> jwtClaims = CreateJwtListClaims(client);

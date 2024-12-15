@@ -9,9 +9,19 @@ namespace Dominio.loja.Events.Authentication
 
         public class Request()
         {
-            public record SetClient(Clients client );
             public record SetAuthentications(IEnumerable<Authentications>? auth);
-            public record CreateIpScore(IPAddress? ipAddress , IPScore iPScore );
+            public class CreateIpScore
+            {
+                public IPAddress ipAddress;
+                public IPScore ipScore;
+                public CreateIpScore(IPScore ip)
+                {
+                    ipAddress = ip.IpAddress;
+                    ipScore = ipScore; 
+                }
+                public CreateIpScore(IPAddress ip) => ipAddress = ip;
+
+            }
             public class CreateAuthentications(IPScore ipScore , Clients client);
         }
         public class Response()

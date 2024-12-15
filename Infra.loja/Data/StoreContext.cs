@@ -68,11 +68,18 @@ namespace Api.loja.Data
                     v => IPAddress.Parse(v)
                 );
 
+            modelBuilder.Entity<IPScore>()
+                .HasIndex(e => e.IpAddress )
+                .IsUnique();
+
             modelBuilder.Entity<Authentications>()
                 .HasOne(e => e.IPScore)
                 .WithOne()
                 .HasForeignKey<Authentications>(e => e.IPScoreId);
 
+            modelBuilder.Entity<Authentications>()
+                .HasIndex(e => e.ClientId)
+                .IsUnique();
         }
 
         private void CreateFilesORM(ModelBuilder modelBuilder)
@@ -97,7 +104,6 @@ namespace Api.loja.Data
                    v => (string)v,
                    v => new FileType(v)
                );
-
         }
         private void CreateFilesCategoriesORM(ModelBuilder modelBuilder)
         {

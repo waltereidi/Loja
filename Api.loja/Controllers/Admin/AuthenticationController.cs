@@ -18,16 +18,14 @@ namespace Api.loja.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Login(V1.Request.LoginRequest login) 
-            => await HandleRequest(new V1.Request.LoginRequestContext(login , HttpContext ), _service.Handle);
+        public async Task<IActionResult> Login(V1.Request.LoginRequest login)
+            => await HandleRequest(new V1.Request.LoginRequestContext(login, HttpContext.Request.HttpContext.Connection.RemoteIpAddress ), _service.Handle);
 
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserInfo()
             => await HandleRequest(new V1.Request.GetUserInfo(HttpContext), _service.Handle);
-
-
 
     }
 }

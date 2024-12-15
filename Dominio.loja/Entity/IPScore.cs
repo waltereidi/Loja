@@ -15,7 +15,6 @@ namespace Dominio.loja.Entity
     [Index(nameof(IpAddress), IsUnique = true)]
     public class IPScore : Entity<int?>
     {
-
         [Required]
         public int Score { get; set; }
         [Required]
