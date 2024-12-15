@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.Entity;
 using Framework.loja;
+using System.Collections.Frozen;
 using System.Security.Authentication;
 using static Dominio.loja.Events.Authentication.AuthenticationEvents;
 
@@ -37,34 +38,40 @@ namespace Dominio.loja.Events.Authentication
         protected override void EnsureValidState()
         {
 
-            if (_IPScore?.Score <= 0)
-                throw new AuthenticationException(nameof(_IPScore.Score));
-
+            ValidateAuthentication();
 
 
         }
         /// <summary>
         /// From martin fowler, too many conditionals should be handled with polymorphism
         /// </summary>
-        public virtual bool AuthenticationAuthentication()
+        public virtual void ValidateAuthentication()
         {
-            if (_Client == null)
-                return false;
+            if (_IPScore?.Score <= 0 && _Auth != null)
+                _Auth.Success = false;
 
-            if (_Auth == null)
-                return false;
-
-            return true;
+            if (_Auth != null && _Auth.Score == 0)
+                ApplyToEntity(_Auth, new Request.AppendAuthMessage("User is blocked", false));
         }
         protected override void When(object @event)
         {
             //Event insertion order IpScore ,Clients ,  SetAuthentication 
             switch (@event)
             {
+                case Request.SetClientNotFound @e:
+                    {
+                        ApplyToEntity(_IPScore, @e);
+
+                    };break;
+                case Request.SetWrongPassword @e:
+                    {
+                        ApplyToEntity(_Auth, e);
+                        ApplyToEntity(_IPScore, e);
+                    };break;
                 case Request.SetAuthentications @e:
                     {
                         SetAuthentication(e);
-                        CalculateIpScore(e);
+                        OutOfCommercialTimeMultiAccount(e);
                     }
                     break;
                 case Request.CreateIpScore @e:
@@ -100,11 +107,25 @@ namespace Dominio.loja.Events.Authentication
             }
         }
         /// <summary>
-        /// 
+        /// Maximum of 3 logins from same IP out of commercial time
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void CalculateIpScore(Request.SetAuthentications @e)
+        protected virtual void OutOfCommercialTimeMultiAccount(Request.SetAuthentications @e)
         {
+            int nonCommercialTimeLogin = e.auth.Select(x => new 
+            {
+                Hour = x.Updated_at != null ? x.Updated_at.Value.Hour : x.Created_at.Hour ,
+                DayOfWeek = x.Updated_at != null ? x.Updated_at.Value.DayOfWeek : x.Created_at.DayOfWeek ,
+            }).Count(x=>  
+                x.DayOfWeek == DayOfWeek.Sunday 
+                || x.DayOfWeek == DayOfWeek.Saturday 
+                || (x.Hour <= 7 && x.Hour >= 19 )
+            );
+            
+            if (nonCommercialTimeLogin > 3)
+            {
+                ApplyToEntity(_IPScore , new Request.ChangeIpScore(0));
+            }
 
         }
     }

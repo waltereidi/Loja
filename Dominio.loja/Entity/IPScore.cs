@@ -32,15 +32,42 @@ namespace Dominio.loja.Entity
         {
             switch (@event)
             {
+                case AuthenticationEvents.Request.SetWrongPassword @e:
+                    {
+                        DecreaseScore(20);
+                    }break;
+                case AuthenticationEvents.Request.SetClientNotFound @e:
+                    {
+                         DecreaseScore(20);
+                    };break;
                 case AuthenticationEvents.Request.CreateIpScore @e:
                     {
                         IpAddress = e.ipAddress;
                         Score = 100;
                         Created_at = DateTime.Now;
-                    }break;
-
+                    }; break;
+                case AuthenticationEvents.Request.BlockIp @e:
+                    {
+                        Score = 0;
+                        Updated_at = DateTime.Now;
+                    };break;
                 default: throw new InvalidOperationException(nameof(@event));
             }
         }
+        private bool IsBeforeThirtyMinutes(DateTime value)
+            => DateTime.Compare(value, DateTime.Now.AddMinutes(-30)) == 1 ? true : false;
+
+        private void DecreaseScore(int value) 
+        {
+            if ((Updated_at == null && IsBeforeThirtyMinutes(Created_at)) || IsBeforeThirtyMinutes(Updated_at.Value))
+            {
+                Score = Score < value ? 100 : Score - value;
+            }
+            Updated_at = DateTime.Now;
+
+        }
+
     }
+  
+
 }
