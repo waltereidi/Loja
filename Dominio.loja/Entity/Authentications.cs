@@ -1,9 +1,15 @@
-﻿using Framework.loja;
+﻿using Dominio.loja.Events.Authentication;
+using Framework.loja;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 
 namespace Dominio.loja.Entity
 {
+    /// <summary>
+    /// TODO : Improve design for hardcoded values such as time delay for point changes<br></br>
+    /// </summary>
+    [Index(nameof(ClientId), IsUnique = true)]
     public class Authentications : Entity<int>
     {
         [ForeignKey("IPScoreId")]
@@ -25,7 +31,6 @@ namespace Dominio.loja.Entity
         /// </summary>
         public string Description { get; set; }
 
-
         public virtual Clients Client { get; set; }
         public virtual IPScore IPScore { get; set; }
         
@@ -37,8 +42,35 @@ namespace Dominio.loja.Entity
 
         protected override void When(object @event)
         {
+            switch (@event)
+            {
+                case AuthenticationEvents.Request.SetWrongPassword @e: DecreaseScore(e.value); break;
+                case AuthenticationEvents.Request.SetClientNotFound @e: DecreaseScore(e.value); break;
+                case AuthenticationEvents.Request.CreateAuthentications @e:
+                    {
+                        ClientId = e.client.Id.Value;
+                        Success = false; 
+                        Score = 100;
+                        IPScoreId = e.ipScore.Id.Value; 
+                        
+                    }; break;
+                case AuthenticationEvents.Request.BlockIp @e:
+                    {
+                        Score = 0;
+                    }; break;
+                default: throw new InvalidOperationException(nameof(@event));
+            }
 
-            throw new NotImplementedException();
+        }
+
+        private bool IsBeforeThirtyMinutes(DateTime value)
+            => DateTime.Compare(value, DateTime.Now.AddMinutes(-30)) == 1 ? true : false;
+
+        private void DecreaseScore(int value)
+        {
+            if ((Updated_at == null && IsBeforeThirtyMinutes(Created_at)) || IsBeforeThirtyMinutes(Updated_at.Value))
+                Score = Score < value ? 100 - value : Score - value;
+
         }
     }
 }

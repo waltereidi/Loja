@@ -3,6 +3,8 @@ using Api.loja.Contracts;
 using Api.loja.Controllers.Admin;
 using Api.loja.Data;
 using Api.loja.Service;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using Utils.loja.Excel;
@@ -15,13 +17,31 @@ namespace Tests.loja.Api.ApplicationServiceTest
     public class AuthenticationApplicationServiceTest : Configuration
     {
         private readonly AuthenticationApplicationService _service;
+        private readonly AuthenticationController _controller;    
         public AuthenticationApplicationServiceTest() : base("Api.loja")
         {
             _service = new(_configuration , new StoreContext());
+
+            AuthenticationController controller = new AuthenticationController(null , _service );
+            controller.ControllerContext = new ControllerContext();
+            controller.ControllerContext.HttpContext = new DefaultHttpContext();
+            controller.ControllerContext.HttpContext.Request.Headers["device-id"] = "20317";
         }
+        /// <summary>
+        /// Integration test
+        /// </summary>
+        public void TestAuthentication()
+        {
+
+        }
+
+
+        /// <summary>
+        /// RANDOM TEST FOR STUDIES, TESTS SHOULD BE DESCRIPTIVE<br></br>
+        /// </summary>
         public class SampleEventArgs
         {
-            public SampleEventArgs(string text) { Text = text;Console.WriteLine(Text); }
+            public SampleEventArgs(string text) { Text = text; Console.WriteLine(Text); }
             public string Text { get; } // readonly
         }
 
@@ -41,6 +61,8 @@ namespace Tests.loja.Api.ApplicationServiceTest
                 SampleEvent?.Invoke(this, new SampleEventArgs("Hello"));
             }
         }
+
+
         [TestMethod]
         public void Main()
         {

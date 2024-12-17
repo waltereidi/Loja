@@ -14,7 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using static Api.loja.Contracts.AuthenticationContract;
-using static NPOI.SS.Formula.Functions.Countif;
+using static Api.loja.Contracts.UsersContract.V1;
 namespace Api.loja.Service
 {
     public class AuthenticationApplicationService : IApplicationService
@@ -50,16 +50,12 @@ namespace Api.loja.Service
         }
 
         /// <summary>
-        /// 1 - Validate email and password 
-        /// 2 - Create JwtClaims
-        /// 3 - Create JwtToken
-        /// 4 - Create HttpContext Claims
-        /// 5 - Set token into cookies to be retrieved on startup jwt configuration
+        /// Authentication from store admin
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
         /// <exception cref="AuthenticationException"></exception>
-        private V1.Responses.LoginResponse HandleAuthenticationAdmin(V1.Request.LoginRequestContext cmd) 
+        private async Task HandleAuthenticationAdmin(V1.Request.LoginRequestContext cmd) 
         {
             var auth = new Authentication();
             
@@ -75,8 +71,12 @@ namespace Api.loja.Service
             {
                 Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
                 auth.SetClient( client );
-            }
-            
+            }else if(_context.clients.Any(x => x.Email == cmd.login.email))
+            {
+                Clients client = _context.clients.First(x => x.Email == cmd.login.email);
+                 auth.SetWrongPassWord( new AuthenticationEvents.Request.SetWrongPassword(client));
+            }else
+                auth.SetClientNotFound(new AuthenticationEvents.Request.SetClientNotFound(cmd.login.email));
 
             if (_context.auth.Any(x=> 
                 x.IPScore.Id == auth._IPScore.Id
@@ -85,30 +85,25 @@ namespace Api.loja.Service
             {
                 IEnumerable<Authentications> authentications = _context.auth.Where(x =>
                 x.IPScore.Id == auth._IPScore.Id
-                || x.Client.Id == auth._Client.Id);
+                || x.Client.Id == auth._Client.Id );
 
                 auth.SetAuthentications(authentications);
             }
-
-            if (!_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
-                throw new AuthenticationException("Invalid credentials");
-
-            if( !_context.auth.Any(x=>x.))            
-
-
             
-            cmd.context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await cmd.context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            List<Claim> jwtClaims = CreateJwtListClaims(client);
-            V1.JwtToken token = CreateToken(jwtClaims, _issuer, _key);
-            V1.ClientInfo clientInfo = CreateClientInfo( client , token);
-
-            SetAuthenticationCookies(clientInfo , cmd.context);            
+            if (auth._Auth.Success)
+            {
+                List<Claim> jwtClaims = CreateJwtListClaims(auth._Client);
+                V1.JwtToken token = CreateToken(jwtClaims, _issuer, _key);
+                V1.ClientInfo clientInfo = CreateClientInfo(auth._Client, token);
+                await SetAuthenticationCookies(clientInfo, cmd.context);
+            }
+            else
+                throw new AuthenticationException("User or password wrong");
             
-
-            return new(token, clientInfo);
         }
-        private void SetAuthenticationCookies(V1.ClientInfo ci  , HttpContext context)
+        private async Task SetAuthenticationCookies(V1.ClientInfo ci  , HttpContext context)
         {
             
             context.Response.Cookies.Append(nameof(ci.token.createdAt),ci.token.createdAt

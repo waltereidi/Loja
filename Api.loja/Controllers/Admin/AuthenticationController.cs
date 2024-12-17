@@ -19,7 +19,7 @@ namespace Api.loja.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login(V1.Request.LoginRequest login)
-            => await HandleRequest(new V1.Request.LoginRequestContext(login, HttpContext.Request.HttpContext.Connection.RemoteIpAddress ), _service.Handle);
+            => await HandleRequest(new V1.Request.LoginRequestContext(login, HttpContext.Request.HttpContext.Connection.RemoteIpAddress , HttpContext ), _service.Handle);
 
         [HttpGet]
         [Authorize]

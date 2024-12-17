@@ -34,12 +34,21 @@ namespace Dominio.loja.Events.Authentication
         /// </summary>
         /// <param name="e"></param>
         public void SetAuthentications(IEnumerable<Authentications> @e) => Apply(e);
+        /// <summary>
+        /// Set wrong password authentication attempt
+        /// </summary>
+        /// <param name="e"></param>
+        public void SetWrongPassWord(Request.SetWrongPassword @e) => Apply(e);
+        /// <summary>
+        /// Set client not found authentication attempt
+        /// </summary>
+        /// <param name="e"></param>
+        public void SetClientNotFound(Request.SetClientNotFound @e) => Apply(e);
 
         protected override void EnsureValidState()
         {
 
             ValidateAuthentication();
-
 
         }
         /// <summary>
@@ -128,5 +137,7 @@ namespace Dominio.loja.Events.Authentication
             }
 
         }
+
     }
+    
 }

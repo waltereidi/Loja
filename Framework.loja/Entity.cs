@@ -21,6 +21,8 @@ namespace Framework.loja
         protected abstract void When(object @event);
         protected void Apply(object @event)
         {
+            SetEntityTime();
+
             When(@event);
             //This applier comes from domain IAggregateRoot
             //A method from IAggregate root can be triggered to ensure domain constraints from multiple sources after every 
@@ -29,6 +31,13 @@ namespace Framework.loja
             ValidateAttributes();
             
             _applier(@event);
+        }
+        public virtual void SetEntityTime()
+        {
+            if(Created_at.Year > 2000 )
+                Created_at = DateTime.Now; 
+            else
+                Updated_at = DateTime.Now;
         }
         void IInternalEventHandler.Handle(object @event) => When(@event);
         protected void ValidateAttributes()

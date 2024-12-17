@@ -20,7 +20,7 @@ namespace Api.loja.Contracts
                 public record GetUserInfo(HttpContext context);
                 
                 public record LoginRequest(string email, string password , string reCaptchaToken , ReCaptcha reCaptchaId);
-                public record LoginRequestContext(LoginRequest login, IPAddress ip );
+                public record LoginRequestContext(LoginRequest login, IPAddress ip , HttpContext context );
                 public class GoogleReCaptcha
                 {
                     public record v2(string secret , string response ,string remoteip);

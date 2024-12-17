@@ -13,8 +13,8 @@ namespace Dominio.loja.Events.Authentication
             public record BlockIp();
             public record ChangeAuthMessage(string message , bool success );
             public record AppendAuthMessage(string message, bool success);
-            public record SetClientNotFound(string login);
-            public record SetWrongPassword(Clients client );
+            public record SetClientNotFound(string login , int? value = null);
+            public record SetWrongPassword(Clients client , int? value =null );
             public class CreateIpScore
             {
                 public IPAddress ipAddress;
@@ -27,7 +27,7 @@ namespace Dominio.loja.Events.Authentication
                 public CreateIpScore(IPAddress ip) => ipAddress = ip;
 
             }
-            public class CreateAuthentications(IPScore ipScore , Clients client);
+            public record CreateAuthentications(IPScore ipScore , Clients client);
         }
         public class Response()
         {
