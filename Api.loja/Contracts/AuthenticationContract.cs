@@ -19,7 +19,7 @@ namespace Api.loja.Contracts
             {
                 public record GetUserInfo(HttpContext context);
                 
-                public record LoginRequest(string email, string password , string reCaptchaToken , ReCaptcha reCaptchaId);
+                public record LoginRequest(string email, string password);
                 public record LoginRequestContext(LoginRequest login, IPAddress ip , HttpContext context );
                 public class GoogleReCaptcha
                 {
@@ -28,7 +28,6 @@ namespace Api.loja.Contracts
             }
             public class Responses
             {
-                public record LoginResponse(JwtToken token,ClientInfo info);
                 public class GoogleReCaptcha 
                 { 
                     public record V3_Verify(bool success 
@@ -37,7 +36,7 @@ namespace Api.loja.Contracts
                         ,decimal score
                         ,string hostname );
                 }
-
+                public record LoginResponse(string message);
             }
             public record ClientInfo(string firstName, string lastName, string nameInitials , JwtToken token);
             public record JwtToken(string serializedToken , DateTime createdAt , DateTime? expiresAt );

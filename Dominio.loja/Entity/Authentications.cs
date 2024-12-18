@@ -44,8 +44,8 @@ namespace Dominio.loja.Entity
         {
             switch (@event)
             {
-                case AuthenticationEvents.Request.SetWrongPassword @e: DecreaseScore(e.value); break;
-                case AuthenticationEvents.Request.SetClientNotFound @e: DecreaseScore(e.value); break;
+                case AuthenticationEvents.Request.SetWrongPassword @e: DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set")); break;
+                case AuthenticationEvents.Request.SetClientNotFound @e: DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set")) ; break;
                 case AuthenticationEvents.Request.CreateAuthentications @e:
                     {
                         ClientId = e.client.Id.Value;

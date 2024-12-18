@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { DepencyInjectionController } from '@/pinia/Controllers/dependencyInjectionController'
+import { RequestController } from '@/pinia/Controllers/requestController';
 import { ToastSeverity } from '@/pinia/Interfaces/IConfigureToast'
 import { useMainStore } from '@/pinia/mainStore'
 import { ref } from 'vue';
@@ -12,7 +13,9 @@ const submit= async ()=>{
     const form =document.getElementById('frmLogin');
     console.log(form)
 
-    store.toast( $refs.txtEmail, ToastSeverity.success)
+    store.toast( '$refs.txtEmail', ToastSeverity.success)
+    const request:RequestController = new DepencyInjectionController('request').getService(); 
+    request.send('post' , 'https://localhost:7179/api/Admin/Authentication/Login' , {email : 'testCase@email.com' , password : '123'})
 }
 
 </script>

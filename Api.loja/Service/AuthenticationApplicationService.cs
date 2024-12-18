@@ -1,4 +1,5 @@
-﻿using Api.loja.Data;
+﻿using Api.loja.Contracts;
+using Api.loja.Data;
 using Dominio.loja.Entity;
 using Dominio.loja.Events.Authentication;
 using Framework.loja.Interfaces;
@@ -35,7 +36,7 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            V1.Request.LoginRequestContext cmd => HandleAuthenticationAdmin(cmd),
+            V1.Request.LoginRequestContext cmd =>await HandleAuthenticationAdmin(cmd),
             //AuthenticationContract.V1.Request.GetUserInfo cmd => GetUserInfo(cmd),
             _ => throw new InvalidOperationException()
         };  
@@ -55,13 +56,13 @@ namespace Api.loja.Service
         /// <param name="cmd"></param>
         /// <returns></returns>
         /// <exception cref="AuthenticationException"></exception>
-        private async Task HandleAuthenticationAdmin(V1.Request.LoginRequestContext cmd) 
+        private async Task<object?> HandleAuthenticationAdmin(V1.Request.LoginRequestContext cmd) 
         {
             var auth = new Authentication();
             
-            if (_context.ipScore.Any(x => x.IpAddress.ToString() == cmd.ip.ToString() ))
+            if (_context.ipScore.Any(x => x.IpAddress == cmd.ip) )
             {
-                IPScore ipScore = _context.ipScore.First(x => x.IpAddress.ToString() == cmd.ip.ToString());
+                IPScore ipScore = _context.ipScore.First(x => x.IpAddress == cmd.ip);
                 auth.SetIpScore( new AuthenticationEvents.Request.CreateIpScore( ipScore));
             }
             else
@@ -78,7 +79,10 @@ namespace Api.loja.Service
             }else
                 auth.SetClientNotFound(new AuthenticationEvents.Request.SetClientNotFound(cmd.login.email));
 
-            if (_context.auth.Any(x=> 
+            
+            if (auth._Client.Id != null 
+                && auth._IPScore.Id != null 
+                && _context.auth.Any(x=> 
                 x.IPScore.Id == auth._IPScore.Id
                 || x.Client.Id == auth._Client.Id
             ))
@@ -100,7 +104,9 @@ namespace Api.loja.Service
                 await SetAuthenticationCookies(clientInfo, cmd.context);
             }
             else
-                throw new AuthenticationException("User or password wrong");
+                throw new AuthenticationException("wrong user or password");
+
+            return new V1.Responses.LoginResponse(auth._Auth.Description);
             
         }
         private async Task SetAuthenticationCookies(V1.ClientInfo ci  , HttpContext context)

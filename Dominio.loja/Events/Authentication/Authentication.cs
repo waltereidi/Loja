@@ -1,7 +1,5 @@
 ﻿using Dominio.loja.Entity;
 using Framework.loja;
-using System.Collections.Frozen;
-using System.Security.Authentication;
 using static Dominio.loja.Events.Authentication.AuthenticationEvents;
 
 namespace Dominio.loja.Events.Authentication
@@ -49,7 +47,6 @@ namespace Dominio.loja.Events.Authentication
         {
 
             ValidateAuthentication();
-
         }
         /// <summary>
         /// From martin fowler, too many conditionals should be handled with polymorphism
@@ -133,7 +130,7 @@ namespace Dominio.loja.Events.Authentication
             
             if (nonCommercialTimeLogin > 3)
             {
-                ApplyToEntity(_IPScore , new Request.ChangeIpScore(0));
+                ApplyToEntity(_IPScore , new Request.SetOutOfCommercialTimeMultipleAccountAttempt());
             }
 
         }
