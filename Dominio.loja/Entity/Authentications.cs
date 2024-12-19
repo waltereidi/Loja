@@ -10,10 +10,10 @@ namespace Dominio.loja.Entity
     /// TODO : Improve design for hardcoded values such as time delay for point changes<br></br>
     /// </summary>
     [Index(nameof(ClientId), IsUnique = true)]
-    public class Authentications : Entity<int>
+    public class Authentications : Entity<Guid>
     {
         [ForeignKey("IPScoreId")]
-        public int IPScoreId { get; set; }
+        public Guid IPScoreId { get; set; }
 
         [ForeignKey("ClientId")]
 
@@ -44,15 +44,20 @@ namespace Dominio.loja.Entity
         {
             switch (@event)
             {
-                case AuthenticationEvents.Request.SetWrongPassword @e: DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set")); break;
+                case AuthenticationEvents.Request.SetWrongPassword @e:
+                    {
+                        DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set"));
+                        Description = "Wrong password login attempt.";
+                            
+                    }; break;
                 case AuthenticationEvents.Request.SetClientNotFound @e: DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set")) ; break;
                 case AuthenticationEvents.Request.CreateAuthentications @e:
                     {
                         ClientId = e.client.Id.Value;
                         Success = false; 
                         Score = 100;
-                        IPScoreId = e.ipScore.Id.Value; 
-                        
+                        IPScoreId = e.ipScore.Id;
+                        Id = Guid.NewGuid();
                     }; break;
                 case AuthenticationEvents.Request.BlockIp @e:
                     {

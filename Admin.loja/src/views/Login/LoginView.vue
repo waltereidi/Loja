@@ -15,7 +15,7 @@ const submit= async ()=>{
 
     store.toast( '$refs.txtEmail', ToastSeverity.success)
     const request:RequestController = new DepencyInjectionController('request').getService(); 
-    request.send('post' , 'https://localhost:7179/api/Admin/Authentication/Login' , {email : 'testCase@email.com' , password : '123'})
+    request.send('post' , '/api/Admin/Authentication/Login' , {email : 'testCase@email.com' , password : '123'})
 }
 
 </script>

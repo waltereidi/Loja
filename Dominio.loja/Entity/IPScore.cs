@@ -13,7 +13,7 @@ namespace Dominio.loja.Entity
     /// </summary>
 
     [Index(nameof(IpAddress), IsUnique = true)]
-    public class IPScore : Entity<int?>
+    public class IPScore : Entity<Guid>
     {
         [Required]
         public int Score { get; set; }
@@ -36,6 +36,7 @@ namespace Dominio.loja.Entity
                 case AuthenticationEvents.Request.SetClientNotFound @e: DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set"));break;
                 case AuthenticationEvents.Request.CreateIpScore @e:
                     {
+                        Id = Guid.NewGuid();
                         IpAddress = e.ipAddress;
                         Score = 100;
                     }; break;

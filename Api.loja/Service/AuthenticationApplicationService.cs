@@ -2,6 +2,7 @@
 using Api.loja.Data;
 using Dominio.loja.Entity;
 using Dominio.loja.Events.Authentication;
+using Dominio.loja.Interfaces;
 using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -75,26 +76,31 @@ namespace Api.loja.Service
             }else if(_context.clients.Any(x => x.Email == cmd.login.email))
             {
                 Clients client = _context.clients.First(x => x.Email == cmd.login.email);
-                 auth.SetWrongPassWord( new AuthenticationEvents.Request.SetWrongPassword(client));
-            }else
-                auth.SetClientNotFound(new AuthenticationEvents.Request.SetClientNotFound(cmd.login.email));
 
-            
-            if (auth._Client.Id != null 
-                && auth._IPScore.Id != null 
-                && _context.auth.Any(x=> 
-                x.IPScore.Id == auth._IPScore.Id
-                || x.Client.Id == auth._Client.Id
-            ))
-            {
                 IEnumerable<Authentications> authentications = _context.auth.Where(x =>
-                x.IPScore.Id == auth._IPScore.Id
-                || x.Client.Id == auth._Client.Id );
+                    x.IPScore.Id == auth._IPScore.Id
+                    || x.Client.Id == auth._Client.Id);
 
-                auth.SetAuthentications(authentications);
+                auth.SetAuthentications(new AuthenticationEvents.Request.SetAuthentications(authentications));
+
+                auth.SetWrongPassWord( new AuthenticationEvents.Request.SetWrongPassword(client));
+            }else
+            {
+                Clients client = _context.clients.First(x => x.Email == cmd.login.email);
+
+                IEnumerable<Authentications> authentications = _context.auth.Where(x =>
+                    x.IPScore.Id == auth._IPScore.Id
+                    || x.Client.Id == auth._Client.Id);
+
+                auth.SetAuthentications(new AuthenticationEvents.Request.SetAuthentications(authentications));
+                auth.SetClientNotFound(new AuthenticationEvents.Request.SetClientNotFound(cmd.login.email));
             }
+                
+
             
-            await cmd.context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            
+            
+            //await cmd.context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             if (auth._Auth.Success)
             {

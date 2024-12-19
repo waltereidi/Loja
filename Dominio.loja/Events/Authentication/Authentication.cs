@@ -31,7 +31,7 @@ namespace Dominio.loja.Events.Authentication
         /// Set authentication from all authentications of this IP
         /// </summary>
         /// <param name="e"></param>
-        public void SetAuthentications(IEnumerable<Authentications> @e) => Apply(e);
+        public void SetAuthentications(Request.SetAuthentications @e) => Apply(e);
         /// <summary>
         /// Set wrong password authentication attempt
         /// </summary>
@@ -42,9 +42,18 @@ namespace Dominio.loja.Events.Authentication
         /// </summary>
         /// <param name="e"></param>
         public void SetClientNotFound(Request.SetClientNotFound @e) => Apply(e);
+        /// <summary>
+        /// Finishes authentication attempt from admin
+        /// </summary>
+        public void AuthenticateAdmin() => Apply(new Request.AuthenticateAdmin() );
 
         protected override void EnsureValidState()
         {
+            if (_IPScore?.Score <= 0 && _Auth != null)
+                _Auth.Success = false;
+
+            else if (_Auth != null && _Auth.Score == 0)
+                ApplyToEntity(_Auth, new Request.AppendAuthMessage("User is blocked", false));
 
             ValidateAuthentication();
         }
@@ -53,11 +62,6 @@ namespace Dominio.loja.Events.Authentication
         /// </summary>
         public virtual void ValidateAuthentication()
         {
-            if (_IPScore?.Score <= 0 && _Auth != null)
-                _Auth.Success = false;
-
-            if (_Auth != null && _Auth.Score == 0)
-                ApplyToEntity(_Auth, new Request.AppendAuthMessage("User is blocked", false));
         }
         protected override void When(object @event)
         {
@@ -71,8 +75,9 @@ namespace Dominio.loja.Events.Authentication
                     };break;
                 case Request.SetWrongPassword @e:
                     {
-                        ApplyToEntity(_Auth, e);
+                        _Client = e.client;
                         ApplyToEntity(_IPScore, e);
+                        ApplyToEntity(_Auth, e);
                     };break;
                 case Request.SetAuthentications @e:
                     {
@@ -91,6 +96,11 @@ namespace Dominio.loja.Events.Authentication
                             _IPScore = @e.ipScore;
 
                     }; break;
+                case Request.AuthenticateAdmin @e:
+                    {
+                         
+
+                    };break;
                 case Clients @e: _Client = e; break;
 
             }
@@ -101,7 +111,7 @@ namespace Dominio.loja.Events.Authentication
         /// <param name="e"></param>
         protected virtual void SetAuthentication(Request.SetAuthentications @e)
         {
-            if (e.auth.Any(x => x.ClientId == _Client.Id && x.IPScoreId == _IPScore.Id))
+            if (e.auth != null && e.auth.Any(x => x.ClientId == _Client.Id && x.IPScoreId == _IPScore.Id))
             {
                 _Auth = e.auth.First(x => x.ClientId == _Client.Id );
             }

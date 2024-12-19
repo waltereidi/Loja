@@ -27,9 +27,9 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.Authentications", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
@@ -37,15 +37,27 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IPScoreId")
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IPScoreId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Score")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("Updated_at")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("ClientId")
+                        .IsUnique();
 
                     b.HasIndex("IPScoreId")
                         .IsUnique();
@@ -199,11 +211,9 @@ namespace Infra.loja.Migrations
 
             modelBuilder.Entity("Dominio.loja.Entity.IPScore", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("datetime2");

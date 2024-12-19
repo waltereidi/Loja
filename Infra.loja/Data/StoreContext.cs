@@ -68,18 +68,23 @@ namespace Api.loja.Data
                     v => IPAddress.Parse(v)
                 );
 
-            modelBuilder.Entity<IPScore>()
-                .HasIndex(e => e.IpAddress )
-                .IsUnique();
-
             modelBuilder.Entity<Authentications>()
                 .HasOne(e => e.IPScore)
                 .WithOne()
                 .HasForeignKey<Authentications>(e => e.IPScoreId);
 
+            modelBuilder.Entity<IPScore>()
+               .Property(e => e.Id)
+               .HasConversion(
+                   v => v.ToString(),
+                   v => new Guid(v)
+               );
             modelBuilder.Entity<Authentications>()
-                .HasIndex(e => e.ClientId)
-                .IsUnique();
+               .Property(e => e.Id)
+               .HasConversion(
+                   v => v.ToString(),
+                   v => new Guid(v)
+               );
         }
 
         private void CreateFilesORM(ModelBuilder modelBuilder)

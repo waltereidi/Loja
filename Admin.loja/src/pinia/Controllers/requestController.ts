@@ -32,7 +32,7 @@ export class RequestController implements IDependencyInjection{
     private JSONtryParse(object:any) : string | null
     {
         try {
-            const result = JSON.parse(object);
+            const result = JSON.stringify(object);
             return result;
 
         } catch (e) {
