@@ -1,5 +1,6 @@
 ﻿using Dominio.loja.Entity;
 using Framework.loja;
+using System.Net;
 using static Dominio.loja.Events.Authentication.AuthenticationEvents;
 
 namespace Dominio.loja.Events.Authentication
@@ -11,12 +12,10 @@ namespace Dominio.loja.Events.Authentication
         public Clients _Client { get; private set; }
         public IPScore _IPScore { get; private set; }
         public Authentications _Auth { get; private set; }
-
-
-        private string Referer { get; set; }
-
+        
         public Authentication()
         {
+
         }
         /// <summary>
         /// Defines ipScore, if not existent creates a new
@@ -26,7 +25,7 @@ namespace Dominio.loja.Events.Authentication
         /// Initializes all obligatory objects from this domain
         /// </summary>
         /// <param name="e"></param>
-        public void SetClient(Clients @e) => Apply(e);
+        public void SetClient(Request.SetClientAuthenticated @e) => Apply(e);
         /// <summary>
         /// Set authentication from all authentications of this IP
         /// </summary>
@@ -45,7 +44,7 @@ namespace Dominio.loja.Events.Authentication
         /// <summary>
         /// Finishes authentication attempt from admin
         /// </summary>
-        public void AuthenticateAdmin() => Apply(new Request.AuthenticateAdmin() );
+        public void AuthenticateAdmin(Request.AuthenticateAdmin e) => Apply(new Request.AuthenticateAdmin() );
 
         protected override void EnsureValidState()
         {
@@ -63,6 +62,7 @@ namespace Dominio.loja.Events.Authentication
         public virtual void ValidateAuthentication()
         {
         }
+
         protected override void When(object @event)
         {
             //Event insertion order IpScore ,Clients ,  SetAuthentication 
@@ -96,15 +96,25 @@ namespace Dominio.loja.Events.Authentication
                             _IPScore = @e.ipScore;
 
                     }; break;
-                case Request.AuthenticateAdmin @e:
+                case Request.AuthenticateAdmin @e:AuthenticateAdminValidation(@e);break;
+                case Request.SetClientAuthenticated @e:
                     {
-                         
-
-                    };break;
-                case Clients @e: _Client = e; break;
+                        _Client = e.client;
+                        ApplyToEntity(_Auth , e );
+                    }; break;
 
             }
         }
+        /// <summary>
+        /// TODO This class should be moved in the future to an 
+        /// Authentication admin inheritance 
+        /// </summary>
+        private void AuthenticateAdminValidation(Request.AuthenticateAdmin e)
+        {
+               
+
+        }
+
         /// <summary>
         /// Do this event after set IpScore and Client
         /// </summary>
@@ -119,7 +129,6 @@ namespace Dominio.loja.Events.Authentication
             {
                 _Auth = new Authentications(Apply);
                 ApplyToEntity(_Auth, new Request.CreateAuthentications(_IPScore, _Client));
-
             }
         }
         /// <summary>

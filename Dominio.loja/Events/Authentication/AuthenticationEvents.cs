@@ -29,8 +29,8 @@ namespace Dominio.loja.Events.Authentication
             }
             public record CreateAuthentications(IPScore ipScore , Clients client);
             public record SetOutOfCommercialTimeMultipleAccountAttempt();
-
             public record AuthenticateAdmin();
+            public record SetClientAuthenticated(Clients client , IPScore? ipScore = null);
             
         }
         public class Response()

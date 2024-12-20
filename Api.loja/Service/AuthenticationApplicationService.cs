@@ -6,6 +6,7 @@ using Dominio.loja.Interfaces;
 using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Org.BouncyCastle.Utilities.Collections;
@@ -71,9 +72,15 @@ namespace Api.loja.Service
 
             if(_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
             {
+                IEnumerable<Authentications> authentications = _context.auth.Where(x =>
+                    x.IPScore.Id == auth._IPScore.Id
+                    || x.Client.Id == auth._Client.Id);
+
                 Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
-                auth.SetClient( client );
-            }else if(_context.clients.Any(x => x.Email == cmd.login.email))
+                auth.SetClient(new AuthenticationEvents.Request.SetClientAuthenticated( client ));
+                auth.SetAuthentications(new AuthenticationEvents.Request.SetAuthentications(authentications));
+            }
+            else if(_context.clients.Any(x => x.Email == cmd.login.email))
             {
                 Clients client = _context.clients.First(x => x.Email == cmd.login.email);
 
@@ -86,18 +93,10 @@ namespace Api.loja.Service
                 auth.SetWrongPassWord( new AuthenticationEvents.Request.SetWrongPassword(client));
             }else
             {
-                Clients client = _context.clients.First(x => x.Email == cmd.login.email);
-
-                IEnumerable<Authentications> authentications = _context.auth.Where(x =>
-                    x.IPScore.Id == auth._IPScore.Id
-                    || x.Client.Id == auth._Client.Id);
-
-                auth.SetAuthentications(new AuthenticationEvents.Request.SetAuthentications(authentications));
                 auth.SetClientNotFound(new AuthenticationEvents.Request.SetClientNotFound(cmd.login.email));
             }
-                
 
-            
+            await SaveAuthenticationAttempt(auth);
             
             
             //await cmd.context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -114,6 +113,18 @@ namespace Api.loja.Service
 
             return new V1.Responses.LoginResponse(auth._Auth.Description);
             
+        }
+        private async Task SaveAuthenticationAttempt(Authentication auth)
+        {
+            await _context.Database.BeginTransactionAsync();
+
+            if (auth._IPScore._changes.Any())
+                await _context.ipScore.SingleMergeAsync(auth._IPScore);
+
+            if (auth._Auth._changes.Any())
+                await _context.auth.SingleMergeAsync(auth._Auth);
+
+            await _context.Database.CommitTransactionAsync();
         }
         private async Task SetAuthenticationCookies(V1.ClientInfo ci  , HttpContext context)
         {

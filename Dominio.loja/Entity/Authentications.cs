@@ -48,9 +48,8 @@ namespace Dominio.loja.Entity
                     {
                         DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set"));
                         Description = "Wrong password login attempt.";
-                            
+                        Success = false;
                     }; break;
-                case AuthenticationEvents.Request.SetClientNotFound @e: DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set")) ; break;
                 case AuthenticationEvents.Request.CreateAuthentications @e:
                     {
                         ClientId = e.client.Id.Value;
@@ -59,9 +58,12 @@ namespace Dominio.loja.Entity
                         IPScoreId = e.ipScore.Id;
                         Id = Guid.NewGuid();
                     }; break;
-                case AuthenticationEvents.Request.BlockIp @e:
+                case AuthenticationEvents.Request.SetClientAuthenticated @e:
                     {
-                        Score = 0;
+                        Success = true;
+                        Score = 100;
+                        IPScoreId = e.ipScore.Id;
+                        Description = "Successfull client authentication.";
                     }; break;
                 default: throw new InvalidOperationException(nameof(@event));
             }

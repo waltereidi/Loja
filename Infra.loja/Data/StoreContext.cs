@@ -4,6 +4,7 @@ using Dominio.loja.Entity.Integrations.WFileManager.Relation;
 using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -21,7 +22,14 @@ namespace Api.loja.Data
 		public StoreContext()
 		{
 		}
-        
+
+        public bool Merge<TEntity>(TEntity entity)
+        {
+            this.GetType();
+            
+            return true;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies()
             //Place your own connection string here 
             .UseSqlServer("loja.Infra".GetConnectionString());

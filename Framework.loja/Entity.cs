@@ -1,5 +1,6 @@
 ﻿using Framework.loja.Interfaces;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Framework.loja
 {
@@ -9,6 +10,8 @@ namespace Framework.loja
         public DateTime? Updated_at { get; set; }
         private readonly Action<object> _applier;
         public TId Id { get; set; }
+        [IgnoreDataMember]
+        public List<object> _changes = new List<object>();
         //Constructor used to receive an event
         protected Entity(Action<object> applier) 
         {
@@ -17,10 +20,13 @@ namespace Framework.loja
 
         protected Entity() 
         {
+
         }
         protected abstract void When(object @event);
         protected void Apply(object @event)
         {
+            _changes.Add(@event);
+
             SetEntityTime();
 
             When(@event);
@@ -32,7 +38,7 @@ namespace Framework.loja
             
             _applier(@event);
         }
-        public virtual void SetEntityTime()
+        protected virtual void SetEntityTime()
         {
             if(Created_at.Year > 2000 )
                 Created_at = DateTime.Now; 
