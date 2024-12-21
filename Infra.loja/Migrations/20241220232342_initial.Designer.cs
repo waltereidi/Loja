@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.loja.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20241218234635_initial")]
+    [Migration("20241220232342_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -220,6 +220,10 @@ namespace Infra.loja.Migrations
 
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IpAddress")
                         .IsRequired()

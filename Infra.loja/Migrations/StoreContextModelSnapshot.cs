@@ -218,6 +218,10 @@ namespace Infra.loja.Migrations
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IpAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");

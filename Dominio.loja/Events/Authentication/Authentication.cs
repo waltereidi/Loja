@@ -17,15 +17,12 @@ namespace Dominio.loja.Events.Authentication
         {
 
         }
+        public void SetClient(e) => Apply(e);
         /// <summary>
         /// Defines ipScore, if not existent creates a new
         /// </summary>
         public void SetIpScore(Request.CreateIpScore @e) => Apply(e);
-        /// <summary>
-        /// Initializes all obligatory objects from this domain
-        /// </summary>
-        /// <param name="e"></param>
-        public void SetClient(Request.SetClientAuthenticated @e) => Apply(e);
+
         /// <summary>
         /// Set authentication from all authentications of this IP
         /// </summary>
@@ -44,15 +41,14 @@ namespace Dominio.loja.Events.Authentication
         /// <summary>
         /// Finishes authentication attempt from admin
         /// </summary>
-        public void AuthenticateAdmin(Request.AuthenticateAdmin e) => Apply(new Request.AuthenticateAdmin() );
+        public void AuthenticateAdmin(Request.SetSuccessfullAuthentication e) => Apply(new Request.SetSuccessfullAuthentication(_IPScore.Id ) );
+
+        
 
         protected override void EnsureValidState()
         {
             if (_IPScore?.Score <= 0 && _Auth != null)
                 _Auth.Success = false;
-
-            else if (_Auth != null && _Auth.Score == 0)
-                ApplyToEntity(_Auth, new Request.AppendAuthMessage("User is blocked", false));
 
             ValidateAuthentication();
         }
@@ -65,24 +61,30 @@ namespace Dominio.loja.Events.Authentication
 
         protected override void When(object @event)
         {
+            //Score reduction is not SSOT, must be set by event
             //Event insertion order IpScore ,Clients ,  SetAuthentication 
             switch (@event)
             {
                 case Request.SetClientNotFound @e:
                     {
-                        ApplyToEntity(_IPScore, @e);
+                        var ipScoreEvent = new Request.SetClientNotFound(e.login, 7 ); //redurec 7 score
+                        ApplyToEntity(_IPScore, ipScoreEvent);
 
                     };break;
                 case Request.SetWrongPassword @e:
                     {
+                        var ipScoreEvent = new Request.SetWrongPassword(e.client, 7); //Reduces 7 score
+                        var authenticationEvent = new Request.SetWrongPassword(e.client, 20); //Reduces 20score
                         _Client = e.client;
-                        ApplyToEntity(_IPScore, e);
-                        ApplyToEntity(_Auth, e);
+
+                        ApplyToEntity(_IPScore, ipScoreEvent);
+
+                        ApplyToEntity(_Auth, authenticationEvent);
                     };break;
                 case Request.SetAuthentications @e:
                     {
                         SetAuthentication(e);
-                        OutOfCommercialTimeMultiAccount(e);
+                        CheckOutOfCommercialTimeMultiAccount(e);
                     }
                     break;
                 case Request.CreateIpScore @e:
@@ -96,25 +98,13 @@ namespace Dominio.loja.Events.Authentication
                             _IPScore = @e.ipScore;
 
                     }; break;
-                case Request.AuthenticateAdmin @e:AuthenticateAdminValidation(@e);break;
-                case Request.SetClientAuthenticated @e:
+                case Request.SetSuccessfullAuthentication @e:
                     {
-                        _Client = e.client;
                         ApplyToEntity(_Auth , e );
                     }; break;
 
             }
         }
-        /// <summary>
-        /// TODO This class should be moved in the future to an 
-        /// Authentication admin inheritance 
-        /// </summary>
-        private void AuthenticateAdminValidation(Request.AuthenticateAdmin e)
-        {
-               
-
-        }
-
         /// <summary>
         /// Do this event after set IpScore and Client
         /// </summary>
@@ -135,7 +125,7 @@ namespace Dominio.loja.Events.Authentication
         /// Maximum of 3 logins from same IP out of commercial time
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void OutOfCommercialTimeMultiAccount(Request.SetAuthentications @e)
+        protected virtual void CheckOutOfCommercialTimeMultiAccount(Request.SetAuthentications @e)
         {
             int nonCommercialTimeLogin = e.auth.Select(x => new 
             {
@@ -149,7 +139,7 @@ namespace Dominio.loja.Events.Authentication
             
             if (nonCommercialTimeLogin > 3)
             {
-                ApplyToEntity(_IPScore , new Request.SetOutOfCommercialTimeMultipleAccountAttempt());
+                ApplyToEntity(_IPScore , new Request.BlockIp("Multiple account login attempt during out of commercial time"));
             }
 
         }

@@ -19,7 +19,7 @@ namespace Dominio.loja.Entity
         public int Score { get; set; }
         [Required]
         public IPAddress? IpAddress { get; set; }
-        
+        public string Description { get; set; }
         public IPScore()
         {
 
@@ -32,15 +32,23 @@ namespace Dominio.loja.Entity
         {
             switch (@event)
             {
-                case AuthenticationEvents.Request.SetWrongPassword @e: DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set") );break;
-                case AuthenticationEvents.Request.SetClientNotFound @e: DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set"));break;
-                case AuthenticationEvents.Request.CreateIpScore @e:
+                case AuthenticationEvents.Request.SetWrongPassword @e: 
+                    {
+                        DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set"));
+                        Description = Score > 0 ? "IpScore decreased from wrong password authentication attempt" : "Ip blocked from wrong password authentication attempt";
+                    };break;
+                case AuthenticationEvents.Request.SetClientNotFound @e: 
+                    {
+                        DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set"));
+                        Description = Score > 0 ? "IpScore decreased from Client not found authentication attempt" : "Ip blocked from Client not found authentication attempt";
+                    }; break;
+                case AuthenticationEvents.CreateIpScore @e:
                     {
                         Id = Guid.NewGuid();
                         IpAddress = e.ipAddress;
                         Score = 100;
                     }; break;
-                case AuthenticationEvents.Request.BlockIp @e:
+                case AuthenticationEvents.BlockIp @e:
                     {
                         Score = 0;
                     };break;

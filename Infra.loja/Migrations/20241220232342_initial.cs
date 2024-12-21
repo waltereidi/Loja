@@ -51,6 +51,7 @@ namespace Infra.loja.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Score = table.Column<int>(type: "int", nullable: false),
                     IpAddress = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -518,16 +519,6 @@ namespace Infra.loja.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.Sql("insert into permissions( name , created_at) values( 'testCase' , current_timestamp)");
-            migrationBuilder.Sql("insert into permissionsgroup( name , created_at) values( 'testCase' , current_timestamp)");
-            migrationBuilder.Sql("insert into permissionsRelation(permissionsGroupId,permissionsId, created_at) values( 1 , 1 , current_timestamp)");
-            migrationBuilder.Sql("insert into clients( email , password , permissionsGroupId , firstName , lastName ,created_at ,address , phonenumber) values('testCase@email.com' , '123' , 1 ,'Test' , 'Case' ,current_timestamp , 'test address' , '010101')");
-            migrationBuilder.Sql("insert into categories( name , description ,created_at) values( 'testCase' , 'description' , current_timestamp)");
-            migrationBuilder.Sql("insert into subcategories( name , description ,created_at , categoriesId) values( 'testCase subCategories' , 'description' , current_timestamp , 1)");
-            migrationBuilder.Sql("insert into subsubcategories( name , description ,created_at , subcategoriesId) values( 'testCase subSubCategories' , 'description' , current_timestamp , 1)");
-            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, created_at) values( 'testCase' ,'/swagger/index.html' , current_timestamp)");
-            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, created_at) values( 'Store_Categories' ,'/Store/Categories/ChangePicture' , current_timestamp)");
-
             migrationBuilder.CreateIndex(
                 name: "IX_auth_ClientId",
                 table: "auth",
@@ -643,6 +634,17 @@ namespace Infra.loja.Migrations
                 table: "subSubCategories",
                 column: "SubCategoriesId",
                 unique: true);
+
+            migrationBuilder.Sql("insert into permissions( name , created_at) values( 'testCase' , current_timestamp)");
+            migrationBuilder.Sql("insert into permissionsgroup( name , created_at) values( 'testCase' , current_timestamp)");
+            migrationBuilder.Sql("insert into permissionsRelation(permissionsGroupId,permissionsId, created_at) values( 1 , 1 , current_timestamp)");
+            migrationBuilder.Sql("insert into clients( email , password , permissionsGroupId , firstName , lastName ,created_at ,address , phonenumber) values('testCase@email.com' , '123' , 1 ,'Test' , 'Case' ,current_timestamp , 'test address' , '010101')");
+            migrationBuilder.Sql("insert into categories( name , description ,created_at) values( 'testCase' , 'description' , current_timestamp)");
+            migrationBuilder.Sql("insert into subcategories( name , description ,created_at , categoriesId) values( 'testCase subCategories' , 'description' , current_timestamp , 1)");
+            migrationBuilder.Sql("insert into subsubcategories( name , description ,created_at , subcategoriesId) values( 'testCase subSubCategories' , 'description' , current_timestamp , 1)");
+            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, created_at) values( 'testCase' ,'/swagger/index.html' , current_timestamp)");
+            migrationBuilder.Sql("insert into fileDirectory(DirectoryName, referer, created_at) values( 'Store_Categories' ,'/Store/Categories/ChangePicture' , current_timestamp)");
+
         }
 
         /// <inheritdoc />

@@ -79,6 +79,7 @@ namespace Api.loja.Service
                 Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
                 auth.SetClient(new AuthenticationEvents.Request.SetClientAuthenticated( client ));
                 auth.SetAuthentications(new AuthenticationEvents.Request.SetAuthentications(authentications));
+                
             }
             else if(_context.clients.Any(x => x.Email == cmd.login.email))
             {
