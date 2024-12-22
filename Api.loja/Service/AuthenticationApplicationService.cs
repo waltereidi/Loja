@@ -9,15 +9,18 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
+using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Utilities.Collections;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using static Api.loja.Contracts.AuthenticationContract;
-using static Api.loja.Contracts.UsersContract.V1;
+using static Dominio.loja.Events.Authentication.AuthenticationEvents;
 namespace Api.loja.Service
 {
     public class AuthenticationApplicationService : IApplicationService
@@ -51,7 +54,17 @@ namespace Api.loja.Service
             
             return new V1.ClientInfo(firtName,lastName,nameInitials ,null );
         }
+        private IEnumerable<Authentications>? QueryAuthentications(Authentication auth)
+        {
+            Expression<Func<Authentications, bool>> expr = x => x.IPScoreId == auth._IPScore.Id
+                    || x.ClientId == auth._Client.Id;
 
+            var e = _context.auth.Any(x => x.ClientId == auth._Client.Id);
+            
+            return _context.auth.Any(expr)
+                ? _context.auth.Where(expr)
+                : null;
+        }
         /// <summary>
         /// Authentication from store admin
         /// </summary>
@@ -65,36 +78,33 @@ namespace Api.loja.Service
             if (_context.ipScore.Any(x => x.IpAddress == cmd.ip) )
             {
                 IPScore ipScore = _context.ipScore.First(x => x.IpAddress == cmd.ip);
-                auth.SetIpScore( new AuthenticationEvents.Request.CreateIpScore( ipScore));
+                auth.SetIpScore( new Request.CreateIpScore( ipScore));
             }
             else
-                auth.SetIpScore(new AuthenticationEvents.Request.CreateIpScore(cmd.ip));
+                auth.SetIpScore(new Request.CreateIpScore(cmd.ip));
 
-            if(_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
+
+            if (_context.clients.Any(x => x.Email == cmd.login.email && x.Password == cmd.login.password))
             {
-                IEnumerable<Authentications> authentications = _context.auth.Where(x =>
-                    x.IPScore.Id == auth._IPScore.Id
-                    || x.Client.Id == auth._Client.Id);
-
                 Clients client = _context.clients.First(x => x.Email == cmd.login.email && x.Password == cmd.login.password);
-                auth.SetClient(new AuthenticationEvents.Request.SetClientAuthenticated( client ));
-                auth.SetAuthentications(new AuthenticationEvents.Request.SetAuthentications(authentications));
                 
+                auth.SetClient(new Request.SetClient(client));
+
+                var authentications = QueryAuthentications(auth);
+
+                auth.SetAuthentications(new Request.SetAuthentications(authentications));
             }
             else if(_context.clients.Any(x => x.Email == cmd.login.email))
             {
                 Clients client = _context.clients.First(x => x.Email == cmd.login.email);
 
-                IEnumerable<Authentications> authentications = _context.auth.Where(x =>
-                    x.IPScore.Id == auth._IPScore.Id
-                    || x.Client.Id == auth._Client.Id);
+                var authentications = QueryAuthentications(auth);
+                auth.SetAuthentications(new Request.SetAuthentications(authentications));
 
-                auth.SetAuthentications(new AuthenticationEvents.Request.SetAuthentications(authentications));
-
-                auth.SetWrongPassWord( new AuthenticationEvents.Request.SetWrongPassword(client));
+                auth.SetWrongPassWord( new Request.SetWrongPassword(client));
             }else
             {
-                auth.SetClientNotFound(new AuthenticationEvents.Request.SetClientNotFound(cmd.login.email));
+                auth.SetClientNotFound(new Request.SetClientNotFound(cmd.login.email));
             }
 
             await SaveAuthenticationAttempt(auth);

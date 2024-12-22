@@ -4,6 +4,7 @@ using Api.loja.Controllers.Admin;
 using Api.loja.Data;
 using Api.loja.Service;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
@@ -29,18 +30,28 @@ namespace Tests.loja.Api.ApplicationServiceTest
             _controller.ControllerContext.HttpContext.Request.Headers["device-id"] = "20317";
             _controller.ControllerContext.HttpContext.Connection.RemoteIpAddress = IPAddress.Parse("::1");
         }
-        /// <summary>
-        /// Integration test
-        /// </summary>
+        
         [TestMethod]
-        public void TestAuthentication()
+        public void TestSuccessfullAuthentication()
         {
             var dto = new AuthenticationContract.V1.Request.LoginRequest("testCase@email.com" , "123" );
 
             var result = _controller.Login(dto);
             Assert.IsNotNull(result);
         }
-
+        [TestMethod]
+        public void TestWrongPasswordAuthentication5x()
+        {
+            Task.Run( async () => {
+                var dto = new AuthenticationContract.V1.Request.LoginRequest("testCase@email.com", "1234");
+                var result =await _controller.Login(dto);
+                var result2 = await _controller.Login(dto);
+                var result3 = await _controller.Login(dto);
+                var result4 = await _controller.Login(dto);
+                var result5 = await _controller.Login(dto);
+                return result5;
+            }).ContinueWith(_ => Assert.IsNotNull(_.Result));
+        }
 
         /// <summary>
         /// RANDOM TEST FOR STUDIES, TESTS SHOULD BE DESCRIPTIVE<br></br>

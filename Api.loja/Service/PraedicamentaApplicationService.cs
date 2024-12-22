@@ -27,7 +27,8 @@ namespace Api.loja.Service
 
         public async Task<object?> Handle(object command) => command switch
         {
-            V1.Requests.AddCategories c =>await HandleCreateCategories(c).ContinueWith(_=> _context.SaveChangesAsync()),
+            V1.Requests.AddCategories c =>
+            await HandleCreateCategories(c).ContinueWith(_=> _context.SaveChangesAsync()),
             V1.Requests.AddSubCategories c => await HandleCreateSubCategories(c).ContinueWith(_ => _context.SaveChangesAsync()),
             V1.Requests.AddSubSubCategories c => await HandleCreateSubSubCategories(c).ContinueWith(_ => _context.SaveChangesAsync()),
             V1.Requests.UpdateCategory u => await HandleUpdateCategories(u).ContinueWith(_ => _context.SaveChangesAsync()),

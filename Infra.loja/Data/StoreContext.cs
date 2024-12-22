@@ -5,6 +5,7 @@ using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -32,6 +33,7 @@ namespace Api.loja.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies()
             //Place your own connection string here 
+            .EnableSensitiveDataLogging()
             .UseSqlServer("loja.Infra".GetConnectionString());
 
         public virtual DbSet<Categories> categories { get; set; }
@@ -59,8 +61,10 @@ namespace Api.loja.Data
         //Authentication
         public virtual DbSet<IPScore> ipScore { get; set; }
         public virtual DbSet<Authentications> auth { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             CreateCategoriesORM(modelBuilder);
             CreateFilesORM(modelBuilder);
             CreateFilesCategoriesORM(modelBuilder);

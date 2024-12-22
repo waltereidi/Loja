@@ -2,7 +2,6 @@
 using Framework.loja;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Net;
 
 namespace Dominio.loja.Entity
 {
@@ -64,7 +63,7 @@ namespace Dominio.loja.Entity
                     {
                         Success = true;
                         Score = 100;
-                        IPScoreId = e.ipScoreId;
+                        IPScoreId = e.ipScoreId ?? throw new ArgumentNullException(nameof(e.ipScoreId));
                         Description = "Successfull client authentication.";
                     }; break;
                 default: throw new InvalidOperationException(nameof(@event));

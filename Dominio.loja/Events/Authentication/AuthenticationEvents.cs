@@ -33,26 +33,27 @@ namespace Dominio.loja.Events.Authentication
             /// </summary>
             /// <param name="client"></param>
             public record SetClient(Clients client);
+            /// <summary>
+            /// Refers to createIpScore Event in aggregate root
+            /// </summary>
+            public class CreateIpScore
+            {
+                public IPAddress ipAddress;
+                public IPScore ipScore;
+                public CreateIpScore(IPScore ip)
+                {
+                    ipAddress = ip.IpAddress;
+                    ipScore = ipScore;
+                }
+                public CreateIpScore(IPAddress ip) => ipAddress = ip;
+
+            }
         }
         public record AppendAuthMessage(string message, bool success);
         public record ChangeAuthMessage(string message, bool success);
 
         public record BlockIp(string description);
-        /// <summary>
-        /// Refers to createIpScore Event in aggregate root
-        /// </summary>
-        public class CreateIpScore
-        {
-            public IPAddress ipAddress;
-            public IPScore ipScore;
-            public CreateIpScore(IPScore ip)
-            {
-                ipAddress = ip.IpAddress;
-                ipScore = ipScore;
-            }
-            public CreateIpScore(IPAddress ip) => ipAddress = ip;
 
-        }
         /// <summary>
         /// Refers to create a new Instance of authentication event sent from aggregate root to entity
         /// </summary>
@@ -63,7 +64,7 @@ namespace Dominio.loja.Events.Authentication
         /// <summary>
         /// Refers to a successfull authentication event
         /// </summary>
-        public record SetSuccessfullAuthentication(Guid ipScoreId);
+        public record SetSuccessfullAuthentication(Guid? ipScoreId = null );
 
 
         /// <summary>

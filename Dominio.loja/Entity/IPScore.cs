@@ -42,7 +42,7 @@ namespace Dominio.loja.Entity
                         DecreaseScore(e.value ?? throw new ArgumentNullException("Score amount not set"));
                         Description = Score > 0 ? "IpScore decreased from Client not found authentication attempt" : "Ip blocked from Client not found authentication attempt";
                     }; break;
-                case AuthenticationEvents.CreateIpScore @e:
+                case AuthenticationEvents.Request.CreateIpScore @e:
                     {
                         Id = Guid.NewGuid();
                         IpAddress = e.ipAddress;

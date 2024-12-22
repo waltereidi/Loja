@@ -1,6 +1,5 @@
 ﻿using Dominio.loja.Entity;
 using Framework.loja;
-using System.Net;
 using static Dominio.loja.Events.Authentication.AuthenticationEvents;
 
 namespace Dominio.loja.Events.Authentication
@@ -17,7 +16,7 @@ namespace Dominio.loja.Events.Authentication
         {
 
         }
-        public void SetClient(e) => Apply(e);
+        public void SetClient(Request.SetClient @e) => Apply(e);
         /// <summary>
         /// Defines ipScore, if not existent creates a new
         /// </summary>
@@ -41,7 +40,7 @@ namespace Dominio.loja.Events.Authentication
         /// <summary>
         /// Finishes authentication attempt from admin
         /// </summary>
-        public void AuthenticateAdmin(Request.SetSuccessfullAuthentication e) => Apply(new Request.SetSuccessfullAuthentication(_IPScore.Id ) );
+        public void SuccessfullAuthenticationAdmin(SetSuccessfullAuthentication e) => Apply(new SetSuccessfullAuthentication(_IPScore.Id ) );
 
         
 
@@ -98,10 +97,14 @@ namespace Dominio.loja.Events.Authentication
                             _IPScore = @e.ipScore;
 
                     }; break;
-                case Request.SetSuccessfullAuthentication @e:
+                case SetSuccessfullAuthentication @e:
                     {
                         ApplyToEntity(_Auth , e );
                     }; break;
+                case Request.SetClient @e:
+                    {
+                        _Client = e.client;
+                    }break;
 
             }
         }
@@ -118,7 +121,7 @@ namespace Dominio.loja.Events.Authentication
             else
             {
                 _Auth = new Authentications(Apply);
-                ApplyToEntity(_Auth, new Request.CreateAuthentications(_IPScore, _Client));
+                ApplyToEntity(_Auth, new CreateAuthentications(_IPScore, _Client));
             }
         }
         /// <summary>
@@ -139,7 +142,7 @@ namespace Dominio.loja.Events.Authentication
             
             if (nonCommercialTimeLogin > 3)
             {
-                ApplyToEntity(_IPScore , new Request.BlockIp("Multiple account login attempt during out of commercial time"));
+                ApplyToEntity(_IPScore , new BlockIp("Multiple account login attempt during out of commercial time"));
             }
 
         }
