@@ -15,7 +15,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
-    <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="8.103.6.4" />
   </ItemGroup>
 
   <ItemGroup>

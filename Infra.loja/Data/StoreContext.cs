@@ -5,6 +5,7 @@ using Dominio.loja.Events.FileUpload;
 using Dominio.loja.Interfaces.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Security.Cryptography;
@@ -60,7 +61,7 @@ namespace Api.loja.Data
 
         //Authentication
         public virtual DbSet<IPScore> ipScore { get; set; }
-        public virtual DbSet<Authentications> auth { get; set; }
+        public  DbSet<Authentications> auth { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

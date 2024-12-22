@@ -130,6 +130,8 @@ namespace Dominio.loja.Events.Authentication
         /// <param name="e"></param>
         protected virtual void CheckOutOfCommercialTimeMultiAccount(Request.SetAuthentications @e)
         {
+            if (e.auth == null)
+                return;
             int nonCommercialTimeLogin = e.auth.Select(x => new 
             {
                 Hour = x.Updated_at != null ? x.Updated_at.Value.Hour : x.Created_at.Hour ,

@@ -32,7 +32,6 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="8.103.6.4" />
   </ItemGroup>
 
     <ItemGroup>

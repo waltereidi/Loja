@@ -43,7 +43,7 @@ namespace Dominio.loja.Events.Authentication
                 public CreateIpScore(IPScore ip)
                 {
                     ipAddress = ip.IpAddress;
-                    ipScore = ipScore;
+                    ipScore = ip;
                 }
                 public CreateIpScore(IPAddress ip) => ipAddress = ip;
 

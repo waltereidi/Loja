@@ -13,12 +13,16 @@ namespace Framework.loja
         [IgnoreDataMember]
         public List<object> _changes = new List<object>();
         //Constructor used to receive an event
-        protected Entity(Action<object> applier) 
+        protected Entity(Action<object> applier)
         {
             _applier = applier;
-        } 
+        }
 
-        protected Entity() 
+        protected Entity()
+        {
+
+        }
+        protected virtual void ApplyToEntity(object @event)
         {
 
         }
@@ -34,21 +38,23 @@ namespace Framework.loja
             //A method from IAggregate root can be triggered to ensure domain constraints from multiple sources after every 
             //entity event
 
-            ValidateAttributes();
-            
             _applier(@event);
         }
         protected virtual void SetEntityTime()
         {
-            if(Created_at.Year > 2000 )
-                Created_at = DateTime.Now; 
+            if (Created_at.Year < 2000)
+                Created_at = DateTime.Now;
             else
                 Updated_at = DateTime.Now;
         }
-        void IInternalEventHandler.Handle(object @event) => When(@event);
-        protected void ValidateAttributes()
+        void IInternalEventHandler.Handle(object @event)
         {
-            var assembly = Attribute.GetCustomAttributes(Assembly.GetExecutingAssembly());
+            _changes.Add(@event);
+
+            SetEntityTime();
+            When(@event);
+                
         }
+
     }
 }

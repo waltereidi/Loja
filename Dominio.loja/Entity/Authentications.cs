@@ -2,6 +2,7 @@
 using Framework.loja;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dominio.loja.Entity
 {
@@ -28,7 +29,8 @@ namespace Dominio.loja.Entity
         /// <summary>
         /// Refers human readable description from last authentication
         /// </summary>
-        public string Description { get; set; }
+        [AllowNull]
+        public string? Description { get; set; }
 
         public virtual Clients Client { get; set; }
         public virtual IPScore IPScore { get; set; }

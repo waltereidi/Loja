@@ -3,6 +3,7 @@ using Framework.loja;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 
@@ -18,8 +19,9 @@ namespace Dominio.loja.Entity
         [Required]
         public int Score { get; set; }
         [Required]
-        public IPAddress? IpAddress { get; set; }
-        public string Description { get; set; }
+        public IPAddress IpAddress { get; set; }
+        [AllowNull]
+        public string? Description { get; set; }
         public IPScore()
         {
 

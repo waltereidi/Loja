@@ -1,18 +1,12 @@
-﻿using Api.loja.Contracts;
-using Api.loja.Data;
+﻿using Api.loja.Data;
 using Dominio.loja.Entity;
 using Dominio.loja.Events.Authentication;
-using Dominio.loja.Interfaces;
 using Framework.loja.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Any;
-using NPOI.SS.Formula.Functions;
-using Org.BouncyCastle.Utilities.Collections;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Security.Authentication;
@@ -93,6 +87,7 @@ namespace Api.loja.Service
                 var authentications = QueryAuthentications(auth);
 
                 auth.SetAuthentications(new Request.SetAuthentications(authentications));
+                auth.SuccessfullAuthenticationAdmin(new());
             }
             else if(_context.clients.Any(x => x.Email == cmd.login.email))
             {
@@ -125,17 +120,43 @@ namespace Api.loja.Service
             return new V1.Responses.LoginResponse(auth._Auth.Description);
             
         }
+        private async Task SaveAuthentications(Authentications auth)
+        {
+            if (_context.auth.Any(x => x.Id == auth.Id))
+                _context.auth.Update(auth);
+            else
+                await _context.auth.AddAsync(auth);
+
+            //return await _context.SaveChangesAsync();
+        }
+
+        private async Task SaveIpScore(IPScore ipScore )
+        {
+            if (_context.ipScore.Any(x => x.Id == ipScore.Id))
+                _context.ipScore.Update(ipScore);
+            else
+                await _context.ipScore.AddAsync(ipScore);
+            //return await _context.SaveChangesAsync();
+        }
+
         private async Task SaveAuthenticationAttempt(Authentication auth)
         {
             await _context.Database.BeginTransactionAsync();
 
             if (auth._IPScore._changes.Any())
-                await _context.ipScore.SingleMergeAsync(auth._IPScore);
+            {
+                await SaveIpScore(auth._IPScore);
+                
+            }
 
             if (auth._Auth._changes.Any())
-                await _context.auth.SingleMergeAsync(auth._Auth);
-
+            {
+                await SaveAuthentications(auth._Auth);
+                
+            }
+            await _context.SaveChangesAsync();
             await _context.Database.CommitTransactionAsync();
+
         }
         private async Task SetAuthenticationCookies(V1.ClientInfo ci  , HttpContext context)
         {

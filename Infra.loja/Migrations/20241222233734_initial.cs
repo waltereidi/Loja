@@ -51,7 +51,7 @@ namespace Infra.loja.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Score = table.Column<int>(type: "int", nullable: false),
                     IpAddress = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -498,7 +498,7 @@ namespace Infra.loja.Migrations
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     Score = table.Column<int>(type: "int", nullable: false),
                     Success = table.Column<bool>(type: "bit", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
