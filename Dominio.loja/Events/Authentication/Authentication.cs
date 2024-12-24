@@ -114,6 +114,9 @@ namespace Dominio.loja.Events.Authentication
         /// <param name="e"></param>
         protected virtual void SetAuthentication(Request.SetAuthentications @e)
         {
+            if (_Client == null)
+                return;
+
             if (e.auth != null && e.auth.Any(x => x.ClientId == _Client.Id && x.IPScoreId == _IPScore.Id))
             {
                 _Auth = e.auth.First(x => x.ClientId == _Client.Id );

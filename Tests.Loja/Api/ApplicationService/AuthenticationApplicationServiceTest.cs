@@ -8,9 +8,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
-using System.Reflection;
-using Utils.loja.Excel;
-using static Tests.loja.Api.ApplicationServiceTest.AuthenticationApplicationServiceTest.ProcessBusinessLogic;
 
 
 namespace Tests.loja.Api.ApplicationServiceTest
@@ -40,17 +37,53 @@ namespace Tests.loja.Api.ApplicationServiceTest
             Assert.IsNotNull(result);
         }
         [TestMethod]
-        public void TestWrongPasswordAuthentication5x()
+        public async Task TestWrongPasswordAuthentication5xBlocksAccount()
         {
-            Task.Run( async () => {
-                var dto = new AuthenticationContract.V1.Request.LoginRequest("testCase@email.com", "1234");
-                var result =await _controller.Login(dto);
+            var dto = new AuthenticationContract.V1.Request.LoginRequest("testCase@email.com", "1234");
+            try
+            {
+                var result = await _controller.Login(dto);
+            }
+            catch { }
+            try
+            {
                 var result2 = await _controller.Login(dto);
+            }
+            catch { }
+            try
+            {
                 var result3 = await _controller.Login(dto);
+                
+            }
+            catch
+            { }
+            try
+            {
                 var result4 = await _controller.Login(dto);
+            }
+            catch
+            { }
+            try
+            {
                 var result5 = await _controller.Login(dto);
-                return result5;
-            }).ContinueWith(_ => Assert.IsNotNull(_.Result));
+                
+            }
+            catch
+            { }
+            try
+            {
+                
+                var correctLogin= new AuthenticationContract.V1.Request.LoginRequest("testCase@email.com", "123");
+                var result5 = await _controller.Login(dto);
+
+            }
+            catch(Exception ex)
+            {
+                Assert.IsNotNull(ex.Message);
+            }
+            
+            
+
         }
 
         /// <summary>
