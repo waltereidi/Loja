@@ -15,7 +15,8 @@ const baseFolder =
 const certificateName = "Loja.loja";
 const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
-
+console.log(`Using certificate file: ${certFilePath}`);
+console.log(`Using key file: ${keyFilePath}`);
 if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     if (0 !== child_process.spawnSync('dotnet', [
         'dev-certs',
@@ -45,12 +46,13 @@ export default defineConfig({
             '^/Api/Store/': {
                 target,
                 secure: false
-            }
+            },
         },
         port: 5174,
         https: {
             key: fs.readFileSync(keyFilePath),
             cert: fs.readFileSync(certFilePath),
+            
         }
     }
 })

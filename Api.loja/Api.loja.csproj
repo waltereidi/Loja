@@ -42,9 +42,6 @@
     <ProjectReference Include="..\Infra.loja\Infra.loja.csproj" />
     </ItemGroup>
     <ItemGroup>
-	    <ProjectReference Include="..\Loja.loja\Loja.loja.esproj">
-		    <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-	    </ProjectReference>
 	    <ProjectReference Include="..\MicroServices\Integrations\WFileUploader\WFileManager.csproj" />
 	    <ProjectReference Include="..\Utils.loja\Utils.loja.csproj" />
     </ItemGroup>
