@@ -1,0 +1,79 @@
+name: build-loja
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  # 1️⃣ Etapa de build - roda na nuvem do GitHub
+  build:
+    runs-on: ubuntu-22.04
+    outputs:
+      artifact_id: ${{ steps.upload-step.outputs.artifact-id }}
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          cache: 'checkoutv4'
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 💾 Cache do npm baseado no package-lock.json
+      - name: Cache de dependências npm
+        id: cache-npmci
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npmci-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Instalar dependências
+        if: steps.cache-npmci.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Build do projeto
+        run: npm run build
+
+      - name: Compactar build
+        run: |
+          cd build
+          zip -r ../build.zip .
+          cd ..
+
+      - name: Salvar artifact do build
+        uses: actions/upload-artifact@v4
+        id: upload-step
+        with:
+          name: build-package
+          path: build.zip
+
+  # 2️⃣ Etapa de deploy - roda no seu runner local (self-hosted)
+  deploy:
+    runs-on: [self-hosted]
+    env:
+      GITHUB_TOKEN: ${{ secrets.OWN_GITHUB_TOKEN }}
+      OWNERREPOSITORY: ${{ github.repository }} 
+      ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
+      DEPLOY_PATH: ${{ vars.DEPLOY_FOLDER_ADMIN }}
+    needs: build  # só executa depois do build
+    steps:
+      - name: Baixar build manualmente
+        run: |
+            echo "$OWNERREPOSITORY"
+            echo "$GITHUB_TOKEN"
+            echo "Artifact ID recebido do build: $ARTIFACT_ID"
+
+            curl -L -H "Authorization: token $GITHUB_TOKEN" -o $DEPLOY_PATH/build-package.zip "https://api.github.com/repos/$OWNERREPOSITORY/actions/artifacts/$ARTIFACT_ID/zip"
+            cd /home/haishc2/build
+            # Descompacta o conteúdo para ~/build
+            unzip -o build-package.zip -d .
+            unzip -o build.zip -d .

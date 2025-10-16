@@ -1,5 +1,4 @@
 
-<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useDi } from '@/pinia/dependencyInjection';
 import { FilterMatchMode } from '@primevue/core/api';
@@ -45,5 +44,4 @@ onMounted(() => {
 
 });
 
-</script>
 
